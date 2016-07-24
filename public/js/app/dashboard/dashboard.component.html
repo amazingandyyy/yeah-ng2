@@ -1,0 +1,22 @@
+<div class="dashboard-page">
+    <nav>
+        <a href="#"><img class="logo" src="/assets/images/logo-text-color.svg"></a>
+        <div class="nav-item">
+
+        </div>
+        <div class="nav-item">
+
+        </div>
+        <div class="nav-item">
+
+        </div>
+    </nav>
+    <div class="menu">
+        <!--<div [routerLink]="['/dashboard/payment']" class="menu-item" ng-class="currentUrl.includes('payment')? 'active' : '' " >Payment</div>-->
+        <div [routerLink]="['/dashboard/plans']" class="menu-item" ng-class="currentUrl.includes('plan')? 'active' : '' " >转学流程</div>
+        <div [routerLink]="['/dashboard/account']" class="menu-item" ng-class="currentUrl.includes('account')? 'active' : '' " >个人资讯</div>
+        <!--<div [routerLink]="['/dashboard/account']" class="menu-item" ng-class="currentUrl.includes('account')? 'active' : '' " >联络箱</div>-->
+    </div>
+    <!--<div ui-view="dashboard_section" class="dashboard-section"></div>-->
+    <router-outlet></router-outlet>
+</div>

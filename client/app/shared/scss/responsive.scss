@@ -1,0 +1,21 @@
+@import "variables";
+@import "override";
+
+.responsive { 
+    &.btn {
+        border-radius: 0px !important;
+    }
+}
+
+@media (min-width: 767px) {
+    // on desktop
+    .responsive {
+
+    &.btn {
+        border-radius: 3px !important;
+    }
+}
+}
+@media (max-width: 767px) {
+    // on mobile specific - deprecated
+}

@@ -1,0 +1,12 @@
+@import "myvariables";
+@import "override";
+
+@import "global";
+
+@import "./bootstrap-sass/bootstrap.scss";
+
+// @import "./partial/home";
+// @import "./partial/landing";
+// @import "./partial/auth";
+// @import "./partial/dashboard";
+@import "./partial/form";
