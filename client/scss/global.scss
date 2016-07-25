@@ -27,7 +27,7 @@ body {
             background: $brand-secondary;
         }
         &:active {
-            background: darken(#65CFF1, 10%);
+            background: darken($brand-primary, 10%);
         }
     }
     button.btn.btn-secondary {

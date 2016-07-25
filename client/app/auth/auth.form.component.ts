@@ -18,19 +18,20 @@ export class AuthFormComponent implements OnInit {
                 private router: Router) { }
 
     onSubmit(auth: Auth) {
-        console.log('submitted');
-        console.log('auth: ', auth);
+        console.log('auth submitted');
 
         this.authService.logUserIn(auth)
-            .then((res) => { 
-                console.log('res from auth: ', res)
-                localStorage.setItem('currentUser', JSON.stringify(res));
-                if(res.token){
-                    this.router.navigate(['dashboard']);
-                }
-            }, (err) => {
-                console.log('err res: ', err) 
-            })
+            .subscribe(
+                res => console.log('good res: ', res),
+                err => console.log('err res: ', err)
+            )
+            // .then((res) => { 
+            //     console.log('res from auth: ', res);
+            //     this.router.navigate(['dashboard']);
+            //     localStorage.setItem('currentUser', JSON.stringify(res));
+            // }, (err) => {
+            //     console.log('err res: ', err) 
+            // })
     }
 
     ngOnInit() { }

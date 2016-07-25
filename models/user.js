@@ -10,14 +10,14 @@ const CronJob = require('cron').CronJob;
 
 const ses = require('node-ses')
 const SESserver = ses.createClient({
-        key: process.env.AWS_KEY,
-        secret: process.env.AWS_SECRET
-    })
-    // let AWS = require('aws-sdk');
-    // let s3 = new AWS.S3();
-    // let bucketName = process.env.AWS_BUCKET;
-    // let urlBase = process.env.AWS_URL_BASE;
-    // let CVPkey = process.env.MSFT_CVP_KEY;
+    key: process.env.AWS_KEY,
+    secret: process.env.AWS_SECRET
+})
+// let AWS = require('aws-sdk');
+// let s3 = new AWS.S3();
+// let bucketName = process.env.AWS_BUCKET;
+// let urlBase = process.env.AWS_URL_BASE;
+// let CVPkey = process.env.MSFT_CVP_KEY;
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -34,6 +34,29 @@ let userSchema = new mongoose.Schema({
             required: true,
             default: false
         }
+    },
+    password: {
+        type: String,
+        required: true,
+        select: false
+    },
+    info: {
+        fullCName: {
+            type: String
+        },
+        fullEName: {
+            type: String
+        },
+        package: {
+            type: String
+        },
+        customerService: {
+            type: String
+        }
+    },
+    createAt: {
+        type: Number,
+        default: Date.now
     },
     phone: {
         data: {
@@ -53,45 +76,41 @@ let userSchema = new mongoose.Schema({
                 type: String
             }
         }
-    },
-    password: {
-        type: String,
-        required: true,
-        select: false
-    },
-    setting: {
-        notification: {
-            login: {
-                type: Boolean,
-                required: true,
-                default: true
-            }
-        }
-    },
-    payment: [{
-        event: {
-            state: {
-                type: String
-            },
-            createAt: {
-                type: String,
-                default: Date.now()
-            },
-            details: {
-                type: Object
-            }
-        }
-    }],
-    plans: [{
-        type: mongoose.Schema.Types.ObjectId,
-        autopopulate: true,
-        ref: 'Plan'
-    }]
+    }
+    //
+    // setting: {
+    //     notification: {
+    //         login: {
+    //             type: Boolean,
+    //             required: true,
+    //             default: true
+    //         }
+    //     }
+    // },
+    // payment: [{
+    //     event: {
+    //         state: {
+    //             type: String
+    //         },
+    //         createAt: {
+    //             type: String,
+    //             default: Date.now()
+    //         },
+    //         details: {
+    //             type: Object
+    //         }
+    //     }
+    // }],
+    // plans: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     autopopulate: true,
+    //     ref: 'Plan'
+    // }]
 })
 userSchema.plugin(autopopulate);
 
 
-userSchema.statics.authMiddleware = function(req, res, next) {
+userSchema.statics.authMiddleware = function (req, res, next) {
     if (!req.header('Authorization')) {
         return res.status(401).send({
             message: 'Please make sure your request has an Authorization header'
@@ -130,7 +149,7 @@ function generateToken(data) {
     return token
 }
 
-userSchema.statics.verifyEmail = function(token, cb) {
+userSchema.statics.verifyEmail = function (token, cb) {
     jwt.verify(token, JWT_SECRET, (err, payload) => {
         if (err) return res.status(401).send({
             error: 'Must be authenticated.'
@@ -152,14 +171,14 @@ userSchema.statics.verifyEmail = function(token, cb) {
             })
     })
 }
-userSchema.statics.authenticate = function(userObj, cb) {
+userSchema.statics.authenticate = function (userObj, cb) {
     User.findOne({
         email: userObj.email
-    }, function(err, user) {
+    }, function (err, user) {
         if (err || !user) {
             return cb("Authentication failed.");
         }
-        bcrypt.compare(userObj.password, user.password, function(err, isGood) {
+        bcrypt.compare(userObj.password, user.password, function (err, isGood) {
             if (err || !isGood) {
                 return cb("Authentication failed.")
             }
@@ -170,26 +189,26 @@ userSchema.statics.authenticate = function(userObj, cb) {
 }
 
 
-userSchema.statics.enterSystem = function(userObj, cb) {
+userSchema.statics.enterSystem = function (userObj, cb) {
     console.log('userObj:', userObj);
     User.findOne({
-            'email.data': {
-                '$in': userObj.email
-            }
-        })
+        'email.data': {
+            '$in': userObj.email
+        }
+    })
         .select('+password')
         .exec((err, existingUser) => {
             if (err) return cb(err)
             if (existingUser) {
                 console.log('existingUser!');
                 console.log('existingUser: ', existingUser);
-                return bcrypt.compare(userObj.password, existingUser.password, function(err, isGood) {
+                return bcrypt.compare(userObj.password, existingUser.password, function (err, isGood) {
                     if (err || !isGood) {
                         return cb("Authentication failed.");
                     }
                     existingUser.password = null
                     let token = generateToken(existingUser)
-                    cb(null, {token: token, user: existingUser})
+                    cb(null, { token: token, user: existingUser })
 
                     // if (!existingUser.email.verified) {
                     //     console.log('email is not verify!')
@@ -244,8 +263,6 @@ userSchema.statics.enterSystem = function(userObj, cb) {
                     //         //     timeZone: 'America/Los_Angeles'
                     //         // })
                     //         // job.start()
-
-
                     //     })
                     // }
                 })
@@ -262,29 +279,31 @@ userSchema.statics.enterSystem = function(userObj, cb) {
                 user.save((err, savedUser) => {
                     if (err) return cb(err)
                     console.log('savedUser: ', savedUser)
-                    console.log('-> SES triggered -> ')
-
+                    
                     let token = generateToken(savedUser)
-                    SESserver.sendEmail({
-                        to: savedUser.email.data,
-                        from: process.env.AWS_SES_SENDER,
-                        cc: null,
-                        bcc: ['amazingandyyy@gmail.com'],
-                        subject: 'Seperpay: verify this email',
-                        message: notificationTemplate({
-                            title: 'Verify this Email!',
-                            description: `Please click the button to verify this email and coninue to your dashboard.`,
-                            destination: `api/verify/email/${token}`,
-                            button: `verify this email`
-                        }),
-                        altText: 'plain text'
-                    }, function(err, data, res) {
-                        if (err) {
-                            console.log(err);
-                            return cb(err, null)
-                        }
-                        cb(null, token)
-                    })
+                    cb(null, { token: token, user: savedUser })
+
+                    // console.log('-> SES triggered -> ')
+                    // SESserver.sendEmail({
+                    //     to: savedUser.email.data,
+                    //     from: process.env.AWS_SES_SENDER,
+                    //     cc: null,
+                    //     bcc: ['amazingandyyy@gmail.com'],
+                    //     subject: 'Seperpay: verify this email',
+                    //     message: notificationTemplate({
+                    //         title: 'Verify this Email!',
+                    //         description: `Please click the button to verify this email and coninue to your dashboard.`,
+                    //         destination: `api/verify/email/${token}`,
+                    //         button: `verify this email`
+                    //     }),
+                    //     altText: 'plain text'
+                    // }, function (err, data, res) {
+                    //     if (err) {
+                    //         console.log(err);
+                    //         return cb(err, null)
+                    //     }
+                    //     cb(null, token)
+                    // })
 
                 })
             })
@@ -293,7 +312,7 @@ userSchema.statics.enterSystem = function(userObj, cb) {
 
 let twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
-userSchema.statics.sendPhoneVerify = function(userObj, cb) {
+userSchema.statics.sendPhoneVerify = function (userObj, cb) {
     let currentUser = userObj.userData;
     console.log('currentUser before send: ', currentUser)
     function generateVerifyToken() {
@@ -401,7 +420,7 @@ function notificationTemplate(data) {
         </html>`
 }
 
-userSchema.statics.verifyPhoneToken = function(userObj, cb) {
+userSchema.statics.verifyPhoneToken = function (userObj, cb) {
     let userId = userObj.userData._id
     let code = userObj.code
     User
@@ -441,82 +460,82 @@ userSchema.statics.verifyPhoneToken = function(userObj, cb) {
                 })
             }
         })
-        // With a valid Authy ID, send the 2FA token for this user
-        // authy.request_sms(currentUser.phone.authyId, true, function(err, res) {
-        //     if (err) return cb(err)
-        //     cb(null, res)
-        // });
+    // With a valid Authy ID, send the 2FA token for this user
+    // authy.request_sms(currentUser.phone.authyId, true, function(err, res) {
+    //     if (err) return cb(err)
+    //     cb(null, res)
+    // });
 }
 
 let stripe = require('stripe')(process.env.STRIPE_API_SECRET)
 
-userSchema.statics.chargedNow = function(dataObj, cb) {
-        // console.log('dataObj: ', dataObj)
-        console.log(dataObj.stripeToken.id);
-        console.log(dataObj.userData._id);
-        // User
-        //     .findById(payload._id)
-        //     .exec((err, user) => {
-        //         if (err || !user) {
-        //             return res.status(400).send(err || {
-        //                 error: 'User not found.'
-        //             })
-        //         }
-        //         user.email.verified = true
-        //         user.save((err, savedUser) => {
-        //             if (err) return cb(err)
-        //             cb(null, savedUser)
-        //         })
-        //     })
-        stripe.charges.create({
-            amount: 50 * 100,
-            currency: "usd",
-            source: dataObj.stripeToken.id,
-            description: `payment verification for ${dataObj.userData._id}!`
-        }, cb)
-    }
-    // userSchema.statics.updateProfilePhoto = function(data, cb) {
-    //     let userId = data.userId;
-    //     let file = data.file;
-    //     if (!file.mimetype.match(/image/)) {
-    //         return cb({
-    //             error: 'File must be image'
+userSchema.statics.chargedNow = function (dataObj, cb) {
+    // console.log('dataObj: ', dataObj)
+    console.log(dataObj.stripeToken.id);
+    console.log(dataObj.userData._id);
+    // User
+    //     .findById(payload._id)
+    //     .exec((err, user) => {
+    //         if (err || !user) {
+    //             return res.status(400).send(err || {
+    //                 error: 'User not found.'
+    //             })
+    //         }
+    //         user.email.verified = true
+    //         user.save((err, savedUser) => {
+    //             if (err) return cb(err)
+    //             cb(null, savedUser)
     //         })
-    //     }
-    //     let filenameParts = file.originalname.split('.');
-    //     let ext;
-    //     if (filenameParts.length > 1) {
-    //         ext = "." + filenameParts.pop();
-    //     } else {
-    //         ext = '';
-    //     }
-    //
-    //     let key = `${uuid.v4()}${ext}`;
-    //
-    //     let params = {
-    //         Bucket: bucketName,
-    //         Key: key,
-    //         ACL: 'public-read-write',
-    //         Body: file.buffer
-    //     }
-    //     s3.putObject(params, (err, result) => {
-    //         if (err) return cb(err);
-    //         console.log('result from aws s3: ', result);
-    //         let imageUrl = `${urlBase}/${bucketName}/${key}`;
-    //
-    //         User.findById(userId, (err, user) => {
-    //             if (err) return cb(err);
-    //             user.profilePicture = imageUrl;
-    //             user.save((err, savedUser) => {
-    //                 if (err) {
-    //                     console.log('err when save user after updating profilePhoto: ', err);
-    //                     if (err) return cb(err);
-    //                 }
-    //                 cb(null, savedUser);
-    //             });
-    //         })
-    //     });
-    // };
+    //     })
+    stripe.charges.create({
+        amount: 50 * 100,
+        currency: "usd",
+        source: dataObj.stripeToken.id,
+        description: `payment verification for ${dataObj.userData._id}!`
+    }, cb)
+}
+// userSchema.statics.updateProfilePhoto = function(data, cb) {
+//     let userId = data.userId;
+//     let file = data.file;
+//     if (!file.mimetype.match(/image/)) {
+//         return cb({
+//             error: 'File must be image'
+//         })
+//     }
+//     let filenameParts = file.originalname.split('.');
+//     let ext;
+//     if (filenameParts.length > 1) {
+//         ext = "." + filenameParts.pop();
+//     } else {
+//         ext = '';
+//     }
+//
+//     let key = `${uuid.v4()}${ext}`;
+//
+//     let params = {
+//         Bucket: bucketName,
+//         Key: key,
+//         ACL: 'public-read-write',
+//         Body: file.buffer
+//     }
+//     s3.putObject(params, (err, result) => {
+//         if (err) return cb(err);
+//         console.log('result from aws s3: ', result);
+//         let imageUrl = `${urlBase}/${bucketName}/${key}`;
+//
+//         User.findById(userId, (err, user) => {
+//             if (err) return cb(err);
+//             user.profilePicture = imageUrl;
+//             user.save((err, savedUser) => {
+//                 if (err) {
+//                     console.log('err when save user after updating profilePhoto: ', err);
+//                     if (err) return cb(err);
+//                 }
+//                 cb(null, savedUser);
+//             });
+//         })
+//     });
+// };
 
 User = mongoose.model('User', userSchema);
 module.exports = User;
