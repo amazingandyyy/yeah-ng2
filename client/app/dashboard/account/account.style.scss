@@ -1,3 +1,18 @@
 @import "../../shared/scss/variables";
 @import "../../shared/scss/global";
 
+
+.card-block {
+    .row {
+        padding: 8px 5px;
+        .col-xs-4 {
+            text-align: left;
+        }
+        .col-xs-8 {
+            text-align: right;
+        }
+        &:hover {
+            font-weight: 600;
+        }
+    }
+}

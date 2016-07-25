@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
- 
+
+import moment = require('moment');
+
 import { User } from '../../shared/models/user'
 
 @Component({
@@ -12,7 +14,11 @@ export class AccountComponent {
     currentUser = {};
         
     constructor() {
-        console.log('check', JSON.parse(localStorage.getItem('currentUser')).user);
-        this.currentUser = JSON.parse(localStorage.getItem('currentUser')).user
+        console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')) );
+        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+    }
+
+    createAt(unix) {
+        return moment(unix).format('LL');
     }
 }

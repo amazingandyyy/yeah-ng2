@@ -7,29 +7,25 @@
                     <h6><b>一般信息</b></h6>
                     <hr/>
                     <div class="row">
-                        <div class="col-xs-4" style="text-align: left">邮箱</div>
-                        <div class="col-xs-8" style="text-align: right">{{currentUser.email.data}}</div>
+                        <div class="col-xs-4">邮箱</div>
+                        <div class="col-xs-8">{{currentUser.email.data}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4" style="text-align: left">中文全名</div>
-                        <div class="col-xs-8" style="text-align: right" *ngIf="currentUser.info.fullCName">{{currentUser.info.fullCName}}</div>
-                    </div>
-                    <!--<div class="row">
-                        <div class="col-xs-4" style="text-align: left">Eng. Name</div>
-                    <div class="col-xs-8" style="text-align: right" *ngIf="currentUser.info.fullEName">{{currentUser.info.fullEName}}</div>
-                    </div>
+                        <div class="col-xs-4">全名</div>
+                    <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.fullEName}}</div>
+                   </div>
                      <div class="row">
-                        <div class="col-xs-4" style="text-align: left">服务类型</div>
-                        <div class="col-xs-8" style="text-align: right" *ngIf="currentUser.info.package">{{currentUser.info.package}}</div>
+                        <div class="col-xs-4">服务类型</div>
+                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.package}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4" style="text-align: left">加入时间</div>
-                        <div class="col-xs-8" style="text-align: right" *ngIf="currentUser.createAt">{{currentUser.createAt}}</div>
+                        <div class="col-xs-4">加入时间</div>
+                        <div class="col-xs-8" *ngIf="currentUser.createAt">{{createAt(currentUser.createAt)}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4" style="text-align: left">欧耶监护人</div>
-                        <div class="col-xs-8" style="text-align: right" *ngIf="currentUser.info.customService">{{currentUser.info.customService}}</div>
-                    </div>-->
+                        <div class="col-xs-4">欧耶监护人</div>
+                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.customService}}</div>
+                    </div>
                 </div>
             </div>
         </div>

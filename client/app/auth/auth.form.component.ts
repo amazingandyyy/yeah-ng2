@@ -14,24 +14,22 @@ import { Auth } from './auth';
 })
 
 export class AuthFormComponent implements OnInit {
-    constructor(private authService: AuthService, 
-                private router: Router) { }
+    constructor(private authService: AuthService,
+        private router: Router) { }
 
     onSubmit(auth: Auth) {
-        console.log('auth submitted');
-
+        var self = this;
         this.authService.logUserIn(auth)
             .subscribe(
-                res => console.log('good res: ', res),
-                err => console.log('err res: ', err)
+            res => handleResponse(res),
+            err => console.log('err res: ', err)
             )
-            // .then((res) => { 
-            //     console.log('res from auth: ', res);
-            //     this.router.navigate(['dashboard']);
-            //     localStorage.setItem('currentUser', JSON.stringify(res));
-            // }, (err) => {
-            //     console.log('err res: ', err) 
-            // })
+
+        function handleResponse(res) {
+            localStorage.setItem('id_token', JSON.stringify(res.token));
+            localStorage.setItem('current_user', JSON.stringify(res.user));
+            self.router.navigate(['dashboard/plans'])
+        }
     }
 
     ngOnInit() { }

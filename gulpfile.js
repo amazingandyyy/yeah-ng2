@@ -130,6 +130,14 @@ gulp.task('vendor', function () {
     gulp.src('node_modules/systemjs/**')
         .pipe(gulp.dest(vendor + '/systemjs/'));
 
+    //angular2-jwt
+    gulp.src('node_modules/angular2-jwt/**')
+        .pipe(gulp.dest(vendor + '/angular2-jwt/'));
+
+    //moment
+    gulp.src('node_modules/moment/**')
+        .pipe(gulp.dest(vendor + '/moment/'));
+    
     //zonejs
     return gulp.src('node_modules/zone.js/**')
         .pipe(gulp.dest(vendor + '/zone.js/'));

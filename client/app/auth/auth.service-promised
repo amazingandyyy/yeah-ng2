@@ -9,7 +9,7 @@ export class AuthService {
 
     constructor(public http: Http) { }
 
-    logUserIn(data: Auth): Observable<Auth>{
+    logUserIn(data: Auth): Promise<Auth>{
         return this.http.post('/api/auth/logUserIn', data)
             .toPromise()
             .then(this.handelResponse)
