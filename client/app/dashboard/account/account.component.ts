@@ -19,6 +19,6 @@ export class AccountComponent {
     }
 
     createAt(unix) {
-        return moment(unix).format('LL');
+        return moment(unix).format('LLL');
     }
 }

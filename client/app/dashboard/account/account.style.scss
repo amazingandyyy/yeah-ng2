@@ -3,6 +3,7 @@
 
 
 .card-block {
+    user-select: none;
     .row {
         padding: 8px 5px;
         .col-xs-4 {
@@ -13,6 +14,23 @@
         }
         &:hover {
             font-weight: 600;
+        }
+    }
+    h6 {
+        b {
+            text-align: left;
+        }
+        .editBtn {
+            padding-left: 6px;
+            cursor: pointer;
+            float: right;
+            opacity: 0.5;
+            &:hover {
+                opacity: 0.9;
+            }
+            &:active {
+                color: $brand-primary;
+            }
         }
     }
 }

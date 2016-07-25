@@ -4,7 +4,9 @@
         <div class="col-sm-8">
             <div class="card">
                 <div class="card-block">
-                    <h6><b>一般信息</b></h6>
+                    <h6>
+                        <b>一般信息</b><span class="editBtn">edit</span>
+                    </h6>
                     <hr/>
                     <div class="row">
                         <div class="col-xs-4">邮箱</div>
@@ -12,9 +14,53 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-4">全名</div>
-                    <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.fullEName}}</div>
-                   </div>
-                     <div class="row">
+                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.fullEName}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-block">
+                    <h6>
+                        <b>用戶概况</b><span class="editBtn">edit</span>
+                    </h6>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-xs-4">现读学校</div>
+                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.package}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">目标学校</div>
+                        <div class="col-xs-8" *ngIf="currentUser.createAt">{{createAt(currentUser.createAt)}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">目标专业</div>
+                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.customService}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">转学时间</div>
+                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.customService}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-block">
+                    <h6>
+                        <b>服務细节</b><span class="editBtn">edit</span>
+                    </h6>
+                    <hr/>
+                    <div class="row">
                         <div class="col-xs-4">服务类型</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.package}}</div>
                     </div>
@@ -23,7 +69,15 @@
                         <div class="col-xs-8" *ngIf="currentUser.createAt">{{createAt(currentUser.createAt)}}</div>
                     </div>
                     <div class="row">
+                        <div class="col-xs-4">欧耶签约人</div>
+                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.customService}}</div>
+                    </div>
+                    <div class="row">
                         <div class="col-xs-4">欧耶监护人</div>
+                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.customService}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">欧耶顾问</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.customService}}</div>
                     </div>
                 </div>
@@ -31,41 +85,4 @@
         </div>
         <div class="col-sm-2"></div>
     </div>
-    <!--<div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <div class="card">
-                <div class="card-block">
-                    <h6><b>联络</b></h6>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-xs-4" style="text-align: left">邮箱</div>
-                        <div class="col-xs-8" style="text-align: right">amazingandyyy@gmail.com</div>
-                    </div>
-                     <div class="row">
-                        <div class="col-xs-4" style="text-align: left">中文全名</div>
-                        <div class="col-xs-8" style="text-align: right">{{user.info.fullCName}}</div>
-                    </div>
-                     <div class="row">
-                        <div class="col-xs-4" style="text-align: left">English Name</div>
-                        <div class="col-xs-8" style="text-align: right">{{user.info.fullEName}}</div>
-                    </div>
-                     <div class="row">
-                        <div class="col-xs-4" style="text-align: left">服务类型</div>
-                        <div class="col-xs-8" style="text-align: right">{{user.info.package}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4" style="text-align: left">加入时间</div>
-                        <div class="col-xs-8" style="text-align: right">{{user.info.package}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4" style="text-align: left">欧耶监护人</div>
-                        <div class="col-xs-8" style="text-align: right">{{user.info.package}}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-2"></div>
-    </div>-->
-
 </div>
