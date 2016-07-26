@@ -7,12 +7,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { AppComponent } from "./app.component";
-import { Location, LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 bootstrap(AppComponent, [
     appRouterProviders,
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
     disableDeprecatedForms(),
     provideForms(),
     HTTP_PROVIDERS,

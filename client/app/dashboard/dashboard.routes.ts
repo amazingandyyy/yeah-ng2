@@ -1,4 +1,5 @@
-import { RouterConfig, CanActivate } from '@angular/router';
+import { RouterConfig } from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 
 import { PaymentComponent } from './payment/payment.component';
@@ -16,7 +17,9 @@ export const dashboardRoutes: RouterConfig = [
     children: [
       { path: '', component: DashboardComponent },
       { path: 'payment', component: PaymentComponent },
-      { path: 'plans', component: PlansComponent,
+      { path: 'plans', 
+        component: PlansComponent, 
+        CanActivate: [LoginGuard],
         children: [
           { path: '', component: StartComponent },
           { path: 'create', component: CreateComponent }
