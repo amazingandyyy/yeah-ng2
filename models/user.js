@@ -57,55 +57,7 @@ let userSchema = new mongoose.Schema({
     createAt: {
         type: Number,
         default: Date.now
-    },
-    phone: {
-        data: {
-            type: String
-        },
-        verified: {
-            type: Boolean,
-            required: true,
-            default: false
-        },
-        verifyCode: {
-            data: {
-                type: String,
-                select: false
-            },
-            expiredAt: {
-                type: String
-            }
-        }
     }
-    //
-    // setting: {
-    //     notification: {
-    //         login: {
-    //             type: Boolean,
-    //             required: true,
-    //             default: true
-    //         }
-    //     }
-    // },
-    // payment: [{
-    //     event: {
-    //         state: {
-    //             type: String
-    //         },
-    //         createAt: {
-    //             type: String,
-    //             default: Date.now()
-    //         },
-    //         details: {
-    //             type: Object
-    //         }
-    //     }
-    // }],
-    // plans: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     autopopulate: true,
-    //     ref: 'Plan'
-    // }]
 })
 userSchema.plugin(autopopulate);
 

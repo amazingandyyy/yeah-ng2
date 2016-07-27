@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import moment = require('moment');
 
-import { User } from '../../shared/models/user'
+import { User } from '../../shared/types/user'
 
 @Component({
     moduleId: module.id,
