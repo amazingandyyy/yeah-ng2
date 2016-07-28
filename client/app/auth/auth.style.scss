@@ -2,27 +2,49 @@
 @import "../shared/scss/global";
 
 .auth-page {
+    user-select: none;
     text-align: center;
-    padding-top: 50px;
+    padding-top: 10px;
     .auth-container {
         width: 100%;
-        img.logo {
-            width: 130px;
-            margin-bottom: 40px;
-            font-family: sans-serif;
+    }
+    img.logo {
+        width: 100px;
+    }   
+}
+.title {
+    font-weight: 100;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+}
+.col-sm-4 {
+    // padding: 5px 5px;
+    .card {
+        border-radius: 2px;
+        opacity: 0.8;
+        cursor: pointer;
+        p {
+            margin-bottom: 0px;
+        }
+        &:hover {
+            opacity: 1;
+            border-color: $deep-gray;
         }
     }
 }
 @media (min-width: 767px) {
     // on desktop
     .auth-page {
-        padding-top: 100px;;
+        padding-top: 30px;;
         text-align: center;
         .auth-container {
             max-width: 400px;
             margin: auto;
             background: white;
         }
+    }
+    .col-sm-4 {
+        padding: 5px 5px;
     }
 }
 @media (max-width: 767px) {

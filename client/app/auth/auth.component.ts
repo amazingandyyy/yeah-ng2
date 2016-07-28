@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthFormComponent } from './auth.form.component';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
     moduleId: module.id,
     selector: 'sp-auth',
     templateUrl: 'auth.component.html',
     styleUrls: ['auth.style.css'],
-    directives: [AuthFormComponent]
+    directives: [ROUTER_DIRECTIVES]
 })
 
 export class AuthComponent {
+    constructor() { }
 }  

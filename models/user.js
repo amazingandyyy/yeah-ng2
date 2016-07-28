@@ -13,11 +13,6 @@ const SESserver = ses.createClient({
     key: process.env.AWS_KEY,
     secret: process.env.AWS_SECRET
 })
-// let AWS = require('aws-sdk');
-// let s3 = new AWS.S3();
-// let bucketName = process.env.AWS_BUCKET;
-// let urlBase = process.env.AWS_URL_BASE;
-// let CVPkey = process.env.MSFT_CVP_KEY;
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -35,29 +30,34 @@ let userSchema = new mongoose.Schema({
             default: false
         }
     },
-    password: {
-        type: String,
-        required: true,
-        select: false
-    },
-    info: {
-        fullCName: {
-            type: String
-        },
-        fullEName: {
-            type: String
-        },
-        package: {
-            type: String
-        },
-        customerService: {
-            type: String
-        }
-    },
     createAt: {
         type: Number,
         default: Date.now
-    }
+    },
+    role: {
+        type: Number,
+        default: 0
+    },
+    studentData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Student'
+    },
+    advisorData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Advisor'
+    },
+    supervisorData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Supervisor'
+    },
+    adminData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin'
+    },
+    lastLoginTime: [{
+        type: Number,
+        default: Date.now
+    }]
 })
 userSchema.plugin(autopopulate);
 

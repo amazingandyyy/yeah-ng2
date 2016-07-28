@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../shared/services/auth.service';
-import { Auth } from '../shared/types/auth';
+import { AuthService } from '../../shared/services/auth.service';
+import { Auth } from '../../shared/types/auth';
 
 @Component({
     moduleId: module.id,
