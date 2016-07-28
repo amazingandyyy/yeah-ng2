@@ -16,7 +16,7 @@ import { Auth } from '../../shared/types/auth';
 export class AuthFormComponent implements OnInit {
     constructor(private authService: AuthService,
         private router: Router) { }
-
+        
     onSubmit(auth: Auth) {
         var self = this;
         this.authService.logUserIn(auth)

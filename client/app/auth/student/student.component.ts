@@ -15,7 +15,7 @@ export class AuthStudentComponent{
     constructor(private authService: AuthService,
         private router: Router) { }
 
-    onSubmit(auth: Auth) {
+    onSubmit(auth: any) {
         console.log('check');
         console.log('auth: ', auth);
         

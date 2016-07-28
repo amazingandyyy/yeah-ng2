@@ -14,9 +14,9 @@ export const authRoutes: RouterConfig = [
     component: AuthComponent,
     children: [
       { path: '', component: StartComponent },
-      // { path: 'student', component: AuthStudentComponent },
-      // { path: 'advisor', component: AuthAdvisorComponent },
-      // { path: 'supervisor', component: AuthSupervisorComponent },
+      { path: 'student', component: AuthStudentComponent },
+      { path: 'advisor', component: AuthAdvisorComponent },
+      { path: 'supervisor', component: AuthSupervisorComponent },
       { path: 'admin', component: AuthAdminComponent }
     ]
   }
