@@ -7,11 +7,13 @@ import { SignupStudentComponent } from './student/student.component';
 import { SignupAdvisorComponent } from './advisor/advisor.component';
 import { SignupSupervisorComponent } from './supervisor/supervisor.component';
 import { SignupAdminComponent } from './admin/admin.component';
+import { LoginGuard } from '../shared/services/guard/login-guard.service';
 
 export const SignupRoutes: RouterConfig = [
   {
     path: 'signup',
     component: AuthComponent,
+    canActivate: [LoginGuard],
     children: [
       { path: '', component: StartComponent },
       { path: 'student', component: SignupStudentComponent },
