@@ -46,7 +46,7 @@ gulp.task('clean:js', function () {
 });
 
 gulp.task('css', ['clean:css', 'app:css'], function () {
-    return gulp.src(['client/scss/**/*.scss', 'client/scss/**/*.sass'])
+    return gulp.src(['client/app/shared/scss/**/*.scss', 'client/app/shared/scss/**/*.sass'])
         .pipe(sourcemaps.init())
         .pipe(plumber())
         .pipe(sass().on('error', sass.logError))
@@ -89,7 +89,7 @@ gulp.task('html', function () {
 
 gulp.task('watch', function () {
     gulp.watch(appDev + '**/*.ts', ['js']);
-    gulp.watch('client/scss/**/*.scss', ['css']);
+    gulp.watch(['client/app/shared/scss/**/*.scss', 'client/app/shared/scss/**/*.sass'], ['css']);
     gulp.watch(appDev + '**/*.{html,htm}', ['html']);
     gulp.watch(appDev + '**/*.scss', ['app:css']);
     gulp.watch('gulpfile.js', ['build']);
