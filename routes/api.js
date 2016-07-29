@@ -7,6 +7,7 @@ router.get('/', function(req, res) {
   res.render('index');
 });
 
+router.use('/login', require('./login'));
 router.use('/auth', require('./auth'));
 router.use('/users', require('./users'));
 router.use('/verify', require('./verify'));
