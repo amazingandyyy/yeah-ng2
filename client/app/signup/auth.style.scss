@@ -1,0 +1,59 @@
+@import "../shared/scss/variables";
+@import "../shared/scss/global";
+
+.auth-page {
+    user-select: none;
+    text-align: center;
+    padding-top: 10px;
+    .auth-container {
+        width: 100%;
+    }
+    img.logo {
+        width: 100px;
+    }   
+}
+.title {
+    font-weight: 100;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+}
+
+// small.title {
+//     font-weight: 700;
+//     display: inline-block;
+//     margin-bottom: 30px;
+//     font-size: 1em;
+// }
+
+.col-sm-4 {
+    .card {
+        opacity: 0.8;
+        cursor: pointer;
+        p {
+            margin-bottom: 0px;
+        }
+        &:hover {
+            opacity: 1;
+            border-color: $deep-gray;
+        }
+    }
+}
+@media (min-width: 767px) {
+    // on desktop
+    .auth-page {
+        padding-top: 30px;;
+        text-align: center;
+        .auth-container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+        }
+    }
+    .col-sm-4 {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
+@media (max-width: 767px) {
+    // on mobile specific - deprecated
+}

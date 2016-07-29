@@ -1,9 +1,12 @@
-<form (ngSubmit)='onSubmit(authForm.value)' #authForm="ngForm">
+<h4 class="title">注册成为欧耶学员</h4>
+<div class="card card-block text-xs-center">
+    <form (ngSubmit)='onSubmit(authForm.value)' #authForm="ngForm">
     <div class="form-item">
         <input required type="email" 
-        [(ngModel)]="email" 
+        (ngModel)="auth.email" 
         placeholder="请输入电子邮箱"
-        name="email">
+        name="email"
+        class="form-control">
     </div>
     <div class="form-item">
         <input required type="password"
@@ -11,8 +14,8 @@
         placeholder="密码" 
         class="password"
         name="password"
-        #password>
-        <span class="lock"><i class="fa fa-lock"></i></span>
+        #password
+        class="form-control">
         <!--<h1 *ngIf="password.value">{{auth.password.value}}</h1>-->
     </div>
     
@@ -23,3 +26,4 @@
         </button>
     </div>
 </form>
+</div>
