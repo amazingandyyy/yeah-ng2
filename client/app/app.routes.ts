@@ -29,5 +29,8 @@ let routes: RouterConfig = [
 
 export const appRouterProviders = [
   provideRouter(routes),
-  LoginGuard, AdvisorGuard, SupervisorGuard, AdminGuard
+  LoginGuard,
+  AdvisorGuard,
+  SupervisorGuard,
+  AdminGuard
 ];

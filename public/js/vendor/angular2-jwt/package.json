@@ -1,11 +1,18 @@
 {
   "_args": [
     [
-      "angular2-jwt",
-      "/Users/Andysign/project/yeah-ng2"
+      {
+        "name": "angular2-jwt",
+        "raw": "angular2-jwt@^0.1.18",
+        "rawSpec": "^0.1.18",
+        "scope": null,
+        "spec": ">=0.1.18 <0.2.0",
+        "type": "range"
+      },
+      "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2"
     ]
   ],
-  "_from": "angular2-jwt@latest",
+  "_from": "angular2-jwt@>=0.1.18 <0.2.0",
   "_id": "angular2-jwt@0.1.18",
   "_inCache": true,
   "_installable": true,
@@ -23,11 +30,11 @@
   "_phantomChildren": {},
   "_requested": {
     "name": "angular2-jwt",
-    "raw": "angular2-jwt",
-    "rawSpec": "",
+    "raw": "angular2-jwt@^0.1.18",
+    "rawSpec": "^0.1.18",
     "scope": null,
-    "spec": "latest",
-    "type": "tag"
+    "spec": ">=0.1.18 <0.2.0",
+    "type": "range"
   },
   "_requiredBy": [
     "/"
@@ -35,8 +42,8 @@
   "_resolved": "https://registry.npmjs.org/angular2-jwt/-/angular2-jwt-0.1.18.tgz",
   "_shasum": "f6542dec76b637d321be978256d61a0aa74a6cd2",
   "_shrinkwrap": null,
-  "_spec": "angular2-jwt",
-  "_where": "/Users/Andysign/project/yeah-ng2",
+  "_spec": "angular2-jwt@^0.1.18",
+  "_where": "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2",
   "author": {
     "name": "ryanchenkie"
   },
@@ -78,15 +85,15 @@
   "keywords": [
     "angular",
     "angular2",
-    "authentication",
-    "jwt"
+    "jwt",
+    "authentication"
   ],
   "license": "MIT",
   "main": "angular2-jwt.js",
   "maintainers": [
     {
-      "name": "ryanchenkie",
-      "email": "ryanchenkie@gmail.com"
+      "email": "ryanchenkie@gmail.com",
+      "name": "ryanchenkie"
     }
   ],
   "name": "angular2-jwt",

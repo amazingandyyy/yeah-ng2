@@ -1,8 +1,15 @@
 {
   "_args": [
     [
-      "rxjs@5.0.0-beta.6",
-      "/Users/Andysign/project/seperpay-ng2"
+      {
+        "name": "rxjs",
+        "raw": "rxjs@5.0.0-beta.6",
+        "rawSpec": "5.0.0-beta.6",
+        "scope": null,
+        "spec": "5.0.0-beta.6",
+        "type": "version"
+      },
+      "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2"
     ]
   ],
   "_from": "rxjs@5.0.0-beta.6",
@@ -36,7 +43,7 @@
   "_shasum": "cb6dc46d6ddfedfeefc9b15dafd09c34a4370d23",
   "_shrinkwrap": null,
   "_spec": "rxjs@5.0.0-beta.6",
-  "_where": "/Users/Andysign/project/seperpay-ng2",
+  "_where": "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2",
   "author": {
     "email": "blesh@netflix.com",
     "name": "Ben Lesh"
@@ -54,28 +61,28 @@
   },
   "contributors": [
     {
-      "name": "Ben Lesh",
-      "email": "blesh@netflix.com"
+      "email": "blesh@netflix.com",
+      "name": "Ben Lesh"
     },
     {
-      "name": "Paul Taylor",
-      "email": "paul.e.taylor@me.com"
+      "email": "paul.e.taylor@me.com",
+      "name": "Paul Taylor"
     },
     {
-      "name": "Jeff Cross",
-      "email": "crossj@google.com"
+      "email": "crossj@google.com",
+      "name": "Jeff Cross"
     },
     {
-      "name": "Matthew Podwysocki",
-      "email": "matthewp@microsoft.com"
+      "email": "matthewp@microsoft.com",
+      "name": "Matthew Podwysocki"
     },
     {
-      "name": "OJ Kwon",
-      "email": "kwon.ohjoong@gmail.com"
+      "email": "kwon.ohjoong@gmail.com",
+      "name": "OJ Kwon"
     },
     {
-      "name": "Andre Staltz",
-      "email": "andre@staltz.com"
+      "email": "andre@staltz.com",
+      "name": "Andre Staltz"
     }
   ],
   "dependencies": {},
@@ -140,27 +147,27 @@
   },
   "homepage": "https://github.com/ReactiveX/RxJS",
   "keywords": [
-    "ES2015",
-    "ES6",
-    "Observable",
-    "Observables",
-    "ReactiveExtensions",
-    "ReactiveX",
     "Rx",
     "RxJS",
+    "ReactiveX",
+    "ReactiveExtensions",
+    "Streams",
+    "Observables",
+    "Observable",
     "Stream",
-    "Streams"
+    "ES6",
+    "ES2015"
   ],
   "license": "Apache-2.0",
   "main": "Rx.js",
   "maintainers": [
     {
-      "name": "blesh",
-      "email": "ben@benlesh.com"
+      "email": "ben@benlesh.com",
+      "name": "blesh"
     },
     {
-      "name": "jeffbcross",
-      "email": "middlefloor@gmail.com"
+      "email": "middlefloor@gmail.com",
+      "name": "jeffbcross"
     }
   ],
   "name": "rxjs",

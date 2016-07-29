@@ -1,8 +1,15 @@
 {
   "_args": [
     [
-      "es6-shim@^0.35.1",
-      "/Users/Andysign/project/seperpay-ng2"
+      {
+        "name": "es6-shim",
+        "raw": "es6-shim@^0.35.1",
+        "rawSpec": "^0.35.1",
+        "scope": null,
+        "spec": ">=0.35.1 <0.36.0",
+        "type": "range"
+      },
+      "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2"
     ]
   ],
   "_from": "es6-shim@>=0.35.1 <0.36.0",
@@ -36,7 +43,7 @@
   "_shasum": "a23524009005b031ab4a352ac196dfdfd1144ab7",
   "_shrinkwrap": null,
   "_spec": "es6-shim@^0.35.1",
-  "_where": "/Users/Andysign/project/seperpay-ng2",
+  "_where": "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2",
   "author": {
     "name": "Paul Miller",
     "url": "http://paulmillr.com"
@@ -71,27 +78,27 @@
   "gitHead": "3e46993a95b1867665166e0290e5cbaaf2ccb2f6",
   "homepage": "https://github.com/paulmillr/es6-shim/",
   "keywords": [
-    "__proto__",
     "ecmascript",
-    "es6",
     "harmony",
-    "map",
+    "es6",
+    "shim",
     "promise",
     "promises",
-    "set",
     "setPrototypeOf",
-    "shim"
+    "map",
+    "set",
+    "__proto__"
   ],
   "license": "MIT",
   "main": "es6-shim",
   "maintainers": [
     {
-      "name": "paulmillr",
-      "email": "paul@paulmillr.com"
+      "email": "paul@paulmillr.com",
+      "name": "paulmillr"
     },
     {
-      "name": "ljharb",
-      "email": "ljharb@gmail.com"
+      "email": "ljharb@gmail.com",
+      "name": "ljharb"
     }
   ],
   "name": "es6-shim",
@@ -128,20 +135,20 @@
   },
   "testling": {
     "browsers": [
-      "android-browser/4.2..latest",
-      "chrome/20.0..latest",
-      "chrome/4.0..10.0",
-      "chrome/canary",
+      "iexplore/6.0..latest",
+      "firefox/3.0..6.0",
       "firefox/10.0",
       "firefox/15.0..latest",
-      "firefox/3.0..6.0",
       "firefox/nightly",
-      "iexplore/6.0..latest",
-      "ipad/6.0..latest",
-      "iphone/6.0..latest",
+      "chrome/4.0..10.0",
+      "chrome/20.0..latest",
+      "chrome/canary",
       "opera/10.0..latest",
       "opera/next",
-      "safari/4.0..latest"
+      "safari/4.0..latest",
+      "ipad/6.0..latest",
+      "iphone/6.0..latest",
+      "android-browser/4.2..latest"
     ],
     "html": "testling.html"
   },

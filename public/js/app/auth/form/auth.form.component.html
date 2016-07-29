@@ -1,7 +1,7 @@
 <form (ngSubmit)='onSubmit(authForm.value)' #authForm="ngForm">
     <div class="form-item">
         <input required type="email" 
-        (ngModel)="auth.email" 
+        [(ngModel)]="email" 
         placeholder="请输入电子邮箱"
         name="email">
     </div>

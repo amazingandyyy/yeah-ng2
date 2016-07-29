@@ -7,9 +7,9 @@ var vendor = 'public/js/vendor';
 /* JS & TS */
 var typescript = require('gulp-typescript');
 var sourcemaps = require('gulp-sourcemaps');
+// var sourcemaps = require('gulp-sourcemaps');
 var nodemon = require('gulp-nodemon');
 var rimraf = require('gulp-rimraf');
-var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var plumber = require('gulp-plumber');

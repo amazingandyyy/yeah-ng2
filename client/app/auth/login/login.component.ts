@@ -8,12 +8,12 @@ import { Auth } from '../../shared/types/auth';
 @Component({
     moduleId: module.id,
     selector: 'sp-authForm',
-    templateUrl: 'auth.form.component.html',
-    styleUrls: ['auth.form.style.css'],
+    templateUrl: 'login.component.html',
+    styleUrls: ['login.style.css'],
     providers: [AuthService]
 })
 
-export class AuthFormComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
     constructor(private authService: AuthService,
         private router: Router) { }
