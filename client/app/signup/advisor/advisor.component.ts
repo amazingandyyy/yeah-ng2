@@ -7,11 +7,12 @@ import { Auth } from '../../shared/types/auth';
 
 @Component({
     moduleId: module.id,
-    selector: 'auth-supervisor',
-    templateUrl: 'supervisor.component.html',
+    selector: 'signup-advisor',
+    templateUrl: 'advisor.component.html',
+    styleUrls: ['../auth.style.css'],
     providers: [AuthService]
 })
-export class AuthSupervisorComponent{
+export class SignupAdvisorComponent{
     constructor(private authService: AuthService,
         private router: Router) { }
 

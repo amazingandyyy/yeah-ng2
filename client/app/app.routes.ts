@@ -1,11 +1,11 @@
 import { provideRouter, RouterConfig } from '@angular/router';
 
 import { LandingComponent } from './landing/landing.component'
-import { AuthComponent } from './auth/auth.component';
-import { StartComponent } from './auth/start.component';
+import { AuthComponent } from './signup/auth.component';
+import { StartComponent } from './signup/start.component';
 import { dashboardRoutes } from './dashboard/dashboard.routes';
 
-import { authRoutes } from './auth/auth.routes';
+import { SignupRoutes } from './signup/signup.routes';
 
 // guard
 import { LoginGuard } from './shared/services/guard/login-guard.service';
@@ -18,7 +18,7 @@ let routes: RouterConfig = [
     path: '',
     component: LandingComponent,
   },
-  ...authRoutes,
+  ...SignupRoutes,
   ...dashboardRoutes,
   {
     path: '**',

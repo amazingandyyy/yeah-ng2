@@ -7,15 +7,16 @@ import { Auth } from '../../shared/types/auth';
 
 @Component({
     moduleId: module.id,
-    selector: 'auth-student',
-    templateUrl: 'student.component.html',
+    selector: 'signup-admin',
+    templateUrl: 'adminp.component.html',
+    styleUrls: ['../auth.style.css'],
     providers: [AuthService]
 })
-export class AuthStudentComponent{
+export class SignupAdminComponent{
     constructor(private authService: AuthService,
         private router: Router) { }
 
-    onSubmit(auth: any) {
+    onSubmit(auth: Auth) {
         console.log('check');
         console.log('auth: ', auth);
         
