@@ -87,7 +87,7 @@
 
 @include text-emphasis-variant('.text-primary', $brand-primary);
 
-@include text-emphasis-variant('.text-deepg', $brand-deepg); //customed
+@include text-emphasis-variant('.text-deepg', $deep-gray); //customed
 
 @include text-emphasis-variant('.text-success', $brand-success);
 
