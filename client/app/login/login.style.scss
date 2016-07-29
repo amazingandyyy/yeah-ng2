@@ -50,6 +50,17 @@
     height: 100vh;
 }
 
+.login-form {
+    max-width: 500px;
+}
+
+.error-message {
+    position: fixed;
+    top: 10%;
+    p {
+        text-align: center;
+    }
+}
 
 @media (min-width: 767px) {
     // on desktop

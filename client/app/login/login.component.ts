@@ -10,6 +10,7 @@ export class LoginComponent implements OnInit {
 	constructor() {}
 
 	onSubmit(auth: Auth) {
+		this.submitted = true;
 		console.log(auth);
         // var self = this;
         // this.authService.logUserIn(auth)
