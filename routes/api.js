@@ -8,8 +8,8 @@ router.get('/', function(req, res) {
 });
 
 router.use('/login', require('./login'));
+
 router.use('/auth', require('./auth'));
-router.use('/users', require('./users'));
-router.use('/verify', require('./verify'));
+router.use('/user', require('./user'));
 
 module.exports = router;

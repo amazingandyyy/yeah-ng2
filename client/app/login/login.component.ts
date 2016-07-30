@@ -18,13 +18,8 @@ export class LoginComponent implements OnInit {
 
     }
 
-    submitted = false;
-
-
 	onSubmit(auth: Auth) {
-		this.submitted = true;
-		console.log('this submit',auth);
-
+		
         let self = this;
 
         this.loginService.logUserIn(auth)
@@ -35,6 +30,8 @@ export class LoginComponent implements OnInit {
 
         function handleResponse(res) {
             console.log('data back', res);
+            //Should identify user's role here, in order to determine where to redirect them
+
             localStorage.setItem('id_token', JSON.stringify(res.token));
             localStorage.setItem('current_user', JSON.stringify(res.user));
             // self.router.navigate(['dashboard/plans'])

@@ -1,0 +1,31 @@
+<div class="auth-page">
+    <div class="auth-container">
+        <img class="logo" src="/assets/images/logo-color.png">
+        	<!-- Hide the following options when role is selected  -->
+        	<div *ngIf="!selectedRole">
+	        	<h4 class="title">请选择注册身分</h4>
+				<div class="col-sm-4">
+				    <div (click)="goToForm('student')" class="card card-block text-xs-center">
+				        <p><b>Student</b></p>
+				        <small><p>学员</p></small>
+				    </div>
+				</div>
+				<div (click)="goToForm('advisor')" class="col-sm-4">
+				    <div class="card card-block text-xs-center">
+				        <p><b>Advisor</b></p>
+				        <small><p>顾问</p></small>
+				    </div>
+				</div>
+				<div (click)="goToForm('admin')" class="col-sm-4">
+				    <div class="card card-block text-xs-center">
+				        <p><b>Admin</b></p>
+				        <small><p>管理员</p></small>
+				    </div>
+				</div>
+        	</div>
+        	<div *ngIf="selectedRole">
+        		<button (click)="selectedRole = undefined;">Go back</button>
+        		<h1>{{selectedRole}} Form Starts</h1>
+        	</div>
+    </div>
+</div>

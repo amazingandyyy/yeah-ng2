@@ -19,6 +19,7 @@ export class SignupStudentComponent{
     onSubmit(auth: Auth) {
         console.log('check');
         console.log('auth: ', auth);
+        auth.role = 'student'
         
         // var self = this;
         // this.authService.logUserIn(auth)
