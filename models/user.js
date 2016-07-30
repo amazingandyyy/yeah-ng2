@@ -14,6 +14,10 @@ const SESserver = ses.createClient({
     secret: process.env.AWS_SECRET
 })
 
+var Student = require('./student');
+var Admin = require('./admin');
+var Advisor = require('./advisor');
+
 const JWT_SECRET = process.env.JWT_SECRET;
 
 let User;
@@ -41,24 +45,22 @@ let userSchema = new mongoose.Schema({
     },
     studentData: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student'
+        ref: 'Student',
+        autopopulate: true
     },
     advisorData: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Advisor'
-    },
-    supervisorData: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Supervisor'
+        ref: 'Advisor',
+        autopopulate: true
     },
     adminData: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Admin'
+        ref: 'Admin',
+        autopopulate: true
     },
-    // lastLoginTime: [{
-    //     type: Number,
-    //     default: Date.now
-    // }],
+    lastLoginTime: [{
+        type: Number
+    }],
     createAt: {
         type: Number,
         default: Date.now
@@ -132,7 +134,11 @@ userSchema.statics.login = function (userObj, cb) {
             return bcrypt.compare(userObj.password, dbUser.password, function (err, isGood) {
                 if (err) return cb("Authentication failed.");
                 let token = generateToken(dbUser)
-                cb(null, { token: token, user: dbUser })
+                dbUser.lastLoginTime.unshift(Date.now())
+                dbUser.save((err, savedUser)=>{
+                    if (err) return cb(err);
+                    cb(null, { token: token, user: savedUser })
+                })
             })
         })
 }
@@ -144,8 +150,6 @@ userSchema.statics.authMiddleware = function (req, res, next) {
         })
     }
     let token = req.header('Authorization').split(' ')[1]
-
-    // console.log('tokennnn: ', token);
     jwt.verify(token, JWT_SECRET, (err, payload) => {
         if (err) return res.status(401).send({
             error: 'Must be authenticated.'
@@ -159,21 +163,25 @@ userSchema.statics.authMiddleware = function (req, res, next) {
                         error: 'User not found.'
                     });
                 }
-                user.password = null
+                user.password = null;
+                concole.log(`${user._id} pass authMiddleware with role of ${user.role}`);
                 req.user = user;
+                req.role = user.role;
                 next()
             })
     })
 };
 
 function generateToken(data) {
+    // generate jwt toke and bring with userId
+    // set it to 7-day expiration
     let payload = {
         _id: data._id,
         iat: Date.now(),
-        exp: moment().add(1, 'day').unix()
+        exp: moment().add(7, 'day').unix()
     };
     let token = jwt.sign(payload, JWT_SECRET);
-    return token
+    return token;
 }
 
 userSchema.statics.verifyEmail = function (token, cb) {
@@ -201,12 +209,18 @@ userSchema.statics.verifyEmail = function (token, cb) {
 
 function notificationTemplate(data) {
     return `<!DOCTYPE html>
-        <html>
             <head>
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
                 <link href='https://fonts.googleapis.com/css?family=PT+Serif|Lato:300' rel='stylesheet' type='text/css' />
                 <style media="screen">
+                    .template {
+                        text-align: center;
+                        font-weight: 300;
+                        font-family: 'Lato', sans-serif;
+                        padding-top: 30px;
+                    }
+                    
                     .actionButton {
                         text-transform: uppercase;
                         letter-spacing: 1px;
@@ -221,20 +235,16 @@ function notificationTemplate(data) {
                         transition: .1s background ease-in-out;
                         margin-top: 20px;
                     }
+                    
                     .actionButton:hover {
                         transition: .1s background ease-in-out;
                         background: #313131;
                     }
                 </style>
             </head>
-
             <body>
-                <div style="text-align: center; font-weight: 300; font-family: 'Lato', sans-serif; padding-top:30px;">
-                    <svg width="30px" viewBox="582 404 71 71" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <g id="Group-4" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(582.000000, 404.000000)">
-                            <path d="M35,70 C54.3299662,70 70,54.3299662 70,35 C70,15.6700338 54.3299662,0 35,0 C15.6700338,0 0,15.6700338 0,35 C0,54.3299662 15.6700338,70 35,70 Z M35,59.5 C48.5309764,59.5 59.5,48.5309764 59.5,35 C59.5,21.4690236 48.5309764,10.5 35,10.5 C21.4690236,10.5 10.5,21.4690236 10.5,35 C10.5,48.5309764 21.4690236,59.5 35,59.5 Z" id="Combined-Shape" fill="#1E1E1E"></path>
-                        </g>
-                    </svg>
+                <div class="template">
+                    <img style="width: 100px;" src="https://scontent-sjc2-1.xx.fbcdn.net/v/t1.0-9/13654354_154027298358398_4418786725610547538_n.jpg?oh=125c8c3e17eddee588506137ec57381a&oe=58137FCC" alt="yeah Education Group">
                     <div>
                         <h1 style="font-weight: 300; text-transform: capitalize">${data.title}</h1>
                         <h2 style="font-weight: 300; font-size: 1.1em; color: rgba(0,0,0,0.4); margin-top: 10px;">${data.description}</h2>
@@ -242,7 +252,7 @@ function notificationTemplate(data) {
                     </div>
                 </div>
             </body>
-        </html>`
+            </html>`
 }
 
 User = mongoose.model('User', userSchema);
