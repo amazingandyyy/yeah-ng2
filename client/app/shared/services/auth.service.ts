@@ -33,12 +33,10 @@ export class AuthService {
         this.isLoggedIn = false;
         return Observable.throw(err);
     }
-
     logUserOut () {
         localStorage['id_token'] = null;
         localStorage['current_user'] = null;
         this.isLoggedIn = false;
         return 'logout';
     }
-    
 }
