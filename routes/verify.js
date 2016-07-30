@@ -33,5 +33,8 @@ router.put('/phone', User.authMiddleware, (req, res) => {
         })
     }
 })
+router.get('emailTemplate', function(req, res) {
+    res.render('emailTemplate');
+});
 
 module.exports = router;
