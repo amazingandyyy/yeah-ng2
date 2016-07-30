@@ -1,8 +1,6 @@
 import { provideRouter, RouterConfig } from '@angular/router';
 
 import { LandingComponent } from './landing/landing.component'
-import { AuthComponent } from './signup/auth.component';
-import { StartComponent } from './signup/start.component';
 import { dashboardRoutes } from './dashboard/dashboard.routes';
 
 import { LoginRoutes } from './login/login.routes';

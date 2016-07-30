@@ -21,9 +21,9 @@ export const SignupRoutes: RouterConfig = [
     //   { path: 'advisor', component: SignupAdvisorComponent },
     //   { path: 'admin', component: SignupAdminComponent }
     // ]
+  },
+  {
+    path: 'signup/:role',
+    component: SignupComponent
   }
-  // {
-  //   path: 'signup/:role',
-  //   component: SignupComponent
-  // }
 ]
