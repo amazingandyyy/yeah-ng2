@@ -44,6 +44,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/api', require('./routes/api'))
+app.use('/verify', require('./routes/verify'))
 app.use('/', appRoutes);
 
 // catch 404 and forward to error handler

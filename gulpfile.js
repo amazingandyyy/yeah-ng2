@@ -16,6 +16,7 @@ var plumber = require('gulp-plumber');
 var cleanCSS = require('gulp-clean-css');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+// var tslint = require('gulp-tslint');
 
 var tsProject = typescript.createProject('tsconfig.json');
 
@@ -36,6 +37,10 @@ gulp.task('js', function () {
         .pipe(typescript(tsProject))
         .pipe(uglify())
         .pipe(sourcemaps.write())
+        // .pipe(tslint({
+        //     formatter: "verbose"
+        // }))
+        // .pipe(tslint.report())
         .pipe(gulp.dest(appProd));
 });
 gulp.task('clean:js', function () {
