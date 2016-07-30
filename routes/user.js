@@ -11,11 +11,17 @@ router.get('/', function(req, res) {
     res.render('index');
 })
 
-router.get('/all', function(req, res) {
-    User.find({},(err, data) => {
-        if (err) return res.status(409).send(err)
-        res.send(data)
-    })
+// only admin can do this route
+router.post('/all', function(req, res) {
+    console.log(req.body)
+    if(req.body.role > 99){
+        User.find({},(err, data) => {
+            if (err) return res.status(409).send(err)
+            res.send(data)
+        })
+    }else{
+        res.send({message: 'you are not admin'})
+    }
 })
 
 module.exports = router;

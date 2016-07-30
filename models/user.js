@@ -14,6 +14,10 @@ const SESserver = ses.createClient({
     secret: process.env.AWS_SECRET
 })
 
+var Student = require('./student');
+var Admin = require('./admin');
+var Advisor = require('./advisor');
+
 const JWT_SECRET = process.env.JWT_SECRET;
 
 let User;
@@ -41,24 +45,22 @@ let userSchema = new mongoose.Schema({
     },
     studentData: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student'
+        ref: 'Student',
+        autopopulate: true
     },
     advisorData: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Advisor'
-    },
-    supervisorData: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Supervisor'
+        ref: 'Advisor',
+        autopopulate: true
     },
     adminData: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Admin'
+        ref: 'Admin',
+        autopopulate: true
     },
-    // lastLoginTime: [{
-    //     type: Number,
-    //     default: Date.now
-    // }],
+    lastLoginTime: [{
+        type: Number
+    }],
     createAt: {
         type: Number,
         default: Date.now
@@ -132,7 +134,11 @@ userSchema.statics.login = function (userObj, cb) {
             return bcrypt.compare(userObj.password, dbUser.password, function (err, isGood) {
                 if (err) return cb("Authentication failed.");
                 let token = generateToken(dbUser)
-                cb(null, { token: token, user: dbUser })
+                dbUser.lastLoginTime.unshift(Date.now())
+                dbUser.save((err, savedUser)=>{
+                    if (err) return cb(err);
+                    cb(null, { token: token, user: savedUser })
+                })
             })
         })
 }
