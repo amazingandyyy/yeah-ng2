@@ -1,12 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { NgClass } from '@angular/common';
+import { SignupService } from '../shared/services/signup.service';
+import { Auth } from '../shared/types/auth';
 
 @Component({
     moduleId: module.id,
     selector: 'signup',
     templateUrl: 'signup.component.html',
-    styleUrls: ['signup.style.css']
+    styleUrls: ['signup.style.css'],
+    providers: [SignupService]
 })
 
 export class SignupComponent implements OnInit {
@@ -16,7 +19,8 @@ export class SignupComponent implements OnInit {
 
     constructor(
     	private router: Router,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      private signupService: SignupService
     ) { }
 
     goToForm(selected: string) {  
@@ -30,12 +34,33 @@ export class SignupComponent implements OnInit {
       return false;
     }
 
+    onSubmit(auth: Auth) {
+      auth.role = this.selectedRole;
+      var self = this;
+        this.signupService.signUp(auth)
+            .subscribe(
+            res => handleResponse(res),
+            err => handleError(err)
+            )
+
+      function handleResponse(res) {
+          console.log('res from backend', res);
+          localStorage.setItem('id_token', JSON.stringify(res.token));
+          localStorage.setItem('current_user', JSON.stringify(res.user));
+      }
+
+      function handleError(err) {
+        if(err.statusText === 'Conflict') {
+          //Let user know this email already exist
+          console.log('this email already exist');
+        }
+      }
+    }
+
 
     ngOnInit() {
       this.selectedRole = undefined;
-      // console.log(this.route);
       if(this.route) {
-
         this.sub = this.route
         .params
         .subscribe(params => {

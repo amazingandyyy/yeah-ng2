@@ -8,6 +8,7 @@ router.get('/', function(req, res) {
 });
 
 router.use('/login', require('./login'));
+router.use('/signup', require('./signup'));
 
 router.use('/auth', require('./auth'));
 router.use('/user', require('./user'));
