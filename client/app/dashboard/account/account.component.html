@@ -16,6 +16,14 @@
                         <div class="col-xs-4">全名</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.fullEName}}</div>
                     </div>
+                    <div class="row">
+                        <div class="col-xs-4">手机号</div>
+                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.phone}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">微信号</div>
+                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.wechat}}</div>
+                    </div>
                 </div>
             </div>
         </div>
