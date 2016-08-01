@@ -22,8 +22,6 @@ export class AuthService {
         return this.isLoggedIn;
     }
 
-    
-
     // logUserIn (data: Auth): Observable<Auth>{
     //     return this.http.post('/api/auth/logUserIn', data)
     //         .map(this.handelResponse)

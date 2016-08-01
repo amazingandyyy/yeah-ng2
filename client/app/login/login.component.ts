@@ -1,22 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '../shared/types/auth';
+
 import { LoginService } from '../shared/services/login.service';
 import { Router } from '@angular/router';
 
-
-
 @Component({
 	moduleId: module.id,
-	selector: 'login',
+	selector: 'yeah-login',
 	templateUrl: 'login.component.html',
 	styleUrls: ['login.style.css'],
     providers: [LoginService]
 })
 export class LoginComponent implements OnInit {
 	constructor(private loginService: LoginService,
-        private router: Router) {
-
-    }
+        private router: Router) {}
 
 	onSubmit(auth: Auth) {
 		
@@ -39,7 +36,6 @@ export class LoginComponent implements OnInit {
         }
     }
 
-	ngOnInit() {    
-	}
+	ngOnInit() {}
 }
 	
