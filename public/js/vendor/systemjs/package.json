@@ -1,8 +1,15 @@
 {
   "_args": [
     [
-      "systemjs@0.19.27",
-      "/Users/Andysign/project/seperpay-ng2"
+      {
+        "name": "systemjs",
+        "raw": "systemjs@0.19.27",
+        "rawSpec": "0.19.27",
+        "scope": null,
+        "spec": "0.19.27",
+        "type": "version"
+      },
+      "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2"
     ]
   ],
   "_from": "systemjs@0.19.27",
@@ -36,7 +43,7 @@
   "_shasum": "f1740d565ce64371ac0de7072a4d1e5471ba7ba2",
   "_shrinkwrap": null,
   "_spec": "systemjs@0.19.27",
-  "_where": "/Users/Andysign/project/seperpay-ng2",
+  "_where": "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2",
   "author": {
     "name": "Guy Bedford"
   },
@@ -61,16 +68,16 @@
     "tarball": "https://registry.npmjs.org/systemjs/-/systemjs-0.19.27.tgz"
   },
   "files": [
-    "dist",
-    "index.js"
+    "index.js",
+    "dist"
   ],
   "gitHead": "596b751b531d960acc73ff41678c4681d137ae75",
   "homepage": "https://github.com/systemjs/systemjs#readme",
   "license": "MIT",
   "maintainers": [
     {
-      "name": "guybedford",
-      "email": "guybedford@gmail.com"
+      "email": "guybedford@gmail.com",
+      "name": "guybedford"
     }
   ],
   "name": "systemjs",

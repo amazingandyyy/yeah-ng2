@@ -1,10 +1,9 @@
 import { provideRouter, RouterConfig } from '@angular/router';
 
 import { LandingComponent } from './landing/landing.component'
-import { AuthComponent } from './signup/auth.component';
-import { StartComponent } from './signup/start.component';
 import { dashboardRoutes } from './dashboard/dashboard.routes';
 
+import { LoginRoutes } from './login/login.routes';
 import { SignupRoutes } from './signup/signup.routes';
 
 // guard
@@ -18,6 +17,7 @@ let routes: RouterConfig = [
     path: '',
     component: LandingComponent,
   },
+  ...LoginRoutes,
   ...SignupRoutes,
   ...dashboardRoutes,
   {
@@ -29,5 +29,8 @@ let routes: RouterConfig = [
 
 export const appRouterProviders = [
   provideRouter(routes),
-  LoginGuard, AdvisorGuard, SupervisorGuard, AdminGuard
+  LoginGuard,
+  AdvisorGuard,
+  SupervisorGuard,
+  AdminGuard
 ];

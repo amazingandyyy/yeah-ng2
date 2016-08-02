@@ -1,8 +1,15 @@
 {
   "_args": [
     [
-      "@angular/upgrade@2.0.0-rc.4",
-      "/Users/Andysign/project/seperpay-ng2"
+      {
+        "name": "@angular/upgrade",
+        "raw": "@angular/upgrade@2.0.0-rc.4",
+        "rawSpec": "2.0.0-rc.4",
+        "scope": "@angular",
+        "spec": "2.0.0-rc.4",
+        "type": "version"
+      },
+      "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2"
     ]
   ],
   "_from": "@angular/upgrade@2.0.0-rc.4",
@@ -36,7 +43,7 @@
   "_shasum": "aa7d56b1c78fca9c0165acf6952b26d0cda81999",
   "_shrinkwrap": null,
   "_spec": "@angular/upgrade@2.0.0-rc.4",
-  "_where": "/Users/Andysign/project/seperpay-ng2",
+  "_where": "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2",
   "author": {
     "name": "angular"
   },
@@ -57,8 +64,8 @@
   "main": "upgrade.js",
   "maintainers": [
     {
-      "name": "angular",
-      "email": "angular-core+npm@google.com"
+      "email": "angular-core+npm@google.com",
+      "name": "angular"
     }
   ],
   "name": "@angular/upgrade",

@@ -1,7 +1,7 @@
 <form (ngSubmit)='onSubmit(authForm.value)' #authForm="ngForm">
     <div class="form-item">
         <input required type="email" 
-        [(ngModel)]="email" 
+        (ngModel)="auth.email" 
         placeholder="请输入电子邮箱"
         name="email">
     </div>
@@ -10,8 +10,7 @@
         (ngModel)="auth.password"
         placeholder="密码" 
         class="password"
-        name="password"
-        #password>
+        name="password">
         <span class="lock"><i class="fa fa-lock"></i></span>
         <!--<h1 *ngIf="password.value">{{auth.password.value}}</h1>-->
     </div>

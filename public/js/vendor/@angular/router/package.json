@@ -1,8 +1,15 @@
 {
   "_args": [
     [
-      "@angular/router@3.0.0-beta.2",
-      "/Users/Andysign/project/seperpay-ng2"
+      {
+        "name": "@angular/router",
+        "raw": "@angular/router@3.0.0-beta.2",
+        "rawSpec": "3.0.0-beta.2",
+        "scope": "@angular",
+        "spec": "3.0.0-beta.2",
+        "type": "version"
+      },
+      "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2"
     ]
   ],
   "_from": "@angular/router@3.0.0-beta.2",
@@ -36,7 +43,7 @@
   "_shasum": "99a42b8aba7cb4e2be4cde508d5f7d53f0715025",
   "_shrinkwrap": null,
   "_spec": "@angular/router@3.0.0-beta.2",
-  "_where": "/Users/Andysign/project/seperpay-ng2",
+  "_where": "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2",
   "author": {
     "name": "angular"
   },
@@ -54,16 +61,16 @@
   "homepage": "https://github.com/angular/angular#readme",
   "jsnext:main": "esm/index.js",
   "keywords": [
-    "angular",
     "angular2",
+    "angular",
     "router"
   ],
   "license": "MIT",
   "main": "index.js",
   "maintainers": [
     {
-      "name": "angular",
-      "email": "angular-core+npm@google.com"
+      "email": "angular-core+npm@google.com",
+      "name": "angular"
     }
   ],
   "name": "@angular/router",
