@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth } from '../shared/types/auth';
+import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 
+import { Auth } from '../shared/types/auth';
 import { LoginService } from '../shared/services/login.service';
-import { Router } from '@angular/router';
 
 @Component({
 	moduleId: module.id,
 	selector: 'yeah-login',
 	templateUrl: 'login.component.html',
 	styleUrls: ['login.style.css'],
-    providers: [LoginService]
+    providers: [LoginService],
+    directives: [ROUTER_DIRECTIVES]
 })
 export class LoginComponent implements OnInit {
 	constructor(private loginService: LoginService,

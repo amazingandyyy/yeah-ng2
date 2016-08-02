@@ -19,15 +19,16 @@
 }
 
 .active {
-    border: 2px solid black;
+    border: 1px solid $deep-gray;
+    opacity: 1;
 }
 
-// small.title {
-//     font-weight: 700;
-//     display: inline-block;
-//     margin-bottom: 30px;
-//     font-size: 1em;
-// }
+.redirect {
+    span {
+        border-bottom: 1px solid $deep-gray; 
+        cursor: pointer;
+    }
+}
 
 .col-sm-4 {
     .card {
@@ -37,7 +38,7 @@
             margin-bottom: 0px;
         }
         &:hover {
-            opacity: 1;
+            opacity: 0.8;
             border-color: $deep-gray;
         }
     }
@@ -53,7 +54,7 @@
             background: white;
         }
     }
-    .col-sm-4 {
+    .col-sm-4, .col-sm-12 {
         padding-left: 5px;
         padding-right: 5px;
     }

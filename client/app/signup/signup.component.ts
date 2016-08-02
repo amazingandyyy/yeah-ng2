@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute  } from '@angular/router';
+import { Router, ActivatedRoute, ROUTER_DIRECTIVES } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { SignupService } from '../shared/services/signup.service';
 import { Auth } from '../shared/types/auth';
@@ -9,7 +9,9 @@ import { Auth } from '../shared/types/auth';
     selector: 'signup',
     templateUrl: 'signup.component.html',
     styleUrls: ['signup.style.css'],
-    providers: [SignupService]
+    providers: [SignupService],
+    directives: [ROUTER_DIRECTIVES]
+
 })
 
 export class SignupComponent implements OnInit {

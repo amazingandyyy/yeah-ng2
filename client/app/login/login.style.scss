@@ -1,69 +1,64 @@
 @import "../shared/scss/variables";
 @import "../shared/scss/global";
 
-.form-item {
-    width: 100%;
-    margin: auto;
-    padding: 0;
-    position: relative;
-    input {
-        height: 50px;
+.auth-page {
+    user-select: none;
+    text-align: center;
+    padding-top: 10px;
+    .auth-container {
         width: 100%;
-        border: none;
-        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
-        text-align: left;
-        font-size: 110%;
-        font-weight: 300;
-        padding: 5px 20px;
-        outline: none;
-        color: rgba(0,0,0,0.4);
-        margin-bottom: -1px;
+    }
+    img.logo {
+        width: 100px;
+    }   
+}
+.title {
+    font-weight: 100;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+}
 
-        &:focus {
-            font-weight: 500;
+.active {
+    border: 1px solid black;
+    opacity: 1;
+}
+
+.redirect {
+    span {
+        border-bottom: 1px solid $deep-gray; 
+        cursor: pointer;
+    }
+}
+
+
+.col-sm-4 {
+    .card {
+        opacity: 0.8;
+        cursor: pointer;
+        p {
+            margin-bottom: 0px;
         }
-
-        &.password {
-            padding-right: 45px !important;
+        &:hover {
+            opacity: 0.8;
+            border-color: $deep-gray;
         }
     }
-    
-    span.lock {
-        opacity: 0.5;
-        z-index: 99;
-        background: none;
-        height: 100%;
-        width: 20px;
-        line-height: 50px;
-        position: absolute;
-        top: 0;
-        right: 20px;
-        color: rgba(0,0,0,0.3);
-        font-size: 1.3em;
-    }
 }
-
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.login-form {
-    max-width: 500px;
-}
-
-.error-message {
-    position: fixed;
-    top: 10%;
-    p {
-        text-align: center;
-    }
-}
-
 @media (min-width: 767px) {
     // on desktop
+    .auth-page {
+        padding-top: 30px;;
+        text-align: center;
+        .auth-container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+        }
+    }
+    .col-sm-4, .col-sm-12 {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 }
 @media (max-width: 767px) {
     // on mobile specific - deprecated

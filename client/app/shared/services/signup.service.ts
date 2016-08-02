@@ -33,7 +33,7 @@ export class SignupService {
         return data || {};
     }
     private handelError(err: any) {
-        console.log('err when logUserIn @auth.service.ts')
+        console.log('err when logUserIn @auth.service.ts', err)
         this.isLoggedIn = false;
         return Observable.throw(err);
     }
@@ -42,6 +42,7 @@ export class SignupService {
         localStorage['id_token'] = null;
         localStorage['current_user'] = null;
         this.isLoggedIn = false;
+        // and bring user out of the dashbaord
         return 'logout';
     }
     

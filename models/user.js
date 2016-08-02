@@ -77,8 +77,10 @@ userSchema.statics.emailSignup = function (userObj, cb) {
     })
         .exec((err, existingUser) => {
             if (err) return cb(err)
-            if (existingUser) return cb({message: 'This email is been used. Want to login?'})
-
+            if (existingUser) {
+                console.log(`${existingUser.email.data} has been used.`)
+                return cb({message: 'This email is been used. Want to login?'})
+            }
             bcrypt.hash(userObj.password, 12, (err, hash) => {
                 if (err) return cb(err);
                 let user = new User({
