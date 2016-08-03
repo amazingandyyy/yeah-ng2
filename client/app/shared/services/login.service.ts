@@ -26,6 +26,7 @@ export class LoginService {
     private handelResponse(res: Response) {
         let data = res.json()
         this.isLoggedIn = true
+        // save user 
         return data || {};
     }
     private handelError(err: any) {

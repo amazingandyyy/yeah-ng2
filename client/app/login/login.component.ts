@@ -15,15 +15,13 @@ import { LoginService } from '../shared/services/login.service';
 export class LoginComponent implements OnInit {
 	constructor(private loginService: LoginService,
         private router: Router) {}
-
+        
 	onSubmit(auth: Auth) {
-		
         let self = this;
-
         this.loginService.logUserIn(auth)
             .subscribe(
-            res => handleResponse(res),
-            err => console.log('err res: ', err)
+                res => handleResponse(res),
+                err => console.log('err res: ', err)
             )
 
         function handleResponse(res) {
@@ -39,4 +37,3 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit() {}
 }
-	
