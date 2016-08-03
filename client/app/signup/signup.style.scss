@@ -18,11 +18,37 @@
     margin-bottom: 20px;
     font-size: 1.3em;
 }
-
+/* Indicator for which role they have selected */
 .active {
     border: 1px solid $deep-gray;
     opacity: 1;
 }
+
+/* change the default bootstrap input */
+.message-input {
+    .input-group-addon {
+        background: none;
+    }
+    .fa-check {
+        color: $brand-success;
+    }
+    .fa-close {
+        color: $brand-danger;
+    }
+    .input-group {
+        .form-control {
+            border-right: none;
+        }
+    }
+}
+
+.focus-border {
+    .input-group-addon {
+        border: 1px solid $deep-gray;
+        border-left: none;
+    }
+}
+
 
 .redirect {
     span {

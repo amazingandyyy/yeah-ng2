@@ -18,6 +18,9 @@ export class SignupComponent implements OnInit {
 	  private selectedRole: string;
     private sub: any;
     private roleCh: string;
+    private confirmPassword: string;
+    private pwMsgSuccess: boolean;
+    private pwMsgFail: boolean;
 
     constructor(
     	private router: Router,
@@ -36,19 +39,44 @@ export class SignupComponent implements OnInit {
       return false;
     }
 
+    checkPw(auth: Auth, confirmPw: string) {
+      this.pwMsgSuccess = false;
+      this.pwMsgFail = false;
+      //Only check if there's pw and has same length
+      if(auth.password && confirmPw) {
+        if(auth.password.length === confirmPw.length) {
+          if(auth.password === confirmPw) {
+            //Let user know that the pw matches
+            this.pwMsgSuccess = true;
+
+          } else {
+            //Let user know that the pw doesn't match
+            this.pwMsgFail = true;
+          }
+        }
+      }
+    }
+
     onSubmit(auth: Auth) {
-      auth.role = this.selectedRole;
-      var self = this;
+      let self = this;
+
+      //PW checking
+      if(auth.password === this.confirmPassword) {
+        //Don't send confirm password to the backend
+        delete auth.confirmPassword;
+        auth.role = this.selectedRole;
         this.signupService.signUp(auth)
             .subscribe(
             res => handleResponse(res),
             err => handleError(err)
             )
+      }
 
       function handleResponse(res) {
-          console.log('res from backend', res);
+          console.log(res);
           localStorage.setItem('id_token', JSON.stringify(res.token));
           localStorage.setItem('current_user', JSON.stringify(res.user));
+          self.router.navigate(['dashboard']);
       }
 
       function handleError(err) {
@@ -57,7 +85,7 @@ export class SignupComponent implements OnInit {
           console.log('this email already exist');
         }
       }
-    }
+    }//End of on submit
 
 
     ngOnInit() {
