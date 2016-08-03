@@ -70,6 +70,8 @@ userSchema.plugin(autopopulate);
 
 userSchema.statics.emailSignup = function (userObj, cb) {
     console.log('userObj:', userObj);
+    // let token = generateToken(userObj);
+    // cb(null, { token: token, user: userObj })
     User.findOne({
         'email.data': {
             '$in': userObj.email

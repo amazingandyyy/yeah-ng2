@@ -28,8 +28,22 @@
 				        <div class="form-group">
 				            <input required type="email" (ngModel)="auth.email" placeholder="请输入电子邮箱" name="email" class="form-control">
 				        </div>
-				         <div class="form-group">
-				            <input required type="password" (ngModel)="auth.password" placeholder="密码" class="password" name="password" #password class="form-control">
+				        <div class="form-group">
+				            <input required type="text" (ngModel)="auth.name" placeholder="姓名" class="form-control" name="name" #name>
+				        </div>
+				        <div class="form-group">
+				            <input required type="password" (ngModel)="auth.password" placeholder="密码" name="password" #password class="form-control">
+				        </div>
+				        <div class="form-group message-input" [ngClass]="{'focus-border': focused}">
+				        	<div [ngClass]="{'input-group': pwMsgSuccess || pwMsgFail}">
+					            <input required type="password" [(ngModel)]="confirmPassword" placeholder="确认密码" name="confirmPassword" class="form-control" (keyup)="checkPw(authForm.value, confirmPassword)" (focus)="focused = true" (blur)="focused = false">
+					            <span class="input-group-addon" *ngIf="pwMsgSuccess">
+					            	<i class="fa fa-check"></i>
+					            </span>
+					            <span class="input-group-addon" *ngIf="pwMsgFail">
+					            	<i class="fa fa-close"></i>
+					            </span>
+				        	</div>
 				        </div>
 				        <div class="form-item">
 				            <button type="submit" class="btn btn-primary responsive" [disabled]="!authForm.form.valid">
