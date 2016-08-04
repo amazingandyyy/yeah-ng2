@@ -6,7 +6,7 @@ import { Router }      from '@angular/router';
     moduleId: module.id,
     selector: 'sp-app',
     templateUrl: 'app.template.html',
-    directives: [ROUTER_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES],
 })
 export class AppComponent {
     constructor(private router: Router) {

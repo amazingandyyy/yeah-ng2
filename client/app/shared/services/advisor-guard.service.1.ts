@@ -8,6 +8,9 @@ import { AuthService }            from './auth.service';
 export class LoginGuard implements CanActivate {
   canActivate() {
     console.log('LoginGuard#canActivate called');
-    return true;
+    if(localStorage.getItem('id_token')){
+      return true;
+    }
+      return false;
   }
 }

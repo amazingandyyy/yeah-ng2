@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
+import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 
 @Component({
     moduleId: module.id,
@@ -9,5 +9,5 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
     styleUrls: ['dashboard.style.css']
 })
 export class DashboardComponent {
-    constructor() { }
+    constructor(router: Router) { }
 }

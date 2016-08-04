@@ -6,7 +6,7 @@ import { Plan } from './plan';
 
 @Component({
     moduleId: module.id,
-    selector: 'sp-create',
+    selector: 'yeah-create',
     templateUrl: 'create.component.html',
     styleUrls: ['plans.style.css'],
     providers: [PlanService]

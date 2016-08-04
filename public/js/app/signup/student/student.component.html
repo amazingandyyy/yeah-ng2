@@ -1,0 +1,17 @@
+<div class="card card-block text-xs-center">
+    <h4 class="title">新欧耶学员</h4>
+
+    <form (ngSubmit)='onSubmit(authForm.value)' #authForm="ngForm">
+        <div class="form-group">
+            <input required type="email" (ngModel)="auth.email" placeholder="请输入电子邮箱" name="email" class="form-control">
+        </div>
+         <div class="form-group">
+            <input required type="password" (ngModel)="auth.password" placeholder="密码" class="password" name="password" #password class="form-control">
+        </div>
+        <div class="form-item">
+            <button type="submit" class="btn btn-primary responsive" [disabled]="!authForm.form.valid">
+            注册成为欧耶学员
+        </button>
+        </div>
+    </form>
+</div>

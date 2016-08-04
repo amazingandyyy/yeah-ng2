@@ -7,8 +7,10 @@ router.get('/', function(req, res) {
   res.render('index');
 });
 
-router.use('/auth', require('./auth'));
-router.use('/users', require('./users'));
-router.use('/verify', require('./verify'));
+router.use('/login', require('./login'));
+router.use('/signup', require('./signup'));
+
+// router.use('/auth', require('./auth'));
+router.use('/user', require('./user'));
 
 module.exports = router;
