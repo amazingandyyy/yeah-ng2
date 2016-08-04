@@ -5,13 +5,11 @@ import { NgClass } from '@angular/common';
 import { SignupService } from '../shared/services/signup.service';
 import { Auth } from '../shared/types/auth';
 
-// import lodash = require('lodash');
-
 @Component({
     moduleId: module.id,
     selector: 'signup',
     templateUrl: 'signup.component.html',
-    styleUrls: ['signup.style.css'],
+    styleUrls: ['../shared/scss/partial/auth.css'],
     providers: [SignupService],
     directives: [ROUTER_DIRECTIVES]
 })
@@ -50,7 +48,18 @@ export class SignupComponent implements OnInit {
       this.pwMsgSuccess = false;
       this.pwMsgFail = false;
       //Only check if there's pw and has same length
+      if(auth.password && confirmPw) {
+        // if(auth.password.length === confirmPw.length) {
+          if(auth.password === confirmPw) {
+            //Let user know that the pw matches
+            this.pwMsgSuccess = true;
 
+          } else {
+            //Let user know that the pw doesn't match
+            this.pwMsgFail = true;
+          }
+        // }
+      }
     }
 
     onSubmit(auth: Auth) {
@@ -106,9 +115,6 @@ export class SignupComponent implements OnInit {
           }
         });
       }
-
-      console.log('fff');
-      
     }
 
     ngOnDestroy() {
