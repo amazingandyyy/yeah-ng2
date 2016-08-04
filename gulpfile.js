@@ -98,7 +98,7 @@ gulp.task('watch', function () {
     gulp.watch(appDev + '**/*.{html,htm}', ['html']);
     gulp.watch(appDev + '**/*.scss', ['app:css']);
     gulp.watch('gulpfile.js', ['build']);
-    // gulp.watch('node_modules/**', ['nd']);
+    // gulp.watch('node_modules/**', ['pkg']);
     // gulp.watch('public/assets/**', ['assets']);
 });
 
@@ -153,7 +153,7 @@ gulp.task('clean:assets', function () {
 //         .pipe(gulp.dest(vendor + '/zone.js/'));
 // });
 
-gulp.task('nd', function () {
+gulp.task('pkg', function () {
     return gulp.src('node_modules/**')
         .pipe(gulp.dest('public/node_modules/'));
 });
