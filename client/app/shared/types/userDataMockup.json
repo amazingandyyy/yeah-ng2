@@ -1,0 +1,48 @@
+{
+	"email": {
+		"link": "string",
+		"confirmed": "boolean"
+	},
+	"role": "string",
+	"info": {
+		// starting here are the keys everyone has
+		"name": "string",
+		"age": "number",
+		"phone": "number",
+		"weChat": "string",
+		"school": "string",
+		"graduateDate": "date",
+		"major": "string",
+		// starting here are the keys unique to student
+		"schoolEmail": "string",
+		"intendedSchool": "string",
+		"intenededMajor": "string",
+		"yearOfStudy": "string",
+		"expectedTransfer": "date",
+		// starting here are the keys shared by advisor, admin, and supervisor
+		"yeahEmail": "string",
+		"jobs": [
+			{
+				"company": "string",
+				"title": "string",
+				"from": "date",
+				"to": "date",
+				"current": "boolean",
+				"desc": "string"
+			}
+		],
+		"langauges": [
+			"string"
+		],
+		"bio": "string",
+		"quotes": "string",
+		"photo": [
+			{
+				"id": "string",
+				"url": "string",
+				"thumbnail": "string"
+			}
+		]
+	}
+
+}
