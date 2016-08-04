@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ROUTER_DIRECTIVES } from '@angular/router';
 import { NgClass } from '@angular/common';
+
 import { SignupService } from '../shared/services/signup.service';
 import { Auth } from '../shared/types/auth';
+
+// import lodash = require('lodash');
 
 @Component({
     moduleId: module.id,
@@ -11,7 +14,6 @@ import { Auth } from '../shared/types/auth';
     styleUrls: ['signup.style.css'],
     providers: [SignupService],
     directives: [ROUTER_DIRECTIVES]
-
 })
 
 export class SignupComponent implements OnInit {
@@ -21,6 +23,7 @@ export class SignupComponent implements OnInit {
     private confirmPassword: string;
     private pwMsgSuccess: boolean;
     private pwMsgFail: boolean;
+    private logMessage: string;
 
     constructor(
     	private router: Router,
@@ -28,7 +31,11 @@ export class SignupComponent implements OnInit {
       private signupService: SignupService
     ) { }
 
-    goToForm(selected: string) {  
+    goToForm(selected: string) {
+      // route to #/signup/:params
+      this.confirmPassword = null;
+      this.pwMsgSuccess = false;
+      this.pwMsgFail = false;
     	this.router.navigate(['/signup', selected]);
   	}
 
@@ -43,18 +50,7 @@ export class SignupComponent implements OnInit {
       this.pwMsgSuccess = false;
       this.pwMsgFail = false;
       //Only check if there's pw and has same length
-      if(auth.password && confirmPw) {
-        if(auth.password.length === confirmPw.length) {
-          if(auth.password === confirmPw) {
-            //Let user know that the pw matches
-            this.pwMsgSuccess = true;
 
-          } else {
-            //Let user know that the pw doesn't match
-            this.pwMsgFail = true;
-          }
-        }
-      }
     }
 
     onSubmit(auth: Auth) {
@@ -83,6 +79,8 @@ export class SignupComponent implements OnInit {
         if(err.statusText === 'Conflict') {
           //Let user know this email already exist
           console.log('this email already exist');
+          console.log(err);
+          // self.logMessage = JSON.parse(err._body).message;
         }
       }
     }//End of on submit
@@ -108,6 +106,9 @@ export class SignupComponent implements OnInit {
           }
         });
       }
+
+      console.log('fff');
+      
     }
 
     ngOnDestroy() {

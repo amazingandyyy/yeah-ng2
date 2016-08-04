@@ -1,15 +1,8 @@
 {
   "_args": [
     [
-      {
-        "name": "reflect-metadata",
-        "raw": "reflect-metadata@^0.1.3",
-        "rawSpec": "^0.1.3",
-        "scope": null,
-        "spec": ">=0.1.3 <0.2.0",
-        "type": "range"
-      },
-      "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2"
+      "reflect-metadata@^0.1.3",
+      "/Users/Andysign/project/seperpay-ng2"
     ]
   ],
   "_from": "reflect-metadata@>=0.1.3 <0.2.0",
@@ -39,7 +32,7 @@
   "_shasum": "64f8a41974e4f5a5aa9978dac54cfd442dc2f1d5",
   "_shrinkwrap": null,
   "_spec": "reflect-metadata@^0.1.3",
-  "_where": "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2",
+  "_where": "/Users/Andysign/project/seperpay-ng2",
   "author": {
     "email": "ron.buckton@microsoft.com",
     "name": "Ron Buckton",
@@ -62,8 +55,8 @@
   "homepage": "http://rbuckton.github.io/ReflectDecorators",
   "keywords": [
     "decorator",
-    "metadata",
     "javascript",
+    "metadata",
     "reflect"
   ],
   "license": "Apache-2.0",
@@ -76,8 +69,8 @@
   "main": "Reflect.js",
   "maintainers": [
     {
-      "email": "rbuckton@chronicles.org",
-      "name": "rbuckton"
+      "name": "rbuckton",
+      "email": "rbuckton@chronicles.org"
     }
   ],
   "name": "reflect-metadata",

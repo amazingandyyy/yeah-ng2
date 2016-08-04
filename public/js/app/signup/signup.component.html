@@ -1,38 +1,39 @@
-<div class="auth-page">
+<div class="auth-page animated" [class.fadeInDown]="!selectedRole" style="-vendor-animation-duration: 0.5s">
     <div class="auth-container">
         <img class="logo" src="/assets/images/logo-color.png">
         	<!--<h4 class="title">请选择注册身分</h4>-->
 			<br/>
-			<div class="col-sm-4">
+			<div class="col-xs-4 roleOpt">
 			    <div (click)="goToForm('student')" class="card card-block text-xs-center" [ngClass]="{active: checkStyle('student')}">
 			        <p><b>Student</b></p>
 			        <small><p>学员</p></small>
 			    </div>
 			</div>
-			<div (click)="goToForm('advisor')" class="col-sm-4">
-			    <div class="card card-block text-xs-center" [ngClass]="{active: checkStyle('advisor')}">
+			<div class="col-xs-4 roleOpt">
+			    <div (click)="goToForm('advisor')" class="card card-block text-xs-center" [ngClass]="{active: checkStyle('advisor')}">
 			        <p><b>Advisor</b></p>
 			        <small><p>顾问</p></small>
 			    </div>
 			</div>
-			<div (click)="goToForm('admin')" class="col-sm-4">
-			    <div class="card card-block text-xs-center" [ngClass]="{active: checkStyle('admin')}">
+			<div class="col-xs-4 roleOpt">
+			    <div (click)="goToForm('admin')" class="card card-block text-xs-center" [ngClass]="{active: checkStyle('admin')}">
 			        <p><b>Admin</b></p>
 			        <small><p>管理员</p></small>
 			    </div>
 			</div>
-        	<div *ngIf="selectedRole" class="col-sm-12">
-        		<div class="card card-block text-xs-center">
+        	<div class="col-xs-12 animated fadeIn" *ngIf="selectedRole">
+        		<div class="card card-block authCard text-xs-center">
 				    <h4 class="title">新欧耶{{roleCh}}</h4>
+					<p class="log" *ngIf="!message">{{logMessage}}</p>
 				    <form (ngSubmit)='onSubmit(authForm.value)' #authForm="ngForm">
 				        <div class="form-group">
-				            <input required type="email" (ngModel)="auth.email" placeholder="请输入电子邮箱" name="email" class="form-control">
+				            <input required type="text" (ngModel)="auth.name" placeholder="Name" class="form-control" name="name" #name>
+				        </div>
+						<div class="form-group">
+				            <input required type="email" (ngModel)="auth.email" placeholder="Email" name="email" class="form-control">
 				        </div>
 				        <div class="form-group">
-				            <input required type="text" (ngModel)="auth.name" placeholder="姓名" class="form-control" name="name" #name>
-				        </div>
-				        <div class="form-group">
-				            <input required type="password" (ngModel)="auth.password" placeholder="密码" name="password" #password class="form-control">
+				            <input required type="password" (ngModel)="auth.password" placeholder="密码" name="password" #password class="form-control" min="6">
 				        </div>
 				        <div class="form-group message-input" [ngClass]="{'focus-border': focused}">
 				        	<div [ngClass]="{'input-group': pwMsgSuccess || pwMsgFail}">
@@ -41,7 +42,7 @@
 					            	<i class="fa fa-check"></i>
 					            </span>
 					            <span class="input-group-addon" *ngIf="pwMsgFail">
-					            	<i class="fa fa-close"></i>
+					            	<i class="fa fa-exclamation"></i>
 					            </span>
 				        	</div>
 				        </div>

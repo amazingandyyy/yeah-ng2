@@ -1,15 +1,8 @@
 {
   "_args": [
     [
-      {
-        "name": "@angular/compiler",
-        "raw": "@angular/compiler@2.0.0-rc.4",
-        "rawSpec": "2.0.0-rc.4",
-        "scope": "@angular",
-        "spec": "2.0.0-rc.4",
-        "type": "version"
-      },
-      "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2"
+      "@angular/compiler@2.0.0-rc.4",
+      "/Users/Andysign/project/seperpay-ng2"
     ]
   ],
   "_from": "@angular/compiler@2.0.0-rc.4",
@@ -43,7 +36,7 @@
   "_shasum": "1cb82028b8ed732009cf4c82dbc7f3385dca3684",
   "_shrinkwrap": null,
   "_spec": "@angular/compiler@2.0.0-rc.4",
-  "_where": "/Users/SAYURI/Documents/Sites/Yes/yeah-ng2",
+  "_where": "/Users/Andysign/project/seperpay-ng2",
   "author": {
     "name": "angular"
   },
@@ -64,8 +57,8 @@
   "main": "index.js",
   "maintainers": [
     {
-      "email": "angular-core+npm@google.com",
-      "name": "angular"
+      "name": "angular",
+      "email": "angular-core+npm@google.com"
     }
   ],
   "name": "@angular/compiler",

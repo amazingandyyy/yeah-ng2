@@ -32,7 +32,7 @@
     .fa-check {
         color: $brand-success;
     }
-    .fa-close {
+    .fa-exclamation {
         color: $brand-danger;
     }
     .input-group {
@@ -57,8 +57,10 @@
     }
 }
 
-.col-sm-4 {
+.roleOpt {
     .card {
+        margin: 0px;
+        padding: 8px;
         opacity: 0.8;
         cursor: pointer;
         p {
@@ -69,6 +71,14 @@
             border-color: $deep-gray;
         }
     }
+}
+.authCard {
+    padding: 40px 30px;
+}
+.roleOpt, .col-xs-12 {
+    padding: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 @media (min-width: 767px) {
     // on desktop
@@ -81,7 +91,14 @@
             background: white;
         }
     }
-    .col-sm-4, .col-sm-12 {
+    .roleOpt {
+        padding-left: 5px;
+        padding-right: 5px;
+        .card {
+            padding: 15px 30px;
+        }
+    }
+    .col-xs-12 {
         padding-left: 5px;
         padding-right: 5px;
     }

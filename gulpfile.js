@@ -142,6 +142,10 @@ gulp.task('vendor', function () {
     //moment
     gulp.src('node_modules/moment/**')
         .pipe(gulp.dest(vendor + '/moment/'));
+
+    //lodash
+    gulp.src('node_modules/lodash/**')
+        .pipe(gulp.dest(vendor + '/lodash/'));
     
     //zonejs
     return gulp.src('node_modules/zone.js/**')

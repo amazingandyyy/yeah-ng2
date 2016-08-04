@@ -28,14 +28,16 @@ export class SignupService {
     }
 
     private handelResponse(res: Response) {
+        console.log('Response when logUserIn @auth.service.ts', res);
+        
         let data = res.json()
         this.isLoggedIn = true
         return data || {};
     }
-    private handelError(err: any) {
-        console.log('err when logUserIn @auth.service.ts', err)
+    private handelError(error: any) {
+        console.log('err when logUserIn @auth.service.ts', error.message)
         this.isLoggedIn = false;
-        return Observable.throw(err);
+        return Observable.throw(error);
     }
 
     logUserOut () {

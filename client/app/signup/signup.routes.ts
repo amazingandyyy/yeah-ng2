@@ -16,6 +16,7 @@ export const SignupRoutes: RouterConfig = [
     path: 'signup',
     component: SignupComponent
     // children: [
+    // deprecated 
     //   { path: '', component: StartComponent },
     //   { path: 'student', component: SignupStudentComponent },
     //   { path: 'advisor', component: SignupAdvisorComponent },
