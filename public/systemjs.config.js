@@ -3,20 +3,20 @@
 // map tells the System loader where to look for things
 var map = {
     'app': 'js/app',
-    'rxjs': 'js/vendor/rxjs',
-    '@angular': 'js/vendor/@angular',
-    'angular2-jwt': 'js/vendor/angular2-jwt/angular2-jwt.js',
-    'moment': 'js/vendor/moment/moment.js',
-    'lodash': 'js/vendor/lodash'
+    'rxjs': '../node_modules/rxjs',
+    '@angular': '../node_modules/@angular',
+    'angular2-jwt': '../node_modules/angular2-jwt/angular2-jwt.js',
+    'moment': '../node_modules/moment/moment.js',
+    'lodash': '../node_modules/lodash'
 };
 
 // packages tells the System loader how to load when no filename and/or no extension
 var packages = {
+    'app': { main: 'main.js', defaultExtension: 'js'},
     'rxjs': { defaultExtension: 'js'},
     "angular2-jwt": { defaultExtension: 'js' },
     'moment': { defaultExtension: 'js' },
-    'lodash': { main:'index.js', defaultExtension: 'js' },
-    'app': { main: 'main.js', defaultExtension: 'js'}
+    'lodash': { main:'index.js', defaultExtension: 'js' }
 };
 
 var packageNames = [
