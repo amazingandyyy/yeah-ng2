@@ -3,7 +3,7 @@ import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 
 @Component({
     moduleId: module.id,
-    selector: 'sp-dashboard',
+    selector: 'yeah-dashboard',
     templateUrl: 'dashboard.component.html',
     directives: [ROUTER_DIRECTIVES],
     styleUrls: ['dashboard.style.css']

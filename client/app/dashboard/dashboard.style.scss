@@ -3,7 +3,7 @@
 
 .dashboard-page {
     padding: 60px 0;
-    background: #F7F7F7;
+    background: $light-gray;
     height: 100%;
     nav {
         transition: 0.2s all ease-in-out;
@@ -16,20 +16,6 @@
         z-index: 99;
         border-bottom: 1px solid rgba(0,0,0,0.1);
         text-align: center;
-        .logo {
-            display: inline;
-            margin: auto;
-            width: 80px;
-            transition: 0.3s all ease-in-out;
-        }
-        h1 {
-            float: left;
-            text-transform: capitalize;
-            margin: 0;
-            font-weight: 300;
-            color: rgba(0,0,0,0.5);
-            font-size: 140%;
-        }
     }
     .menu {
         position: fixed;
@@ -52,7 +38,7 @@
             cursor: pointer;
             width: 33.3330%;
             text-align: center;
-            padding: 10px;
+            padding: 8px;
             transition: 0.1 color ease-in-out;
             &:hover {
                 color: rgba(0,0,0,0.8);
