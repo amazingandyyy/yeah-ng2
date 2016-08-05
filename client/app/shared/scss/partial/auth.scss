@@ -68,23 +68,29 @@
         padding: 10px;
         opacity: 0.85;
         cursor: pointer;
+        box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.15);
         p {
             margin-bottom: 0px;
         }
         &:hover {
             opacity: 1;
             border-color: rgba($deep-gray, 0.3);
+            box-shadow: 0px 0px 3px -1px rgba(0, 0, 0, 0.15);
         }
         /* Indicator for which role they have selected */
         &.active, &:active {
             border-color: $deep-gray;
             opacity: 1;
         }
+        &:active {
+            background: rgba(0,0,0,0.003);
+        }
     }
 }
 
 .authCard {
     padding: 30px 30px;
+    box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.15);
 }
 
 @media (min-width: 767px) {
