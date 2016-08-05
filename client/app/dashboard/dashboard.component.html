@@ -1,6 +1,23 @@
 <div class="dashboard-page">
     <nav>
-        欧耶转学助手 
+        <div>欧耶转学助手</div>
+        <div class="nav-menu">
+            <span class="nav-item">
+                <i class="fa fa-bell"></i>
+            </span>
+
+            <span class="nav-item">
+                <i class="fa fa-user"></i>
+                <div class="profile-menu">
+                    <ul>
+                        <li>设定</li>
+                        <li>登出</li>
+                    </ul>
+                </div>
+            </span>
+            
+            <div class="message-menu"></div>
+        </div>
     </nav>
     <div class="menu">
         <div [routerLink]="['/dashboard/plans']" class="menu-item" >转学流程</div>
