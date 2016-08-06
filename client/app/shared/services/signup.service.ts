@@ -20,7 +20,7 @@ export class SignupService {
 
     constructor(
         public http: Http
-        ) { }
+    ) { }
 
     signUp (data: Auth): Observable<Auth>{
         return this.http.post('/api/user/signup', data)

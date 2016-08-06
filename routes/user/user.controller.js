@@ -19,9 +19,9 @@ exports.getCurrentUser = function(req, res) {
         console.log('authentication failed')
         return res.status(409).send()
     }
-    // if(req.user._id == req.params.userId){
+    if(req.user._id == req.params.userId){
         res.send(req.user)
-    // }
+    }
 };
 
 exports.getSingleUser = function(req, res) {

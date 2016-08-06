@@ -33,11 +33,10 @@ export class AccountComponent implements OnInit {
 
     ngOnInit() {
         if (!JSON.parse(localStorage.getItem('current_user'))) {
-            this.router.navigate(['/login']);
-        } else {
-            console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
-            this.currentUser = JSON.parse(localStorage.getItem('current_user'));
-            this.getUser();
+            return this.router.navigate(['/login']);
         }
+        console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
+        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+        this.getUser();
     }
 }
