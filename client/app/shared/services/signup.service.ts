@@ -22,7 +22,7 @@ export class SignupService {
     }
 
     signUp (data: Auth): Observable<Auth>{
-        return this.http.post('/api/signup', data)
+        return this.http.post('/api/user/signup', data)
             .map(this.handelResponse)
             .catch(this.handelError)
     }

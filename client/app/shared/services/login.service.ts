@@ -20,7 +20,7 @@ export class LoginService {
     private router: Router) { }
 
     logUserIn (data: Auth): Observable<Auth>{
-        return this.http.post('/api/login', data)
+        return this.http.post('/api/user/login', data)
             .map(this.handelResponse)
             .catch(this.handelError)
     }
@@ -29,6 +29,7 @@ export class LoginService {
         let data = res.json()
         this.isLoggedIn = true
         // save user 
+        console.log('data from user after login', data);
         return data || {};
     }
     private handelError(err: any) {
