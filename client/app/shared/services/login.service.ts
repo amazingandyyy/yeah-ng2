@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
@@ -15,7 +16,8 @@ export class LoginService {
     isLoggedIn: boolean = false;
     redirectUrl: string;
 
-    constructor(public http: Http) { }
+    constructor(public http: Http,
+    private router: Router) { }
 
     logUserIn (data: Auth): Observable<Auth>{
         return this.http.post('/api/login', data)
@@ -36,9 +38,10 @@ export class LoginService {
     }
 
     logUserOut () {
-        localStorage['id_token'] = null;
-        localStorage['current_user'] = null;
+        localStorage.removeItem('id_token')
+        localStorage.removeItem('current_user')
         this.isLoggedIn = false;
+        this.router.navigate(['/'])
         return 'logout';
     }
     
