@@ -8,10 +8,13 @@ import { StartComponent } from './plans/start.component';
 import { CreateComponent } from './plans/create.component';
 import { AccountComponent } from './account/account.component';
 
-export const dashboardRoutes: RouterConfig = [
+import { LoginGuard } from '../shared/services/guard/login-guard.service';
+
+export const DashboardRoutes: RouterConfig = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [LoginGuard],
     children: [
       { path: '', component: DashboardComponent },
       { path: 'payment', component: PaymentComponent },

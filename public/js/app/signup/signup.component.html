@@ -29,10 +29,10 @@
 					<p class="log" *ngIf="!message">{{logMessage}}</p>
 					<form (ngSubmit)='onSubmit(authForm.value)' #authForm="ngForm">
 						<div class="form-group">
-							<input required type="text" (ngModel)="auth.name" placeholder="Name" class="form-control" name="name" #name>
+							<input required type="email" (ngModel)="auth.email" placeholder="Email" name="email" class="form-control">
 						</div>
 						<div class="form-group">
-							<input required type="email" (ngModel)="auth.email" placeholder="Email" name="email" class="form-control">
+							<input required type="text" (ngModel)="auth.name" placeholder="Full Name" class="form-control" name="name" #name>
 						</div>
 						<div class="form-group">
 							<input required type="password" (ngModel)="auth.password" placeholder="密码" name="password" #password class="form-control" min="6">
@@ -50,7 +50,7 @@
 						</div>
 						<div class="form-item">
 							<button type="submit" class="btn btn-primary" [disabled]="!authForm.form.valid">
-								注册成为欧耶{{roleCh}}
+								申请成为欧耶{{roleCh}}
 							</button>
 						</div>
 					</form>

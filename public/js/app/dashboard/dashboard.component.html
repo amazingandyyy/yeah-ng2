@@ -1,22 +1,35 @@
 <div class="dashboard-page">
-    <nav>
-        欧耶转学助手 
-        <div class="nav-item">
-
+    <span (click)="profileToggled=false; inboxToggled=false">
+        <nav>
+            <div>欧耶转学助手</div>
+        </nav>
+        <div class="menu">
+            <div [routerLink]="['/dashboard/plans']" class="menu-item" >转学流程</div>
+            <div [routerLink]="['/dashboard/account']" class="menu-item" >个人资讯</div>
         </div>
-        <div class="nav-item">
-
-        </div>
-        <div class="nav-item">
-
-        </div>
-    </nav>
-    <div class="menu">
-        <!--<div [routerLink]="['/dashboard/payment']" class="menu-item" ng-class="currentUrl.includes('payment')? 'active' : '' " >Payment</div>-->
-        <div [routerLink]="['/dashboard/plans']" class="menu-item">转学流程</div>
-        <div [routerLink]="['/dashboard/account']" class="menu-item">个人资讯</div>
-        <!--<div [routerLink]="['/dashboard/account']" class="menu-item" ng-class="currentUrl.includes('account')? 'active' : '' " >联络箱</div>-->
-    </div>
-    <!--<div ui-view="dashboard_section" class="dashboard-section"></div>-->
-    <router-outlet></router-outlet>
+        <router-outlet></router-outlet>
+    </span>
+    
+    <!--nav-menu is fixed position so put it under everything-->
+    <div class="nav-menu">
+        <span class="nav-item">
+            <i class="fa fa-bell" (click)="inboxToggled = !inboxToggled; profileToggled = false"></i>
+            <div class="list-menu" [class.active]="inboxToggled">
+                <ul>
+                    <li>訊息</li>
+                    <li>訊息</li>
+                </ul>
+            </div>
+        </span>
+        <span class="nav-item">
+            <i class="fa fa-user" (click)="profileToggled = !profileToggled; inboxToggled = false"></i>
+            <div class="list-menu" [class.active]="profileToggled">
+                <ul>
+                    <li>设定</li>
+                    <li (click)="logout()">登出</li>
+                </ul>
+            </div>
+        </span>
+    </div><!-- nav-menu over-->
 </div>
+

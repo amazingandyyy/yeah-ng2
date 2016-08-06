@@ -13,25 +13,25 @@ import { LoginService } from '../shared/services/login.service';
     directives: [ROUTER_DIRECTIVES]
 })
 export class LoginComponent implements OnInit {
-	constructor(private loginService: LoginService,
-        private router: Router) {}
+	constructor(
+        private loginService: LoginService,
+        private router: Router
+        ){}
         
 	onSubmit(auth: Auth) {
         let self = this;
         this.loginService.logUserIn(auth)
             .subscribe(
                 res => handleResponse(res),
-                err => console.log('err res: ', err)
+                err => console.log('err when logUserIn: ', err)
             )
 
         function handleResponse(res) {
-            console.log('data back', res);
-            
+            console.log('logUserIn response: ', res);
 
             localStorage.setItem('id_token', JSON.stringify(res.token));
             localStorage.setItem('current_user', JSON.stringify(res.user));
-            // self.router.navigate(['dashboard/plans'])
-            self.router.navigate(['dashboard'])
+            self.router.navigate(['dashboard/plans'])
         }
     }
 

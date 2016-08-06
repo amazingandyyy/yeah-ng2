@@ -9,11 +9,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var appRoutes = require('./routes/index');
 
-var PORT = process.env.PORT
-var MONGOURL = process.env.MONGOLAB_URI
+const PORT = process.env.PORT
+const MONGOURL = process.env.MONGOLAB_URI
 
+// set up mongoDB connection
 if (!process.env.JWT_SECRET) {
     console.error(error(`ERROR:  Missing process.env.JWT_SECRET.`))
 } else {
@@ -28,8 +28,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -43,16 +42,12 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/api', require('./routes/api'))
-app.use('/verify', require('./routes/verify'))
-app.use('/testing', require('./routes/testing'))
-app.use('/', appRoutes);
+// kickstart route
+app.use('/', require('./routes/index'))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+    res.status(404).render('404', {title: "Sorry, page is currently not available."});
 });
 
 // error handlers
@@ -69,7 +64,6 @@ if (app.get('env') === 'development') {
     });
 }
 
-
 app.use(function(req, res) {
     res.status(404).render('404')
 })
@@ -85,13 +79,17 @@ app.use(function (err, req, res, next) {
 });
 
 var server = http.createServer(app)
-
-server.listen(PORT)
+server.listen(PORT, function() {
+    console.log(`Listening on port ${PORT}`)
+})
 server.on('error', function(err) {
     console.error(err)
 })
-server.on('listening', function() {
-    console.log(`Listening on port ${PORT}`)
-})
+// server.on('listening', )
+var io = require('socket.io')(server);
+io.on('connection', function(socket){
+  socket.on('event', function(data){});
+  socket.on('disconnect', function(){});
+});
 
 module.exports = app;

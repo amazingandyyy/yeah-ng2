@@ -94,7 +94,6 @@ export class SignupComponent implements OnInit {
       }
     }//End of on submit
 
-
     ngOnInit() {
       this.selectedRole = undefined;
       if(this.route) {
@@ -118,7 +117,9 @@ export class SignupComponent implements OnInit {
     }
 
     ngOnDestroy() {
-      this.sub.unsubscribe();
+      if(this.sub){
+        this.sub.unsubscribe();
+      }
     }
 }  
 	

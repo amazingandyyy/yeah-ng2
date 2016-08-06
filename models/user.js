@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
@@ -68,6 +69,31 @@ let userSchema = new mongoose.Schema({
 })
 userSchema.plugin(autopopulate);
 
+// promised-based mongoose tutorial
+// http://www.summa.com/blog/avoiding-callback-hell-while-using-mongoose
+// userSchema.statics.emailSignup = function (userObj, cb) {
+        
+//         console.log('check: ', userObj.email)
+//         User.findOne({
+//             'email.data': {
+//                 '$in': userObj.email
+//             }
+//         })
+//         .then(existingUser=>{
+//             console.log(`${existingUser.email.data} already exist.`)
+//             cb({message: 'email exist'})
+//         })
+//         .then(()=>{
+//             console.log('check')
+//         })
+//         .catch(err=>{
+//             cb(err)
+//         })
+
+// }
+
+
+
 userSchema.statics.emailSignup = function (userObj, cb) {
     console.log('userObj:', userObj);
     // let token = generateToken(userObj);
@@ -93,7 +119,7 @@ userSchema.statics.emailSignup = function (userObj, cb) {
                 })
                 user.save((err, savedUser) => {
                     if (err) return cb(err)
-                    
+
                     console.log('savedUser: ', savedUser)
                     let token = generateToken(savedUser)
                     // cb(null, { token: token, user: savedUser })
@@ -115,7 +141,7 @@ userSchema.statics.emailSignup = function (userObj, cb) {
                     }, function (err, data, res) {
                         if (err) {
                             console.log(err);
-                            return cb({message: 'email is incorrect'}, null)
+                            return cb({ message: 'email is incorrect' }, null)
                         }
                         cb(null, { token: token, user: savedUser })
                     })
@@ -134,12 +160,12 @@ userSchema.statics.login = function (userObj, cb) {
         .select('+password')
         .exec((err, dbUser) => {
             console.log('dbUser: ', dbUser)
-            if (err, !dbUser) return cb(err || {message: 'user not found. Want to sign up?'})
+            if (err, !dbUser) return cb(err || { message: 'user not found. Want to sign up?' })
             return bcrypt.compare(userObj.password, dbUser.password, function (err, isGood) {
                 if (err) return cb("Authentication failed.");
                 let token = generateToken(dbUser)
                 dbUser.lastLoginTime.unshift(Date.now())
-                dbUser.save((err, savedUser)=>{
+                dbUser.save((err, savedUser) => {
                     if (err) return cb(err);
                     cb(null, { token: token, user: savedUser })
                 })

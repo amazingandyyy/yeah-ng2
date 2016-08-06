@@ -1,0 +1,13 @@
+
+// dashboard background: #f2f2f2;
+
+// navbar
+// border-bottom: 1px solid #dadada;
+
+// button
+// background: linear-gradient(60deg,#14ad5a 0%,#14ad5a 100%)
+// box-shadow: 0 4px 16px 0 rgba(20,173,90,.16),0 12px 32px 0 rgba(0,0,0,.16)
+// text-shadow :0 0 16px rgba(255,255,255,.56)
+
+// card 
+// box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1)
