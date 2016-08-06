@@ -8,6 +8,12 @@ import { ROUTER_DIRECTIVES, Router } from '@angular/router';
     directives: [ROUTER_DIRECTIVES],
     styleUrls: ['dashboard.style.css']
 })
-export class DashboardComponent {
-    constructor(router: Router) { }
+export class DashboardComponent{
+    private profileToggled: boolean = false;
+    private inboxToggled: boolean = false;
+
+
+    constructor(
+        private router: Router
+    ) { }
 }

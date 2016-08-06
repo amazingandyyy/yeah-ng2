@@ -128,7 +128,7 @@
                     <div class="row">
                         <div class="col-xs-4">语言</div>
                         <div class="col-xs-8" *ngIf="currentUser.languages">
-                            <span *ngFor="#lang of currentUser.languages">{{lang}}</span>
+                            <span *ngFor="let lang of currentUser.languages">{{lang}}</span>
                         </div>
                     </div>
                 </div>
