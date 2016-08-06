@@ -214,34 +214,33 @@ userSchema.statics.login = function (userObj, cb) {
 }
 
 userSchema.statics.authMiddleware = function (req, res, next) {
-    console.loge('check')
-    next()
-    // if (!req.header('Authorization')) {
-    //     return res.status(401).send({
-    //         message: 'Please make sure your request has an Authorization header'
-    //     })
-    // }
-    // let token = req.header('Authorization').split(' ')[1]
-    // jwt.verify(token, JWT_SECRET, (err, payload) => {
-    //     if (err) return res.status(401).send({
-    //         error: 'Must be authenticated.'
-    //     })
-
-    //     User
-    //         .findById(payload._id)
-    //         .exec((err, user) => {
-    //             if (err || !user) {
-    //                 return res.status(400).send(err || {
-    //                     error: 'User not found.'
-    //                 });
-    //             }
-    //             user.password = null;
-    //             console.log(`${user._id} pass authMiddleware with role of ${user.role}`);
-    //             req.user = user;
-    //             req.role = user.role;
-    //             next()
-    //         })
-    // })
+    if (!req.header('Authorization')) {
+        return res.status(401).send({
+            message: 'Please make sure your request has an Authorization header'
+        })
+    }
+    let token = req.header('Authorization').split(' ')[1]
+    console.log('token: ', token)
+    jwt.verify(token, JWT_SECRET, (err, payload) => {
+        if (err) {
+            console.log('err #verifyJWTtoken: ', err)
+            return res.status(401).send({error: 'Must be authenticated.'})
+        }
+        User
+            .findById(payload._id)
+            .exec((err, user) => {
+                if (err || !user) {
+                    return res.status(400).send(err || {
+                        error: 'User not found.'
+                    });
+                }
+                user.password = null;
+                console.log(`${user._id} pass authMiddleware with role of ${user.role}`);
+                req.user = user;
+                req.role = user.role;
+                next()
+            })
+    })
 };
 userSchema.statics.roleMiddleware = function (req, res, next) {
     console.loge('check role model and pass it')

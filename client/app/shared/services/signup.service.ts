@@ -28,8 +28,7 @@ export class SignupService {
     }
 
     private handelResponse(res: Response) {
-        console.log('Response when logUserIn @auth.service.ts', res);
-        
+        console.log('Response when signUp @auth.service.ts', res);
         let data = res.json()
         this.isLoggedIn = true
         return data || {};

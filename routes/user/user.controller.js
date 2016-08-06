@@ -46,6 +46,6 @@ exports.signup = function(req, res) {
 	console.log('signup req body: ', req.body);
     User.emailSignup(req.body, (err, data) => {
         if (err) return handleError(res, err)
-        res.send(res)
+        res.send(data)
     });
 }
