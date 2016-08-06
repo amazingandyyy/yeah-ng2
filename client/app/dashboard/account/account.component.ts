@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router }    from '@angular/router';
 import moment = require('moment');
 
 import { User } from '../../shared/types/user'
@@ -13,15 +13,19 @@ import { User } from '../../shared/types/user'
 export class AccountComponent implements OnInit{
     currentUser = {};
         
-    constructor() {
-        
-    }
+    constructor(
+        private router: Router
+    ) { }
 
     createAt(unix) {
         return moment(unix).format('LLL');
     }
     ngOnInit(){
-        console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')) );
-        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+        if(!JSON.parse(localStorage.getItem('current_user'))){
+            this.router.navigate(['/login']);
+        }else{
+            console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')) );
+            this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+        }
     }
 }

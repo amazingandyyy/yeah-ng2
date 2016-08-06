@@ -1,4 +1,4 @@
-import { provideRouter, RouterConfig, CanActivate } from '@angular/router';
+import { provideRouter, RouterConfig } from '@angular/router';
 
 import { LandingComponent } from './landing/landing.component'
 
@@ -7,7 +7,7 @@ import { SignupRoutes } from './signup/signup.routes';
 import { DashboardRoutes } from './dashboard/dashboard.routes';
 
 // guards
-import { authProviders } from './shared/services/guard/index';
+import { GuardProviders } from './shared/services/guard/index';
 
 let routes: RouterConfig = [
   {
@@ -26,5 +26,5 @@ let routes: RouterConfig = [
 
 export const appRouterProviders = [
   provideRouter(routes),
-  authProviders
+  GuardProviders
 ];

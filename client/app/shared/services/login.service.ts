@@ -38,10 +38,10 @@ export class LoginService {
     }
 
     logUserOut () {
-        localStorage['id_token'] = null;
-        localStorage['current_user'] = null;
+        localStorage.removeItem('id_token')
+        localStorage.removeItem('current_user')
         this.isLoggedIn = false;
-        this.router.navigate(['/logout'])
+        this.router.navigate(['/'])
         return 'logout';
     }
     

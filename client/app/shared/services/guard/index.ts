@@ -1,3 +1,4 @@
-import { LoginGuard }          from './login-guard.service';
+import { LoginGuard }   from './login-guard.service';
+import { AdminGuard }   from './admin-guard.service';
 
-export const authProviders = [LoginGuard];
+export const GuardProviders = [LoginGuard, AdminGuard];

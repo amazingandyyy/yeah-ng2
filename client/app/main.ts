@@ -17,4 +17,4 @@ bootstrap(AppComponent, [
     provideForms(),
     HTTP_PROVIDERS,
     AUTH_PROVIDERS
-]).catch((err: any) => console.error(err));
+]).catch((err: any) => console.error('error @bootstrap: ', err));
