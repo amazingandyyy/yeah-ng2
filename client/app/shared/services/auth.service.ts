@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { AuthHttp } from 'angular2-jwt';
 
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
@@ -16,10 +17,13 @@ import { User } from '../types/user';
 @Injectable()
 export class AuthService {
 
-    constructor(public http: Http) { }
+    constructor(
+        public http: Http,
+        public authHttp: AuthHttp
+    ) { }
 
-    getCurrentUser(): Observable<User>{
-        return this.http.get('/api/user/currentUser')
+    getCurrentUser(userId): Observable<User> {
+        return this.authHttp.get(`/api/user/currentUser/${userId}`)
             .map(this.handelResponse)
             .catch(this.handelError)
     }

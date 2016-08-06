@@ -8,7 +8,7 @@ import 'rxjs/add/operator/catch';
 
 import { AppComponent } from "./app.component";
 import { Location, LocationStrategy, PathLocationStrategy, HashLocationStrategy } from '@angular/common';
-import { AUTH_PROVIDERS } from 'angular2-jwt';
+import { AuthConfig, AUTH_PROVIDERS} from 'angular2-jwt';
 
 bootstrap(AppComponent, [
     appRouterProviders,

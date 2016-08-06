@@ -16,12 +16,22 @@ exports.login = function(req, res) {
 
 exports.getCurrentUser = function(req, res) {
 	if (!req.user) {
+        console.log('authentication failed')
         return res.status(409).send()
     }
-    res.send(req.user)
+    // if(req.user._id == req.params.userId){
+        res.send(req.user)
+    // }
 };
 
-exports.getAllUser = function(req, res) {
+exports.getSingleUser = function(req, res) {
+    User.findById(req.params.userId,(err, data) => {
+            if (err) return res.status(404).send(err)
+            res.send(data)
+        })
+};
+
+exports.getAllUsers = function(req, res) {
     if(req.body.role > 99){
         User.find({},(err, data) => {
             if (err) return res.status(409).send(err)

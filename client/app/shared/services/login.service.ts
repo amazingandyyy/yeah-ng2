@@ -16,8 +16,10 @@ export class LoginService {
     isLoggedIn: boolean = false;
     redirectUrl: string;
 
-    constructor(public http: Http,
-    private router: Router) { }
+    constructor(
+        public http: Http,
+        private router: Router
+    ) { }
 
     logUserIn (data: Auth): Observable<Auth>{
         return this.http.post('/api/user/login', data)
