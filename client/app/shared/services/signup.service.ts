@@ -18,8 +18,9 @@ export class SignupService {
     isLoggedIn: boolean = false;
     redirectUrl: string;
 
-    constructor(public http: Http) { 
-    }
+    constructor(
+        public http: Http
+        ) { }
 
     signUp (data: Auth): Observable<Auth>{
         return this.http.post('/api/user/signup', data)
