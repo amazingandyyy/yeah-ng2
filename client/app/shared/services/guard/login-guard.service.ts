@@ -10,6 +10,7 @@ export class LoginGuard implements CanActivate {
 
   canActivate() {
     console.log('LoginGuard#canActivate called');
+    // this.router.navigate(['/getout'])
     return true;
   }
   // canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

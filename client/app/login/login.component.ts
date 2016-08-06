@@ -13,8 +13,10 @@ import { LoginService } from '../shared/services/login.service';
     directives: [ROUTER_DIRECTIVES]
 })
 export class LoginComponent implements OnInit {
-	constructor(private loginService: LoginService,
-        private router: Router) {}
+	constructor(
+        private loginService: LoginService,
+        private router: Router
+        ){}
         
 	onSubmit(auth: Auth) {
         let self = this;
