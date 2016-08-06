@@ -41,24 +41,64 @@ let userSchema = new mongoose.Schema({
         select: false
     },
     role: {
-        type: Number,
-        default: 0
+        type: String,
+        default: "student"
     },
-    studentData: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student',
-        autopopulate: true
+    info: {
+        // starting here are the keys everyone has
+        name: String,
+        age: Number,
+        phone: Number,
+        weChat: String,
+        school: String,
+        graduateDate: Date,
+        major: String,
+        // starting here are the keys unique to student
+        schoolEmail: String,
+        intendedSchool: String,
+        intenededMajor: String,
+        yearOfStudy: String,
+        expectedTransfer: Date,
+        // starting here are the keys shared by advisor, admin, and supervisor
+        yeahEmail: String,
+        jobs: [
+            {
+                company: String,
+                title: String,
+                from: Date,
+                to: Date,
+                current: Boolean,
+                desc: String
+            }
+        ],
+        langauges: [
+            String
+        ],
+        bio: String,
+        quotes: String,
+        photo: [
+            {
+                id: String,
+                url: String,
+                thumbnail: String
+            }
+        ]
     },
-    advisorData: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Advisor',
-        autopopulate: true
-    },
-    adminData: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Admin',
-        autopopulate: true
-    },
+    // studentData: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Student',
+    //     autopopulate: true
+    // },
+    // advisorData: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Advisor',
+    //     autopopulate: true
+    // },
+    // adminData: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Admin',
+    //     autopopulate: true
+    // },
     lastLoginTime: [{
         type: Number
     }],
