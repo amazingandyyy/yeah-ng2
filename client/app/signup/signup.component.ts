@@ -89,7 +89,7 @@ export class SignupComponent implements OnInit {
           //Let user know this email already exist
           console.log('this email already exist');
           console.log(err);
-          // self.logMessage = JSON.parse(err._body).message;
+          // self.logMessage = JSON.parse(err._body).error;
         }
       }
     }//End of on submit

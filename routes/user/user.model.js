@@ -154,6 +154,9 @@ userSchema.statics.emailSignup = function (userObj, cb) {
                 email: {
                     data: userObj.email
                 },
+                info: {
+                    name: userObj.name
+                },
                 password: hash
             })
             user.save((err, savedUser) => {

@@ -20,21 +20,25 @@ export class AccountComponent implements OnInit {
         private authService: AuthService
     ) { }
 
-    createAt(unix) {
+    generateTime(unix) {
         return moment(unix).format('LLL');
+    }
+
+    generateDate(unix) {
+        return moment(unix).format('LL');
     }
 
     getUser() {
         this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
             user => this.currentUser = user,
-            error => console.log(<any>error));
+            error => {
+                this.authService.logUserOut();
+                console.log(<any>error)
+            });
     }
 
     ngOnInit() {
-        if (!JSON.parse(localStorage.getItem('current_user'))) {
-            return this.authService.logUserOut();
-        }
         console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getUser();
