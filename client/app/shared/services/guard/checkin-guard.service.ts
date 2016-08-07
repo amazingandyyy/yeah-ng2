@@ -6,9 +6,8 @@ import { AuthService }            from '../auth.service';
 import { JwtHelper }              from 'angular2-jwt';
 
 @Injectable()
-export class LoginGuard implements CanActivate {
+export class CheckinGuard implements CanActivate {
   constructor(
-    // private authService: AuthService,
     private router: Router
   ) {}
 
@@ -17,7 +16,7 @@ export class LoginGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     var current_user = JSON.parse(localStorage.getItem('current_user'))
     var token = JSON.parse(localStorage.getItem('id_token'))
-
+    
     if(token){
       if(!this.jwtHelper.isTokenExpired(token) && current_user){
         this.router.navigate(['/dashboard']);
