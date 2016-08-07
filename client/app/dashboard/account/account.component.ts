@@ -37,7 +37,7 @@ export class AccountComponent implements OnInit{
         } else {
             console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')) );
             this.currentUser = JSON.parse(localStorage.getItem('current_user'));
-            this.getUser();
+            // this.getUser();
             
         }
     }

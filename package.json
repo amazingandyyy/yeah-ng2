@@ -57,6 +57,7 @@
     "moment": "^2.14.1",
     "mongoose": "^4.5.4",
     "mongoose-autopopulate": "^0.4.0",
+    "mongoose-relationship": "^0.1.5",
     "morgan": "~1.6.1",
     "node-ses": "^1.2.0",
     "reflect-metadata": "^0.1.3",
