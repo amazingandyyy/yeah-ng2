@@ -8,6 +8,6 @@ export const LoginRoutes: RouterConfig = [
   {
     path: 'login',
     component: LoginComponent,
-    // canActivate: [CheckinGuard]
+    canActivate: [CheckinGuard]
   }
 ]

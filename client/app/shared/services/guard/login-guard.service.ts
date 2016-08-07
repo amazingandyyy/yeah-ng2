@@ -20,11 +20,9 @@ export class LoginGuard implements CanActivate {
 
     if(token){
       if(!this.jwtHelper.isTokenExpired(token) && current_user){
-        this.router.navigate(['/dashboard']);
         return true;
       }
     }
-
     this.router.navigate(['/login']);
     return false;
   }
