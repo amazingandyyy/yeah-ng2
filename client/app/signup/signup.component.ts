@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ROUTER_DIRECTIVES } from '@angular/router';
 import { NgClass } from '@angular/common';
 
-import { SignupService } from '../shared/services/signup.service';
+import { AuthService } from '../shared/services/auth.service';
 import { Auth } from '../shared/types/auth';
 
 @Component({
@@ -10,7 +10,7 @@ import { Auth } from '../shared/types/auth';
     selector: 'signup',
     templateUrl: 'signup.component.html',
     styleUrls: ['../shared/scss/partial/auth.css'],
-    providers: [SignupService],
+    providers: [AuthService],
     directives: [ROUTER_DIRECTIVES]
 })
 
@@ -26,7 +26,7 @@ export class SignupComponent implements OnInit {
     constructor(
     	private router: Router,
       private route: ActivatedRoute,
-      private signupService: SignupService
+      private authService: AuthService
     ) { }
 
     goToForm(selected: string) {
@@ -70,7 +70,7 @@ export class SignupComponent implements OnInit {
         //Don't send confirm password to the backend
         delete auth.confirmPassword;
         auth.role = this.selectedRole;
-        this.signupService.signUp(auth)
+        this.authService.signUp(auth)
             .subscribe(
             res => handleResponse(res),
             err => handleError(err)

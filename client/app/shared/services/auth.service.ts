@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
 
@@ -16,10 +17,13 @@ import { User } from '../types/user';
 
 @Injectable()
 export class AuthService {
+    isLoggedIn: boolean = false;
+    redirectUrl: string;
 
     constructor(
         public http: Http,
-        public authHttp: AuthHttp
+        public authHttp: AuthHttp,
+        private router: Router
     ) { }
 
     getCurrentUser(userId): Observable<User> {
@@ -28,14 +32,36 @@ export class AuthService {
             .catch(this.handelError)
     }
 
+    signUp (data: Auth): Observable<Auth>{
+        return this.http.post('/api/user/signup', data)
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
+
+    logUserIn (data: Auth): Observable<Auth>{
+        return this.http.post('/api/user/login', data)
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
+
+    logUserOut () {
+        localStorage.removeItem('id_token')
+        localStorage.removeItem('current_user')
+        this.isLoggedIn = false;
+        this.router.navigate(['/'])
+        return 'logout';
+    }
+
     private handelResponse(res: Response) {
         let data = res.json()
-        console.log('current user', data);
+        this.isLoggedIn = true
+        console.log('response @authService', data);
         return data || {};
     }
     private handelError(err: any) {
-        console.log('err when trying to get current user');
+        console.log('err @authService: ', err);
+        this.isLoggedIn = false;
         return Observable.throw(err);
     }
-  
+
 }

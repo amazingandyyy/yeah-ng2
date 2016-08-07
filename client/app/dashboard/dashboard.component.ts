@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 
-import { LoginService } from '../shared/services/login.service';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
     moduleId: module.id,
     selector: 'yeah-dashboard',
     templateUrl: 'dashboard.component.html',
     directives: [ROUTER_DIRECTIVES],
-    providers: [LoginService],
+    providers: [AuthService],
     styleUrls: ['dashboard.style.css']
 })
 export class DashboardComponent{
@@ -17,13 +17,13 @@ export class DashboardComponent{
     private inboxToggled: boolean = false;
 
     constructor(
-        private loginService: LoginService,
+        private authService: AuthService,
         private router: Router
     ){}
 
     logout(){
         // the service will delete user data and token in localStorage
         // and bring user out of the dashboard
-        this.loginService.logUserOut()
+        this.authService.logUserOut()
     }
 }

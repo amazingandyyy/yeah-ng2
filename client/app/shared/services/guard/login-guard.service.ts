@@ -33,12 +33,12 @@ import { Injectable }             from '@angular/core';
 import { CanActivate, Router,
          ActivatedRouteSnapshot,
          RouterStateSnapshot }    from '@angular/router';
-import { LoginService }           from '../login.service';
+import { AuthService }           from '../auth.service';
 
 @Injectable()
 export class LoginGuard implements CanActivate {
   constructor(
-    // private loginService: LoginService,
+    // private authService: AuthService,
     private router: Router
   ) {}
 
