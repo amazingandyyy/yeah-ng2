@@ -78,7 +78,11 @@ app.use(function (err, req, res, next) {
     });
 });
 
-var server = http.createServer(app)
+var server = http.createServer(app);
+var socketio = require('socket.io')(server);
+
+require('./socketio')(socketio);
+
 server.listen(PORT, function() {
     console.log(`Listening on port ${PORT}`)
 })
