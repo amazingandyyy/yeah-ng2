@@ -7,25 +7,27 @@
     background: $light-gray;
     height: 100%;
     nav {
+        user-select: none;
+        cursor: default;
+        position: fixed;
         transition: 0.2s all ease-in-out;
         padding: 10px 0px;
         width: 100%;
         top: 0px;
         right: 0px;
-        position: fixed;
         background-color: rgba(255,255,255,1);
         z-index: 98;
         border-bottom: 1px solid rgba(0,0,0,0.1);
         text-align: center;
     }
     .nav-menu {
+        user-select: none;
         position: fixed;
         z-index: 99;
         top: 0px;
         right: 0px;
         width: auto;
-        height: 100%;
-        user-select: none;
+        height: auto;
         
         .nav-item {
             display: inline-block;
@@ -35,7 +37,7 @@
             font-size: 1.3rem;
             line-height: 40px;
             vertical-align: center;
-            height: 100%;
+            height: auto;
             i {
                 opacity: 0.7;
                 cursor: pointer;
@@ -93,6 +95,7 @@
         }
     }
     .menu {
+        user-select: none;
         position: fixed;
         top: 45px;
         left: 0;

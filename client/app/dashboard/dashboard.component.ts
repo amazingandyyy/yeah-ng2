@@ -13,13 +13,18 @@ import { AuthService } from '../shared/services/auth.service';
 })
 export class DashboardComponent{
     // serve for the two dropdown list in top-right of the navbar
-    private profileToggled: boolean = false;
-    private inboxToggled: boolean = false;
+    profileToggled: boolean = false;
+    inboxToggled: boolean = false;
+    currentSession: string;
 
     constructor(
         private authService: AuthService,
         private router: Router
     ){}
+
+    checkMenuStyle(item: string){
+        this.currentSession = item;
+    }
 
     logout(){
         // the service will delete user data and token in localStorage
