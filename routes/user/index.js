@@ -10,10 +10,12 @@ var Controller = require('./user.controller');
 
 router.get('/', Controller.index);
 
-router.get('/currentUser', User.authMiddleware, Controller.getCurrentUser);
+router.get('/currentUser/:userId', User.authMiddleware, Controller.getCurrentUser);
+
+router.get('/singleUser/:userId', User.roleMiddleware, Controller.getSingleUser);
 
 //TO DO: add middleware to allow only the admin to get all users
-router.get('/all', Controller.getAllUser);
+router.get('/all', User.roleMiddleware, Controller.getAllUsers);
 
 router.post('/login', Controller.login);
 

@@ -143,52 +143,55 @@ userSchema.statics.emailSignup = function (userObj, cb) {
         'email.data': {
             '$in': userObj.email
         }
-    })
-        .exec((err, existingUser) => {
-            if (err) return cb(err)
-            if (existingUser) {
-                console.log(`${existingUser.email.data} already exist.`)
-                return cb(err)
-            }
-            bcrypt.hash(userObj.password, 12, (err, hash) => {
-                if (err) return cb(err);
-                let user = new User({
-                    email: {
-                        data: userObj.email
-                    },
-                    password: hash
-                })
-                user.save((err, savedUser) => {
-                    if (err) return cb(err)
+    }).exec((err, existingUser) => {
+        if (err) return cb(err)
+        if (existingUser) {
+            console.log(`${existingUser.email.data} already exist.`)
+            return cb(err)
+        }
+        bcrypt.hash(userObj.password, 12, (err, hash) => {
+            if (err) return cb(err);
+            let user = new User({
+                email: {
+                    data: userObj.email
+                },
+                info: {
+                    name: userObj.name
+                },
+                password: hash
+            })
+            user.save((err, savedUser) => {
+                if (err) return cb(err)
 
-                    console.log('savedUser: ', savedUser)
-                    let token = generateToken(savedUser)
-                    // cb(null, { token: token, user: savedUser })
+                console.log('savedUser: ', savedUser)
+                let token = generateToken(savedUser)
+                savedUser.password = null;
 
-                    console.log('-> SES triggered -> ')
-                    SESserver.sendEmail({
-                        to: savedUser.email.data,
-                        from: process.env.AWS_SES_SENDER,
-                        cc: null,
-                        bcc: ['amazingandyyy@gmail.com'],
-                        subject: '欢迎加入欧耶教育，请验证你的电子信箱',
-                        message: notificationTemplate({
-                            title: '欢迎加入欧耶教育',
-                            description: `登入欧耶助手，定期与顾问见面！和欧耶一起转学成功！`,
-                            destination: `verify/email/${token}`,
-                            button: `验证此邮箱并登入`
-                        }),
-                        altText: '验证此邮箱并登入'
-                    }, function (err, data, res) {
-                        if (err) {
-                            console.log(err);
-                            return cb({ message: 'email is incorrect' }, null)
-                        }
-                        cb(null, { token: token, user: savedUser })
-                    })
+                console.log('-> SES triggered -> ')
+                SESserver.sendEmail({
+                    to: savedUser.email.data,
+                    from: process.env.AWS_SES_SENDER,
+                    cc: null,
+                    bcc: ['amazingandyyy@gmail.com'],
+                    subject: '欢迎加入欧耶教育，请验证你的电子信箱',
+                    message: notificationTemplate({
+                        title: '欢迎加入欧耶教育',
+                        description: `登入欧耶助手，定期与顾问见面！和欧耶一起转学成功！`,
+                        destination: `verify/email/${token}`,
+                        button: `验证此邮箱并登入`
+                    }),
+                    altText: '验证此邮箱并登入'
+                }, function (err, data, res) {
+                    if (err) {
+                        console.log(err);
+                        return cb({ error: 'email is incorrect' }, null)
+                    }
+                    cb(null, { token: token, user: savedUser})
                 })
             })
         })
+    })
+    
 }
 
 userSchema.statics.login = function (userObj, cb) {
@@ -208,39 +211,106 @@ userSchema.statics.login = function (userObj, cb) {
                 dbUser.lastLoginTime.unshift(Date.now())
                 dbUser.save((err, savedUser) => {
                     if (err) return cb(err);
+                    savedUser.password = null;
                     cb(null, { token: token, user: savedUser })
                 })
             })
         })
 }
 
+// userSchema.statics.authMiddleware = function (req, res, next) {
+//     console.log('check')
+
+//     if (!req.header('Authorization')) {
+//         return res.status(401).send({
+//             message: 'Please make sure your request has an Authorization header'
+//         })
+//     }
+//     console.log('has Authorization header')
+//     let token = req.header('Authorization').split(' ')[1];
+//     console.log('token: ', token);
+//     console.log('JWT_SECRET: ', JWT_SECRET);
+//     jwt.verify(token, JWT_SECRET, function(err, payload) {
+//         if (err) {
+//             console.log('err #verifyJWTtoken @authMiddleware: ', err)
+//             return res.status(401).send({error: 'Must be authenticated.'})
+//         }
+//         console.log('check')
+//         console.log('check payload: ', payload)
+//         User
+//             .findById(payload._id)
+//             .exec((err, user) => {
+//                 if (err || !user) {
+//                     return res.status(400).send(err || {
+//                         error: 'User not found.'
+//                     });
+//                 }
+//                 user.password = null;
+//                 console.log(`${user._id} pass authMiddleware with role of ${user.role}`);
+//                 req.user = user;
+//                 next()
+//             })
+//     })
+// };
+
 userSchema.statics.authMiddleware = function (req, res, next) {
+    console.log('check')
     if (!req.header('Authorization')) {
         return res.status(401).send({
             message: 'Please make sure your request has an Authorization header'
         })
     }
-    let token = req.header('Authorization').split(' ')[1]
+    let token = req.header('Authorization').split(' ')[1].split('"')[1];
     jwt.verify(token, JWT_SECRET, (err, payload) => {
         if (err) return res.status(401).send({
             error: 'Must be authenticated.'
         })
-
         User
             .findById(payload._id)
             .exec((err, user) => {
                 if (err || !user) {
-                    return res.status(400).send(err || {
+                    return res.status(404).send(err || {
                         error: 'User not found.'
                     });
                 }
                 user.password = null;
-                concole.log(`${user._id} pass authMiddleware with role of ${user.role}`);
+                console.log(`${user._id} passed authMiddleware with role of ${user.role}`);
                 req.user = user;
                 req.role = user.role;
                 next()
             })
     })
+};
+userSchema.statics.roleMiddleware = function (req, res, next) {
+    console.loge('check role model and pass it')
+    req.role = 10000;
+    next()
+    // if (!req.header('Authorization')) {
+    //     return res.status(401).send({
+    //         message: 'Please make sure your request has an Authorization header'
+    //     })
+    // }
+    // let token = req.header('Authorization').split(' ')[1]
+    // jwt.verify(token, JWT_SECRET, (err, payload) => {
+    //     if (err) return res.status(401).send({
+    //         error: 'Must be authenticated.'
+    //     })
+
+    //     User
+    //         .findById(payload._id)
+    //         .exec((err, user) => {
+    //             if (err || !user) {
+    //                 return res.status(400).send(err || {
+    //                     error: 'User not found.'
+    //                 });
+    //             }
+    //             user.password = null;
+    //             console.log(`${user._id} pass authMiddleware with role of ${user.role}`);
+    //             req.user = user;
+    //             req.role = user.role;
+    //             next()
+    //         })
+    // })
 };
 
 function generateToken(data) {
