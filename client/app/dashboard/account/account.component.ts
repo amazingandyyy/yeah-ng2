@@ -3,29 +3,44 @@ import { Router }    from '@angular/router';
 import moment = require('moment');
 
 import { User } from '../../shared/types/user'
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
     moduleId: module.id,
     selector: 'yeah-account',
     templateUrl: 'account.component.html',
-    styleUrls: ['account.style.css']
+    styleUrls: ['account.style.css'],
+    providers: [AuthService]
 })
-export class AccountComponent implements OnInit{
+export class AccountComponent implements OnInit {
     currentUser = {};
-        
+
     constructor(
-        private router: Router
+        private router: Router,
+        private authService: AuthService
     ) { }
 
-    createAt(unix) {
+    generateTime(unix) {
         return moment(unix).format('LLL');
     }
-    ngOnInit(){
-        if(!JSON.parse(localStorage.getItem('current_user'))){
-            this.router.navigate(['/login']);
-        }else{
-            console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')) );
-            this.currentUser = JSON.parse(localStorage.getItem('current_user'));
-        }
+
+    generateDate(unix) {
+        return moment(unix).format('LL');
+    }
+
+    getUser() {
+        this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
+            .subscribe(
+            user => this.currentUser = user,
+            error => {
+                this.authService.logUserOut();
+                console.log(<any>error)
+            });
+    }
+
+    ngOnInit() {
+        console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
+        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+        this.getUser();
     }
 }

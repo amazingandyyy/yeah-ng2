@@ -2,12 +2,10 @@ import { RouterConfig } from '@angular/router';
 import { CanActivate } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 
-import { PaymentComponent } from './payment/payment.component';
-import { PlansComponent } from './plans/plans.component';
-import { StartComponent } from './plans/start.component';
-import { CreateComponent } from './plans/create.component';
 import { AccountComponent } from './account/account.component';
-
+import { PipeComponent } from './pipe/pipe.component';
+import { ExploreComponent } from './explore/explore.component';
+import { ResumesComponent } from './resumes/resumes.component';
 import { LoginGuard } from '../shared/services/guard/login-guard.service';
 
 export const DashboardRoutes: RouterConfig = [
@@ -17,14 +15,9 @@ export const DashboardRoutes: RouterConfig = [
     canActivate: [LoginGuard],
     children: [
       { path: '', component: DashboardComponent },
-      { path: 'payment', component: PaymentComponent },
-      { path: 'plans', 
-        component: PlansComponent, 
-        children: [
-          { path: '', component: StartComponent },
-          { path: 'create', component: CreateComponent }
-        ]
-      },
+      { path: 'pipe', component: PipeComponent},
+      { path: 'explore', component: ExploreComponent},
+      { path: 'resumes', component: ResumesComponent},
       { path: 'account', component: AccountComponent }
     ]
   }

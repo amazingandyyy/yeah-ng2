@@ -5,7 +5,7 @@ var router = express.Router();
 
 var qs = require('querystring');
 var request = require('request');
-var User = require('../models/user');
+var User = require('./user/user.model');
 var jwt = require('jsonwebtoken');
 
 router.get('/email/:token', function(req, res) {

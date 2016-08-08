@@ -1,4 +1,5 @@
-///<reference path="../../typings.d.ts"/>
+import { enableProdMode, provide } from "@angular/core";
+
 import { bootstrap } from '@angular/platform-browser-dynamic';
 import { appRouterProviders } from './app.routes';
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
@@ -8,7 +9,11 @@ import 'rxjs/add/operator/catch';
 
 import { AppComponent } from "./app.component";
 import { Location, LocationStrategy, PathLocationStrategy, HashLocationStrategy } from '@angular/common';
-import { AUTH_PROVIDERS } from 'angular2-jwt';
+import { AuthConfig, AUTH_PROVIDERS} from 'angular2-jwt';
+
+// if (process.env.NODE_ENV === "production") {
+//     enableProdMode();
+// }
 
 bootstrap(AppComponent, [
     appRouterProviders,

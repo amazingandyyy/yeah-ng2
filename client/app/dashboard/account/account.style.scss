@@ -6,6 +6,7 @@
     // box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.15);
     user-select: none;
     .row {
+        text-transform: capitalize;
         padding: 8px 5px;
         .col-xs-4 {
             text-align: left;
@@ -14,14 +15,16 @@
             text-align: right;
         }
         &:hover {
-            font-weight: 600;
+            opacity: 0.95;
         }
     }
     h6 {
+        text-transform: capitalize;
         b {
             text-align: left;
         }
         .editBtn {
+            text-transform: uppercase;
             padding-left: 6px;
             cursor: pointer;
             float: right;

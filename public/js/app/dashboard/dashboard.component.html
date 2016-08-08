@@ -4,8 +4,9 @@
             <div>欧耶转学助手</div>
         </nav>
         <div class="menu">
-            <div [routerLink]="['/dashboard/plans']" class="menu-item" >转学流程</div>
-            <div [routerLink]="['/dashboard/account']" class="menu-item" >个人资讯</div>
+            <div [routerLink]="['/dashboard/pipe']" class="menu-item" >转学流程</div>
+            <div [routerLink]="['/dashboard/explore']" class="menu-item" >探索资源</div>
+            <div [routerLink]="['/dashboard/resumes']" class="menu-item" >履历表</div>
         </div>
         <router-outlet></router-outlet>
     </span>
@@ -18,18 +19,18 @@
                 <ul>
                     <li>訊息</li>
                     <li>訊息</li>
+                    <li>查看更多信息</li>
                 </ul>
             </div>
         </span>
         <span class="nav-item">
             <i class="fa fa-user" (click)="profileToggled = !profileToggled; inboxToggled = false"></i>
             <div class="list-menu" [class.active]="profileToggled">
-                <ul>
-                    <li>设定</li>
-                    <li (click)="logout()">登出</li>
+                <ul (click)="profileToggled=false; inboxToggled=false">
+                    <li [routerLink]="['/dashboard/account']" class="text-capitalize">个人信息</li>
+                    <li class="text-capitalize" (click)="logout()">登出</li>
                 </ul>
             </div>
         </span>
     </div><!-- nav-menu over-->
 </div>
-
