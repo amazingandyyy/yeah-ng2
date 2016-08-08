@@ -90,10 +90,10 @@ server.on('error', function(err) {
     console.error(err)
 })
 // server.on('listening', )
-var io = require('socket.io')(server);
-io.on('connection', function(socket){
-  socket.on('event', function(data){});
-  socket.on('disconnect', function(){});
-});
+// var io = require('socket.io')(server);
+// io.on('connection', function(socket){
+//   socket.on('event', function(data){});
+//   socket.on('disconnect', function(){});
+// });
 
 module.exports = app;
