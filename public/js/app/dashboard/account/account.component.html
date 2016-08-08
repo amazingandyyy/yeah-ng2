@@ -10,9 +10,9 @@
                     <hr/>
                     <div class="row">
                         <div class="col-xs-4">邮箱</div>
-                        <div class="col-xs-8">{{currentUser.email.data}}
+                        <div class="col-xs-8 text-lowercase">{{currentUser.email.data}}
                             <br>
-                            <span style="opacity: 0.7;">
+                            <span style="opacity: 0.6;">
                                 <small *ngIf="!currentUser.email.verified">(未认证)</small>
                                 <small *ngIf="currentUser.email.verified">(已认证)</small>
                             </span>

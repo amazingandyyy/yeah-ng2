@@ -39,7 +39,7 @@ export class AccountComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
+        // console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getUser();
     }

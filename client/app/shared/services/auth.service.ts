@@ -14,7 +14,6 @@ import { Auth } from '../types/auth';
 import { User } from '../types/user';
 
 // Using auth service to keep track of users' login status across all component
-
 @Injectable()
 export class AuthService {
     isLoggedIn: boolean = false;

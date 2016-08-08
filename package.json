@@ -67,6 +67,8 @@
     "serve-favicon": "~2.3.0",
     "stripe": "^4.8.0",
     "systemjs": "0.19.27",
+    "socket.io": "~1.4.6",
+    "socket.io-client": "~1.4.6",
     "twilio": "^2.9.1",
     "typescript-sass": "0.0.0",
     "typing": "^0.1.9",

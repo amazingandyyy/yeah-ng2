@@ -7,12 +7,12 @@ import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
     moduleId: module.id,
-    selector: 'yeah-pipe',
-    templateUrl: 'pipe.component.html',
-    styleUrls: ['pipe.style.css'],
+    selector: 'yeah-setting',
+    templateUrl: 'setting.component.html',
+    styleUrls: ['setting.style.css'],
     providers: [AuthService]
 })
-export class PipeComponent implements OnInit {
+export class SettingComponent implements OnInit {
     currentUser = {};
 
     constructor(

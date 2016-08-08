@@ -14,17 +14,14 @@ export class CheckinGuard implements CanActivate {
   jwtHelper: JwtHelper = new JwtHelper();
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    var current_user = JSON.parse(localStorage.getItem('current_user'))
     var token = JSON.parse(localStorage.getItem('id_token'))
-    
+
     if(token){
-      if(!this.jwtHelper.isTokenExpired(token) && current_user){
+      if(!this.jwtHelper.isTokenExpired(token)){
         this.router.navigate(['/dashboard']);
-        return true;
+        return false;
       }
     }
-
-    this.router.navigate(['/login']);
-    return false;
+    return true;
   }
 }
