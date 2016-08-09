@@ -37,5 +37,6 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         console.log('socket', this.socket);
+        this.socket.addEventListener('test');
     }
 }

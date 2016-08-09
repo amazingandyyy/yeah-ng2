@@ -7,15 +7,18 @@ export class SocketService {
 	socket: any;
 
 	constructor() {
-		const io = require('socket-client');
-		//** Change this for production
-		this.socket = io.connect('localhost:8000');
+		const io = require('socket-client'); //https://github.com/socketio/socket.io-client
+		this.socket = io.connect();
 	}
 
 	addEventListener(event: string) {
 		this.socket.on(event, function(data) {
 			console.log('things from socket', data);
 		});
+	}
+
+	removeEventListener(event: string) {
+		this.socket.removeAllListeners(event);
 	}
 
 	syncUpdates(modelName: string, array: Array<any>, cb: any) {
