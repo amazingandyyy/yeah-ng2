@@ -15,10 +15,10 @@
     var packages = {
         'app': { main: 'main.js', defaultExtension: 'js' },
         'rxjs': { defaultExtension: 'js' },
-        "angular2-jwt": { defaultExtension: 'js' },
+        'angular2-jwt': { defaultExtension: 'js' },
         'moment': { defaultExtension: 'js' },
         'lodash': { main: 'index.js', defaultExtension: 'js' },
-        "socket.io-client": { defaultExtension: "js" }
+        'socket.io-client': { defaultExtension: "js" }
     };
 
     var packageNames = [

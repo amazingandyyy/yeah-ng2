@@ -1,0 +1,27 @@
+<div class="container" style="padding-top: 50px;">
+    <h1>Explore</h1>
+    <div class="row" *ngIf="!(currentUser.role === 'student')">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-block">
+                    <h6>
+                        <b>职业</b><span class="editBtn">edit</span>
+                    </h6>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-xs-4">自我介绍</div>
+                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.selfIntro}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">语言</div>
+                        <div class="col-xs-8" *ngIf="currentUser.languages">
+                            <span *ngFor="let lang of currentUser.languages">{{lang}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
