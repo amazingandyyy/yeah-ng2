@@ -1,6 +1,7 @@
 'use strict';
 
 var User = require('./user.model');
+var _ = require('lodash');
 
 exports.index = function (req, res) {
     res.render('index');
@@ -48,5 +49,18 @@ exports.signup = function (req, res) {
     User.emailSignup(req.body, (err, data) => {
         if (err) return handleError(res, err)
         res.send(data)
+    });
+}
+
+exports.update = function (req, res) {
+    console.log('req', req);
+    User.findById(req.body._id, function (err, user) {
+        if (err) { return handleError(res, err); }
+        if(!user) { return res.status(404).send('Not Found'); }
+        var updated = _.merge(user, req.body);
+        updated.save(function (err) {
+          if (err) { return handleError(res, err); }
+          return res.status(200).json(user);
+        });
     });
 }
