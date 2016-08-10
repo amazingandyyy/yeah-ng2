@@ -25,7 +25,7 @@
 		<div class="row">
 			<div class="col-xs-12 animated fadeIn col" *ngIf="selectedRole">
 				<div class="card card-block authCard text-xs-center">
-					<h4 class="title">新欧耶{{roleCh}}</h4>
+					<h4 class="title">New {{roleCh}}</h4>
 					<p class="log" *ngIf="!message">{{logMessage}}</p>
 					<form (ngSubmit)='onSubmit(authForm.value)' #authForm="ngForm">
 						<div class="form-group">
@@ -35,11 +35,11 @@
 							<input required type="text" (ngModel)="auth.name" placeholder="Full Name" class="form-control" name="name" #name>
 						</div>
 						<div class="form-group">
-							<input required type="password" (ngModel)="auth.password" placeholder="密码" name="password" #password class="form-control" min="6">
+							<input required type="password" (ngModel)="auth.password" placeholder="Password" name="password" #password class="form-control" min="6">
 						</div>
 						<div class="form-group message-input" [ngClass]="{'focus-border': focused}">
 							<div [ngClass]="{'input-group': pwMsgSuccess || pwMsgFail}">
-								<input required type="password" [(ngModel)]="confirmPassword" placeholder="确认密码" name="confirmPassword" class="form-control" (keyup)="checkPw(authForm.value, confirmPassword)" (focus)="focused = true" (blur)="focused = false">
+								<input required type="password" [(ngModel)]="confirmPassword" placeholder="Confirmed Password" name="confirmPassword" class="form-control" (keyup)="checkPw(authForm.value, confirmPassword)" (focus)="focused = true" (blur)="focused = false">
 								<span class="input-group-addon" *ngIf="pwMsgSuccess">
 									<i class="fa fa-check"></i>
 								</span>
@@ -48,13 +48,15 @@
 								</span>
 							</div>
 						</div>
-						<div class="form-item">
+						<div class="form-item text-capitalize">
 							<button type="submit" class="btn btn-primary" [disabled]="!authForm.form.valid">
-								申请成为欧耶{{roleCh}}
+								Sign Up As {{roleCh}}
 							</button>
 						</div>
 					</form>
-					<p class="redirect">已经是{{roleCh}}了吗？<span [routerLink]="['/login']">这里登入</span></p>
+					<p class="redirect text-capitalize">
+						<span [routerLink]="['/login']">Login Here</span>
+					</p>
 				</div>
 			</div>
 		</div>

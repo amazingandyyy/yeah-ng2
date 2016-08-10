@@ -103,13 +103,13 @@ export class SignupComponent implements OnInit {
           this.selectedRole = params['role'];
           switch(this.selectedRole) {
             case 'student':
-              this.roleCh = '学员';
+              this.roleCh = 'Student';
               break;
             case 'advisor':
-              this.roleCh = '顾问';
+              this.roleCh = 'Advisor';
               break;
             case 'admin':
-              this.roleCh = '管理员';
+              this.roleCh = 'Admin';
               break;
           }
         });

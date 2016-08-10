@@ -78,7 +78,11 @@ app.use(function (err, req, res, next) {
     });
 });
 
-var server = http.createServer(app)
+var server = http.createServer(app);
+var socketio = require('socket.io')(server);
+
+require('./socketio')(socketio);
+
 server.listen(PORT, function() {
     console.log(`Listening on port ${PORT}`)
 })
@@ -86,10 +90,10 @@ server.on('error', function(err) {
     console.error(err)
 })
 // server.on('listening', )
-var io = require('socket.io')(server);
-io.on('connection', function(socket){
-  socket.on('event', function(data){});
-  socket.on('disconnect', function(){});
-});
+// var io = require('socket.io')(server);
+// io.on('connection', function(socket){
+//   socket.on('event', function(data){});
+//   socket.on('disconnect', function(){});
+// });
 
 module.exports = app;

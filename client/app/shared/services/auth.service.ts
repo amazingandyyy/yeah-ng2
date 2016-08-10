@@ -14,15 +14,15 @@ import { Auth } from '../types/auth';
 import { User } from '../types/user';
 
 // Using auth service to keep track of users' login status across all component
-
 @Injectable()
 export class AuthService {
-    isLoggedIn: boolean = false;
-    redirectUrl: string;
+     public isLoggedIn: boolean;
+     public redirectUrl: string;
+     public currentUser: {};
 
     constructor(
-        public http: Http,
-        public authHttp: AuthHttp,
+        private http: Http,
+        private authHttp: AuthHttp,
         private router: Router
     ) { }
 
@@ -32,19 +32,19 @@ export class AuthService {
             .catch(this.handelError)
     }
 
-    signUp (data: Auth): Observable<Auth>{
+    signUp(data: Auth): Observable<Auth> {
         return this.http.post('/api/user/signup', data)
             .map(this.handelResponse)
             .catch(this.handelError)
     }
 
-    logUserIn (data: Auth): Observable<Auth>{
+    logUserIn(data: Auth): Observable<Auth> {
         return this.http.post('/api/user/login', data)
             .map(this.handelResponse)
             .catch(this.handelError)
     }
 
-    logUserOut () {
+    logUserOut() {
         localStorage.removeItem('id_token')
         localStorage.removeItem('current_user')
         this.isLoggedIn = false;
@@ -52,13 +52,16 @@ export class AuthService {
         return 'logout';
     }
 
-    private handelResponse(res: Response) {
-        let data = res.json()
-        this.isLoggedIn = true
-        console.log('response @authService', data);
+    handelResponse(res: Response) {
+        let data = res.json();
+        // console.log('check1', this.isLoggedIn);
+        this.isLoggedIn = true;
+        // console.log('check2', this.isLoggedIn);
+        this.currentUser = data;
         return data || {};
     }
-    private handelError(err: any) {
+    
+     handelError(err: any) {
         console.log('err @authService: ', err);
         this.isLoggedIn = false;
         return Observable.throw(err);

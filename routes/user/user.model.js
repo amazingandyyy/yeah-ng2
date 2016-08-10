@@ -8,6 +8,7 @@ const moment = require('moment');
 const uuid = require('uuid');
 const autopopulate = require('mongoose-autopopulate');
 const CronJob = require('cron').CronJob;
+// const relationship = require('mongoose-relationship');
 
 const ses = require('node-ses')
 const SESserver = ses.createClient({
@@ -42,7 +43,7 @@ let userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: "student"
+        required: true
     },
     info: {
         // starting here are the keys everyone has
@@ -157,6 +158,7 @@ userSchema.statics.emailSignup = function (userObj, cb) {
                 info: {
                     name: userObj.name
                 },
+                role: userObj.role,
                 password: hash
             })
             user.save((err, savedUser) => {

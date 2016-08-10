@@ -6,7 +6,10 @@ import { AccountComponent } from './account/account.component';
 import { PipeComponent } from './pipe/pipe.component';
 import { ExploreComponent } from './explore/explore.component';
 import { ResumesComponent } from './resumes/resumes.component';
-import { LoginGuard } from '../shared/services/guard/login-guard.service';
+import { SettingComponent } from './setting/setting.component';
+import { CompanyComponent } from './company/company.component';
+
+import { LoginGuard, AdminGuard } from '../shared/services/guard/index';
 
 export const DashboardRoutes: RouterConfig = [
   {
@@ -18,7 +21,9 @@ export const DashboardRoutes: RouterConfig = [
       { path: 'pipe', component: PipeComponent},
       { path: 'explore', component: ExploreComponent},
       { path: 'resumes', component: ResumesComponent},
-      { path: 'account', component: AccountComponent }
+      { path: 'account', component: AccountComponent },
+      { path: 'setting', component: SettingComponent },
+      { path: 'company', component: CompanyComponent, canActivate: [AdminGuard]}
     ]
   }
 ];
