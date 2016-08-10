@@ -24,15 +24,15 @@ exports.getCurrentUser = function(req, res) {
     }
 };
 
-exports.getSingleUser = function(req, res) {
-    User.findById(req.params.userId,(err, data) => {
-            if (err) return res.status(404).send(err)
-            res.send(data)
-        })
-};
+// exports.getSingleUser = function(req, res) {
+//     User.findById(req.params.userId,(err, data) => {
+//             if (err) return res.status(404).send(err)
+//             res.send(data)
+//         })
+// };
 
 exports.getAllUsers = function(req, res) {
-    if(req.body.role > 99){
+    if(req.user.role == 'admin') {
         User.find({},(err, data) => {
             if (err) return res.status(409).send(err)
             res.send(data)

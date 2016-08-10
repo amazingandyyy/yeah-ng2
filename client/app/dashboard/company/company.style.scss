@@ -5,7 +5,7 @@
     // box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.15);
     user-select: none;
     .row {
-        text-transform: capitalize;
+        // text-transform: capitalize;
         padding: 8px 5px;
         .col-xs-4 {
             text-align: left;
@@ -35,6 +35,10 @@
                 color: $brand-primary;
             }
         }
+    }
+
+    h3.title {
+        font-weight: 900;
     }
     .search-right {
         float: right;

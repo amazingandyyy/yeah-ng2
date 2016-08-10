@@ -10,12 +10,14 @@ var Controller = require('./user.controller');
 
 router.get('/', Controller.index);
 
+// user to get its own data, user need to login and it's the current user
 router.get('/currentUser/:userId', User.authMiddleware, Controller.getCurrentUser);
 
-router.get('/singleUser/:userId', User.roleMiddleware, Controller.getSingleUser);
+// just simpily get one user's data, user do not need to login
+// router.get('/singleUser/:userId', User.roleMiddleware, Controller.getSingleUser);
 
-//TO DO: add middleware to allow only the admin to get all users
-router.get('/all', User.roleMiddleware, Controller.getAllUsers);
+// admin to get all users' data!!! (extremely dangerous!!!)
+router.get('/all', User.authMiddleware, Controller.getAllUsers);
 
 router.post('/login', Controller.login);
 
