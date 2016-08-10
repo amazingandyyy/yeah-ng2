@@ -5,8 +5,6 @@ var router = express.Router();
 var User = require('./user.model');
 var Controller = require('./user.controller');
 
-// var qs = require('querystring');
-// var request = require('request');
 
 router.get('/', Controller.index);
 
