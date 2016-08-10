@@ -5,45 +5,45 @@
             <div class="card">
                 <div class="card-block">
                     <h6>
-                        <b>一般信息</b><span class="editBtn">edit</span>
+                        <b>General Infomation</b><span class="editBtn">edit</span>
                     </h6>
                     <hr/>
                     <div class="row">
-                        <div class="col-xs-4">邮箱</div>
+                        <div class="col-xs-4">Email</div>
                         <div class="col-xs-8 text-lowercase">{{currentUser.email.data}}
                             <br>
                             <span style="opacity: 0.6;">
-                                <small *ngIf="!currentUser.email.verified">(未认证)</small>
-                                <small *ngIf="currentUser.email.verified">(已认证)</small>
+                                <small *ngIf="!currentUser.email.verified">(not verified)</small>
+                                <small *ngIf="currentUser.email.verified">(verified)</small>
                             </span>
                         </div>
                     </div>
                     <div class="row" *ngIf="!(currentUser.role === 'student')">
-                        <div class="col-xs-4">Yeah邮箱</div>
+                        <div class="col-xs-4">Yeah Email</div>
                         <div class="col-xs-8">{{currentUser.yeahEmail}}</div>
                     </div>
                     <div class="row" *ngIf="currentUser.role === 'student'">
-                        <div class="col-xs-4">学校邮箱</div>
+                        <div class="col-xs-4">School Email (.edu)</div>
                         <div class="col-xs-8">{{currentUser.schoolEmail}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">全名</div>
+                        <div class="col-xs-4">Name</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.name}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">年龄</div>
+                        <div class="col-xs-4">Ages</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.age}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">身分</div>
+                        <div class="col-xs-4">Role</div>
                         <div class="col-xs-8" *ngIf="currentUser.role">{{currentUser.role}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">手机号</div>
+                        <div class="col-xs-4">Phone Number</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.phone}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">微信号</div>
+                        <div class="col-xs-4">Wechat ID</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.wechat}}</div>
                     </div>
                 </div>
@@ -57,31 +57,31 @@
             <div class="card">
                 <div class="card-block">
                     <h6>
-                        <b>用戶概况</b><span class="editBtn">edit</span>
+                        <b>Profile</b><span class="editBtn">edit</span>
                     </h6>
                     <hr/>
                     <div class="row">
-                        <div class="col-xs-4">现读学校</div>
+                        <div class="col-xs-4">Current College</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">
                             {{currentUser.info.school}}
                             <small *ngIf="currentUser.info.graduateDate">{{generateDate(currentUser.info.graduateDate)}}</small>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">专业</div>
+                        <div class="col-xs-4">Intended Major</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.major}}
                         </div>
                     </div>
                     <div class="row" *ngIf="currentUser.role.indexOf(student) !== -1">
-                        <div class="col-xs-4">目标学校</div>
+                        <div class="col-xs-4">Intended University</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.intendedSchool}}</div>
                     </div>
-                    <div class="row" *ngIf="currentUser.role.indexOf(student) !== -1">
-                        <div class="col-xs-4">目标专业</div>
+                    <!--<div class="row" *ngIf="currentUser.role.indexOf(student) !== -1">
+                        <div class="col-xs-4">Service Packages</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.customService}}</div>
-                    </div>
+                    </div>-->
                     <div class="row" *ngIf="currentUser.role.indexOf(student) !== -1">
-                        <div class="col-xs-4">转学时间</div>
+                        <div class="col-xs-4">Transfer Time</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.expectedTranser}}</div>
                     </div>
                 </div>
@@ -99,23 +99,23 @@
                     </h6>
                     <hr/>
                     <div class="row">
-                        <div class="col-xs-4">服务类型</div>
+                        <div class="col-xs-4">Service package</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.package}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">加入时间</div>
+                        <div class="col-xs-4">Join time</div>
                         <div class="col-xs-8" *ngIf="currentUser.createAt">{{generateTime(currentUser.createAt)}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">欧耶签约人</div>
+                        <div class="col-xs-4">Yeah Contractor</div>
                         <div class="col-xs-8">{{currentUser.contractor}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">欧耶监护人</div>
+                        <div class="col-xs-4">Yeah Guardian</div>
                         <div class="col-xs-8">{{currentUser.guardian}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">欧耶顾问</div>
+                        <div class="col-xs-4">Yeah Advisor</div>
                         <div class="col-xs-8">{{currentUser.advisor}}</div>
                     </div>
                 </div>
@@ -129,15 +129,15 @@
             <div class="card">
                 <div class="card-block">
                     <h6>
-                        <b>职业</b><span class="editBtn">edit</span>
+                        <b>Profession</b><span class="editBtn">edit</span>
                     </h6>
                     <hr/>
                     <div class="row">
-                        <div class="col-xs-4">自我介绍</div>
+                        <div class="col-xs-4">Brief Introduction</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.selfIntro}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">语言</div>
+                        <div class="col-xs-4">Spoken Languages</div>
                         <div class="col-xs-8" *ngIf="currentUser.languages">
                             <span *ngFor="let lang of currentUser.languages">{{lang}}</span>
                         </div>

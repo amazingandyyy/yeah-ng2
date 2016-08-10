@@ -43,7 +43,7 @@ let userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: "student"
+        required: true
     },
     info: {
         // starting here are the keys everyone has
@@ -158,6 +158,7 @@ userSchema.statics.emailSignup = function (userObj, cb) {
                 info: {
                     name: userObj.name
                 },
+                role: userObj.role,
                 password: hash
             })
             user.save((err, savedUser) => {

@@ -6,8 +6,16 @@ import { AuthService }            from '../auth.service';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
+  constructor(
+    private router: Router
+  ) { }
+  
   canActivate() {
-    console.log('AdminGuard#canActivate called');
-    return true;
+    var current_user = JSON.parse(localStorage.getItem('current_user'));
+    if(current_user.role == 'admin'){
+      console.log('AdminGuard passed');
+      return true;
+    }
+    return false;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router }    from '@angular/router';
 import moment = require('moment');
 
@@ -29,12 +29,15 @@ export class AccountComponent implements OnInit {
     }
 
     getUser() {
+        console.log(this.authService.isLoggedIn);
         this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
-            user => this.currentUser = user,
+            user => {
+                this.currentUser = user
+            },
             error => {
                 this.authService.logUserOut();
-                console.log(<any>error)
+                console.log(<any>error);
             });
     }
 

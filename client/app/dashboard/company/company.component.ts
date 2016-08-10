@@ -7,12 +7,12 @@ import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
     moduleId: module.id,
-    selector: 'yeah-explore',
-    templateUrl: 'explore.component.html',
-    styleUrls: ['explore.style.css'],
+    selector: 'yeah-company',
+    templateUrl: 'company.component.html',
+    styleUrls: ['company.style.css'],
     providers: [AuthService]
 })
-export class ExploreComponent implements OnInit {
+export class CompanyComponent implements OnInit {
     currentUser = {};
 
     constructor(

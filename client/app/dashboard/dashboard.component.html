@@ -1,12 +1,13 @@
 <div class="dashboard-page">
     <span (click)="profileToggled=false; inboxToggled=false">
         <nav>
-            <div>欧耶转学助手</div>
+            <div>Yeah Education</div>
         </nav>
         <div class="menu">
-            <div [routerLink]="['/dashboard/pipe']" class="menu-item" (click)="checkMenuStyle('pipe')" [class.active]="currentSession==='pipe'">转学流程</div>
-            <div [routerLink]="['/dashboard/explore']" class="menu-item" (click)="checkMenuStyle('explore')" [class.active]="currentSession==='explore'">探索资源</div>
-            <div [routerLink]="['/dashboard/resumes']" class="menu-item" (click)="checkMenuStyle('resumes')" [class.active]="currentSession==='resumes'">履历表</div>
+            <div [routerLink]="['/dashboard/pipe']" class="menu-item" (click)="checkMenuStyle('pipe')" [class.active]="currentSession==='pipe'">Timeline</div>
+            <div [routerLink]="['/dashboard/explore']" class="menu-item" (click)="checkMenuStyle('explore')" [class.active]="currentSession==='explore'">Explore</div>
+            <div [routerLink]="['/dashboard/resumes']" class="menu-item" (click)="checkMenuStyle('resumes')" [class.active]="currentSession==='resumes'">Resumes</div>
+            <div [routerLink]="['/dashboard/company']" class="menu-item" (click)="checkMenuStyle('company')" [class.active]="currentSession==='company'" *ngIf="currentUserRole=='admin' ">Company</div>
         </div>
         <router-outlet></router-outlet>
     </span>
@@ -17,9 +18,9 @@
             <i class="fa fa-bell" (click)="inboxToggled = !inboxToggled; profileToggled = false"></i>
             <div class="list-menu" *ngIf="inboxToggled" [class.active]="inboxToggled">
                 <ul>
-                    <li>訊息</li>
-                    <li>訊息</li>
-                    <li>查看更多信息</li>
+                    <li>message</li>
+                    <li>message</li>
+                    <li>more messages</li>
                 </ul>
             </div>
         </span>
@@ -27,9 +28,9 @@
             <i class="fa fa-user" (click)="profileToggled = !profileToggled; inboxToggled = false"></i>
             <div class="list-menu" *ngIf="profileToggled" [class.active]="profileToggled">
                 <ul (click)="profileToggled=false; inboxToggled=false">
-                    <li [routerLink]="['/dashboard/account']" class="text-capitalize">个人信息</li>
-                    <li [routerLink]="['/dashboard/setting']" class="text-capitalize">设定</li>
-                    <li class="text-capitalize" (click)="logout()">登出</li>
+                    <li [routerLink]="['/dashboard/account']" class="text-capitalize">Profile</li>
+                    <li [routerLink]="['/dashboard/setting']" class="text-capitalize">Setting</li>
+                    <li class="text-capitalize" (click)="logout()">Log Out</li>
                 </ul>
             </div>
         </span>
