@@ -15,16 +15,14 @@ import { User } from '../types/user';
 
 // Using auth service to keep track of users' login status across all component
 @Injectable()
-export class AdminService {
+export class UserDataService {
 
     constructor(
-        private http: Http,
-        private authHttp: AuthHttp,
-        private router: Router
+        private http: Http
     ) { }
 
-    getAllUsers(): Observable<User> {
-        return this.authHttp.get(`/api/user/all/`)
+    getSingleUser(userId): Observable<User> {
+        return this.http.get(`/api/user/singleUser/${userId}`)
             .map(this.handelResponse)
             .catch(this.handelError)
     }
@@ -35,7 +33,7 @@ export class AdminService {
     }
     
      handelError(err: any) {
-        console.log('err @adminService: ', err);
+        console.log('err @userService: ', err);
         return Observable.throw(err);
     }
 

@@ -10,7 +10,7 @@
                         <input type="text" class="form-control" placeholder="Search for members...">
                     </div>
                     <div class="col-sm-12">
-                        total: 
+                        Total: 105 users (80 students, 15 advisors, 10 admins) 
                     </div>
                 </div>
                 <hr>
@@ -24,6 +24,7 @@
                                         <th>Role</th>
                                         <th>Email (username)</th>
                                         <th>Last Activated</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -32,6 +33,9 @@
                                         <td>{{userDataList[userKey].role}}</td>
                                         <td>{{userDataList[userKey].email.data}} <small>- {{userDataList[userKey].email.verified}}</small></td>
                                         <td>{{renderLLT(userDataList[userKey].lastLoginTime[0])}}</td>
+                                        <td>
+                                            <span class="moreInfo" (click)="getSingleUser(userDataList[userKey]._id)">Info</span>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

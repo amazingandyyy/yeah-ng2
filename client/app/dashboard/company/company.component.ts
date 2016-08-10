@@ -3,24 +3,27 @@ import { Router }    from '@angular/router';
 import moment = require('moment');
 
 import { User } from '../../shared/types/user'
-import { AuthService, AdminService } from '../../shared/services/index';
+import { AuthService, AdminService, UserDataService } from '../../shared/services/index';
 
 @Component({
     moduleId: module.id,
     selector: 'yeah-company',
     templateUrl: 'company.component.html',
     styleUrls: ['company.style.css'],
-    providers: [AuthService, AdminService]
+    providers: [AuthService, AdminService, UserDataService]
 })
 export class CompanyComponent implements OnInit {
     private currentUser = {};
     private userDataList = {};
     private arrayOfUsersKeys = [];
+    private selectedUserId: string;
+    private selectedUser = {};
 
     constructor(
         private router: Router,
         private authService: AuthService,
-        private adminService: AdminService
+        private adminService: AdminService,
+        private userDataService: UserDataService
     ) { }
 
     getUser() {
@@ -51,6 +54,22 @@ export class CompanyComponent implements OnInit {
 
     renderLLT(unix){
         return moment(unix).format('LLL');
+    }
+
+
+    getSingleUser(userId: string) {
+        this.selectedUserId = userId;
+        this.userDataService.getSingleUser(userId)
+            .subscribe(
+            user => {
+                if(user._id == this.selectedUserId){
+                    console.log('Single User: ', user);
+                    this.selectedUser = user;
+                }
+            },
+            error => {
+                console.log(<any>error)
+            });
     }
 
 
