@@ -17,10 +17,11 @@ router.get('/singleUser/:userId', Controller.getSingleUser);
 // admin to get all users' data!!! (extremely dangerous!!!)
 router.get('/all', User.authMiddleware, Controller.getAllUsers);
 
+router.post('/update', Controller.update);
+
 router.post('/login', Controller.login);
 
 router.post('/signup', Controller.signup);
 
-router.post('/update', Controller.update);
 
 module.exports = router;
