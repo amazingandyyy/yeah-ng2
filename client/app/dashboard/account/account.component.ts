@@ -14,6 +14,7 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class AccountComponent implements OnInit {
     currentUser = {};
+    editGI: boolean;
 
     constructor(
         private router: Router,
@@ -39,6 +40,17 @@ export class AccountComponent implements OnInit {
                 this.authService.logUserOut();
                 console.log(<any>error);
             });
+    }
+
+    onSubmit(value: any) {
+        //Send updated user object to backend
+        console.log('clicked', value);
+        
+        this.authService.updateUser(value);
+    }
+
+    edit(cardName: string) {
+        this[cardName] = !(this[cardName]);
     }
 
     ngOnInit() {
