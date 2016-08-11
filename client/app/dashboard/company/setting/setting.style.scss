@@ -1,8 +1,12 @@
 @import "../../shared/scss/variables";
 @import "../../shared/scss/global";
 
+
 .card-block {
+    // box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.15);
+    user-select: none;
     .row {
+        text-transform: capitalize;
         padding: 8px 5px;
         .col-xs-4 {
             text-align: left;
@@ -31,41 +35,6 @@
             &:active {
                 color: $brand-primary;
             }
-        }
-    }
-    .search-right {
-        float: right;
-    }
-    .moreInfo {
-        cursor: pointer;
-        opacity: 0.7;
-        &:hover{
-            opacity: 1;
-        }
-    }
-}
-
-h3.title {
-    font-weight: 900;
-}
-
-.side-menu {
-    .menu-item{
-        padding: 8px 10px;
-        border-bottom: 1px solid rgba($deep-gray, 0.07);
-        cursor: pointer;
-        &:hover{
-            background: darken($light-gray, 1%);
-        }
-        &:first-child {
-            border-radius: 4px 4px 0px 0px; 
-        }
-        &:last-child {
-            border-radius: 0px 0px 4px 4px;
-            border-bottom: 1px solid rgba($deep-gray, 0);
-        }
-        &.active{
-            font-weight: 600;
         }
     }
 }

@@ -101,5 +101,6 @@ export class MembersComponent implements OnInit {
     ngOnInit() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getUser();
+        this.getUsers();
     }
 }

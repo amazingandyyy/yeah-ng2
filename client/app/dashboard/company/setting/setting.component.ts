@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ROUTER_DIRECTIVES }    from '@angular/router';
+import { Router }    from '@angular/router';
+import moment = require('moment');
 
 import { User } from '../../shared/types/user'
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
     moduleId: module.id,
-    selector: 'yeah-company',
-    templateUrl: 'company.component.html',
-    styleUrls: ['company.style.css'],
-    providers: [AuthService],
-    directives: [ROUTER_DIRECTIVES]
+    selector: 'yeah-setting',
+    templateUrl: 'setting.component.html',
+    styleUrls: ['setting.style.css'],
+    providers: [AuthService]
 })
-export class CompanyComponent implements OnInit {
+export class SettingComponent implements OnInit {
     currentUser = {};
 
     constructor(
         private router: Router,
         private authService: AuthService
     ) { }
-    
+
     getCurrentUser() {
         this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
@@ -31,6 +31,7 @@ export class CompanyComponent implements OnInit {
     }
 
     ngOnInit() {
+        // console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getCurrentUser();
     }

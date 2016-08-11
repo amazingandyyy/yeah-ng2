@@ -11,6 +11,8 @@ import { CompanyComponent } from './company/company.component';
 import { MembersComponent } from './company/members.component';
 import { SalesComponent }   from './company/sales.component';
 
+import { CompanyRoutes } from './company/company.routes'; 
+
 import { LoginGuard, AdminGuard } from '../shared/services/guard/index';
 
 export const DashboardRoutes: RouterConfig = [
@@ -25,13 +27,7 @@ export const DashboardRoutes: RouterConfig = [
       { path: 'resumes', component: ResumesComponent },
       { path: 'account', component: AccountComponent },
       { path: 'setting', component: SettingComponent },
-      { path: 'company', component: CompanyComponent,
-        children: [
-          { path: '', component: MembersComponent },
-          { path: 'members', component: MembersComponent },
-          { path: 'sales', component: SalesComponent }
-        ]
-      }
+      ...CompanyRoutes
     ]
   }
 ];

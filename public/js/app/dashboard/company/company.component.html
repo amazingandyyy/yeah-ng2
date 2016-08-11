@@ -1,11 +1,9 @@
 <div class="container-fluid" style="padding-top: 50px; max-width: 1200px;">
     <div class="row">
         <div class="col-sm-3" *ngIf="currentUser.role === 'admin' ">
-            <div class="card">
-                <div class="card-block">
-                    <div routerLink="/dashboard/company/members">Members</div>
-                    <div routerLink="/dashboard/company/sales">Sales</div>
-                </div>
+            <div class="card side-menu">
+                <div class="menu-item" routerLink="/dashboard/company/members">Members</div>
+                <div class="menu-item" routerLink="/dashboard/company/sales">Sales</div>
             </div>
         </div>
         <div class="col-sm-9">
