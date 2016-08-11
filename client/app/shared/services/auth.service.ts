@@ -51,6 +51,12 @@ export class AuthService {
         this.router.navigate(['/'])
         return 'logout';
     }
+   
+    updateUser(data: any): Observable<any> {
+        return this.http.post('/api/user/update', data)
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
 
     handelResponse(res: Response) {
         let data = res.json();

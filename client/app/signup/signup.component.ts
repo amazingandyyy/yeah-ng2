@@ -108,8 +108,14 @@ export class SignupComponent implements OnInit {
             case 'advisor':
               this.roleCh = 'Advisor';
               break;
+            case 'supervisor':
+              this.roleCh = 'Supervisor';
+              break;
             case 'admin':
               this.roleCh = 'Admin';
+              break;
+            case 'superadmin':
+              this.roleCh = 'Superadmin';
               break;
           }
         });

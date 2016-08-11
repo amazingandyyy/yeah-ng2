@@ -1,0 +1,47 @@
+<br><br>
+<h1>member</h1>
+<!--<div class="row">
+    <div class="col-sm-8">
+        <h3 class="title">Members</h3>
+    </div>
+    <div class="col-sm-4" *ngIf="arrayOfUsersKeys.length > 0">
+        <input type="text" class="form-control" placeholder="Search for members...">
+    </div>
+</div>
+<div class="row" *ngIf="arrayOfUsersKeys.length > 0">
+    <div class="col-sm-12">
+        {{showSummary()}}
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive" *ngIf="arrayOfUsersKeys.length > 0">
+            <table class="table table-hover table-bordered table-sm">
+                <thead class="thead-default">
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Email (username)</th>
+                        <th>Last Activated</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let userKey of arrayOfUsersKeys">
+                        <th>{{userDataList[userKey].info.name}}</th>
+                        <td>{{userDataList[userKey].role}}</td>
+                        <td>{{userDataList[userKey].email.data}} <small>- {{userDataList[userKey].email.verified}}</small></td>
+                        <td>{{renderLLT(userDataList[userKey].lastLoginTime[0])}}</td>
+                        <td (click)="getSingleUser(userDataList[userKey]._id)">
+                            <span class="moreInfo">Info</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="arrayOfUsersKeys.length < 1">
+            <button class="btn btn-primary" (click)="getUsers()">Get All Users</button>
+        </div>
+    </div>
+</div>-->

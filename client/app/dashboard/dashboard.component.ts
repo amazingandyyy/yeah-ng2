@@ -56,6 +56,6 @@ export class DashboardComponent implements OnInit{
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getUser();
         console.log('socket', this.socket);
-        this.socket.addEventListener('test');
+        //Use socket to update user information on save
     }
 }

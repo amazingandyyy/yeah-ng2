@@ -20,7 +20,7 @@ export class PipeComponent implements OnInit {
         private authService: AuthService
     ) { }
 
-    getUser() {
+    getCurrentUser() {
         this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
             user => this.currentUser = user,
@@ -33,6 +33,6 @@ export class PipeComponent implements OnInit {
     ngOnInit() {
         // console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
-        this.getUser();
+        this.getCurrentUser();
     }
 }

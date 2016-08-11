@@ -43,6 +43,7 @@ let userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
+        default: 'student',
         required: true
     },
     info: {

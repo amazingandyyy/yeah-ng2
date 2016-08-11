@@ -14,6 +14,7 @@ import { AuthConfig, AUTH_PROVIDERS} from 'angular2-jwt';
 // if (process.env.NODE_ENV === "production") {
 //     enableProdMode();
 // }
+enableProdMode();
 
 bootstrap(AppComponent, [
     appRouterProviders,
