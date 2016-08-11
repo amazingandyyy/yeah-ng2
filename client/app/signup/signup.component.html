@@ -3,22 +3,34 @@
         <a href="#"><img class="logo" src="/assets/images/logo-color.png"></a>
 		<br/>
 		<div class="row">
-			<div class="col-xs-4 roleOpt col">
+			<div class="col-xs-6 roleOpt col">
 				<div (click)="goToForm('student')" class="card card-block text-xs-center" [ngClass]="{active: checkStyle('student')}">
 					<p><b>Student</b></p>
 					<small><p>学员</p></small>
 				</div>
 			</div>
-			<div class="col-xs-4 roleOpt col">
+			<div class="col-xs-6 roleOpt col">
 				<div (click)="goToForm('advisor')" class="card card-block text-xs-center" [ngClass]="{active: checkStyle('advisor')}">
 					<p><b>Advisor</b></p>
 					<small><p>顾问</p></small>
 				</div>
 			</div>
 			<div class="col-xs-4 roleOpt col">
+				<div (click)="goToForm('supervisor')" class="card card-block text-xs-center" [ngClass]="{active: checkStyle('supervisor')}">
+					<p><b>Supervisor</b></p>
+					<small><p>上级顾问</p></small>
+				</div>
+			</div>
+			<div class="col-xs-4 roleOpt col">
 				<div (click)="goToForm('admin')" class="card card-block text-xs-center" [ngClass]="{active: checkStyle('admin')}">
-					<p><b>Admin</b></p>
+					<p><b>Administrator</b></p>
 					<small><p>管理员</p></small>
+				</div>
+			</div>
+			<div class="col-xs-4 roleOpt col">
+				<div (click)="goToForm('superadmin')" class="card card-block text-xs-center" [ngClass]="{active: checkStyle('superadmin')}">
+					<p><b>Superadmin</b></p>
+					<small><p>高级管理员</p></small>
 				</div>
 			</div>
 		</div>

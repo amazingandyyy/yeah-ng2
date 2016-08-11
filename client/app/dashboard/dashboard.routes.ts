@@ -13,7 +13,7 @@ import { SalesComponent }   from './company/sales.component';
 
 import { CompanyRoutes } from './company/company.routes'; 
 
-import { LoginGuard, AdminGuard } from '../shared/services/guard/index';
+import { LoginGuard } from '../shared/services/guard/index';
 
 export const DashboardRoutes: RouterConfig = [
   {

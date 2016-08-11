@@ -5,13 +5,13 @@ import { CompanyComponent } from './company.component';
 import { MembersComponent } from './members.component';
 import { SalesComponent }   from './sales.component';
 
-import { LoginGuard, AdminGuard } from '../../shared/services/guard/index';
+import { LoginGuard, SuperadminGuard } from '../../shared/services/guard/index';
 
 export const CompanyRoutes: RouterConfig = [
     {
         path: 'company', 
         component: CompanyComponent,
-        canActivate: [AdminGuard],
+        canActivate: [SuperadminGuard],
         children: [
             { path: '', component: MembersComponent },
             { path: 'members', component: MembersComponent },

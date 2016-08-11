@@ -33,13 +33,13 @@ exports.getSingleUser = function (req, res) {
 };
 
 exports.getAllUsers = function (req, res) {
-    if (req.user.role == 'admin') {
+    if (req.user.role == 'superadmin') {
         User.find({}, (err, data) => {
             if (err) return res.status(409).send(err)
             res.send(data)
         })
     } else {
-        res.send({ message: 'you are not admin' })
+        res.send({ message: 'you are not superadmin' })
     }
 };
 

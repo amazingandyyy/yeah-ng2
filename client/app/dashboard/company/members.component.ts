@@ -3,7 +3,7 @@ import { Router, ROUTER_DIRECTIVES }    from '@angular/router';
 import moment = require('moment');
 
 import { User } from '../../shared/types/user'
-import { AuthService, AdminService, UserDataService } from '../../shared/services/index';
+import { AuthService, SuperadminService, UserDataService } from '../../shared/services/index';
 
 @Component({
     moduleId: module.id,
@@ -11,7 +11,7 @@ import { AuthService, AdminService, UserDataService } from '../../shared/service
     templateUrl: 'members.component.html',
     styleUrls: ['company.style.css'],
     directives: [ROUTER_DIRECTIVES],
-    providers: [AuthService, AdminService, UserDataService]
+    providers: [AuthService, SuperadminService, UserDataService]
 })
 export class MembersComponent implements OnInit {
     private currentUser = {};
@@ -27,7 +27,7 @@ export class MembersComponent implements OnInit {
     constructor(
         private router: Router,
         private authService: AuthService,
-        private adminService: AdminService,
+        private superadminService: SuperadminService,
         private userDataService: UserDataService
     ) { }
 
@@ -44,7 +44,7 @@ export class MembersComponent implements OnInit {
     }
 
     getUsers() {
-        this.adminService.getAllUsers()
+        this.superadminService.getAllUsers()
             .subscribe(
             users => {
                 console.log('All Users: ', users);
@@ -96,7 +96,6 @@ export class MembersComponent implements OnInit {
                 console.log(<any>error)
             });
     }
-
 
     ngOnInit() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
