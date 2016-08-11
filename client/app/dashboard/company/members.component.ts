@@ -62,7 +62,6 @@ export class MembersComponent implements OnInit {
         this.advisorsList = [];
         this.adminsList = [];
         this.arrayOfUsersKeys.forEach(userKey => {
-            console.log(userKey, this.userDataList[userKey]);
             switch (this.userDataList[userKey].role) {
                 case 'student':
                     this.studentsList.push(this.userDataList[userKey])

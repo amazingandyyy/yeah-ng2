@@ -1,3 +1,7 @@
+/**
+ * Server side boostrap file
+ */
+
 'use strict'
 require('dotenv').config()
 
@@ -13,7 +17,7 @@ var mongoose = require('mongoose');
 const PORT = process.env.PORT
 const MONGOURL = process.env.MONGOLAB_URI
 
-// set up mongoDB connection
+// Set up mongoDB connection if the JWT_SECRET is available
 if (!process.env.JWT_SECRET) {
     console.error(error(`ERROR:  Missing process.env.JWT_SECRET.`))
 } else {
@@ -24,76 +28,41 @@ if (!process.env.JWT_SECRET) {
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
+// Setup view engine
+app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs');
 
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// Do some express routine
+app
+    .use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+    .use(logger('dev'))
+    .use(bodyParser.json())
+    .use(bodyParser.urlencoded({extended: true}))
+    .use(cookieParser())
+    .use(express.static(path.join(__dirname, 'public')));
 
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DEvarE');
-    next();
-});
+// Kickstart route
+app.use('/', require('./components/index'))
 
-// kickstart route
-app.use('/', require('./routes/index'))
-
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function (req, res, next) {
     res.status(404).render('404', {title: "Sorry, page is currently not available."});
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function (err, req, res, next) {
-        res.status(err.status || 500);
-        res.json({
-            message: err.message,
-            error: err
-        });
-    });
-}
-
-app.use(function(req, res) {
-    res.status(404).render('404')
-})
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
-
+// Create server
 var server = http.createServer(app);
+// Make socket avalable
 var socketio = require('socket.io')(server);
-
+// Kickstart socket
 require('./socketio')(socketio);
 
+// Log: when server start smoothly/badly
 server.listen(PORT, function() {
     console.log(`Listening on port ${PORT}`)
 })
 server.on('error', function(err) {
     console.error(err)
 })
-// server.on('listening', )
-// var io = require('socket.io')(server);
-// io.on('connection', function(socket){
-//   socket.on('event', function(data){});
-//   socket.on('disconnect', function(){});
-// });
 
+// Make the app available
 module.exports = app;

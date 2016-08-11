@@ -13,9 +13,9 @@ function onDisconnect(socket) {
 function onConnect(socket) {
   
   // Share socket for other modules
-  require('./routes/sockets').getSocket(socket);
+  require('./components/sockets').getSocket(socket);
   // Insert sockets for model change below
-  require('./routes/user/user.socket').register(socket);
+  require('./components/user/user.socket').register(socket);
   
 }
 
