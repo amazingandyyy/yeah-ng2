@@ -25,12 +25,9 @@ export const DashboardRoutes: RouterConfig = [
       { path: 'resumes', component: ResumesComponent },
       { path: 'account', component: AccountComponent },
       { path: 'setting', component: SettingComponent },
-      {
-        path: 'company', 
-        component: CompanyComponent,
-        canActivate: [AdminGuard],
+      { path: 'company', component: CompanyComponent,
         children: [
-          { path: '', component: CompanyComponent },
+          { path: '', component: MembersComponent },
           { path: 'members', component: MembersComponent },
           { path: 'sales', component: SalesComponent }
         ]

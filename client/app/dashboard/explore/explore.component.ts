@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router }    from '@angular/router';
+import { Router, ROUTER_DIRECTIVES }    from '@angular/router';
 import moment = require('moment');
 
 import { User } from '../../shared/types/user'
@@ -10,7 +10,8 @@ import { AuthService } from '../../shared/services/auth.service';
     selector: 'yeah-explore',
     templateUrl: 'explore.component.html',
     styleUrls: ['explore.style.css'],
-    providers: [AuthService]
+    providers: [AuthService],
+    directives: [ROUTER_DIRECTIVES]
 })
 export class ExploreComponent implements OnInit {
     currentUser = {};
