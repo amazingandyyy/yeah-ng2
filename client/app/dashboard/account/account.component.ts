@@ -28,7 +28,7 @@ export class AccountComponent implements OnInit {
         return moment(unix).format('LL');
     }
 
-    getUser() {
+    getCurrentUser() {
         console.log(this.authService.isLoggedIn);
         this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
@@ -44,6 +44,6 @@ export class AccountComponent implements OnInit {
     ngOnInit() {
         // console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
-        this.getUser();
+        this.getCurrentUser();
     }
 }
