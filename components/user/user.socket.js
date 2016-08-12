@@ -8,9 +8,11 @@ var User = require('./user.model');
 
 exports.register = function(socket) {
   User.schema.post('save', function (doc) {
+    // Call onSave
     onSave(socket, doc);
   });
   User.schema.post('remove', function (doc) {
+    // Call onRemove
     onRemove(socket, doc);
   });
 }
