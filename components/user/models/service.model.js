@@ -15,36 +15,50 @@ let serviceSchema = new mongoose.Schema({
         type: Number,
         default: Date.now
     },
+    package: {
+        type: String,
+        default: 'normal'
+    },
     details: {
-        package: String,
         student: {
             type: mongoose.Schema.ObjectId,
             ref: 'Student',
-            autopopulate: true
+            // autopopulate: true
         },
         advisor: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Advisor',
-            autopopulate: true
-        },
-        supervisor: {
-            {
+            userId: {
                 type: mongoose.Schema.ObjectId,
-                ref: 'Supervisor',
-                autopopulate: true
+                ref: 'Advisor',
+                // autopopulate: true
             },
             confirmed: {
-                type: Boolean
+                type: Boolean,
+                required: true,
+                default: false
+            }
+        },
+        supervisor: {
+            userId: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'Supervisor',
+                // autopopulate: true
+            },
+            confirmed: {
+                type: Boolean,
+                required: true,
+                default: false
             }
         },
         admin: {
             userId: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Admin',
-            autopopulate: true
-        },
+                type: mongoose.Schema.ObjectId,
+                ref: 'Admin',
+                // autopopulate: true
+            },
             confirmed: {
-                type: Boolean
+                type: Boolean,
+                required: true,
+                default: false
             }
         }
     }
