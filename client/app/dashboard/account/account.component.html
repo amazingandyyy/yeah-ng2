@@ -27,30 +27,30 @@
                                 <input type="email" class="form-control" placeholder="" [(ngModel)]="currentUser.email.data" name="email" [disabled]="true">
                             </div>
                         </div>
-                        <div class="row" *ngIf="(currentUser.role === 'admin') || (currentUser.role === 'superadmin')">
+                        <!--<div class="row" *ngIf="(currentUser.role === 'admin') || (currentUser.role === 'superadmin')">
                             <div class="col-xs-4">Yeah Email</div>
                             <div class="col-xs-8">
                                 <input type="email" class="form-control" placeholder="" [(ngModel)]="currentUser.yeahEmail" name="yeahEmail" [disabled]="!editGI">
                             </div>
-                        </div>
-                        <div class="row" *ngIf="currentUser.role === 'student'">
+                        </div>-->
+                        <!--<div class="row" *ngIf="currentUser.role === 'student'">
                             <div class="col-xs-4">School Email <span style="text-transform: lowercase">(.edu)</span></div>
                             <div class="col-xs-8">
                                 <input type="email" class="form-control" placeholder="" [(ngModel)]="currentUser.schoolEmail" name="schoolEmail" [disabled]="!editGI">
                             </div>
-                        </div>
+                        </div>-->
                         <div class="row">
                             <div class="col-xs-4">Name</div>
                             <div class="col-xs-8" *ngIf="currentUser.info">
                                 <input type="text" class="form-control" placeholder="" [(ngModel)]="currentUser.info.name" name="name" [disabled]="!editGI">
                             </div>
                         </div>
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-xs-4">Ages</div>
                             <div class="col-xs-8" *ngIf="currentUser.info">
                                 <input type="text" class="form-control" placeholder="" [(ngModel)]="currentUser.info.age" name="age" [disabled]="!editGI">
                             </div>
-                        </div>
+                        </div>-->
                         <div class="row">
                             <div class="col-xs-4">Role</div>
                             <div class="col-xs-8" *ngIf="currentUser.role">
@@ -60,13 +60,13 @@
                         <div class="row">
                             <div class="col-xs-4">Phone Number</div>
                             <div class="col-xs-8" *ngIf="currentUser.info">
-                                <input type="text" class="form-control" placeholder="" [(ngModel)]="currentUser.info.phone" name="phone" [disabled]="!editGI">
+                                <input type="number" class="form-control" placeholder="" [(ngModel)]="currentUser.info.phone" name="phone" [disabled]="!editGI">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-4">Wechat ID</div>
                             <div class="col-xs-8" *ngIf="currentUser.info">
-                                <input type="text" class="form-control" placeholder="" [(ngModel)]="currentUser.info.wechat" name="wechat" [disabled]="!editGI">
+                                <input type="text" class="form-control" placeholder="wechat ID" [(ngModel)]="currentUser.info.wechatId" name="wechat" [disabled]="!editGI">
                             </div>
                         </div>
                     </div>
@@ -108,10 +108,6 @@
                         <div class="col-xs-4">Intended University</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.intendedSchool}}</div>
                     </div>
-                    <!--<div class="row" *ngIf="currentUser.role.indexOf(student) !== -1">
-                        <div class="col-xs-4">Service Packages</div>
-                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.customService}}</div>
-                    </div>-->
                     <div class="row" *ngIf="currentUser.role.indexOf(student) !== -1">
                         <div class="col-xs-4">Transfer Time</div>
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.expectedTranser}}</div>
@@ -135,7 +131,7 @@
                         <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.package}}</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">Join time</div>
+                        <div class="col-xs-4">Joining time</div>
                         <div class="col-xs-8" *ngIf="currentUser.createAt">{{generateTime(currentUser.createAt)}}</div>
                     </div>
                     <div class="row">

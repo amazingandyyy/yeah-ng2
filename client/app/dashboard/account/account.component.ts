@@ -54,7 +54,7 @@ export class AccountComponent implements OnInit {
             )
 
         function handleResponse(res) {
-            // Close the specific form
+            // After saving successfully Close the specific card(form)
             self[cardName] = !(self[cardName]);
         }
     }

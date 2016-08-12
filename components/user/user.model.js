@@ -8,7 +8,16 @@ const moment = require('moment');
 const uuid = require('uuid');
 const autopopulate = require('mongoose-autopopulate');
 const CronJob = require('cron').CronJob;
-// const relationship = require('mongoose-relationship');
+
+// Mongoose-relationship plugin: https://www.npmjs.com/package/mongoose-relationship
+const relationship = require('mongoose-relationship');
+
+// Import data from other roleSchema
+const Admin = require('./models/admin.model');
+const Advisor = require('./models/advisor.model');
+const Student = require('./models/student.model');
+const Superadmin = require('./models/superadmin.model');
+const Supervidor = require('./models/supervisor.model');
 
 // SES is AWS's simple email service
 const ses = require('node-ses')
@@ -16,12 +25,8 @@ const SESserver = ses.createClient({
     key: process.env.AWS_KEY,
     secret: process.env.AWS_SECRET
 })
+
 const SESService = require('./SES.service');
-
-// var Student = require('./student');
-// var Admin = require('./admin');
-// var Advisor = require('./advisor');
-
 const JWT_SECRET = process.env.JWT_SECRET;
 
 let User;
@@ -43,66 +48,40 @@ let userSchema = new mongoose.Schema({
         required: true,
         select: false
     },
+    name: String,
+    photo: {
+        url: String
+    },
     role: {
         type: String,
         default: 'student',
         required: true
     },
-    info: {
-        // starting here are the keys everyone has
-        name: String,
-        age: Number,
-        phone: Number,
-        weChat: String,
-        school: String,
-        graduateDate: Date,
-        major: String,
-        // starting here are the keys unique to student
-        schoolEmail: String,
-        intendedSchool: String,
-        intenededMajor: String,
-        yearOfStudy: String,
-        expectedTransfer: Date,
-        // starting here are the keys shared by advisor, admin, and supervisor
-        yeahEmail: String,
-        jobs: [
-            {
-                company: String,
-                title: String,
-                from: Date,
-                to: Date,
-                current: Boolean,
-                desc: String
-            }
-        ],
-        langauges: [
-            String
-        ],
-        bio: String,
-        quotes: String,
-        photo: [
-            {
-                id: String,
-                url: String,
-                thumbnail: String
-            }
-        ]
+    studentData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Student',
+        autopopulate: true
     },
-    // studentData: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Student',
-    //     autopopulate: true
-    // },
-    // advisorData: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Advisor',
-    //     autopopulate: true
-    // },
-    // adminData: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Admin',
-    //     autopopulate: true
-    // },
+    advisorData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Advisor',
+        autopopulate: true
+    },
+    supervisorData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Supervisor',
+        autopopulate: true
+    },
+    adminData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin',
+        autopopulate: true
+    },
+    superadminData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Superadmin',
+        autopopulate: true
+    },
     lastLoginTime: [{
         type: Number
     }],
