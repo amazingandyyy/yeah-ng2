@@ -18,7 +18,6 @@ const Advisor = require('./advisor.model');
 const Student = require('./student.model');
 const Superadmin = require('./superadmin.model');
 const Supervisor = require('./supervisor.model');
-const SignupService = require('./signup.service');
 
 // SES is AWS's simple email service
 const ses = require('node-ses')

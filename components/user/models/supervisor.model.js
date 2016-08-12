@@ -32,7 +32,7 @@ let supervisorSchema = new mongoose.Schema({
             positionDescription: String
         }
     },
-    service: [
+    services: [
         {
             type: mongoose.Schema.ObjectId,
             ref: 'Service',
