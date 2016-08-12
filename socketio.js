@@ -1,23 +1,22 @@
 /**
  * Socket.io configuration
  */
-
 'use strict';
-
 
 // When the user disconnects.. perform this
 function onDisconnect(socket) {
-}
+};
 
 // When the user connects.. perform this
 function onConnect(socket) {
   
   // Share socket for other modules
-  require('./routes/sockets').getSocket(socket);
+  require('./components/sockets').getSocket(socket);
+
   // Insert sockets for model change below
-  require('./routes/user/user.socket').register(socket);
-  
-}
+  require('./components/user/user.socket').register(socket);
+  // ... more to add
+};
 
 module.exports = function (socketio) {
 
@@ -31,12 +30,12 @@ module.exports = function (socketio) {
     // Call onDisconnect.
     socket.on('disconnect', function () {
       onDisconnect(socket);
-      console.info('USER DISCONNECTED');
+      console.info('Socket DISCONNECTED');
     });
 
     // Call onConnect.
     onConnect(socket);
    
-    console.info('USER CONNECTED');
+    console.info('Socket CONNECTED');
   });
 };

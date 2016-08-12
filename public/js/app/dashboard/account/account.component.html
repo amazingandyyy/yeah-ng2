@@ -5,199 +5,49 @@
             <div class="card">
                 <div class="card-block">
                     <h6>
-                        <b>General Infomation</b>
-                        <span class="editBtn" (click)="edit('editGI')" *ngIf="!(editGI)">edit</span>
-                        <span class="editBtn" (click)="edit('editGI')" *ngIf="editGI">
+                        <b>Account Infomation</b>
+                        <span class="editBtn" (click)="edit('editAI')" *ngIf="!(editAI)">
+                            edit
+                        </span>
+                        <span class="editBtn" (click)="edit('editAI')" *ngIf="editAI">
                             cancel
                         </span>
                     </h6>
                     <hr/>
-                    <div *ngIf="!(editGI)">
+                    <div>
                         <div class="row">
-                            <div class="col-xs-4">Email</div>
-                            <div class="col-xs-8 text-lowercase">{{currentUser.email.data}}
-                                <br>
+                            <div class="col-xs-4">
+                                <span>Email</span>
                                 <span style="opacity: 0.6;">
-                                    <small *ngIf="!currentUser.email.verified">(not verified)</small>
-                                    <small *ngIf="currentUser.email.verified">(verified)</small>
+                                    <small *ngIf="!currentUser.email.verified">(Not verified)</small>
+                                    <small *ngIf="currentUser.email.verified">(Verified)</small>
                                 </span>
                             </div>
-                        </div>
-                        <div class="row" *ngIf="!(currentUser.role === 'student')">
-                            <div class="col-xs-4">Yeah Email</div>
-                            <div class="col-xs-8">{{currentUser.yeahEmail}}</div>
-                        </div>
-                        <div class="row" *ngIf="currentUser.role === 'student'">
-                            <div class="col-xs-4">School Email (.edu)</div>
-                            <div class="col-xs-8">{{currentUser.schoolEmail}}</div>
+                            <div class="col-xs-8">
+                                <input type="email" class="form-control text-lowercase" placeholder="" [(ngModel)]="currentUser.email.data" name="email" [disabled]="true">
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-4">Name</div>
-                            <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.name}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4">Ages</div>
-                            <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.age}}</div>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" placeholder="" [(ngModel)]="currentUser.name" name="name" [disabled]="!editAI">
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-4">Role</div>
-                            <div class="col-xs-8" *ngIf="currentUser.role">{{currentUser.role}}</div>
+                            <div class="col-xs-8" *ngIf="currentUser.role">
+                                {{currentUser.role}}
+                            </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-4">Phone Number</div>
-                            <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.phone}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4">Wechat ID</div>
-                            <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.wechat}}</div>
-                        </div>     
                     </div>
-                    <!-- Form to edit general information -->
-                    <div *ngIf="editGI" class="container">
-                        <form class="form-horizontal">
-                          <div class="form-group">
-                            <label class="control-label col-xs-4" for="email">Email:</label>
-                            <div class="col-xs-8">
-                              <input type="email" class="form-control" placeholder="Enter email" [(ngModel)]="currentUser.email.data" name="email">
-                            </div>
-                          </div>
-                          <div class="form-group" *ngIf="!(currentUser.role === 'student')">
-                            <label class="control-label col-xs-4">Yeah Email:</label>
-                            <div class="col-xs-8"> 
-                              <input type="email" class="form-control" placeholder="Enter yeah email" [(ngModel)]="currentUser.yeahEmail" name="yeaEmail">
-                            </div>
-                          </div>
-                          <div class="form-group" *ngIf="currentUser.role === 'student'">
-                            <label class="control-label col-xs-4">School Email (.edu):</label>
-                            <div class="col-xs-8"> 
-                              <input type="email" class="form-control" placeholder="Enter school email" [(ngModel)]="currentUser.schoolEmail" name="schoolEmail">
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="control-label col-xs-4">Name:</label>
-                            <div class="col-xs-8"> 
-                              <input type="text" class="form-control" placeholder="Enter your name" [(ngModel)]="currentUser.info.name" name="name">
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="control-label col-xs-4">Ages:</label>
-                            <div class="col-xs-8"> 
-                              <input type="number" class="form-control" min="0" [(ngModel)]="currentUser.info.age" name="age" placeholder="Enter age">
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="control-label col-xs-4">Phone Number:</label>
-                            <div class="col-xs-8"> 
-                              <input type="tel" class="form-control"[(ngModel)]="currentUser.info.phone" name="phone" placeholder="Enter phone number">
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="control-label col-xs-4">Wechat ID:</label>
-                            <div class="col-xs-8"> 
-                              <input type="text" class="form-control"[(ngModel)]="currentUser.info.wechat" name="wechat" placeholder="Enter Wechat ID">
-                            </div>
-                          </div>
-                          <button (click)="onSubmit(currentUser)" type="submit" class="btn btn-primary">
+                    <span *ngIf="editAI">
+                        <h6>
+                            <span class="editBtn" (click)="onSubmit(currentUser, 'editAI')">
                                 Save
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-2"></div>
-    </div>
-    <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <div class="card">
-                <div class="card-block">
-                    <h6>
-                        <b>Profile</b><span class="editBtn">edit</span>
-                    </h6>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-xs-4">Current College</div>
-                        <div class="col-xs-8" *ngIf="currentUser.info">
-                            {{currentUser.info.school}}
-                            <small *ngIf="currentUser.info.graduateDate">{{generateDate(currentUser.info.graduateDate)}}</small>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4">Intended Major</div>
-                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.major}}
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="currentUser.role.indexOf(student) !== -1">
-                        <div class="col-xs-4">Intended University</div>
-                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.intendedSchool}}</div>
-                    </div>
-                    <!--<div class="row" *ngIf="currentUser.role.indexOf(student) !== -1">
-                        <div class="col-xs-4">Service Packages</div>
-                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.customService}}</div>
-                    </div>-->
-                    <div class="row" *ngIf="currentUser.role.indexOf(student) !== -1">
-                        <div class="col-xs-4">Transfer Time</div>
-                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.expectedTranser}}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-2"></div>
-    </div>
-    <div class="row" *ngIf="currentUser.role === 'student'">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <div class="card">
-                <div class="card-block">
-                    <h6>
-                        <b>服務细节</b><span class="editBtn">edit</span>
-                    </h6>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-xs-4">Service package</div>
-                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.package}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4">Join time</div>
-                        <div class="col-xs-8" *ngIf="currentUser.createAt">{{generateTime(currentUser.createAt)}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4">Yeah Contractor</div>
-                        <div class="col-xs-8">{{currentUser.contractor}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4">Yeah Guardian</div>
-                        <div class="col-xs-8">{{currentUser.guardian}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4">Yeah Advisor</div>
-                        <div class="col-xs-8">{{currentUser.advisor}}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-2"></div>
-    </div>
-    <div class="row" *ngIf="!(currentUser.role === 'student')">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <div class="card">
-                <div class="card-block">
-                    <h6>
-                        <b>Profession</b><span class="editBtn">edit</span>
-                    </h6>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-xs-4">Brief Introduction</div>
-                        <div class="col-xs-8" *ngIf="currentUser.info">{{currentUser.info.selfIntro}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-4">Spoken Languages</div>
-                        <div class="col-xs-8" *ngIf="currentUser.languages">
-                            <span *ngFor="let lang of currentUser.languages">{{lang}}</span>
-                        </div>
-                    </div>
+                            </span>
+                        </h6>
+                    <br>
+                    </span>
                 </div>
             </div>
         </div>

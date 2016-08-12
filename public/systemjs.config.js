@@ -8,7 +8,8 @@
         'angular2-jwt': 'node_modules/angular2-jwt/angular2-jwt.js',
         'moment': 'node_modules/moment/moment.js',
         'lodash': 'node_modules/lodash',
-        'socket-client': "node_modules/socket.io-client/socket.io.js"
+        'socket-client': "node_modules/socket.io-client/socket.io.js",
+        'notifications': 'node_modules/angular2-notifications'
     };
 
     // packages tells the System loader how to load when no filename and/or no extension
@@ -18,8 +19,8 @@
         'angular2-jwt': { defaultExtension: 'js' },
         'moment': { defaultExtension: 'js' },
         'lodash': { main: 'index.js', defaultExtension: 'js' },
-        'socket.io-client': { defaultExtension: "js" },
-        "socket-client": { defaultExtension: "js" }
+        "socket-client": { defaultExtension: "js" },
+        'notifications': { main: 'components.js', defaultExtension: 'js' }
     };
 
     var packageNames = [

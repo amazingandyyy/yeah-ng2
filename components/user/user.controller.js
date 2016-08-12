@@ -1,6 +1,6 @@
 'use strict';
 
-var User = require('./user.model');
+var User = require('./models/user.model');
 var _ = require('lodash');
 
 exports.index = function (req, res) {
@@ -53,7 +53,6 @@ exports.signup = function (req, res) {
 }
 
 exports.update = function (req, res) {
-    console.log('req', req);
     User.findById(req.body._id, function (err, user) {
         if (err) { return handleError(res, err); }
         if(!user) { return res.status(404).send('Not Found'); }

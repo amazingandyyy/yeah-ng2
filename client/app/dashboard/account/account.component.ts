@@ -4,21 +4,24 @@ import moment = require('moment');
 
 import { User } from '../../shared/types/user'
 import { AuthService } from '../../shared/services/auth.service';
+import { SocketService } from '../../shared/services/socket.service';
 
 @Component({
     moduleId: module.id,
     selector: 'yeah-account',
     templateUrl: 'account.component.html',
     styleUrls: ['account.style.css'],
-    providers: [AuthService]
+    providers: [AuthService, SocketService]
 })
 export class AccountComponent implements OnInit {
     currentUser = {};
+    editAI: boolean;
     editGI: boolean;
 
     constructor(
         private router: Router,
-        private authService: AuthService
+        private authService: AuthService,
+        private socket: SocketService
     ) { }
 
     generateTime(unix) {
@@ -30,10 +33,11 @@ export class AccountComponent implements OnInit {
     }
 
     getCurrentUser() {
-        console.log(this.authService.isLoggedIn);
         this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
             user => {
+                console.log(user);
+                
                 this.currentUser = user
             },
             error => {
@@ -42,11 +46,20 @@ export class AccountComponent implements OnInit {
             });
     }
 
-    onSubmit(value: any) {
-        //Send updated user object to backend
-        console.log('clicked', value);
+    onSubmit(value: any, cardName: string) {
+        // Send updated user object to backend
+        let self = this;
         
-        this.authService.updateUser(value);
+        this.authService.updateUser(value)
+            .subscribe(
+                res => handleResponse(res),
+                err => console.log('err @updateUser: ', err)
+            )
+
+        function handleResponse(res) {
+            // After saving successfully Close the specific card(form)
+            self[cardName] = !(self[cardName]);
+        }
     }
 
     edit(cardName: string) {
@@ -54,8 +67,11 @@ export class AccountComponent implements OnInit {
     }
 
     ngOnInit() {
-        // console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
+        let self = this;
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getCurrentUser();
+        this.socket.syncById('user', this.currentUser._id, function(user) {
+            self.currentUser = user;
+        });
     }
 }
