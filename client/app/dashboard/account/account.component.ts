@@ -44,16 +44,17 @@ export class AccountComponent implements OnInit {
     }
 
     onSubmit(value: any, cardName: string) {
-        //Send updated user object to backend
+        // Send updated user object to backend
         let self = this;
         
         this.authService.updateUser(value)
             .subscribe(
                 res => handleResponse(res),
-                err => console.log('err when logUserIn: ', err)
+                err => console.log('err @updateUser: ', err)
             )
 
         function handleResponse(res) {
+            // Close the specific form
             self[cardName] = !(self[cardName]);
         }
     }

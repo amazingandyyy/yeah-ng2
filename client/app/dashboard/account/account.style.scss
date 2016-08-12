@@ -6,9 +6,12 @@
     // box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.15);
     user-select: none;
     .row {
+        cursor: default;
         text-transform: capitalize;
-        padding: 8px 5px;
+        padding: 4px 1px;
         .col-xs-4 {
+            padding-top: 3px;
+            padding-bottom: 3px;
             text-align: left;
         }
         .col-xs-8 {
@@ -36,5 +39,14 @@
                 color: $brand-primary;
             }
         }
+    }
+    input {
+        padding: 3px 3px 3px 10px;
+    }
+    input[disabled] {
+        cursor: default;
+        background: none;
+        border: 1px solid rgba($deep-gray, 0);
+        text-align: right;
     }
 }
