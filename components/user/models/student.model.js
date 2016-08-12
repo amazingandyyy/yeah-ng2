@@ -3,8 +3,13 @@
 const mongoose = require('mongoose');
 const autopopulate = require('mongoose-autopopulate');
 const Service = require('./service.model');
+const User = require('./user.model');
 
 let studentSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+    },
     profile: {
         // starting here are the keys everyone has
         phone: Number,
@@ -25,9 +30,9 @@ let studentSchema = new mongoose.Schema({
             { type: String }
         ]
     },
-    service: [
+    services: [
         {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.ObjectId,
             ref: 'Service',
             autopopulate: true
         }

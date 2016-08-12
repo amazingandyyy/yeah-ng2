@@ -14,20 +14,20 @@ let serviceSchema = new mongoose.Schema({
         type: Number,
         default: Date.now
     },
-    service: {
+    details: {
         package: String,
         advisor: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.ObjectId,
             ref: 'Advisor',
             autopopulate: true
         },
         supervisor: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.ObjectId,
             ref: 'Supervisor',
             autopopulate: true
         },
         admin: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.ObjectId,
             ref: 'Admin',
             autopopulate: true
         }

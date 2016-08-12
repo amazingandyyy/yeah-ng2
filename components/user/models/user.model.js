@@ -13,11 +13,12 @@ const CronJob = require('cron').CronJob;
 const relationship = require('mongoose-relationship');
 
 // Import data from other roleSchema
-const Admin = require('./models/admin.model');
-const Advisor = require('./models/advisor.model');
-const Student = require('./models/student.model');
-const Superadmin = require('./models/superadmin.model');
-const Supervidor = require('./models/supervisor.model');
+const Admin = require('./admin.model');
+const Advisor = require('./advisor.model');
+const Student = require('./student.model');
+const Superadmin = require('./superadmin.model');
+const Supervisor = require('./supervisor.model');
+const SignupService = require('./signup.service');
 
 // SES is AWS's simple email service
 const ses = require('node-ses')
@@ -26,7 +27,7 @@ const SESserver = ses.createClient({
     secret: process.env.AWS_SECRET
 })
 
-const SESService = require('./SES.service');
+const SESservice = require('../SES.service');
 const JWT_SECRET = process.env.JWT_SECRET;
 
 let User;
@@ -58,29 +59,34 @@ let userSchema = new mongoose.Schema({
         required: true
     },
     studentData: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.ObjectId,
         ref: 'Student',
-        autopopulate: true
+        autopopulate: true,
+        childPath: 'user'
     },
     advisorData: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.ObjectId,
         ref: 'Advisor',
-        autopopulate: true
+        autopopulate: true,
+        childPath: 'user'
     },
     supervisorData: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.ObjectId,
         ref: 'Supervisor',
-        autopopulate: true
+        autopopulate: true,
+        childPath: 'user'
     },
     adminData: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.ObjectId,
         ref: 'Admin',
-        autopopulate: true
+        autopopulate: true,
+        childPath: 'user'
     },
     superadminData: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.ObjectId,
         ref: 'Superadmin',
-        autopopulate: true
+        autopopulate: true,
+        childPath: 'user'
     },
     lastLoginTime: [{
         type: Number
@@ -91,6 +97,7 @@ let userSchema = new mongoose.Schema({
     }
 })
 userSchema.plugin(autopopulate);
+userSchema.plugin(relationship, { relationshipPathName:['studentData', 'advisorData', 'supervisorData', 'adminData', 'superadminData'] });
 
 // promised-based mongoose tutorial
 // http://www.summa.com/blog/avoiding-callback-hell-while-using-mongoose
@@ -124,7 +131,41 @@ userSchema.statics.emailSignup = function (userObj, cb) {
             console.log(`${existingUser.email.data} already exist.`)
             return cb(err)
         }
-        bcrypt.hash(userObj.password, 12, (err, hash) => {
+        let newRoleData;
+        switch(userObj.role) {
+            case 'student':
+                  console.log('student signup!')
+                  var student = new Student({})
+                  student.save()
+                  createUser(student._id)
+              break;
+            case 'advisor':
+                  console.log('advisor signup!')
+                  var advisor = new Advisor({})
+                  advisor.save()
+                  createUser(advisor._id)
+              break;
+            case 'supervisor':
+                  console.log('supervisor signup!')
+                  var supervisor = new Supervisor({})
+                  supervisor.save()
+                  createUser(supervisor._id)
+              break;
+            case 'admin':
+                  console.log('admin signup!')
+                  var admin = new Admin({})
+                  admin.save()
+                  createUser(admin._id)
+              break;
+            case 'superadmin':
+                  console.log('superadmin signup!')
+                  var superadmin = new Superadmin({})
+                  superadmin.save()
+                  createUser(superadmin._id)
+              break;
+          }
+        function createUser(roleId){
+            bcrypt.hash(userObj.password, 12, (err, hash) => {
             if (err) return cb(err);
             let user = new User({
                 email: {
@@ -134,6 +175,7 @@ userSchema.statics.emailSignup = function (userObj, cb) {
                 name: userObj.name,
                 role: userObj.role
             })
+            user[`${userObj.role}Data`] = roleId;
             user.save((err, savedUser) => {
                 if (err) return cb(err)
 
@@ -147,14 +189,14 @@ userSchema.statics.emailSignup = function (userObj, cb) {
                     from: process.env.AWS_SES_SENDER,
                     cc: null,
                     bcc: ['amazingandyyy@gmail.com'],
-                    subject: 'Welcome to Yeah，Please verify this email.',
-                    message: SESService.send({
+                    subject: 'Welcome to Yeah. Please verify this email.',
+                    message: SESservice.send({
                         title: `Hi, ${savedUser.name}. Welcome joining Yeah.`,
-                        description: `请认证Email并更新个人基本资料！`,
+                        description: `You are signed up as ${savedUser.role}`,
                         destination: `verify/email/${token}`,
                         button: `Verify this Email`
                     }),
-                    altText: '验证此邮箱并登入'
+                    altText: 'Verify this Email and login'
                 }, function (err, data, res) {
                     if (err) {
                         console.log(err);
@@ -164,6 +206,7 @@ userSchema.statics.emailSignup = function (userObj, cb) {
                 })
             })
         })
+        }
     })
 }
 

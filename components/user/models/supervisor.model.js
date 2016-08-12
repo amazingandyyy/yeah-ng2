@@ -2,9 +2,14 @@
 
 const mongoose = require('mongoose');
 const autopopulate = require('mongoose-autopopulate');
+const User = require('./user.model');
 const Service = require('./service.model');
 
 let supervisorSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+    },
     profile: {
         phone: Number,
         wechatId: String,
@@ -29,13 +34,12 @@ let supervisorSchema = new mongoose.Schema({
     },
     service: [
         {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.ObjectId,
             ref: 'Service',
             autopopulate: true
         }
     ]
 })
-supervisorSchema.plugin(autopopulate);
 
 let Supervisor = mongoose.model('Supervisor', supervisorSchema);
 module.exports = Supervisor;

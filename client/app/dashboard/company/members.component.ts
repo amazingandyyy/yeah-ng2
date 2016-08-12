@@ -23,6 +23,8 @@ export class MembersComponent implements OnInit {
     private studentsList = [];
     private advisorsList = [];
     private adminsList = [];
+    private supervisorsList = [];
+    private superadminsList = [];
 
     constructor(
         private router: Router,
@@ -61,6 +63,9 @@ export class MembersComponent implements OnInit {
         this.studentsList = [];
         this.advisorsList = [];
         this.adminsList = [];
+        this.supervisorsList = [];
+        this.superadminsList = [];
+
         this.arrayOfUsersKeys.forEach(userKey => {
             switch (this.userDataList[userKey].role) {
                 case 'student':
@@ -72,9 +77,15 @@ export class MembersComponent implements OnInit {
                 case 'admin':
                     this.adminsList.push(this.userDataList[userKey])
                     break;
+                case 'supervisor':
+                    this.supervisorsList.push(this.userDataList[userKey])
+                    break;
+                case 'superadmin':
+                    this.superadminsList.push(this.userDataList[userKey])
+                    break;
             }
         })
-        return `Total: ${this.arrayOfUsersKeys.length} users (${this.studentsList.length} students, ${this.advisorsList.length} advisors, ${this.adminsList.length} admins)`
+        return `Total: ${this.arrayOfUsersKeys.length} users (${this.studentsList.length} students, ${this.advisorsList.length} advisors, ${this.adminsList.length} admins, ${this.supervisorsList.length} supervisors, ${this.superadminsList.length} superadmins)`
     }
 
     renderLLT(unix) {

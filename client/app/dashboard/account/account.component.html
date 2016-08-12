@@ -59,6 +59,60 @@
             <div class="card">
                 <div class="card-block">
                     <h6>
+                        <b>General Infomation</b>
+                        <span class="editBtn" (click)="edit('editGI')" *ngIf="!(editGI)">
+                            edit
+                        </span>
+                        <span class="editBtn" (click)="edit('editGI')" *ngIf="editGI">
+                            cancel
+                        </span>
+                    </h6>
+                    <hr/>
+                    <div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <span>Email</span>
+                                <span style="opacity: 0.6;">
+                                    <small *ngIf="!currentUser.email.verified">(Not verified)</small>
+                                    <small *ngIf="currentUser.email.verified">(Verified)</small>
+                                </span>
+                            </div>
+                            <div class="col-xs-8">
+                                <input type="email" class="form-control text-lowercase" placeholder="" [(ngModel)]="currentUser.email.data" name="email" [disabled]="true">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">Name</div>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" placeholder="" [(ngModel)]="currentUser.name" name="name" [disabled]="!editGI">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">Role</div>
+                            <div class="col-xs-8" *ngIf="currentUser.role">
+                                {{currentUser.role}}
+                            </div>
+                        </div>
+                    </div>
+                    <span *ngIf="editGI">
+                        <h6>
+                            <span class="editBtn" (click)="onSubmit(currentUser, 'editGI')">
+                                Save
+                            </span>
+                        </h6>
+                    <br>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>-->
+    <!--<div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-block">
+                    <h6>
                         <b>Profile</b><span class="editBtn">edit</span>
                     </h6>
                     <hr/>

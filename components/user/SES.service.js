@@ -1,4 +1,4 @@
-exports.send = function notificationTemplate(data) {
+exports.send = function(data) {
     return `<!DOCTYPE html>
             <head>
                 <meta charset="utf-8">

@@ -16,6 +16,7 @@ import { SocketService } from '../../shared/services/socket.service';
 export class AccountComponent implements OnInit {
     currentUser = {};
     editAI: boolean;
+    editGI: boolean;
 
     constructor(
         private router: Router,
@@ -35,6 +36,8 @@ export class AccountComponent implements OnInit {
         this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
             user => {
+                console.log(user);
+                
                 this.currentUser = user
             },
             error => {

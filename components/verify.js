@@ -5,7 +5,7 @@ var router = express.Router();
 
 var qs = require('querystring');
 var request = require('request');
-var User = require('./user/user.model');
+var User = require('./user/models/user.model');
 var jwt = require('jsonwebtoken');
 
 router.get('/email/:token', function(req, res) {
@@ -33,8 +33,5 @@ router.put('/phone', User.authMiddleware, (req, res) => {
         })
     }
 })
-router.get('emailTemplate', function(req, res) {
-    res.render('emailTemplate');
-});
 
 module.exports = router;
