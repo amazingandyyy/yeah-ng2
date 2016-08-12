@@ -7,7 +7,7 @@ import { SignupRoutes } from './signup/signup.routes';
 import { DashboardRoutes } from './dashboard/dashboard.routes';
 
 // guards
-import { GuardProviders } from './shared/services/guard/providers.list';
+import { GuardProviders } from './shared/services/guard/index';
 
 let routes: RouterConfig = [
   {
