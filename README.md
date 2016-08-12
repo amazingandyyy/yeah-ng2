@@ -1,8 +1,6 @@
-#Yeah Education Group Official website
-author is (amazingandyyy){http://amazingandyyy.github.io/}
-author is (davidyu37){https://github.com/davidyu37}
+![alt text](https://scontent-sjc2-1.xx.fbcdn.net/v/t1.0-9/13654354_154027298358398_4418786725610547538_n.jpg?oh=125c8c3e17eddee588506137ec57381a&oe=58137FCC "yYeah Education Group logo")
 
-#####This will be an amazing app
+#Yeah Education Group Official website
 
 ##Technics applied:
 - Node v6.3.1
@@ -12,8 +10,10 @@ author is (davidyu37){https://github.com/davidyu37}
 - Bootstrap Alpha 4.0
 - Gulp
 
-## Functions that work:
-1. none
+Opnions? Feel free to comment on
+#My livecoding [channel](https://www.livecoding.tv/amazingandyyy/)
 
-Opnions? pls comment on
-#livecoding URL: https://www.livecoding.tv/amazingandyyy/
+---
+#author
+- [amazingandyyy](http://amazingandyyy.github.io/)
+- [davidyu37](https://github.com/davidyu37)

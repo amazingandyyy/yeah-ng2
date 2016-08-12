@@ -11,10 +11,10 @@ function onDisconnect(socket) {
 function onConnect(socket) {
   
   // Share socket for other modules
-  require('./components/sockets').getSocket(socket);
+  require('./server/sockets').getSocket(socket);
 
   // Insert sockets for model change below
-  require('./components/user/user.socket').register(socket);
+  require('./server/component/user/user.socket').register(socket);
   // ... more to add
 };
 

@@ -3,8 +3,8 @@ node_modules
 .env
 typings
 bower_components
-public/js
-public/css
 public/assets
 public/bower_components
+public/css
+public/js
 public/node_modules

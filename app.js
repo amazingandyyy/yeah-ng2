@@ -42,7 +42,7 @@ app
     .use(express.static(path.join(__dirname, 'public')));
 
 // Kickstart route
-app.use('/', require('./components/routing'))
+app.use('/', require('./server/routing'))
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {
