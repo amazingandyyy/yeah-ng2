@@ -10,10 +10,6 @@
 - Bootstrap Alpha 4.0
 - Gulp
 
-Opnions? Feel free to comment on
-#My livecoding [channel](https://www.livecoding.tv/amazingandyyy/)
-
----
-#author
+##author
 - [amazingandyyy](http://amazingandyyy.github.io/)
 - [davidyu37](https://github.com/davidyu37)
