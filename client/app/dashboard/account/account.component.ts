@@ -15,7 +15,7 @@ import { SocketService } from '../../shared/services/socket.service';
 })
 export class AccountComponent implements OnInit {
     currentUser = {};
-    editGI: boolean;
+    editAI: boolean;
 
     constructor(
         private router: Router,

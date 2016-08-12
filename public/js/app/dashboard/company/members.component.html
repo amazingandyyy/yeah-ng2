@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let userKey of arrayOfUsersKeys">
-                        <th>{{userDataList[userKey].info.name}}</th>
+                        <th>{{userDataList[userKey].name}}</th>
                         <td>{{userDataList[userKey].role}}</td>
                         <td>{{userDataList[userKey].email.data}} <small>- {{userDataList[userKey].email.verified}}</small></td>
                         <td>{{renderLLT(userDataList[userKey].lastLoginTime[0])}}</td>

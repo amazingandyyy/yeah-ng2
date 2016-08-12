@@ -5,11 +5,11 @@
             <div class="card">
                 <div class="card-block">
                     <h6>
-                        <b>General Infomation</b>
-                        <span class="editBtn" (click)="edit('editGI')" *ngIf="!(editGI)">
+                        <b>Account Infomation</b>
+                        <span class="editBtn" (click)="edit('editAI')" *ngIf="!(editAI)">
                             edit
                         </span>
-                        <span class="editBtn" (click)="edit('editGI')" *ngIf="editGI">
+                        <span class="editBtn" (click)="edit('editAI')" *ngIf="editAI">
                             cancel
                         </span>
                     </h6>
@@ -19,71 +19,41 @@
                             <div class="col-xs-4">
                                 <span>Email</span>
                                 <span style="opacity: 0.6;">
-                                    <small *ngIf="!currentUser.email.verified">(not verified)</small>
-                                    <small *ngIf="currentUser.email.verified">(verified)</small>
+                                    <small *ngIf="!currentUser.email.verified">(Not verified)</small>
+                                    <small *ngIf="currentUser.email.verified">(Verified)</small>
                                 </span>
                             </div>
-                            <div class="col-xs-8 text-lowercase">
-                                <input type="email" class="form-control" placeholder="" [(ngModel)]="currentUser.email.data" name="email" [disabled]="true">
+                            <div class="col-xs-8">
+                                <input type="email" class="form-control text-lowercase" placeholder="" [(ngModel)]="currentUser.email.data" name="email" [disabled]="true">
                             </div>
                         </div>
-                        <!--<div class="row" *ngIf="(currentUser.role === 'admin') || (currentUser.role === 'superadmin')">
-                            <div class="col-xs-4">Yeah Email</div>
-                            <div class="col-xs-8">
-                                <input type="email" class="form-control" placeholder="" [(ngModel)]="currentUser.yeahEmail" name="yeahEmail" [disabled]="!editGI">
-                            </div>
-                        </div>-->
-                        <!--<div class="row" *ngIf="currentUser.role === 'student'">
-                            <div class="col-xs-4">School Email <span style="text-transform: lowercase">(.edu)</span></div>
-                            <div class="col-xs-8">
-                                <input type="email" class="form-control" placeholder="" [(ngModel)]="currentUser.schoolEmail" name="schoolEmail" [disabled]="!editGI">
-                            </div>
-                        </div>-->
                         <div class="row">
                             <div class="col-xs-4">Name</div>
-                            <div class="col-xs-8" *ngIf="currentUser.info">
-                                <input type="text" class="form-control" placeholder="" [(ngModel)]="currentUser.info.name" name="name" [disabled]="!editGI">
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" placeholder="" [(ngModel)]="currentUser.name" name="name" [disabled]="!editAI">
                             </div>
                         </div>
-                        <!--<div class="row">
-                            <div class="col-xs-4">Ages</div>
-                            <div class="col-xs-8" *ngIf="currentUser.info">
-                                <input type="text" class="form-control" placeholder="" [(ngModel)]="currentUser.info.age" name="age" [disabled]="!editGI">
-                            </div>
-                        </div>-->
                         <div class="row">
                             <div class="col-xs-4">Role</div>
                             <div class="col-xs-8" *ngIf="currentUser.role">
                                 {{currentUser.role}}
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-4">Phone Number</div>
-                            <div class="col-xs-8" *ngIf="currentUser.info">
-                                <input type="number" class="form-control" placeholder="" [(ngModel)]="currentUser.info.phone" name="phone" [disabled]="!editGI">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4">Wechat ID</div>
-                            <div class="col-xs-8" *ngIf="currentUser.info">
-                                <input type="text" class="form-control" placeholder="wechat ID" [(ngModel)]="currentUser.info.wechatId" name="wechat" [disabled]="!editGI">
-                            </div>
-                        </div>
                     </div>
-                    <span *ngIf="editGI">
+                    <span *ngIf="editAI">
                         <h6>
-                            <span class="editBtn" (click)="onSubmit(currentUser, 'editGI')">
+                            <span class="editBtn" (click)="onSubmit(currentUser, 'editAI')">
                                 Save
                             </span>
                         </h6>
-                        <br>
+                    <br>
                     </span>
                 </div>
             </div>
         </div>
         <div class="col-sm-2"></div>
     </div>
-    <div class="row">
+    <!--<div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
             <div class="card">
@@ -174,5 +144,5 @@
             </div>
         </div>
         <div class="col-sm-2"></div>
-    </div>
+    </div>-->
 </div>

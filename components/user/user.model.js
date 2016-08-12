@@ -9,7 +9,7 @@ const uuid = require('uuid');
 const autopopulate = require('mongoose-autopopulate');
 const CronJob = require('cron').CronJob;
 
-// Mongoose-relationship plugin: https://www.npmjs.com/package/mongoose-relationship
+// Mongoose-relationship plugin docs: https://www.npmjs.com/package/mongoose-relationship
 const relationship = require('mongoose-relationship');
 
 // Import data from other roleSchema
@@ -112,11 +112,8 @@ userSchema.plugin(autopopulate);
 //             cb(err)
 //         })
 // }
-
 userSchema.statics.emailSignup = function (userObj, cb) {
-    console.log('userObj:', userObj);
-    // let token = generateToken(userObj);
-    // cb(null, { token: token, user: userObj })
+    console.log('emailSignup userObj:', userObj);
     User.findOne({
         'email.data': {
             '$in': userObj.email
@@ -133,11 +130,9 @@ userSchema.statics.emailSignup = function (userObj, cb) {
                 email: {
                     data: userObj.email
                 },
-                info: {
-                    name: userObj.name
-                },
-                role: userObj.role,
-                password: hash
+                password: hash,
+                name: userObj.name,
+                role: userObj.role
             })
             user.save((err, savedUser) => {
                 if (err) return cb(err)
@@ -154,8 +149,8 @@ userSchema.statics.emailSignup = function (userObj, cb) {
                     bcc: ['amazingandyyy@gmail.com'],
                     subject: 'Welcome to Yeah，Please verify this email.',
                     message: SESService.send({
-                        title: 'Welcome joining Yeah.',
-                        description: `登入欧耶助手，定期与顾问见面！和欧耶一起转学成功！`,
+                        title: `Hi, ${savedUser.name}. Welcome joining Yeah.`,
+                        description: `请认证Email并更新个人基本资料！`,
                         destination: `verify/email/${token}`,
                         button: `Verify this Email`
                     }),
@@ -170,7 +165,6 @@ userSchema.statics.emailSignup = function (userObj, cb) {
             })
         })
     })
-    
 }
 
 userSchema.statics.login = function (userObj, cb) {
