@@ -19,6 +19,7 @@ export class SocketService {
 	}
 
 	removeEventListener(event: string) {
+		// Socket defualt method
 		this.socket.removeAllListeners(event);
 	}
 
@@ -32,7 +33,6 @@ export class SocketService {
 	unsyncById(modelName: string, id: string, cb: any) {
 		this.socket.removeAllListeners(modelName + ':save:' + id);
 	}
-
 
 	// Sync array
 	syncArray(modelName: string, array: Array<any>, cb: any) {
