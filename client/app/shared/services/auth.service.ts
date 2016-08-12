@@ -53,12 +53,18 @@ export class AuthService {
     }
    
     updateUser(data: any): Observable<any> {
+        //Don't let user change password through front end, but through email pw reset
+        if(data.password === null || data.password) {
+            delete data.password
+        }
+        
         return this.http.post('/api/user/update', data)
             .map(this.handelResponse)
             .catch(this.handelError)
     }
 
     handelResponse(res: Response) {
+        
         let data = res.json();
         // console.log('check1', this.isLoggedIn);
         this.isLoggedIn = true;

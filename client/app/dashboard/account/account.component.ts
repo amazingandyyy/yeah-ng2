@@ -4,13 +4,14 @@ import moment = require('moment');
 
 import { User } from '../../shared/types/user'
 import { AuthService } from '../../shared/services/auth.service';
+import { SocketService } from '../../shared/services/socket.service';
 
 @Component({
     moduleId: module.id,
     selector: 'yeah-account',
     templateUrl: 'account.component.html',
     styleUrls: ['account.style.css'],
-    providers: [AuthService]
+    providers: [AuthService, SocketService]
 })
 export class AccountComponent implements OnInit {
     currentUser = {};
@@ -18,7 +19,8 @@ export class AccountComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private authService: AuthService
+        private authService: AuthService,
+        private socket: SocketService
     ) { }
 
     generateTime(unix) {
@@ -30,7 +32,6 @@ export class AccountComponent implements OnInit {
     }
 
     getCurrentUser() {
-        console.log(this.authService.isLoggedIn);
         this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
             user => {
@@ -42,11 +43,19 @@ export class AccountComponent implements OnInit {
             });
     }
 
-    onSubmit(value: any) {
+    onSubmit(value: any, cardName: string) {
         //Send updated user object to backend
-        console.log('clicked', value);
+        let self = this;
         
-        this.authService.updateUser(value);
+        this.authService.updateUser(value)
+            .subscribe(
+                res => handleResponse(res),
+                err => console.log('err when logUserIn: ', err)
+            )
+
+        function handleResponse(res) {
+            self[cardName] = !(self[cardName]);
+        }
     }
 
     edit(cardName: string) {
@@ -54,8 +63,11 @@ export class AccountComponent implements OnInit {
     }
 
     ngOnInit() {
-        // console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
+        let self = this;
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getCurrentUser();
+        this.socket.syncById('user', this.currentUser._id, function(user) {
+            self.currentUser = user;
+        });
     }
 }

@@ -11,7 +11,7 @@ export class SocketService {
 		const io = require('socket-client'); //https://github.com/socketio/socket.io-client
 		this.socket = io.connect();
 	}
-
+	// Customized Events, addEvent OnInit, remove OnDestroy
 	addEventListener(event: string) {
 		this.socket.on(event, function(data) {
 			console.log('things from socket', data);
@@ -22,7 +22,19 @@ export class SocketService {
 		this.socket.removeAllListeners(event);
 	}
 
-	syncUpdates(modelName: string, array: Array<any>, cb: any) {
+	// Update document by id
+	syncById(modelName: string, id: string, cb: any) {
+		this.socket.on(modelName + ':save:' + id, function (item) {
+	      cb(item);
+	    });
+	}
+
+	unsyncById(modelName: string, id: string, cb: any) {
+        this.socket.removeAllListeners(modelName + ':save:' + id);
+    }
+
+	// Sync array
+	syncArray(modelName: string, array: Array<any>, cb: any) {
         cb = cb || function(){};
 
 	    /**
@@ -61,7 +73,7 @@ export class SocketService {
        *
        * @param modelName
        */
-    unsyncUpdates(modelName: string) {
+    unsyncArray(modelName: string) {
         this.socket.removeAllListeners(modelName + ':save');
         this.socket.removeAllListeners(modelName + ':remove');
     }
