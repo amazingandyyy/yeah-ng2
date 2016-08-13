@@ -18,7 +18,7 @@ import { User } from '../types/user';
 export class AuthService {
      public isLoggedIn: boolean;
      public redirectUrl: string;
-     public currentUser: {};
+     public currentUser: User;
 
     constructor(
         private http: Http,
@@ -61,6 +61,18 @@ export class AuthService {
         return this.http.post('/api/user/update', data)
             .map(this.handelResponse)
             .catch(this.handelError)
+    }
+
+    checkAuthority(requiredRole: string, userRole: string) {
+        const roles = ['student', 'advisor', 'admin', 'superadmin'];
+        
+        if(userRole) {
+            if(roles.indexOf(userRole) >= roles.indexOf(requiredRole)) {
+                return true;
+            }
+            
+        }
+        return false;
     }
 
     handelResponse(res: Response) {

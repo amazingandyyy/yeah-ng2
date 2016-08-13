@@ -53,7 +53,7 @@
         </div>
         <div class="col-sm-2"></div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="checkRole('admin', currentUser)">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
 

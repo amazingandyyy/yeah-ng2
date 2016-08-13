@@ -66,6 +66,16 @@ export class AccountComponent implements OnInit {
         this[cardName] = !(this[cardName]);
     }
 
+    checkRole(role: string, user: User) {
+        //role is the required role to access the content
+        //User's role must have higher or equal authority to this role
+        if(user) {
+            return this.authService.checkAuthority(role, user.role);
+        } else {
+            return false;
+        }
+    }
+
     ngOnInit() {
         let self = this;
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
