@@ -14,6 +14,8 @@ router.get('/currentUser/:userId', User.authMiddleware, Controller.getCurrentUse
 // just simpily get one user's data, user do not need to login
 router.get('/singleUser/:userId', Controller.getSingleUser);
 
+router.get('/getUserByEmail/:email', Controller.findUserByEmail);
+
 // admin to get all users' data!!! (extremely dangerous!!!)
 router.get('/all', User.authMiddleware, Controller.getAllUsers);
 

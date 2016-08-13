@@ -32,6 +32,14 @@ export class AuthService {
             .catch(this.handelError)
     }
 
+    getUserByEmail(email: string): Observable<any> {
+        return this.authHttp.get(`/api/user/getUserByEmail/${email}`)
+            .map((res: Response) => res.json() || {})
+            .catch((err: any) =>
+               Observable.throw(err)
+            )
+    }
+
     signUp(data: Auth): Observable<Auth> {
         return this.http.post('/api/user/signup', data)
             .map(this.handelResponse)

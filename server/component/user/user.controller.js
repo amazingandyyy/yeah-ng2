@@ -33,6 +33,14 @@ exports.getSingleUser = function (req, res) {
     })
 };
 
+exports.findUserByEmail = function(req, res) {
+    User.findOne({'email.data': req.params.email}, (err, data) => {
+        console.log('found user by email: ', data)
+        if (err) return res.status(404).send(err)
+        res.send(data)
+    })
+};
+
 exports.getAllUsers = function (req, res) {
     if (req.role == 'superadmin') {
         User.find({}, (err, data) => {

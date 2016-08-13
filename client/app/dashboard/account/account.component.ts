@@ -17,6 +17,7 @@ export class AccountComponent implements OnInit {
     currentUser = {};
     editAI: boolean;
     editGI: boolean;
+    emailError: boolean;
 
     constructor(
         private router: Router,
@@ -73,6 +74,22 @@ export class AccountComponent implements OnInit {
             return this.authService.checkAuthority(role, user.role);
         } else {
             return false;
+        }
+    }
+
+    addStudent(email: string) {
+        if(email) {
+            //Find user by email
+            this.authService.getUserByEmail(email)
+            .subscribe(
+            user => {
+                //Add user to this user's student
+                
+            },
+            error => {
+                this.emailError = true;
+            });
+            
         }
     }
 

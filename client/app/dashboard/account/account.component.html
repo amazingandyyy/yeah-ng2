@@ -66,11 +66,12 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Enter Student's Email">
+                                <input type="email" class="form-control" placeholder="Enter Student's Email" #studentEmail>
                                 <span class="input-group-btn">
-                                <button class="btn send" type="button">Add Student</button>
+                                <button class="btn send" type="button" (click)="addStudent(studentEmail.value)">Add Student</button>
                                 </span>
                             </div> 
+                            <div class="alert alert-danger" *ngIf="emailError">No student has this email</div>
                         </div>
                     </div>
                 </div>
