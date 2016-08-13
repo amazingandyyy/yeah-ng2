@@ -11,4 +11,5 @@ module.exports = {
 	emit(event, obj) {
 		this.socket.emit(event, obj);
 	}
+
 };
