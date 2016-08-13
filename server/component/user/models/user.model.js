@@ -190,8 +190,8 @@ userSchema.statics.emailSignup = function (userObj, cb) {
                     bcc: ['amazingandyyy@gmail.com'],
                     subject: 'Welcome to Yeah. Please verify this email.',
                     message: SESservice.send({
-                        title: `Hi, ${savedUser.name}. Welcome joining Yeah.`,
-                        description: `You are signed up as ${savedUser.role}`,
+                        title: `Hi, ${savedUser.name}.`,
+                        description: `Welcome for joining Yeah. You are signed up as ${savedUser.role}`,
                         destination: `verify/email/${token}`,
                         button: `Verify this Email`
                     }),

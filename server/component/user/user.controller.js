@@ -34,7 +34,7 @@ exports.getSingleUser = function (req, res) {
 };
 
 exports.getAllUsers = function (req, res) {
-    if (req.user.role == 'superadmin') {
+    if (req.role == 'superadmin') {
         User.find({}, (err, data) => {
             if (err) return res.status(409).send(err)
             res.send(data)
@@ -53,13 +53,16 @@ exports.signup = function (req, res) {
 }
 
 exports.update = function (req, res) {
-    User.findById(req.body._id, function (err, user) {
-        if (err) { return handleError(res, err); }
-        if(!user) { return res.status(404).send('Not Found'); }
-        var updated = _.merge(user, req.body);
-        updated.save(function (err) {
-          if (err) { return handleError(res, err); }
-          return res.status(200).json(user);
+    if(req.user._id === req.body._id){
+        User.findById(req.body._id, function (err, user) {
+            if (err) { return handleError(res, err); }
+            if(!user) { return res.status(404).send('Not Found'); }
+            var updated = _.merge(user, req.body);
+            updated.save(function (err) {
+            if (err) { return handleError(res, err); }
+            return res.status(200).json(user);
+            });
         });
-    });
+    }
+    return res.status(200).json(user);
 }
