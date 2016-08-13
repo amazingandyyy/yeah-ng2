@@ -41,7 +41,7 @@
         }
     }
     input {
-        padding: 3px 3px 3px 10px;
+        padding: 6px 16px;
     }
     input[disabled] {
         cursor: default;
@@ -49,5 +49,12 @@
         border: 1px solid rgba($deep-gray, 0);
         text-align: right;
     }
+    .send {
+        background: #1E1E1E;
+        text-transform: uppercase;
+        color: white;
+    }
     
 }
+
+
