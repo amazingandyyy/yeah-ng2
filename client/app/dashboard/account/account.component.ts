@@ -13,11 +13,13 @@ import { SocketService } from '../../shared/services/socket.service';
     styleUrls: ['account.style.css'],
     providers: [AuthService, SocketService]
 })
+
 export class AccountComponent implements OnInit {
     currentUser = {};
     editAI: boolean;
     editGI: boolean;
     emailError: boolean;
+    service = 'student';
 
     constructor(
         private router: Router,
@@ -93,6 +95,10 @@ export class AccountComponent implements OnInit {
         }
     }
 
+    selectService(service: string) {
+        console.log('select', service);
+    }
+
     ngOnInit() {
         let self = this;
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
@@ -100,5 +106,6 @@ export class AccountComponent implements OnInit {
         this.socket.syncById('user', this.currentUser._id, function(user) {
             self.currentUser = user;
         });
+        
     }
 }

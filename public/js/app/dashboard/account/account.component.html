@@ -60,10 +60,20 @@
             <div class="card">
                 <div class="card-block">
                     <h6>
-                        <b>Student Management</b>
+                        <b>Service Management</b>
                     </h6>
                     <hr/>
                     <div class="row">
+                        <div class="col-sm-12">
+                            <div class="select-service">
+                                <select name="service" class="form-control" [(ngModel)]="service" (ngModelChange)="selectService(service)">
+                                    <option value="student">Student</option>
+                                    <option value="advisor">Advisor</option>
+                                    <option value="supervisor">Supervisor</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-sm-12">
                             <div class="input-group">
                                 <input type="email" class="form-control" placeholder="Enter Student's Email" #studentEmail>

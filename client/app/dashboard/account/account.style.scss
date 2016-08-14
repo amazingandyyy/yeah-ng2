@@ -54,6 +54,23 @@
         text-transform: uppercase;
         color: white;
     }
+
+    select {
+        
+        text-align: center;
+        padding: 6px 16px;
+        font-size: 16px;
+        -webkit-appearance: none;
+        background: transparent;
+        border: 0px;
+        color: white;
+    }
+
+    .select-service {
+        overflow:hidden;
+        background: $brand-primary url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll 98% center;
+        margin-bottom: 10px;
+    }
     
 }
 
