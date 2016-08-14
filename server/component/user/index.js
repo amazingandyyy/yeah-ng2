@@ -17,7 +17,7 @@ router.get('/singleUser/:userId', Controller.getSingleUser);
 // admin to get all users' data!!! (extremely dangerous!!!)
 router.get('/all', User.authMiddleware, Controller.getAllUsers);
 
-router.post('/update', Controller.update);
+router.post('/update', User.authMiddleware, Controller.updateCurrentUser);
 
 router.post('/login', Controller.login);
 

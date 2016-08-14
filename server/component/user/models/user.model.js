@@ -8,6 +8,7 @@ const moment = require('moment');
 const uuid = require('uuid');
 const autopopulate = require('mongoose-autopopulate');
 const CronJob = require('cron').CronJob;
+const _ = require('lodash');
 
 // Mongoose-relationship plugin docs: https://www.npmjs.com/package/mongoose-relationship
 const relationship = require('mongoose-relationship');
@@ -45,7 +46,6 @@ let userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
         select: false
     },
     name: String,
@@ -276,18 +276,12 @@ function generateToken(data) {
 
 userSchema.statics.verifyEmail = function (token, cb) {
     jwt.verify(token, JWT_SECRET, (err, payload) => {
-        if (err) return res.status(401).send({
-            error: 'Must be authenticated.'
-        })
+        if (err) return cb(err)
 
         User
             .findById(payload._id)
             .exec((err, user) => {
-                if (err || !user) {
-                    return res.status(400).send(err || {
-                        error: 'User not found.'
-                    })
-                }
+                if (err || !user) cb(err)
                 user.email.verified = true
                 user.save((err, savedUser) => {
                     if (err) return cb(err)
@@ -295,6 +289,32 @@ userSchema.statics.verifyEmail = function (token, cb) {
                 })
             })
     })
+}
+
+userSchema.statics.updateCurrentUser = function (updatedUser, cb) {
+    console.log('ddd')
+    User.findById(updatedUser._id)
+        .exec( (err, dbUser) => {
+            if (err || !dbUser) cb(err)
+            // dbUser.name = updatedUser.name
+            // dbUser.save(function (err, savedUser) {
+            //     if (err || !savedUser) {
+            //         return cb(err)
+            //     }
+            //     console.log('dasfdsf')
+            //     return cb(null, savedUser)
+            // })
+            console.log('updatedUser: ', updatedUser)
+            var mergedUser = _.merge(dbUser, updatedUser)
+            mergedUser.save(function (err, savedUser) {
+                if (err || !savedUser) {
+                    console.log('eee')
+                    return cb(err)
+                }
+                savedUser.password = null;
+                return cb(null, savedUser)
+            })
+        })
 }
 
 User = mongoose.model('User', userSchema);

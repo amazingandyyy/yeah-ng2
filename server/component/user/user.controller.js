@@ -1,7 +1,6 @@
 'use strict';
 
 var User = require('./models/user.model');
-var _ = require('lodash');
 
 exports.index = function (req, res) {
     res.render('index');
@@ -34,9 +33,9 @@ exports.getSingleUser = function (req, res) {
 };
 
 exports.getAllUsers = function (req, res) {
-    if (req.role == 'superadmin') {
+    if (req.role === 'superadmin') {
         User.find({}, (err, data) => {
-            if (err) return res.status(409).send(err)
+            if (er || !data) return res.status(409).send(err)
             res.send(data)
         })
     } else {
@@ -52,22 +51,18 @@ exports.signup = function (req, res) {
     });
 }
 
-exports.update = function (req, res) {
-    if(req.user._id === req.body._id){
-        User.findById(req.body._id, function (err, user) {
-            if (err) { return handleError(res, err); }
-            if(!user) { return res.status(404).send('Not Found'); }
-            var updated = _.merge(user, req.body);
-            updated.save(function (err) {
-            if (err) { return handleError(res, err); }
-            return res.status(200).json(user);
-            });
-        });
+exports.updateCurrentUser = function (req, res) {
+    if (req.user._id == req.body._id) {
+        User.updateCurrentUser(req.body, (err, data) => {
+            if (err) return handleError(res, err)
+            return res.status(200).send(data)
+        })
+    }else{
+        return handleError(res, err)
     }
-    return res.status(200).json(user);
 }
 
 function handleError(res, err) {
-  console.log(err);
-  return res.status(500).send(err);
+    console.log(err);
+    res.status(400).send(err);
 }
