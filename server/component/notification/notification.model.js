@@ -6,6 +6,7 @@ let notificationSchema = new mongoose.Schema({
     title: String,
     description: String,
     response: Boolean,
+    // "message" || "invitation" 
     state: String
 })
 
