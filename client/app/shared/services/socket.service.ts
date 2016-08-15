@@ -31,7 +31,7 @@ export class SocketService {
 		});
 	}
 
-	unsyncById(modelName: string, id: string, cb: any) {
+	unsyncById(modelName: string, id: string) {
 		this.socket.removeAllListeners(modelName + ':save:' + id);
 	}
 

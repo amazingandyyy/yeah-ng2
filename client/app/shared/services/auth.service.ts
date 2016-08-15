@@ -18,7 +18,7 @@ import { User } from '../types/user';
 export class AuthService {
      public isLoggedIn: boolean;
      public redirectUrl: string;
-     public currentUser: {};
+     public currentUser: User;
 
     constructor(
         private http: Http,
@@ -30,6 +30,14 @@ export class AuthService {
         return this.authHttp.get(`/api/user/currentUser/${userId}`)
             .map(this.handelResponse)
             .catch(this.handelError)
+    }
+
+    getUserByEmail(email: string): Observable<any> {
+        return this.authHttp.get(`/api/user/getUserByEmail/${email}`)
+            .map((res: Response) => res.json() || {})
+            .catch((err: any) =>
+               Observable.throw(err)
+            )
     }
 
     signUp(data: Auth): Observable<Auth> {
@@ -52,23 +60,31 @@ export class AuthService {
         return 'logout';
     }
    
-    updateUser(data: any): Observable<any> {
-        //Don't let user change password through front end, but through email pw reset
-        // if(data.password === null || data.password) {
-            // delete data.password
-        // }
-        data.password = null;
+    updateCurrentUser(data: any): Observable<any> {
+        //Don't let this null password replace the backend password
+        // but user can replace th3 backend password through email pw reset (-todo)
+        if(data.password === null || data.password) {
+            delete data.password
+        }
         return this.authHttp.post('/api/user/update', data)
             .map(this.handelResponse)
             .catch(this.handelError)
     }
 
-    handelResponse(res: Response) {
+    checkAuthority(requiredRole: string, userRole: string) {
+        const rolesArray = ['student', 'advisor', 'supervisor', 'admin', 'superadmin'];
         
+        if(userRole) {
+            if(rolesArray.indexOf(userRole) >= rolesArray.indexOf(requiredRole)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    handelResponse(res: Response) {
         let data = res.json();
-        // console.log('check1', this.isLoggedIn);
         this.isLoggedIn = true;
-        // console.log('check2', this.isLoggedIn);
         this.currentUser = data;
         return data || {};
     }

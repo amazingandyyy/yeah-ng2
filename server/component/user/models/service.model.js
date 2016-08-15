@@ -10,6 +10,8 @@ const Advisor = require('./advisor.model');
 const Supervidor = require('./supervisor.model');
 const Student = require('./student.model');
 
+const relationship = require('mongoose-relationship');
+
 let serviceSchema = new mongoose.Schema({
     createAt: {
         type: Number,
@@ -21,19 +23,26 @@ let serviceSchema = new mongoose.Schema({
     },
     details: {
         student: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Student',
-            // autopopulate: true
+            userId: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'Student',
+                childPath: 'services'
+                // autopopulate: true
+            },
+            confirmed: {
+                type: Boolean,
+                default: false
+            }
         },
         advisor: {
             userId: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'Advisor',
+                childPath: 'services'
                 // autopopulate: true
             },
             confirmed: {
                 type: Boolean,
-                required: true,
                 default: false
             }
         },
@@ -41,11 +50,11 @@ let serviceSchema = new mongoose.Schema({
             userId: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'Supervisor',
+                childPath: 'services'
                 // autopopulate: true
             },
             confirmed: {
                 type: Boolean,
-                required: true,
                 default: false
             }
         },
@@ -53,6 +62,7 @@ let serviceSchema = new mongoose.Schema({
             userId: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'Admin',
+                childPath: 'services'
                 // autopopulate: true
             },
             confirmed: {
@@ -65,6 +75,7 @@ let serviceSchema = new mongoose.Schema({
 })
 
 serviceSchema.plugin(autopopulate);
+serviceSchema.plugin(relationship, { relationshipPathName:['details.student.userId', 'details.advisor.userId', 'details.supervisor.userId', 'details.admin.userId'] });
 
 let Service = mongoose.model('Service', serviceSchema);
 module.exports = Service;

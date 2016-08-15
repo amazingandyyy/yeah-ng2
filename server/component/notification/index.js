@@ -9,6 +9,8 @@ var Controller = require('./notification.controller');
 
 router.get('/', Controller.index);
 
+router.get('/getThreeNew', User.authMiddleware, Controller.getThreeNew);
+
 router.post('/send', User.authMiddleware, Controller.createNotification);
 
 module.exports = router;

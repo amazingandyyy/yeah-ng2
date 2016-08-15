@@ -2,6 +2,10 @@
 
 var User = require('./models/user.model');
 
+var Service = require('./models/service.model');
+var Notification = require('../notification/notification.model');
+var _ = require('lodash');
+
 exports.index = function (req, res) {
     res.render('index');
 };
@@ -27,6 +31,14 @@ exports.getCurrentUser = function (req, res) {
 exports.getSingleUser = function (req, res) {
     User.findById(req.params.userId, (err, data) => {
         console.log('single user: ', data)
+        if (err) return res.status(404).send(err)
+        res.send(data)
+    })
+};
+
+exports.findUserByEmail = function(req, res) {
+    User.findOne({'email.data': req.params.email}, (err, data) => {
+        console.log('found user by email: ', data)
         if (err) return res.status(404).send(err)
         res.send(data)
     })
@@ -59,6 +71,64 @@ exports.updateCurrentUser = function (req, res) {
         })
     }else{
         return handleError(res, err)
+    }
+}
+
+exports.createService = function(req, res) {
+    let body = req.body;
+    let from = body.currentUser;
+    let to = body.userToAdd;
+    let service = {
+        details: {
+            student: {},
+            advisor: {},
+            supervisor: {},
+            admin: {}
+        }
+    };
+    let notice = {
+        title: 'Add request from ' + from.name,
+        desc: 'May I be your ' + from.role + '?',
+        res: false,
+        state: 'invitation'
+    }
+    //Add both user according to his/her role
+    if(from) {
+        service.details[from.role].userId = getRoleData(from);
+        notice.from = from._id;
+    }
+    if(to) {
+        service.details[to.role].userId = getRoleData(to);
+        notice.to = to._id;
+    }
+    //TO DO: Should check if this kind of service package already exist
+    Service.create(service, function(data) {
+        //Create notification here
+        Notification.sendNotice(notice, function(noticeSaved) {
+
+            return res.status(200).json(data); 
+        });
+    });
+};
+
+function getRoleData(user) {
+    switch(user.role) {
+        case 'student':
+            return user.studentData._id
+        break;
+        case 'advisor':
+            return user.advisorData._id
+        break;
+        case 'supervisor':
+            return user.supervisorData._id
+        break;
+        case 'admin':
+            return user.adminData._id
+        break;
+        default:
+            return;
+        break;
+
     }
 }
 

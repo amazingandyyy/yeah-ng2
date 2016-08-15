@@ -296,24 +296,22 @@ userSchema.statics.updateCurrentUser = function (updatedUser, cb) {
     User.findById(updatedUser._id)
         .exec( (err, dbUser) => {
             if (err || !dbUser) cb(err)
-            dbUser.name = updatedUser.name
-            dbUser.save(function (err, savedUser) {
+            // dbUser.name = updatedUser.name
+            // dbUser.save(function (err, savedUser) {
+            //     if (err || !savedUser) {
+            //         return cb(err)
+            //     }
+            //     return cb(null, savedUser)
+            // })
+            console.log('updatedUser: ', updatedUser)
+            var mergedUser = _.merge(dbUser, updatedUser)
+            mergedUser.save(function (err, savedUser) {
                 if (err || !savedUser) {
                     return cb(err)
                 }
-                console.log('dasfdsf')
+                savedUser.password = null;
                 return cb(null, savedUser)
             })
-            // console.log('updatedUser: ', updatedUser)
-            // var mergedUser = _.merge(dbUser, updatedUser)
-            // mergedUser.save(function (err, savedUser) {
-            //     if (err || !savedUser) {
-            //         console.log('eee')
-            //         return cb(err)
-            //     }
-            //     savedUser.password = null;
-            //     return cb(null, savedUser)
-            // })
         })
 }
 
