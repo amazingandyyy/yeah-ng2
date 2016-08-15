@@ -4,6 +4,7 @@ import moment = require('moment');
 
 import { User } from '../../shared/types/user'
 import { AuthService } from '../../shared/services/auth.service';
+import { ServicePackageService } from '../../shared/services/service.package.service';
 import { SocketService } from '../../shared/services/socket.service';
 
 @Component({
@@ -11,20 +12,22 @@ import { SocketService } from '../../shared/services/socket.service';
     selector: 'yeah-account',
     templateUrl: 'account.component.html',
     styleUrls: ['account.style.css'],
-    providers: [AuthService, SocketService]
+    providers: [AuthService, SocketService, ServicePackageService]
 })
 
-export class AccountComponent implements OnInit {
-    currentUser = {};
+export class AccountComponent implements OnInit, OnDestroy {
+    currentUser: User;
     editAI: boolean;
     editGI: boolean;
     emailError: boolean;
+    roleNotMatchService: boolean;
     service = 'student';
 
     constructor(
         private router: Router,
         private authService: AuthService,
-        private socket: SocketService
+        private socket: SocketService,
+        private servicePackage: ServicePackageService
     ) { }
 
     generateTime(unix) {
@@ -79,24 +82,45 @@ export class AccountComponent implements OnInit {
         }
     }
 
-    addStudent(email: string) {
+    resetErr(event: any) {
+        this.roleNotMatchService = false;
+        this.emailError = false;
+    }
+
+    addService(email: string, service:string) {
         if(email) {
+            let data = {
+                currentUser: this.currentUser,
+                userToAdd: {}
+            };
+
             //Find user by email
             this.authService.getUserByEmail(email)
             .subscribe(
             user => {
-                //Add user to this user's student
-                
+                //Check if this user has the role for the intended service
+                if(user.role === service) {
+                    data.userToAdd = user;
+                    //Add user to this user's service
+                    this.servicePackage.createService(data)
+                    .subscribe(
+                    user => {
+                        console.log('service created');
+                    },
+                    error => {
+                        console.log(error);
+                    });
+                } else {
+                    this.roleNotMatchService = true;
+                }
+            
             },
             error => {
                 this.emailError = true;
             });
             
         }
-    }
-
-    selectService(service: string) {
-        console.log('select', service);
+        
     }
 
     ngOnInit() {
@@ -107,5 +131,10 @@ export class AccountComponent implements OnInit {
             self.currentUser = user;
         });
         
+    }
+
+    ngOnDestroy() {
+        this.socket.unsyncById('user', this.currentUser._id, function() {
+        });
     }
 }

@@ -1,6 +1,7 @@
 'use strict';
 
 var User = require('./models/user.model');
+var Service = require('./models/service.model');
 var _ = require('lodash');
 
 exports.index = function (req, res) {
@@ -73,6 +74,54 @@ exports.update = function (req, res) {
         });
     }
     return res.status(200).json(user);
+}
+
+exports.createService = function(req, res) {
+    console.log('body @createService', req.body);
+    let body = req.body;
+    let from = body.currentUser;
+    let to = body.userToAdd;
+    let service = {
+        details: {
+            student: {},
+            advisor: {},
+            supervisor: {},
+            admin: {}
+        }
+    };
+    //Add both user according to his/her role
+    if(from) {
+        service.details[from.role].userId = getRoleData(from);
+    }
+    if(to) {
+        service.details[to.role].userId = getRoleData(to);
+    }
+    Service.create(service, function(data) {
+        //Create notification here
+
+        return res.status(200).json(data);
+    });
+};
+
+function getRoleData(user) {
+    switch(user.role) {
+        case 'student':
+            return user.studentData._id
+        break;
+        case 'advisor':
+            return user.advisorData._id
+        break;
+        case 'supervisor':
+            return user.supervisorData._id
+        break;
+        case 'admin':
+            return user.adminData._id
+        break;
+        default:
+            return;
+        break;
+
+    }
 }
 
 function handleError(res, err) {

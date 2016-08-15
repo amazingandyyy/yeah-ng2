@@ -25,5 +25,7 @@ router.post('/login', Controller.login);
 
 router.post('/signup', Controller.signup);
 
+router.post('/createService', Controller.createService);
+
 
 module.exports = router;

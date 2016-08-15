@@ -53,7 +53,7 @@
         </div>
         <div class="col-sm-2"></div>
     </div>
-    <div class="row" *ngIf="checkRole('admin', currentUser)">
+    <div class="row" *ngIf="checkRole('advisor', currentUser)">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
 
@@ -66,7 +66,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="select-service">
-                                <select name="service" class="form-control" [(ngModel)]="service" (ngModelChange)="selectService(service)">
+                                <select name="service" class="form-control" [(ngModel)]="service">
                                     <option value="student">Student</option>
                                     <option value="advisor">Advisor</option>
                                     <option value="supervisor">Supervisor</option>
@@ -76,12 +76,13 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="input-group">
-                                <input type="email" class="form-control" placeholder="Enter Student's Email" #studentEmail>
+                                <input type="email" class="form-control" placeholder="Enter {{service}}'s Email" #email (keypress)="resetErr($event)">
                                 <span class="input-group-btn">
-                                <button class="btn send" type="button" (click)="addStudent(studentEmail.value)">Add Student</button>
+                                <button class="btn send" type="button" (click)="addService(email.value, service)">Add</button>
                                 </span>
                             </div> 
-                            <div class="alert alert-danger" *ngIf="emailError">No student has this email</div>
+                            <div class="alert alert-danger" *ngIf="emailError">No user has this email</div>
+                            <div class="alert alert-danger" *ngIf="roleNotMatchService">User is not a {{service}}</div>
                         </div>
                     </div>
                 </div>
