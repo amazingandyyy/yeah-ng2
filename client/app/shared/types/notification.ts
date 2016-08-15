@@ -6,6 +6,7 @@ export class Notification {
     public description: string,
     public response: boolean,
     // "message" || "invitation" 
-    public state: string
+    public state: string,
+    public read: boolean
   ) {  }
 }

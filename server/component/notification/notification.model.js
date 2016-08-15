@@ -21,6 +21,10 @@ let notificationSchema = new mongoose.Schema({
     read: {
         type: Boolean,
         default: false
+    },
+    date: {
+        type: Date,
+        default: Date.now
     }
 })
 
@@ -36,6 +40,16 @@ notificationSchema.statics.sendNotice = function(message, cb) {
 	notice.save((err, savedNotice) => {
         if (err) return cb(err)
         cb(savedNotice);
+    });
+};
+
+notificationSchema.statics.getThreeNew = function(userId, cb) {
+    Notification.find({to: userId})
+    .sort({'date': -1})
+    .limit(3)
+    .exec(function(err, notice) {
+        if(err) { cb(err) }
+        cb(null, notice);
     });
 };
 

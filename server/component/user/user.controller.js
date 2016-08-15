@@ -91,7 +91,7 @@ exports.createService = function(req, res) {
     };
     let notice = {
         title: 'Add request from ' + from.name,
-        description: from.name + ' would like to be your ' + from.role,
+        desc: 'May I be your ' + from.role + '?',
         res: false,
         state: 'invitation'
     }

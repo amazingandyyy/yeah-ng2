@@ -15,6 +15,13 @@ exports.createNotification = function(req, res) {
 	});
 };
 
+exports.getThreeNew = function(req, res) {
+	Notification.getThreeNew(req.user._id, function(err, notices) {
+		if(err) { return handleError(res, err); }
+		return res.status(201).json(notices);
+	}) 
+};
+
 function handleError(res, err) {
   console.log(err);
   return res.status(500).send(err);
