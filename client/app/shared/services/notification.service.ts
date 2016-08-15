@@ -8,7 +8,5 @@ export class NotificationService {
 	
 	constructor() {}
 
-	sendNotice(content: Notification) {
-		
-	}
+	//Should have method getting notification for this user
 }

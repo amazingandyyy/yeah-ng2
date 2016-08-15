@@ -1,5 +1,6 @@
 @import "../../shared/scss/variables";
 @import "../../shared/scss/global";
+@import "../../shared/scss/loader";
 
 
 .card-block {
@@ -71,7 +72,10 @@
         background: $brand-primary url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll 98% center;
         margin-bottom: 10px;
     }
-    
+    .spinner > div {
+        background-color: white;
+    }    
 }
+
 
 

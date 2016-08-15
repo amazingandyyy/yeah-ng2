@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 
 import { AuthService } from '../shared/services/auth.service';
 import { SocketService } from '../shared/services/socket.service';
+import { User } from '../../shared/types/user'
 
 
 @Component({
@@ -14,9 +15,9 @@ import { SocketService } from '../shared/services/socket.service';
     styleUrls: ['dashboard.style.css']
 })
 
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit, OnDestroy{
     // serve for the two dropdown list in top-right of the navbar
-    currentUser = {};
+    currentUser: User;
     profileToggled: boolean = false;
     inboxToggled: boolean = false;
     currentSession: string;
@@ -52,9 +53,16 @@ export class DashboardComponent implements OnInit{
     }
 
     ngOnInit() {
-        console.log('check');
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getUser();
+        let self = this;
+        this.socket.syncById('notification', this.currentUser._id, function(user) {
+            console.log('got notification');
+        });
         
+    }
+
+    ngOnDestroy() {
+        this.socket.unsyncById('notification', this.currentUser._id);
     }
 }

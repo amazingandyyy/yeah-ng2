@@ -67,6 +67,7 @@
                         <div class="col-sm-12">
                             <div class="select-service">
                                 <select name="service" class="form-control" [(ngModel)]="service">
+                                <!-- TO DO: Should use *ngFor to create options tailored to user -->
                                     <option value="student">Student</option>
                                     <option value="advisor">Advisor</option>
                                     <option value="supervisor">Supervisor</option>
@@ -78,7 +79,14 @@
                             <div class="input-group">
                                 <input type="email" class="form-control" placeholder="Enter {{service}}'s Email" #email (keypress)="resetErr($event)">
                                 <span class="input-group-btn">
-                                <button class="btn send" type="button" (click)="addService(email.value, service)">Add</button>
+                                <button class="btn send" type="button" (click)="addService(email.value, service)">
+                                    <div [hidden]="sending">Add</div>
+                                    <div *ngIf="sending" class="spinner">
+                                      <div class="bounce1"></div>
+                                      <div class="bounce2"></div>
+                                      <div class="bounce3"></div>
+                                    </div>
+                                </button>
                                 </span>
                             </div> 
                             <div class="alert alert-danger" *ngIf="emailError">No user has this email</div>

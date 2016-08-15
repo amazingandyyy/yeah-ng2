@@ -20,6 +20,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     editAI: boolean;
     editGI: boolean;
     emailError: boolean;
+    sending: boolean;
     roleNotMatchService: boolean;
     service = 'student';
 
@@ -93,8 +94,10 @@ export class AccountComponent implements OnInit, OnDestroy {
                 currentUser: this.currentUser,
                 userToAdd: {}
             };
-
+            let self = this;
+            this.sending = true;
             //Find user by email
+
             this.authService.getUserByEmail(email)
             .subscribe(
             user => {
@@ -106,17 +109,20 @@ export class AccountComponent implements OnInit, OnDestroy {
                     .subscribe(
                     user => {
                         console.log('service created');
+                        self.sending = false;
                     },
                     error => {
                         console.log(error);
                     });
                 } else {
-                    this.roleNotMatchService = true;
+                    self.roleNotMatchService = true;
+                    self.sending = false;
                 }
             
             },
             error => {
-                this.emailError = true;
+                self.emailError = true;
+                self.sending = false;
             });
             
         }
@@ -134,7 +140,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.socket.unsyncById('user', this.currentUser._id, function() {
-        });
+        this.socket.unsyncById('user', this.currentUser._id);
     }
 }

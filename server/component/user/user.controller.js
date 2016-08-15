@@ -2,6 +2,7 @@
 
 var User = require('./models/user.model');
 var Service = require('./models/service.model');
+var Notification = require('../notification/notification.model');
 var _ = require('lodash');
 
 exports.index = function (req, res) {
@@ -77,7 +78,6 @@ exports.update = function (req, res) {
 }
 
 exports.createService = function(req, res) {
-    console.log('body @createService', req.body);
     let body = req.body;
     let from = body.currentUser;
     let to = body.userToAdd;
@@ -89,17 +89,28 @@ exports.createService = function(req, res) {
             admin: {}
         }
     };
+    let notice = {
+        title: 'Add request from ' + from.name,
+        description: from.name + ' would like to be your ' + from.role,
+        res: false,
+        state: 'invitation'
+    }
     //Add both user according to his/her role
     if(from) {
         service.details[from.role].userId = getRoleData(from);
+        notice.from = from._id;
     }
     if(to) {
         service.details[to.role].userId = getRoleData(to);
+        notice.to = to._id;
     }
+    //TO DO: Should check if this kind of service package already exist
     Service.create(service, function(data) {
         //Create notification here
+        Notification.sendNotice(notice, function(noticeSaved) {
 
-        return res.status(200).json(data);
+            return res.status(200).json(data); 
+        });
     });
 };
 
