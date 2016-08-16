@@ -1,0 +1,109 @@
+@import "../../shared/scss/variables";
+@import "../../shared/scss/global";
+
+
+.card-block {
+    // box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.15);
+    user-select: none;
+    .row {
+        text-transform: capitalize;
+        padding: 8px 5px;
+        .col-xs-4 {
+            text-align: left;
+        }
+        .col-xs-8 {
+            text-align: right;
+        }
+        &:hover {
+            opacity: 0.95;
+        }
+    }
+    h6 {
+        text-transform: capitalize;
+        b {
+            text-align: left;
+        }
+        .editBtn {
+            text-transform: uppercase;
+            padding-left: 6px;
+            cursor: pointer;
+            float: right;
+            opacity: 0.5;
+            &:hover {
+                opacity: 0.9;
+            }
+            &:active {
+                color: $brand-primary;
+            }
+        }
+    }
+    &.hoverable {
+        cursor: pointer;
+        &:hover{
+            box-shadow: 1px 1px 10px 0px rgba($deep-gray, 0.3);
+        }
+    }
+    &.service {
+        span {
+            text-align: right;
+            float: right;
+        }
+    }
+}
+
+h3.title {
+    font-weight: 900;
+}
+
+.row {
+    .col-small {
+        padding-right: 7px;
+        padding-left: 7px;
+    }
+}
+
+.modal {
+    height: 100%;
+    width: 100%;
+    z-index: 999;
+    background: rgba(255,255,255,0.85);
+    padding-top: 50px;
+    padding-bottom: 100px;
+    transform: .2s all ease-in-out;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    .card {
+        opacity: 0;
+        .close {
+            float: right;
+            margin-right: -10px;
+        }
+    }
+    &.active{
+        padding-top: 100px;
+        display: block;
+        text-align: center;
+        .card {
+            height: auto;
+            opacity: 1;
+            width: 95%;
+            margin: auto;
+        }
+    }
+
+}
+
+
+@media (min-width: 767px) {
+    .modal {
+        padding-top: 100px;
+        &.active{
+            padding-top: 150px;
+            .card {
+                max-width: 900px;
+            }
+        }
+    }
+
+}

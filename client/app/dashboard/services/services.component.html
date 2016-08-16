@@ -1,0 +1,100 @@
+<div class="container" style="padding-top: 50px;">
+    <h3 class="title">Services</h3>
+    <div class="row" *ngIf="!(currentUser.role === 'student')">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-block">
+                    <h6>
+                        <b>Service Management</b>
+                    </h6>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="select-service">
+                                <select name="service" class="form-control" [(ngModel)]="service">
+                                <!-- TO DO: Should use *ngFor to create options tailored to user -->
+                                    <option value="student">Student</option>
+                                    <option value="advisor">Advisor</option>
+                                    <option value="supervisor">Supervisor</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <input type="email" class="form-control" placeholder="Enter {{service}}'s Email" #email (keypress)="resetErr($event)">
+                                <span class="input-group-btn">
+                                    <button class="btn send" type="button" (click)="addService(email.value, service)">
+                                        <div [hidden]="sending">Add</div>
+                                        <div *ngIf="sending" class="spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
+                                        </div>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="alert alert-danger" *ngIf="emailError">No user has this email</div>
+                            <div class="alert alert-danger" *ngIf="roleNotMatchService">User is not a {{service}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+    <hr>
+    <div class="row" *ngIf="!(currentUser.role === 'student')">
+        <div class="col-md-4 col-small">
+            <div class="card">
+                <div class="card-block service hoverable">
+                    <div>
+                        Student: <span>Andy <small>(Foothill)</small></span>
+                    </div>
+                    <div>
+                        Advisor: <span>Jason Yang</span>
+                    </div>
+                    <div>
+                        CreateAt: <span>August 8, 2016</span>
+                    </div>
+                    <div>
+                        Packages: <span>總裁超級服務</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal active">
+    <div class="card">
+        <div class="card-block">
+            <header>
+                <div class="close"></div>
+            </header>
+            <body>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+                <div>fjdsaklfds;dksf</div>
+            </body>
+            <footer></footer>
+        </div>
+
+    </div>
+</div>
