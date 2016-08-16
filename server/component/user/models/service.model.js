@@ -27,7 +27,6 @@ let serviceSchema = new mongoose.Schema({
                 type: mongoose.Schema.ObjectId,
                 ref: 'Student',
                 childPath: 'services'
-                // autopopulate: true
             },
             confirmed: {
                 type: Boolean,
@@ -39,7 +38,6 @@ let serviceSchema = new mongoose.Schema({
                 type: mongoose.Schema.ObjectId,
                 ref: 'Advisor',
                 childPath: 'services'
-                // autopopulate: true
             },
             confirmed: {
                 type: Boolean,
@@ -51,7 +49,6 @@ let serviceSchema = new mongoose.Schema({
                 type: mongoose.Schema.ObjectId,
                 ref: 'Supervisor',
                 childPath: 'services'
-                // autopopulate: true
             },
             confirmed: {
                 type: Boolean,
@@ -63,11 +60,9 @@ let serviceSchema = new mongoose.Schema({
                 type: mongoose.Schema.ObjectId,
                 ref: 'Admin',
                 childPath: 'services'
-                // autopopulate: true
             },
             confirmed: {
                 type: Boolean,
-                required: true,
                 default: false
             }
         }

@@ -86,6 +86,7 @@ export class AuthService {
         let data = res.json();
         this.isLoggedIn = true;
         this.currentUser = data;
+        
         return data || {};
     }
     

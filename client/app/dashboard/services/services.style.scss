@@ -77,25 +77,39 @@ h3.title {
     .card {
         opacity: 0;
         transition: .2s all ease-in-out;
+        box-shadow: 0px 10px 20px -6px rgba($deep-gray, 0.2);
 
-        .close {
-            border: 1px solid rgba(0,0,0,0);
-            float: right;
-            margin-top: -21px;
-            margin-right: -21px;
-            padding: 10px 15px;
-            border-radius: 0px 3px 0px 0px;
-        }
+        header, body, footer {
+            padding: 15px;
+            position: relative;
+        } 
+        
         header{
+            border-bottom: 1px solid rgba($deep-gray, 0.2);
             h3.title{
                 font-weight: 900;
-                font-size: 2em;
+                font-size: 1.75em;
+                margin-bottom: 0px;
+                text-align: left;
             }
+            .close {
+                position: absolute;
+                right: 0px;
+                top: 0px;
+                border-radius: 0px 3px 0px 0px;
+                font-size: 2.5em;
+                padding: 6px 12px;
+                font-weight: 300;
+            }
+        }
+
+        footer {
+            border-top: 1px solid rgba($deep-gray, 0.2);
         }
     }
     &.active{
         transition: .2s all ease-in-out;
-        padding-top: 100px;
+        padding-top: 80px;
         display: block;
         text-align: center;
         .card {
@@ -114,7 +128,7 @@ h3.title {
     .modal {
         padding-top: 100px;
         &.active{
-            padding-top: 150px;
+            padding-top: 130px;
             .card {
                 max-width: 900px;
             }

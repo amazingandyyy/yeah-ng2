@@ -96,8 +96,13 @@ export class ServicesComponent implements OnInit {
         this.modalActivated = !this.modalActivated
     }
 
+    getServices(){
+        
+    }
+
     ngOnInit() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getCurrentUser();
+        this.getServices()
     }
 }

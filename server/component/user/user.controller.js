@@ -36,8 +36,8 @@ exports.getSingleUser = function (req, res) {
     })
 };
 
-exports.findUserByEmail = function(req, res) {
-    User.findOne({'email.data': req.params.email}, (err, data) => {
+exports.findUserByEmail = function (req, res) {
+    User.findOne({ 'email.data': req.params.email }, (err, data) => {
         console.log('found user by email: ', data)
         if (err) return res.status(404).send(err)
         res.send(data)
@@ -69,65 +69,81 @@ exports.updateCurrentUser = function (req, res) {
             if (err) return handleError(res, err)
             return res.status(200).send(data)
         })
-    }else{
+    } else {
         return handleError(res, err)
     }
 }
 
-exports.createService = function(req, res) {
-    let body = req.body;
-    let from = body.currentUser;
-    let to = body.userToAdd;
-    let service = {
-        details: {
-            student: {},
-            advisor: {},
-            supervisor: {},
-            admin: {}
+exports.createService = function (req, res) {
+    if (checkAuthority('admin', req.role)) {
+        let body = req.body;
+        let from = body.currentUser;
+        let to = body.userToAdd;
+        let service = {
+            details: {
+                student: {},
+                advisor: {},
+                supervisor: {},
+                admin: {}
+            }
+        };
+        let notice = {
+            title: 'Add request from ' + from.name,
+            desc: 'May I be your ' + from.role + '?',
+            res: false,
+            state: 'invitation'
         }
-    };
-    let notice = {
-        title: 'Add request from ' + from.name,
-        desc: 'May I be your ' + from.role + '?',
-        res: false,
-        state: 'invitation'
-    }
-    //Add both user according to his/her role
-    if(from) {
-        service.details[from.role].userId = getRoleData(from);
-        notice.from = from._id;
-    }
-    if(to) {
-        service.details[to.role].userId = getRoleData(to);
-        notice.to = to._id;
-    }
-    //TO DO: Should check if this kind of service package already exist
-    Service.create(service, function(data) {
-        //Create notification here
-        Notification.sendNotice(notice, function(noticeSaved) {
-
-            return res.status(200).json(data); 
+        // Add both user according to his/her role
+        if (from) {
+            service.details[from.role].userId = getRoleData(from);
+            notice.from = from._id;
+        }
+        if (to) {
+            service.details[to.role].userId = getRoleData(to);
+            notice.to = to._id;
+        }
+        // TO DO: Should check if this kind of service package already exist
+        Service.create(service, (err, data) => {
+            if (err) return res.status(400).send()
+            // Create and send out notification here
+            Notification.sendNotice(notice, (err, noticeSaved)=> {
+                if (err) return res.status(400).send()
+                return res.status(200).json(data);
+            });
         });
-    });
+    } else {
+        return res.status(401).send({ error: 'You are not authorized.' })
+    }
 };
 
+function checkAuthority(requiredRole, userRole) {
+    const rolesArray = ['student', 'advisor', 'supervisor', 'admin', 'superadmin'];
+
+    if (userRole) {
+        if (rolesArray.indexOf(userRole) >= rolesArray.indexOf(requiredRole)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function getRoleData(user) {
-    switch(user.role) {
+    switch (user.role) {
         case 'student':
             return user.studentData._id
-        break;
+            break;
         case 'advisor':
             return user.advisorData._id
-        break;
+            break;
         case 'supervisor':
             return user.supervisorData._id
-        break;
+            break;
         case 'admin':
             return user.adminData._id
-        break;
+            break;
         default:
             return;
-        break;
+            break;
 
     }
 }
