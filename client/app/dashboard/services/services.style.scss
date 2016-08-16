@@ -69,22 +69,37 @@ h3.title {
     background: rgba(255,255,255,0.85);
     padding-top: 50px;
     padding-bottom: 100px;
-    transform: .2s all ease-in-out;
+    transition: .2s all ease-in-out;
     overflow-x: hidden;
     overflow-y: scroll;
+    user-select: default;
 
     .card {
         opacity: 0;
+        transition: .2s all ease-in-out;
+
         .close {
+            border: 1px solid rgba(0,0,0,0);
             float: right;
-            margin-right: -10px;
+            margin-top: -21px;
+            margin-right: -21px;
+            padding: 10px 15px;
+            border-radius: 0px 3px 0px 0px;
+        }
+        header{
+            h3.title{
+                font-weight: 900;
+                font-size: 2em;
+            }
         }
     }
     &.active{
+        transition: .2s all ease-in-out;
         padding-top: 100px;
         display: block;
         text-align: center;
         .card {
+            transition: .2s all ease-in-out;
             height: auto;
             opacity: 1;
             width: 95%;

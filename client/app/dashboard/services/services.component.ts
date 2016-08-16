@@ -20,6 +20,7 @@ export class ServicesComponent implements OnInit {
     sending: boolean;
     roleNotMatchService: boolean;
     service = 'student';
+    modalActivated: boolean = false;
 
     constructor(
         private router: Router,
@@ -89,6 +90,10 @@ export class ServicesComponent implements OnInit {
                 self.sending = false;
             });   
         }   
+    }
+
+    toggleModal(serviceId: string) {
+        this.modalActivated = !this.modalActivated
     }
 
     ngOnInit() {

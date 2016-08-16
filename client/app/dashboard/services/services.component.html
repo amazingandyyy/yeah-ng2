@@ -47,7 +47,7 @@
     <hr>
     <div class="row" *ngIf="!(currentUser.role === 'student')">
         <div class="col-md-4 col-small">
-            <div class="card">
+            <div class="card" (click)="toggleModal('id')">
                 <div class="card-block service hoverable">
                     <div>
                         Student: <span>Andy <small>(Foothill)</small></span>
@@ -67,11 +67,14 @@
     </div>
 </div>
 
-<div class="modal active">
-    <div class="card">
-        <div class="card-block">
+<div class="modal animated" (click)="toggleModal()" [class.active]="modalActivated" [class.fadeIn]="modalActivated">
+    <div class="card animated" [class.flipInYx]="modalActivated" (click)="toggleModal()" >
+        <div class="card-block" >
+            <div class="close" (click)="toggleModal()">
+                <i class="fa fa-times"></i>
+            </div>
             <header>
-                <div class="close"></div>
+                <h3 class="title">Yo!!!!!</h3>
             </header>
             <body>
                 <div>fjdsaklfds;dksf</div>
