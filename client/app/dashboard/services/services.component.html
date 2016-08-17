@@ -47,7 +47,14 @@
     <hr>
     <div class="row" *ngIf="!(currentUser.role === 'student')">
         <div class="col-md-4 col-small">
-            <div class="card" (click)="toggleModal('id')">
+            <div class="card" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)">
+                <div class="card-block service hoverable">
+                    <h1>Create service</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-small">
+            <div class="card" (click)="toggleModal('Service Details', 'details', 'update','')">
                 <div class="card-block service hoverable">
                     <div>
                         Student: <span>Andy <small>(Foothill)</small></span>
@@ -67,33 +74,55 @@
     </div>
 </div>
 
-<div class="modal" (click)="toggleModal()" [class.active]="modalActivated">
-    <div class="card animated" [class.fadeIn]="modalActivated" (click)="toggleModal()" >
-        <div class="card-block2">
-            <header>
-                <h3 class="title">Service Details</h3>
-                <div class="close" (click)="toggleModal()">×</div>
-            </header>
-            <body>
-                <div class="row">
-                    <div class="col-sm-6">
-                        
-                    </div>
-                    <div class="col-sm-6">
+<div class="modal" [class.active]="modalActivated">
+    <div class="card animated" [class.fadeIn]="modalActivated">
 
-                    </div>
-                    <div class="col-sm-6">
+        <header>
+            <h3 class="title">{{activatedModal.title}}</h3>
+            <div class="close" (click)="toggleModal()">×</div>
+        </header>
 
-                    </div>
-                    <div class="col-sm-6">
-
+        <body>
+            <form #newServiceForm="ngForm">
+                <div class="row" *ngIf="activatedModal.state == 'new' ">
+                <div class="form-group row">
+                    <label class="col-xs-4 col-form-label">Student <small>(client)</small></label>
+                    <div class="col-xs-8">
+                        <input class="form-control" placeholder="Student Email" type="text" (ngModel)="newService.student" required>
                     </div>
                 </div>
-            </body>
-            <footer>
-                
-            </footer>
-        </div>
-
+                <div class="form-group row">
+                    <label class="col-xs-4 col-form-label">Package</label>
+                    <div class="col-xs-8">
+                        <select name="package" class="form-control" (ngModel)="newService.package" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-xs-4 col-form-label">Price</label>
+                    <div class="col-xs-4">
+                        <input class="form-control" placeholder="Price" type="number" (ngModel)="newService.price" required>
+                    </div>
+                    <div class="col-xs-4">
+                        <select name="priceUnit" class="form-control" (ngModel)="newService.priceUnit" required>
+                            <option value="1">USD</option>
+                            <option value="2">RMB</option>
+                        </select>
+                    </div>
+                </div>
+                </div>
+                <div style="text-align: right;">
+                    <button class="btn btn-primary-o" (click)="toggleModal()">Cancel</button>
+                    <button class="btn btn-primary" type="submit" (click)="createService(newServiceForm.value)" [disabled]="!newServiceForm.form.valid">{{activatedModal.behavior}}</button>
+                </div>
+            </form>
+        </body>
+        <!--<footer>
+            
+        </footer>-->
     </div>
 </div>

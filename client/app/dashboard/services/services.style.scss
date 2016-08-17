@@ -78,9 +78,10 @@ h3.title {
         opacity: 0;
         transition: .2s all ease-in-out;
         box-shadow: 0px 10px 20px -6px rgba($deep-gray, 0.2);
+        text-align: left !important;
 
         header, body, footer {
-            padding: 15px;
+            padding: 15px 20px;
             position: relative;
         } 
         
@@ -106,12 +107,23 @@ h3.title {
         footer {
             border-top: 1px solid rgba($deep-gray, 0.2);
         }
+        input {
+            padding: 6px 16px;
+        }
+        input[disabled] {
+            cursor: default;
+            background: none;
+            border: 1px solid rgba($deep-gray, 0);
+            text-align: right;
+        }
+        .row{
+            margin: 10px 0px;
+        }
     }
     &.active{
         transition: .2s all ease-in-out;
         padding-top: 80px;
         display: block;
-        text-align: center;
         .card {
             transition: .2s all ease-in-out;
             height: auto;
@@ -120,7 +132,6 @@ h3.title {
             margin: auto;
         }
     }
-
 }
 
 
@@ -130,7 +141,10 @@ h3.title {
         &.active{
             padding-top: 130px;
             .card {
-                max-width: 900px;
+                max-width: 700px;
+                body{
+                    padding: 20px;
+                } 
             }
         }
     }

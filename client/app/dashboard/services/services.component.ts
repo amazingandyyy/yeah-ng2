@@ -21,6 +21,8 @@ export class ServicesComponent implements OnInit {
     roleNotMatchService: boolean;
     service = 'student';
     modalActivated: boolean = false;
+    activatedModal = {};
+    activatedService = {}
 
     constructor(
         private router: Router,
@@ -42,7 +44,7 @@ export class ServicesComponent implements OnInit {
     checkRole(role: string, user: User) {
         // role is the required role to access the content
         // User's role must have higher or equal authority to this role
-        if(user) {
+        if (user) {
             return this.authService.checkAuthority(role, user.role);
         } else {
             return false;
@@ -54,8 +56,8 @@ export class ServicesComponent implements OnInit {
         this.emailError = false;
     }
 
-    addService(email: string, service:string) {
-        if(email) {
+    addService(email: string, service: string) {
+        if (email) {
             let data = {
                 currentUser: this.currentUser,
                 userToAdd: {}
@@ -65,38 +67,46 @@ export class ServicesComponent implements OnInit {
             //Find user by email
 
             this.authService.getUserByEmail(email)
-            .subscribe(
-            user => {
-                //Check if this user has the role for the intended service
-                if(user.role === service) {
-                    data.userToAdd = user;
-                    //Add user to this user's service
-                    this.servicePackage.createService(data)
-                    .subscribe(
-                    user => {
-                        console.log('service created');
+                .subscribe(
+                user => {
+                    //Check if this user has the role for the intended service
+                    if (user.role === service) {
+                        data.userToAdd = user;
+                        //Add user to this user's service
+                        this.servicePackage.createService(data)
+                            .subscribe(
+                            user => {
+                                console.log('service created');
+                                self.sending = false;
+                            },
+                            error => {
+                                console.log(error);
+                            });
+                    } else {
+                        self.roleNotMatchService = true;
                         self.sending = false;
-                    },
-                    error => {
-                        console.log(error);
-                    });
-                } else {
-                    self.roleNotMatchService = true;
+                    }
+                },
+                error => {
+                    self.emailError = true;
                     self.sending = false;
-                }
-            },
-            error => {
-                self.emailError = true;
-                self.sending = false;
-            });   
-        }   
+                });
+        }
     }
 
-    toggleModal(serviceId: string) {
+    createService(newServiceData: any){
+        console.log('newServiceData: ', newServiceData);
+    }
+
+    toggleModal(title: string, state: string, behavior, attach: string) {
+        this.activatedModal.title = title;
+        this.activatedModal.state = state;
+        this.activatedModal.behavior = behavior;
         this.modalActivated = !this.modalActivated
     }
 
-    getServices(){
+    getServices() {
+        console.log('getServices');
         
     }
 

@@ -8,50 +8,57 @@ body {
         margin-top: 15px;
         margin-bottom: 15px;
     }
-    button.btn.btn-primary {
+    button.btn {
         text-transform: uppercase;
         font-weight: 500;
         letter-spacing: 1px;
-        margin: 10px auto 20px;
-        border: none;
-        width: 100%;
-        background: $brand-primary;
-        color: white;
-        height: 55px;
-        outline: none;
+        margin: 10px auto 15px;
+        border: 1px solid rgba($brand-primary, 0);
+        padding: 10px 40px;
         transition: 0.1s background ease-in-out;
+        
         cursor: pointer;
+        outline: none;
         overflow: hidden;
         user-select: none;
+    }
+    button.btn.btn-primary {
+        background: $brand-primary;
+        color: white;
         &:hover {
-            background: $brand-secondary;
+            transition: 0.1s background ease-in-out;
+            background: lighten($brand-secondary, 10%);
         }
         &:active {
             background: darken($brand-primary, 10%);
+            transform: scale(0.99);
         }
     }
     button.btn.btn-secondary {
-        text-transform: uppercase;
-        font-weight: 500;
-        letter-spacing: 1px;
-        margin: 10px auto 20px;
-        border: none;
-        width: 100%;
         background: lighten($brand-secondary, 5%);
         color: white;
-        height: 55px;
-        outline: none;
-        transition: 0.1s background ease-in-out;
-        cursor: pointer;
-        overflow: hidden;
-        user-select: none;
         &:hover {
+            transition: 0.1s background ease-in-out;
             background:  lighten($brand-secondary, 10%);
         }
         &:active {
             background: darken($brand-secondary, 10%);
+            transform: scale(0.99);
         }
     }
+    button.btn.btn-primary-o {
+        background: none;
+        border: 1px solid rgba($brand-primary, 1);
+        color: $brand-primary;
+        &:hover {
+            transition: 0.1s background ease-in-out;
+            opacity: 0.8;
+        }
+        &:active {
+            transform: scale(0.99);
+        }
+    }
+    
     .white-card {
         user-select: none;
         display: inline-block;

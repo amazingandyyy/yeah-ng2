@@ -24,13 +24,15 @@
                         </div>
                     </div>
                     <div class="form-item">
-                        <button type="submit" class="btn btn-primary"
+                        <button type="submit" class="btn btn-primary btn-block"
                         [disabled]="!authForm.form.valid">
                             Login
                         </button>
+                        <hr>
+                        haven't have an account?
+                        <button type="submit" class="btn btn-primary-o btn-block" [routerLink]="['/signup']">go to Sign Up</button>
                     </div>
                 </form>
-                <p class="redirect text-capitalize"><span [routerLink]="['/signup']">Sign Up here</span></p>
             </div>
         </div>
         </div>
