@@ -9,24 +9,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-small">
-            <div class="card" (click)="toggleModal('Service Details', 'details', 'update','')">
-                <div class="card-block service hoverable">
-                    <div>
-                        Student: <span>Andy <small>(Foothill)</small></span>
-                    </div>
-                    <div>
-                        Advisor: <span>Jason Yang</span>
-                    </div>
-                    <div>
-                        CreateAt: <span>August 8, 2016</span>
-                    </div>
-                    <div>
-                        Packages: <span>總裁超級服務</span>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
                 <div class="card-block service hoverable">

@@ -40,24 +40,6 @@ let notificationSchema = new mongoose.Schema({
     }
 })
 
-<<<<<<< HEAD
-notificationSchema.statics.sendNotice = function(message, cb) {
-	let notice = new Notification({
-		from: message.from,
-		to: message.to,
-		title: message.title,
-		description: message.desc,
-		response: message.res,
-		state: message.state
-	})
-	notice.save((err, savedNotice) => {
-        if (err) return cb(err)
-        cb(null,savedNotice);
-    });
-};
-
-=======
->>>>>>> 16dda7f2524a5a0f4cf3398c3f30561f1b6fb2a5
 notificationSchema.statics = {
     sendNotice: function(message, cb) {
         let notice = new Notification({

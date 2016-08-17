@@ -130,17 +130,12 @@ exports.createService = function (req, res) {
         Service.create(service, (err, data) => {
             if (err) return handleError(res, err);
             // Create and send out notification here
-<<<<<<< HEAD
             Notification.sendNotice(notice, (err, noticeSaved) => {
                 if (err) return handleError(res, err);
-=======
-            //Attach service package id to notification for easier query
-            notice.service = data._id;
-            console.log('notification saved', notice);
-            Notification.sendNotice(notice, (noticeSaved)=> {
->>>>>>> 16dda7f2524a5a0f4cf3398c3f30561f1b6fb2a5
-                return res.status(200).json(data);
-            });
+                // Attach service package id to notification for easier query
+                notice.service = data._id;
+                    return res.status(200).json(data);
+                });
         });
     } else {
         return res.status(401).send({ error: 'You are not authorized.' })
