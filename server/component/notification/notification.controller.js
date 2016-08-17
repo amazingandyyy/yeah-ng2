@@ -19,7 +19,14 @@ exports.getThreeNew = function(req, res) {
 	Notification.getThreeNew(req.user._id, function(err, notices) {
 		if(err) { return handleError(res, err); }
 		return res.status(201).json(notices);
-	}) 
+	}); 
+};
+
+exports.getCounts = function(req, res) {
+	Notification.notificationCount(req.user._id, function(err, count) {
+		if(err) { return handleError(res, err); }
+		return res.status(201).json(count);
+	});
 };
 
 function handleError(res, err) {

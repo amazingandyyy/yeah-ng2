@@ -19,7 +19,7 @@
             <i class="fa fa-bell" (click)="inboxToggled = !inboxToggled; profileToggled = false">
             </i>
             <!-- This should disappear when unread counts is 0 -->
-            <span class="label label-danger unread">1</span>
+            <span class="label label-danger unread" [hidden]="noticeCount < 1">{{noticeCount}}</span>
             <div class="list-menu" *ngIf="inboxToggled" [class.active]="inboxToggled">
                 <ul>
                     <li *ngFor="let m of notifications">
