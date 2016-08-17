@@ -27,7 +27,7 @@ let studentSchema = new mongoose.Schema({
         },
         langauges: [
             { type: String }
-        ]
+        ] 
     },
     services: [
         {
