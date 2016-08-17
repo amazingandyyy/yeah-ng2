@@ -77,7 +77,28 @@ export class DashboardComponent implements OnInit, OnDestroy{
         this.noticeService.getCount()
             .subscribe(
             count => {
-                self.noticeCount = count;
+                if(isNaN(count)) {
+                    self.noticeCount = null;
+                } else {
+                    self.noticeCount = count;
+                }
+            },
+            error => {
+                console.log(<any>error)
+            });
+    }
+
+    respondToInvitation(notice: Notification, response: boolean) {
+        if(response) {
+            notice.response = true;
+        } else {
+            notice.response = false;
+        }
+        console.log('notice', notice);
+        this.noticeService.confirmInvitation(notice)
+            .subscribe(
+            notice => {
+                console.log('confirmed')
             },
             error => {
                 console.log(<any>error)

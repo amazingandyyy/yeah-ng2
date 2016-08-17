@@ -1,6 +1,8 @@
 'use strict';
 
-var Notification = require('./notification.model');
+const Notification = require('./notification.model');
+const Service = require('../user/models/service.model');
+const _ = require('lodash');
 
 exports.index = function(req, res) {
 	res.render('index');
@@ -22,10 +24,40 @@ exports.getThreeNew = function(req, res) {
 	}); 
 };
 
+exports.getAll = function(req, res) {
+	Notification.getAll(req.user._id, function(err, notices) {
+		if(err) { return handleError(res, err); }
+		return res.status(201).json(notices);
+	});
+};
+
 exports.getCounts = function(req, res) {
 	Notification.notificationCount(req.user._id, function(err, count) {
 		if(err) { return handleError(res, err); }
 		return res.status(201).json(count);
+	});
+};
+
+exports.confirmInvitation = function(req, res) {
+	Notification.findById(req.body._id, function(err, notice) {
+		if(err) { return handleError(res, err); }
+		var newNotice = _.merge(notice, req.body);
+		newNotice.save(function(err, savedNotice) {
+			//Update User Relationship
+			Service.findById(notice.service, function(err, serviceFound) {
+				if(err) { return handleError(res, err); }
+				//When invite accept
+				if(notice.response) {
+					serviceFound.details[notice.from.role]['confirmed'] = true;
+					serviceFound.details[notice.to.role]['confirmed'] = true;
+				} else {
+					serviceFound.details[notice.from.role]['confirmed'] = false;
+					serviceFound.details[notice.to.role]['confirmed'] = false;
+				}
+				serviceFound.save();
+			});
+			return res.status(201).json(savedNotice);
+		});
 	});
 };
 

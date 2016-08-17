@@ -24,6 +24,12 @@ export class NotificationService {
             .catch(this.handelError)
     }
 
+    confirmInvitation(notification: Notification): Observable<Notification> {
+        return this.authHttp.post('/api/notification/confirmInvitation', notification)
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
+
     handelResponse(res: Response) {
         return res.json() || {};
     }

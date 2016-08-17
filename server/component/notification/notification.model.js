@@ -25,6 +25,10 @@ let notificationSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    service: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Service'
     }
 })
 
@@ -47,6 +51,7 @@ notificationSchema.statics = {
     getThreeNew: function(userId, cb) {
         Notification.find({to: userId})
         .sort({'date': -1})
+        .populate('from to', 'name role')
         .limit(3)
         .exec(function(err, notice) {
             if(err) { cb(err) }
