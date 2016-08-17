@@ -43,15 +43,34 @@ notificationSchema.statics.sendNotice = function(message, cb) {
     });
 };
 
-notificationSchema.statics.getThreeNew = function(userId, cb) {
-    Notification.find({to: userId})
-    .sort({'date': -1})
-    .limit(3)
-    .exec(function(err, notice) {
-        if(err) { cb(err) }
-        cb(null, notice);
-    });
-};
+notificationSchema.statics = {
+    getThreeNew: function(userId, cb) {
+        Notification.find({to: userId})
+        .sort({'date': -1})
+        .limit(3)
+        .exec(function(err, notice) {
+            if(err) { cb(err) }
+            cb(null, notice);
+        });
+    },
+    getAll: function(userId, cb) {
+        Notification.find({to: userId})
+        .sort({'date': -1})
+        .exec(function(err, notice) {
+            if(err) { cb(err) }
+            cb(null, notice);
+        });
+    },
+    notificationCount: function(userId, cb) {
+        Notification.find({to: userId, read: false})
+        .count()
+        .exec(function(err, count) {
+            if(err) { cb(err) }
+            cb(null, count);
+        });
+    }
+}
+
 
 Notification = mongoose.model('Notification', notificationSchema)
 module.exports = Notification;

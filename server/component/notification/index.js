@@ -11,6 +11,8 @@ router.get('/', Controller.index);
 
 router.get('/getThreeNew', User.authMiddleware, Controller.getThreeNew);
 
+router.get('/getCounts', User.authMiddleware, Controller.getCounts);
+
 router.post('/send', User.authMiddleware, Controller.createNotification);
 
 module.exports = router;

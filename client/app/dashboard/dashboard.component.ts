@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
     currentSession: string;
     currentUserRole: string;
     notifications: Array<Notification>;
+    noticeCount: number;
 
     constructor(
         private authService: AuthService,
@@ -71,6 +72,18 @@ export class DashboardComponent implements OnInit, OnDestroy{
             });
     }
 
+    getNotificationCount() {
+        let self = this;
+        this.noticeService.getCount()
+            .subscribe(
+            count => {
+                self.noticeCount = count;
+            },
+            error => {
+                console.log(<any>error)
+            });
+    }
+
     ngOnInit() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getUser();
@@ -78,9 +91,14 @@ export class DashboardComponent implements OnInit, OnDestroy{
         this.getNotification(function() {
             //Listen to updates after loading the first three notifications
             self.socket.syncById('notification', self.currentUser._id, function(notice) {
-                console.log('got notification', notice);
+                this.notifications.unshift(notice);
+                this.notifications.pop();
+                if(!notice.read) {
+                    self.noticeCount++;
+                }
             });   
         });
+        this.getNotificationCount();
         
     }
 

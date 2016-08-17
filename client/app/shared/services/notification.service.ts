@@ -18,6 +18,11 @@ export class NotificationService {
     }
 
     //Get unread count
+    getCount(): Observable<number> {
+        return this.authHttp.get('/api/notification/getCounts')
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
 
     handelResponse(res: Response) {
         return res.json() || {};
