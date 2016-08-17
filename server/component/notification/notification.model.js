@@ -16,8 +16,11 @@ let notificationSchema = new mongoose.Schema({
     title: String,
     description: String,
     response: Boolean,
-    // "message" || "invitation" || "newService"
-    state: String,
+    state: {
+        // "message" || "invitation"
+        type: String,
+        enum: ['message', 'invitation']
+    },
     read: {
         state: {
             type: Boolean,

@@ -111,18 +111,17 @@ exports.createService = function (req, res) {
             },
             package: newServiceData.package,
         };
-        console.log('new service: ', service);
         let notice = {
             title: 'New service created by ' + from.name,
             desc: 'Your ' + from.role + ' just created a yeah service for you.',
             res: false,
-            state: 'newService'
+            state: 'invitation'
         }
         // Add both user according to his/her role
         if (from && to) {
-            service.participants[from.role].userId = getRoleData(from);
+            service.participants[from.role].userId = from[`${from.role}Data`]._id;
             notice.from = from._id;
-            service.participants[to.role].userId = getRoleData(to);
+            service.participants[to.role].userId = to[`${to.role}Data`]._id;
             notice.to = to._id;
         }else{
             return handleError(res, err);
@@ -149,26 +148,6 @@ function checkAuthority(requiredRole, userRole) {
         }
     }
     return false;
-}
-
-function getRoleData(user) {
-    switch (user.role) {
-        case 'student':
-            return user.studentData._id
-            break;
-        case 'advisor':
-            return user.advisorData._id
-            break;
-        case 'supervisor':
-            return user.supervisorData._id
-            break;
-        case 'admin':
-            return user.adminData._id
-            break;
-        default:
-            return;
-            break;
-    }
 }
 
 function handleError(res, err) {
