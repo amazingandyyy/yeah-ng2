@@ -33,9 +33,14 @@ let notificationSchema = new mongoose.Schema({
     createAt: {
         type: Number,
         default: Date.now
+    },
+    service: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Service'
     }
 })
 
+<<<<<<< HEAD
 notificationSchema.statics.sendNotice = function(message, cb) {
 	let notice = new Notification({
 		from: message.from,
@@ -51,10 +56,28 @@ notificationSchema.statics.sendNotice = function(message, cb) {
     });
 };
 
+=======
+>>>>>>> 16dda7f2524a5a0f4cf3398c3f30561f1b6fb2a5
 notificationSchema.statics = {
+    sendNotice: function(message, cb) {
+        let notice = new Notification({
+            from: message.from,
+            to: message.to,
+            title: message.title,
+            description: message.desc,
+            response: message.res,
+            state: message.state,
+            service: message.service
+        });
+        notice.save((err, savedNotice) => {
+            if (err) return cb(err)
+            cb(savedNotice);
+        });
+    },
     getThreeNew: function(userId, cb) {
         Notification.find({to: userId})
         .sort({'date': -1})
+        .populate('from to', 'name role')
         .limit(3)
         .exec(function(err, notice) {
             if(err) { cb(err) }
