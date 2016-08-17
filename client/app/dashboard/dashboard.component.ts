@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 
 import { AuthService } from '../shared/services/auth.service';
-import { NotificationService } from '../shared/services/notification.service';
+import { NoticeService } from '../shared/services/notification.service';
 import { SocketService } from '../shared/services/socket.service';
 import { User } from '../shared/types/user';
 import { Notification } from '../shared/types/notification';
-import { notifications } from 'notifications';
+// import { NotificationsService, SimpleNotificationsComponent } from 'notifications';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { notifications } from 'notifications';
     selector: 'yeah-dashboard',
     templateUrl: 'dashboard.component.html',
     directives: [ROUTER_DIRECTIVES],
-    providers: [AuthService, SocketService, NotificationService],
+    providers: [AuthService, SocketService, NoticeService],
     styleUrls: ['dashboard.style.css']
 })
 
@@ -32,8 +32,25 @@ export class DashboardComponent implements OnInit, OnDestroy{
         private authService: AuthService,
         private router: Router,
         private socket: SocketService,
-        private noticeService: NotificationService
+        private noticeService: NoticeService,
+        // private notificationService: NotificationsService
+
     ){}
+
+    public options = {
+        timeOut: 5000,
+        lastOnBottom: true,
+        clickToClose: true,
+        maxLength: 0,
+        maxStack: 7,
+        showProgressBar: true,
+        pauseOnHover: true,
+        preventDuplicates: false,
+        preventLastDuplicates: "visible",
+        rtl: false,
+        animate: "scale",
+        position: ["right", "bottom"]
+    }
 
     checkMenuStyle(item: string) {
         this.currentSession = item;
@@ -107,9 +124,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
     checkNotications(notice: Notification, cb: any) {
         let exist = false;
-        console.log('ran');
         this.notifications.forEach(function(eachNoticeNow) {
-            console.log(notice._id === eachNoticeNow._id);
             if(notice._id === eachNoticeNow._id) {
                 exist = true;
                 cb(exist);
@@ -134,6 +149,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
                         }
                         return;
                     } else {
+                        // self.notificationService.success(notice.title, notice.description, {id: 123});
                         self.notifications.unshift(notice);
                         //Only display three messages
                         if(self.notifications.length > 3) {

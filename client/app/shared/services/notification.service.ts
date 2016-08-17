@@ -5,7 +5,7 @@ import { Notification } from '../types/notification';
 import { AuthHttp } from 'angular2-jwt';
 
 @Injectable()
-export class NotificationService {
+export class NoticeService {
 	
 	constructor(
 		private authHttp: AuthHttp

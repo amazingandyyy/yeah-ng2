@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router }    from '@angular/router';
+import { Router } from '@angular/router';
 import moment = require('moment');
 
 import { User } from '../../shared/types/user'
