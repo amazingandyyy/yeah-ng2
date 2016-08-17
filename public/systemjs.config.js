@@ -9,7 +9,8 @@
         'moment': 'node_modules/moment/moment.js',
         'lodash': 'node_modules/lodash',
         'socket-client': "node_modules/socket.io-client/socket.io.js",
-        'notifications': 'node_modules/angular2-notifications'
+        'notifications': 'node_modules/angular2-notifications',
+        'ng2-select': 'node_modules/ng2-select'//https://github.com/valor-software/ng2-select
     };
 
     // packages tells the System loader how to load when no filename and/or no extension
@@ -20,7 +21,8 @@
         'moment': { defaultExtension: 'js' },
         'lodash': { main: 'index.js', defaultExtension: 'js' },
         "socket-client": { defaultExtension: "js" },
-        'notifications': { main: 'components.js', defaultExtension: 'js' }
+        'notifications': { main: 'components.js', defaultExtension: 'js' },
+        "ng2-select": { main: 'ng2-select.js', defaultExtension: 'js' }
     };
 
     var packageNames = [

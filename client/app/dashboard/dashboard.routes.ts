@@ -7,6 +7,7 @@ import { PipeComponent }    from './pipe/pipe.component';
 import { ExploreComponent } from './explore/explore.component';
 import { ResumesComponent } from './resumes/resumes.component';
 import { SettingComponent } from './setting/setting.component';
+import { ServicesComponent }    from './services/services.component';
 import { CompanyComponent } from './company/company.component';
 import { MembersComponent } from './company/members.component';
 import { SalesComponent }   from './company/sales.component';
@@ -27,6 +28,7 @@ export const DashboardRoutes: RouterConfig = [
       { path: 'resumes', component: ResumesComponent },
       { path: 'account', component: AccountComponent },
       { path: 'setting', component: SettingComponent },
+      { path: 'services', component: ServicesComponent },
       ...CompanyRoutes
     ]
   }

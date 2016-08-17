@@ -4,6 +4,7 @@ import moment = require('moment');
 
 import { User } from '../../shared/types/user'
 import { AuthService } from '../../shared/services/auth.service';
+import { ServiceService } from '../../shared/services/service.service';
 import { SocketService } from '../../shared/services/socket.service';
 
 @Component({
@@ -11,17 +12,23 @@ import { SocketService } from '../../shared/services/socket.service';
     selector: 'yeah-account',
     templateUrl: 'account.component.html',
     styleUrls: ['account.style.css'],
-    providers: [AuthService, SocketService]
+    providers: [AuthService, SocketService, ServiceService]
 })
-export class AccountComponent implements OnInit {
-    currentUser = {};
+
+export class AccountComponent implements OnInit, OnDestroy {
+    currentUser: User;
     editAI: boolean;
     editGI: boolean;
+    emailError: boolean;
+    sending: boolean;
+    roleNotMatchService: boolean;
+    service = 'student';
 
     constructor(
         private router: Router,
         private authService: AuthService,
-        private socket: SocketService
+        private socket: SocketService,
+        private servicePackage: ServiceService
     ) { }
 
     generateTime(unix) {
@@ -46,11 +53,11 @@ export class AccountComponent implements OnInit {
             });
     }
 
-    onSubmit(value: any, cardName: string) {
+    updateCurrentUser(value: any, cardName: string) {
         // Send updated user object to backend
         let self = this;
         
-        this.authService.updateUser(value)
+        this.authService.updateCurrentUser(value)
             .subscribe(
                 res => handleResponse(res),
                 err => console.log('err @updateUser: ', err)
@@ -64,6 +71,60 @@ export class AccountComponent implements OnInit {
 
     edit(cardName: string) {
         this[cardName] = !(this[cardName]);
+        this.getCurrentUser();
+    }
+
+    checkRole(role: string, user: User) {
+        // role is the required role to access the content
+        // User's role must have higher or equal authority to this role
+        if(user) {
+            return this.authService.checkAuthority(role, user.role);
+        } else {
+            return false;
+        }
+    }
+
+    resetErr(event: any) {
+        this.roleNotMatchService = false;
+        this.emailError = false;
+    }
+
+    addService(email: string, service:string) {
+        if(email) {
+            let data = {
+                currentUser: this.currentUser,
+                userToAdd: {}
+            };
+            let self = this;
+            this.sending = true;
+            //Find user by email
+
+            this.authService.getUserByEmail(email)
+            .subscribe(
+            user => {
+                //Check if this user has the role for the intended service
+                if(user.role === service) {
+                    data.userToAdd = user;
+                    //Add user to this user's service
+                    this.servicePackage.createService(data)
+                    .subscribe(
+                    user => {
+                        console.log('service created');
+                        self.sending = false;
+                    },
+                    error => {
+                        console.log(error);
+                    });
+                } else {
+                    self.roleNotMatchService = true;
+                    self.sending = false;
+                }
+            },
+            error => {
+                self.emailError = true;
+                self.sending = false;
+            });   
+        }   
     }
 
     ngOnInit() {
@@ -73,5 +134,9 @@ export class AccountComponent implements OnInit {
         this.socket.syncById('user', this.currentUser._id, function(user) {
             self.currentUser = user;
         });
+    }
+
+    ngOnDestroy() {
+        this.socket.unsyncById('user', this.currentUser._id);
     }
 }

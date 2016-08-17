@@ -19,6 +19,7 @@
     "animate.css": "^3.5.2",
     "font-awesome": "^4.6.3",
     "jquery": "^3.1.0",
-    "moment": "^2.14.1"
+    "moment": "^2.14.1",
+    "bootstrap": "v4.0.0-alpha.3"
   }
 }

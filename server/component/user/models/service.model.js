@@ -10,6 +10,8 @@ const Advisor = require('./advisor.model');
 const Supervidor = require('./supervisor.model');
 const Student = require('./student.model');
 
+const relationship = require('mongoose-relationship');
+
 let serviceSchema = new mongoose.Schema({
     createAt: {
         type: Number,
@@ -19,21 +21,30 @@ let serviceSchema = new mongoose.Schema({
         type: String,
         default: 'normal'
     },
-    details: {
+    price: {
+        price: String,
+        unit: String
+    },
+    participants: {
         student: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Student',
-            // autopopulate: true
+            userId: {
+                type: mongoose.Schema.ObjectId,
+                ref: 'Student',
+                childPath: 'services'
+            },
+            confirmed: {
+                type: Boolean,
+                default: false
+            }
         },
         advisor: {
             userId: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'Advisor',
-                // autopopulate: true
+                childPath: 'services'
             },
             confirmed: {
                 type: Boolean,
-                required: true,
                 default: false
             }
         },
@@ -41,11 +52,10 @@ let serviceSchema = new mongoose.Schema({
             userId: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'Supervisor',
-                // autopopulate: true
+                childPath: 'services'
             },
             confirmed: {
                 type: Boolean,
-                required: true,
                 default: false
             }
         },
@@ -53,11 +63,10 @@ let serviceSchema = new mongoose.Schema({
             userId: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'Admin',
-                // autopopulate: true
+                childPath: 'services'
             },
             confirmed: {
                 type: Boolean,
-                required: true,
                 default: false
             }
         }
@@ -65,6 +74,7 @@ let serviceSchema = new mongoose.Schema({
 })
 
 serviceSchema.plugin(autopopulate);
+serviceSchema.plugin(relationship, { relationshipPathName:['participants.student.userId', 'participants.advisor.userId', 'participants.supervisor.userId', 'participants.admin.userId'] });
 
 let Service = mongoose.model('Service', serviceSchema);
 module.exports = Service;

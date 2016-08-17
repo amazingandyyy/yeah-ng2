@@ -11,6 +11,7 @@ export class SocketService {
 		const io = require('socket-client'); //https://github.com/socketio/socket.io-client
 		this.socket = io.connect();
 	}
+	
 	// Customized Events, addEvent OnInit, remove OnDestroy
 	addEventListener(event: string) {
 		this.socket.on(event, function (data) {
@@ -30,7 +31,7 @@ export class SocketService {
 		});
 	}
 
-	unsyncById(modelName: string, id: string, cb: any) {
+	unsyncById(modelName: string, id: string) {
 		this.socket.removeAllListeners(modelName + ':save:' + id);
 	}
 

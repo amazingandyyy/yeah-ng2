@@ -1,0 +1,152 @@
+@import "../../shared/scss/variables";
+@import "../../shared/scss/global";
+
+
+.card-block {
+    // box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.15);
+    user-select: none;
+    .row {
+        text-transform: capitalize;
+        padding: 8px 5px;
+        .col-xs-4 {
+            text-align: left;
+        }
+        .col-xs-8 {
+            text-align: right;
+        }
+        &:hover {
+            opacity: 0.95;
+        }
+    }
+    h6 {
+        text-transform: capitalize;
+        b {
+            text-align: left;
+        }
+        .editBtn {
+            text-transform: uppercase;
+            padding-left: 6px;
+            cursor: pointer;
+            float: right;
+            opacity: 0.5;
+            &:hover {
+                opacity: 0.9;
+            }
+            &:active {
+                color: $brand-primary;
+            }
+        }
+    }
+    &.hoverable {
+        cursor: pointer;
+        &:hover{
+            box-shadow: 1px 1px 10px 0px rgba($deep-gray, 0.3);
+        }
+    }
+    &.service {
+        span {
+            text-align: right;
+            float: right;
+        }
+    }
+}
+
+h3.title {
+    font-weight: 900;
+}
+
+.row {
+    .col-small {
+        padding-right: 7px;
+        padding-left: 7px;
+    }
+}
+
+.modal {
+    height: 100%;
+    width: 100%;
+    z-index: 999;
+    background: rgba(255,255,255,0.85);
+    padding-top: 50px;
+    padding-bottom: 100px;
+    transition: .2s all ease-in-out;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    user-select: default;
+
+    .card {
+        opacity: 0;
+        transition: .2s all ease-in-out;
+        box-shadow: 0px 10px 20px -6px rgba($deep-gray, 0.2);
+        text-align: left !important;
+
+        header, body, footer {
+            padding: 15px 20px;
+            position: relative;
+        } 
+        
+        header{
+            border-bottom: 1px solid rgba($deep-gray, 0.2);
+            h3.title{
+                font-weight: 900;
+                font-size: 1.75em;
+                margin-bottom: 0px;
+                text-align: left;
+            }
+            .close {
+                position: absolute;
+                right: 0px;
+                top: 0px;
+                border-radius: 0px 3px 0px 0px;
+                font-size: 2.5em;
+                padding: 6px 12px;
+                font-weight: 300;
+            }
+        }
+
+        footer {
+            border-top: 1px solid rgba($deep-gray, 0.2);
+        }
+        input {
+            padding: 6px 16px;
+        }
+        input[disabled] {
+            cursor: default;
+            background: none;
+            border: 1px solid rgba($deep-gray, 0);
+            text-align: right;
+        }
+        .row{
+            margin: 10px 0px;
+        }
+    }
+    &.active{
+        transition: .2s all ease-in-out;
+        padding-top: 80px;
+        display: block;
+        .card {
+            transition: .2s all ease-in-out;
+            height: auto;
+            opacity: 1;
+            width: 95%;
+            margin: auto;
+        }
+    }
+}
+
+
+@media (min-width: 767px) {
+    .modal {
+        padding-top: 100px;
+        &.active{
+            padding-top: 130px;
+            .card {
+                max-width: 700px;
+                body{
+                    padding: 20px;
+                } 
+            }
+        }
+    }
+
+}

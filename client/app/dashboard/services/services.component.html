@@ -1,0 +1,105 @@
+<div class="container" style="padding-top: 50px;">
+    <h3 class="title">Services</h3>
+    <hr>
+    <div class="row" *ngIf="!(currentUser.role === 'student')">
+        <div class="col-md-4 col-small">
+            <div class="card" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)">
+                <div class="card-block service hoverable">
+                    <h1>Create service</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-small">
+            <div class="card" (click)="toggleModal('Service Details', 'details', 'update','')">
+                <div class="card-block service hoverable">
+                    <div>
+                        Student: <span>Andy <small>(Foothill)</small></span>
+                    </div>
+                    <div>
+                        Advisor: <span>Jason Yang</span>
+                    </div>
+                    <div>
+                        CreateAt: <span>August 8, 2016</span>
+                    </div>
+                    <div>
+                        Packages: <span>總裁超級服務</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
+            <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
+                <div class="card-block service hoverable">
+                    <div>
+                        Student: <span>{{serviceDataList[serviceKey].participants.student.userId}} <small>(Foothill)</small></span>
+                    </div>
+                    <div>
+                        Advisor: <span>{{serviceDataList[serviceKey].participants.advisor.userId}}</span>
+                    </div>
+                    <div>
+                        CreateAt: <span>{{generateDate(serviceDataList[serviceKey].createAt)}}</span>
+                    </div>
+                    <div>
+                        Packages: <span>{{serviceDataList[serviceKey].package}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" [class.active]="modalActivated">
+    <div class="card animated" [class.fadeIn]="modalActivated">
+
+        <header>
+            <h3 class="title">{{activatedModal.title}}</h3>
+            <div class="close" (click)="toggleModal()">×</div>
+        </header>
+
+        <body *ngIf="activatedModal.state == 'new' ">
+            <form #newServiceForm="ngForm">
+                <div class="row" *ngIf="activatedModal.state == 'new' ">
+                <div class="form-group row">
+                    <label class="col-xs-4 col-form-label">Student <small>(client)</small></label>
+                    <div class="col-xs-8">
+                        <input class="form-control" placeholder="Student Email" type="text" (ngModel)="newService.student" name="student" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-xs-4 col-form-label">Package</label>
+                    <div class="col-xs-8">
+                        <select name="package" class="form-control" (ngModel)="newService.package" name="package" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-xs-4 col-form-label">Price</label>
+                    <div class="col-xs-4">
+                        <input class="form-control" placeholder="Price" type="number" (ngModel)="newService.price" name="price" required>
+                    </div>
+                    <div class="col-xs-4">
+                        <select name="priceUnit" class="form-control" (ngModel)="newService.priceUnit" name="priceUnit" required>
+                            <option value="USD">USD</option>
+                            <option value="RMB">RMB</option>
+                        </select>
+                    </div>
+                </div>
+                </div>
+                <div style="text-align: right;">
+                    <button class="btn btn-primary-o" (click)="toggleModal()">Cancel</button>
+                    <button class="btn btn-primary" type="submit" (click)="createService(newServiceForm.value)">{{activatedModal.behavior}}</button>
+                </div>
+            </form>
+        </body>
+        <body *ngIf="activatedModal.state == 'details' ">
+            ddd
+        </body>
+        <!--<footer>
+            
+        </footer>-->
+    </div>
+</div>

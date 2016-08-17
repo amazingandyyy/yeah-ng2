@@ -42,7 +42,7 @@
                     </div>
                     <span *ngIf="editAI">
                         <h6>
-                            <span class="editBtn" (click)="onSubmit(currentUser, 'editAI')">
+                            <span class="editBtn" (click)="updateCurrentUser(currentUser, 'editAI')">
                                 Save
                             </span>
                         </h6>
@@ -50,6 +50,12 @@
                     </span>
                 </div>
             </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+    <div class="row" *ngIf="checkRole('advisor', currentUser)">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
         </div>
         <div class="col-sm-2"></div>
     </div>

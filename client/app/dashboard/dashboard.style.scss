@@ -46,6 +46,17 @@
                     opacity: 1;
                 }
             }
+
+            .label {
+                font-size: 50%;
+            }
+
+            .unread {
+                position: absolute;
+                left: -10px;
+                top: 10px;
+                border-radius: 50%;
+            }
         }
         .list-menu {
             z-index: 99;
@@ -56,7 +67,7 @@
             display: none;
             opacity: 0;
             position: absolute;
-            width: 180px;
+            width: 250px;
             top: 41px;
             right: 10px;
             border-radius: 4px;

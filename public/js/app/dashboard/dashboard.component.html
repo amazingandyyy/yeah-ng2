@@ -7,6 +7,7 @@
             <div [routerLink]="['/dashboard/pipe']" class="menu-item" (click)="checkMenuStyle('pipe')" [class.active]="currentSession==='pipe'" *ngIf=" currentUserRole=='student' || currentUserRole=='advisor' ">Timeline</div>
             <div [routerLink]="['/dashboard/explore']" class="menu-item" (click)="checkMenuStyle('explore')" [class.active]="currentSession==='explore'">Explore</div>
             <div [routerLink]="['/dashboard/resumes']" class="menu-item" (click)="checkMenuStyle('resumes')" [class.active]="currentSession==='resumes'" *ngIf="currentUserRole=='student'">Resumes</div>
+            <div [routerLink]="['/dashboard/services']" class="menu-item" (click)="checkMenuStyle('services')" [class.active]="currentSession==='services'" *ngIf="true">Services</div>
             <div [routerLink]="['/dashboard/company']" class="menu-item" (click)="checkMenuStyle('company')" [class.active]="currentSession==='company'" *ngIf="currentUserRole=='superadmin'">Company</div>
         </div>
         <router-outlet></router-outlet>
@@ -15,12 +16,21 @@
     <!--nav-menu is fixed position so put it under everything-->
     <div class="nav-menu">
         <span class="nav-item">
-            <i class="fa fa-bell" (click)="inboxToggled = !inboxToggled; profileToggled = false"></i>
+            <i class="fa fa-bell" (click)="inboxToggled = !inboxToggled; profileToggled = false">
+            </i>
+            <!-- This should disappear when unread counts is 0 -->
+            <span class="label label-danger unread" [hidden]="noticeCount < 1">{{noticeCount}}</span>
             <div class="list-menu" *ngIf="inboxToggled" [class.active]="inboxToggled">
                 <ul>
-                    <li>message</li>
-                    <li>message</li>
-                    <li>more messages</li>
+                    <li *ngFor="let m of notifications">
+                        <b>{{m.title}}</b> 
+                        <small>{{m.description}}</small>
+                        <button class="btn btn-primary" *ngIf="m.state === 'invitation'">
+                            Accept
+                        </button>  
+                    </li>
+                    <li *ngIf="notifications[0]">more messages</li>
+                    <li [hidden]="notifications[0]">No notification yet</li>
                 </ul>
             </div>
         </span>

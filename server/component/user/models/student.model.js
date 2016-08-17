@@ -11,7 +11,6 @@ let studentSchema = new mongoose.Schema({
         ref: 'User'
     },
     profile: {
-        // starting here are the keys everyone has
         phone: Number,
         wechatId: String,
         currentAcademics: {
@@ -36,7 +35,11 @@ let studentSchema = new mongoose.Schema({
             ref: 'Service',
             autopopulate: true
         }
-    ]
+    ],
+    createAt: {
+        type: Number,
+        default: Date.now
+    }
 })
 studentSchema.plugin(autopopulate);
 

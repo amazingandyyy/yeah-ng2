@@ -61,14 +61,14 @@
 							</div>
 						</div>
 						<div class="form-item text-capitalize">
-							<button type="submit" class="btn btn-primary" [disabled]="!authForm.form.valid">
+							<button type="submit" class="btn btn-primary btn-block" [disabled]="!authForm.form.valid">
 								Sign Up As {{roleCh}}
 							</button>
+							<hr>
+							alreaady have an account?
+                        	<button type="submit" class="btn btn-primary-o btn-block" [routerLink]="['/login']">go to login In</button>
 						</div>
 					</form>
-					<p class="redirect text-capitalize">
-						<span [routerLink]="['/login']">Login Here</span>
-					</p>
 				</div>
 			</div>
 		</div>

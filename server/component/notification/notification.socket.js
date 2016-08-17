@@ -4,23 +4,27 @@
 
 'use strict';
 
-var User = require('./models/user.model');
+var Notification = require('./notification.model');
 
 exports.register = function(socket) {
-  User.schema.post('save', function (doc) {
+  Notification.schema.post('save', function (doc) {
     // Call onSave
     onSave(socket, doc);
   });
-  User.schema.post('remove', function (doc) {
+  Notification.schema.post('remove', function (doc) {
     // Call onRemove
     onRemove(socket, doc);
   });
 }
 
 function onSave(socket, doc, cb) {
-	// console.log('user saved', doc);
-  socket.emit('user:save:' + doc._id, doc);
-  socket.emit('user:save', doc);
+  if(doc.to) {
+    socket.emit('notification:save:' + doc.to, doc);
+  }
+  if(doc.from) {
+    socket.emit('notification:save:' + doc.from, doc);
+  }
+  
 }
 
 function onRemove(socket, doc, cb) {
