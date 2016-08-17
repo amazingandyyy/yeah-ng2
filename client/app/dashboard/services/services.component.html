@@ -44,13 +44,14 @@
                 <div class="form-group row">
                     <label class="col-xs-4 col-form-label">Student <small>(client)</small></label>
                     <div class="col-xs-8">
-                        <input class="form-control" placeholder="Student Email" type="text" (ngModel)="newService.student" name="student" required>
+                        <input class="form-control" placeholder="Student Email" type="email" (ngModel)="newService.student" name="student" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-xs-4 col-form-label">Package</label>
                     <div class="col-xs-8">
-                        <select name="package" class="form-control" (ngModel)="newService.package" name="package" required>
+                        <select name="package" placeholder="choose a package" class="form-control" (ngModel)="newService.package" name="package" required>
+                            <option value disabled selected>choose a package</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -64,7 +65,8 @@
                         <input class="form-control" placeholder="Price" type="number" (ngModel)="newService.price" name="price" required>
                     </div>
                     <div class="col-xs-4">
-                        <select name="priceUnit" class="form-control" (ngModel)="newService.priceUnit" name="priceUnit" required>
+                        <select name="priceUnit" placeholder="choose a price unit" class="form-control" (ngModel)="newService.priceUnit" name="priceUnit" required>
+                            <option value disabled selected>choose a price unit</option>
                             <option value="USD">USD</option>
                             <option value="RMB">RMB</option>
                         </select>
@@ -73,12 +75,12 @@
                 </div>
                 <div style="text-align: right;">
                     <button class="btn btn-primary-o" (click)="toggleModal()">Cancel</button>
-                    <button class="btn btn-primary" type="submit" (click)="createService(newServiceForm.value)">{{activatedModal.behavior}}</button>
+                    <button class="btn btn-primary" type="submit" (click)="createService(newServiceForm.value)" [disabled]="!newServiceForm.form.valid">{{activatedModal.behavior}}</button>
                 </div>
             </form>
         </body>
         <body *ngIf="activatedModal.state == 'details' ">
-            ddd
+            Details
         </body>
         <!--<footer>
             
