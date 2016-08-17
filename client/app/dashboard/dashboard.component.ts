@@ -6,6 +6,7 @@ import { NotificationService } from '../shared/services/notification.service';
 import { SocketService } from '../shared/services/socket.service';
 import { User } from '../shared/types/user';
 import { Notification } from '../shared/types/notification';
+import { notifications } from 'notifications';
 
 
 @Component({
@@ -62,7 +63,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
         this.noticeService.getThree()
             .subscribe(
             notices => {
-                console.log('notifications', notices)
                 this.notifications = notices;
                 cb();
             },
@@ -94,15 +94,29 @@ export class DashboardComponent implements OnInit, OnDestroy{
         } else {
             notice.response = false;
         }
-        console.log('notice', notice);
         this.noticeService.confirmInvitation(notice)
             .subscribe(
             notice => {
+                //
                 console.log('confirmed')
             },
             error => {
                 console.log(<any>error)
             });
+    }
+
+    checkNotications(notice: Notification, cb: any) {
+        let exist = false;
+        console.log('ran');
+        this.notifications.forEach(function(eachNoticeNow) {
+            console.log(notice._id === eachNoticeNow._id);
+            if(notice._id === eachNoticeNow._id) {
+                exist = true;
+                cb(exist);
+                return;
+            }
+        });
+        cb(exist);
     }
 
     ngOnInit() {
@@ -112,11 +126,24 @@ export class DashboardComponent implements OnInit, OnDestroy{
         this.getNotification(function() {
             //Listen to updates after loading the first three notifications
             self.socket.syncById('notification', self.currentUser._id, function(notice) {
-                this.notifications.unshift(notice);
-                this.notifications.pop();
-                if(!notice.read) {
-                    self.noticeCount++;
-                }
+                self.checkNotications(notice, function(exist) {
+                    //If notification already exist only update read count
+                    if(exist) {
+                        if(notice.read) {
+                            self.noticeCount--;
+                        }
+                        return;
+                    } else {
+                        self.notifications.unshift(notice);
+                        //Only display three messages
+                        if(self.notifications.length > 3) {
+                            self.notifications.pop();
+                        }
+                        if(!notice.read) {
+                            self.noticeCount++;
+                        }
+                    }
+                });
             });   
         });
         this.getNotificationCount();

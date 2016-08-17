@@ -32,22 +32,22 @@ let notificationSchema = new mongoose.Schema({
     }
 })
 
-notificationSchema.statics.sendNotice = function(message, cb) {
-	let notice = new Notification({
-		from: message.from,
-		to: message.to,
-		title: message.title,
-		description: message.desc,
-		response: message.res,
-		state: message.state
-	})
-	notice.save((err, savedNotice) => {
-        if (err) return cb(err)
-        cb(savedNotice);
-    });
-};
-
 notificationSchema.statics = {
+    sendNotice: function(message, cb) {
+        let notice = new Notification({
+            from: message.from,
+            to: message.to,
+            title: message.title,
+            description: message.desc,
+            response: message.res,
+            state: message.state,
+            service: message.service
+        });
+        notice.save((err, savedNotice) => {
+            if (err) return cb(err)
+            cb(savedNotice);
+        });
+    },
     getThreeNew: function(userId, cb) {
         Notification.find({to: userId})
         .sort({'date': -1})

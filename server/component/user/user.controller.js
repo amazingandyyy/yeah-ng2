@@ -108,8 +108,8 @@ exports.createService = function (req, res) {
             // Create and send out notification here
             //Attach service package id to notification for easier query
             notice.service = data._id;
-            Notification.sendNotice(notice, (err, noticeSaved)=> {
-                if (err) return res.status(400).send()
+            console.log('notification saved', notice);
+            Notification.sendNotice(notice, (noticeSaved)=> {
                 return res.status(200).json(data);
             });
         });

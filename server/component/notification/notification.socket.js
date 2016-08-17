@@ -21,9 +21,9 @@ function onSave(socket, doc, cb) {
   if(doc.to) {
     socket.emit('notification:save:' + doc.to, doc);
   }
-  if(doc.from) {
-    socket.emit('notification:save:' + doc.from, doc);
-  }
+  // if(doc.from) {
+  //   socket.emit('notification:save:' + doc.from, doc);
+  // }
   
 }
 
