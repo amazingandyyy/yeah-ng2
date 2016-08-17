@@ -15,7 +15,7 @@ import { User } from '../types/user';
 
 // Using auth service to keep track of users' login status across all component
 @Injectable()
-export class ServicePackageService {
+export class ServiceService {
 
     constructor(
         private http: Http,
@@ -26,7 +26,13 @@ export class ServicePackageService {
     createService(data: any): Observable<any> {
         return this.authHttp.post('/api/user/createService', data)
             .map(this.handelResponse)
-            .catch(this.handelError)
+            .catch(err=>this.handelError(Observable, err))
+    }
+
+    getOneService(serviceId: string): Observable<any> {
+        return this.authHttp.get(`/api/user/getOneService/${serviceId}`)
+            .map(this.handelResponse)
+            .catch(err=>this.handelError(Observable, err))
     }
 
     handelResponse(res: Response) {
@@ -34,8 +40,8 @@ export class ServicePackageService {
         return data || {};
     }
     
-     handelError(err: any) {
-        console.log('err @servicePackageService: ', err);
+     handelError(Observable:any, err: any) {
+        console.log('err @ServiceService: ', err);
         return Observable.throw(err);
     }
 

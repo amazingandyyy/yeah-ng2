@@ -21,7 +21,11 @@ let serviceSchema = new mongoose.Schema({
         type: String,
         default: 'normal'
     },
-    details: {
+    price: {
+        price: String,
+        unit: String
+    },
+    participants: {
         student: {
             userId: {
                 type: mongoose.Schema.ObjectId,
@@ -70,7 +74,7 @@ let serviceSchema = new mongoose.Schema({
 })
 
 serviceSchema.plugin(autopopulate);
-serviceSchema.plugin(relationship, { relationshipPathName:['details.student.userId', 'details.advisor.userId', 'details.supervisor.userId', 'details.admin.userId'] });
+serviceSchema.plugin(relationship, { relationshipPathName:['participants.student.userId', 'participants.advisor.userId', 'participants.supervisor.userId', 'participants.admin.userId'] });
 
 let Service = mongoose.model('Service', serviceSchema);
 module.exports = Service;

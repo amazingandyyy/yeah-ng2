@@ -1,49 +1,5 @@
 <div class="container" style="padding-top: 50px;">
     <h3 class="title">Services</h3>
-    <div class="row" *ngIf="!(currentUser.role === 'student')">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <div class="card">
-                <div class="card-block">
-                    <h6>
-                        <b>Service Management</b>
-                    </h6>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="select-service">
-                                <select name="service" class="form-control" [(ngModel)]="service">
-                                <!-- TO DO: Should use *ngFor to create options tailored to user -->
-                                    <option value="student">Student</option>
-                                    <option value="advisor">Advisor</option>
-                                    <option value="supervisor">Supervisor</option>
-                                    <option value="admin">Admin</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="input-group">
-                                <input type="email" class="form-control" placeholder="Enter {{service}}'s Email" #email (keypress)="resetErr($event)">
-                                <span class="input-group-btn">
-                                    <button class="btn send" type="button" (click)="addService(email.value, service)">
-                                        <div [hidden]="sending">Add</div>
-                                        <div *ngIf="sending" class="spinner">
-                                        <div class="bounce1"></div>
-                                        <div class="bounce2"></div>
-                                        <div class="bounce3"></div>
-                                        </div>
-                                    </button>
-                                </span>
-                            </div>
-                            <div class="alert alert-danger" *ngIf="emailError">No user has this email</div>
-                            <div class="alert alert-danger" *ngIf="roleNotMatchService">User is not a {{service}}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-2"></div>
-    </div>
     <hr>
     <div class="row" *ngIf="!(currentUser.role === 'student')">
         <div class="col-md-4 col-small">
@@ -71,6 +27,24 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
+            <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
+                <div class="card-block service hoverable">
+                    <div>
+                        Student: <span>{{serviceDataList[serviceKey].participants.student.userId}} <small>(Foothill)</small></span>
+                    </div>
+                    <div>
+                        Advisor: <span>{{serviceDataList[serviceKey].participants.advisor.userId}}</span>
+                    </div>
+                    <div>
+                        CreateAt: <span>{{generateDate(serviceDataList[serviceKey].createAt)}}</span>
+                    </div>
+                    <div>
+                        Packages: <span>{{serviceDataList[serviceKey].package}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -82,19 +56,19 @@
             <div class="close" (click)="toggleModal()">×</div>
         </header>
 
-        <body>
+        <body *ngIf="activatedModal.state == 'new' ">
             <form #newServiceForm="ngForm">
                 <div class="row" *ngIf="activatedModal.state == 'new' ">
                 <div class="form-group row">
                     <label class="col-xs-4 col-form-label">Student <small>(client)</small></label>
                     <div class="col-xs-8">
-                        <input class="form-control" placeholder="Student Email" type="text" (ngModel)="newService.student" required>
+                        <input class="form-control" placeholder="Student Email" type="text" (ngModel)="newService.student" name="student" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-xs-4 col-form-label">Package</label>
                     <div class="col-xs-8">
-                        <select name="package" class="form-control" (ngModel)="newService.package" required>
+                        <select name="package" class="form-control" (ngModel)="newService.package" name="package" required>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -105,21 +79,24 @@
                 <div class="form-group row">
                     <label class="col-xs-4 col-form-label">Price</label>
                     <div class="col-xs-4">
-                        <input class="form-control" placeholder="Price" type="number" (ngModel)="newService.price" required>
+                        <input class="form-control" placeholder="Price" type="number" (ngModel)="newService.price" name="price" required>
                     </div>
                     <div class="col-xs-4">
-                        <select name="priceUnit" class="form-control" (ngModel)="newService.priceUnit" required>
-                            <option value="1">USD</option>
-                            <option value="2">RMB</option>
+                        <select name="priceUnit" class="form-control" (ngModel)="newService.priceUnit" name="priceUnit" required>
+                            <option value="USD">USD</option>
+                            <option value="RMB">RMB</option>
                         </select>
                     </div>
                 </div>
                 </div>
                 <div style="text-align: right;">
                     <button class="btn btn-primary-o" (click)="toggleModal()">Cancel</button>
-                    <button class="btn btn-primary" type="submit" (click)="createService(newServiceForm.value)" [disabled]="!newServiceForm.form.valid">{{activatedModal.behavior}}</button>
+                    <button class="btn btn-primary" type="submit" (click)="createService(newServiceForm.value)">{{activatedModal.behavior}}</button>
                 </div>
             </form>
+        </body>
+        <body *ngIf="activatedModal.state == 'details' ">
+            ddd
         </body>
         <!--<footer>
             

@@ -38,7 +38,11 @@ let advisorSchema = new mongoose.Schema({
             ref: 'Service',
             autopopulate: true
         }
-    ]
+    ],
+    createAt: {
+        type: Number,
+        default: Date.now
+    }
 })
 advisorSchema.plugin(autopopulate);
 

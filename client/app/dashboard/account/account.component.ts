@@ -4,7 +4,7 @@ import moment = require('moment');
 
 import { User } from '../../shared/types/user'
 import { AuthService } from '../../shared/services/auth.service';
-import { ServicePackageService } from '../../shared/services/service.package.service';
+import { ServiceService } from '../../shared/services/service.service';
 import { SocketService } from '../../shared/services/socket.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { SocketService } from '../../shared/services/socket.service';
     selector: 'yeah-account',
     templateUrl: 'account.component.html',
     styleUrls: ['account.style.css'],
-    providers: [AuthService, SocketService, ServicePackageService]
+    providers: [AuthService, SocketService, ServiceService]
 })
 
 export class AccountComponent implements OnInit, OnDestroy {
@@ -28,7 +28,7 @@ export class AccountComponent implements OnInit, OnDestroy {
         private router: Router,
         private authService: AuthService,
         private socket: SocketService,
-        private servicePackage: ServicePackageService
+        private servicePackage: ServiceService
     ) { }
 
     generateTime(unix) {
@@ -134,7 +134,6 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.socket.syncById('user', this.currentUser._id, function(user) {
             self.currentUser = user;
         });
-        
     }
 
     ngOnDestroy() {

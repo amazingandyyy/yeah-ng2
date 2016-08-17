@@ -51,7 +51,7 @@ export class MembersComponent implements OnInit {
             users => {
                 console.log('All Users: ', users);
                 this.userDataList = users;
-                this.arrayOfUsersKeys = Object.keys(users);
+                this.arrayOfUsersKeys = Object.keys(this.userDataList);
             },
             error => {
                 this.authService.logUserOut();

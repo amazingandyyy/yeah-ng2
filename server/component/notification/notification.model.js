@@ -16,14 +16,19 @@ let notificationSchema = new mongoose.Schema({
     title: String,
     description: String,
     response: Boolean,
-    // "message" || "invitation" 
+    // "message" || "invitation" || "newService"
     state: String,
     read: {
-        type: Boolean,
-        default: false
+        state: {
+            type: Boolean,
+            default: false
+        },
+        timeStamp: {
+            type: Boolean
+        }
     },
-    date: {
-        type: Date,
+    createAt: {
+        type: Number,
         default: Date.now
     }
 })
@@ -39,7 +44,7 @@ notificationSchema.statics.sendNotice = function(message, cb) {
 	})
 	notice.save((err, savedNotice) => {
         if (err) return cb(err)
-        cb(savedNotice);
+        cb(null,savedNotice);
     });
 };
 

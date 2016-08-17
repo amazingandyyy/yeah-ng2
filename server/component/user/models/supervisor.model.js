@@ -38,7 +38,11 @@ let supervisorSchema = new mongoose.Schema({
             ref: 'Service',
             autopopulate: true
         }
-    ]
+    ],
+    createAt: {
+        type: Number,
+        default: Date.now
+    }
 })
 
 let Supervisor = mongoose.model('Supervisor', supervisorSchema);
