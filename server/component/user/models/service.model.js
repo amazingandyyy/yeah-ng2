@@ -19,7 +19,14 @@ let serviceSchema = new mongoose.Schema({
     },
     package: {
         type: String,
-        default: 'normal'
+        default: 'normal',
+        enum: [
+            'app_regular1','app_regular2','app_regular3',
+            'app_guarantee1', 'app_guarantee2',
+            'app_president',
+            'long_ch1','long_ch2','long_ch3',
+            'long_us1','long_us2','long_us3'
+        ]
     },
     price: {
         type: String,
