@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -11,12 +11,9 @@
     "outDir": "../public/js/app"
   },
   "files": [
-    "./assets/app/*"
+    "./client/app/*"
   ],
   "exclude": [
     "node_modules"
-  ],
-  "atom": {
-    "rewriteTsconfig": true
-  }
+  ]
 }
