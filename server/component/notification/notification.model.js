@@ -16,8 +16,11 @@ let notificationSchema = new mongoose.Schema({
     title: String,
     description: String,
     response: Boolean,
-    // "message" || "invitation" || "newService"
-    state: String,
+    state: {
+        // "message" || "invitation"
+        type: String,
+        enum: ['message', 'invitation']
+    },
     read: {
         state: {
             type: Boolean,
@@ -30,28 +33,33 @@ let notificationSchema = new mongoose.Schema({
     createAt: {
         type: Number,
         default: Date.now
+    },
+    service: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Service'
     }
 })
 
-notificationSchema.statics.sendNotice = function(message, cb) {
-	let notice = new Notification({
-		from: message.from,
-		to: message.to,
-		title: message.title,
-		description: message.desc,
-		response: message.res,
-		state: message.state
-	})
-	notice.save((err, savedNotice) => {
-        if (err) return cb(err)
-        cb(null,savedNotice);
-    });
-};
-
 notificationSchema.statics = {
+    sendNotice: function(message, cb) {
+        let notice = new Notification({
+            from: message.from,
+            to: message.to,
+            title: message.title,
+            description: message.desc,
+            response: message.res,
+            state: message.state,
+            service: message.service
+        });
+        notice.save((err, savedNotice) => {
+            if (err) return cb(err)
+            cb(savedNotice);
+        });
+    },
     getThreeNew: function(userId, cb) {
         Notification.find({to: userId})
         .sort({'date': -1})
+        .populate('from to', 'name role')
         .limit(3)
         .exec(function(err, notice) {
             if(err) { cb(err) }

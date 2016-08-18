@@ -5,7 +5,7 @@ import { Notification } from '../types/notification';
 import { AuthHttp } from 'angular2-jwt';
 
 @Injectable()
-export class NotificationService {
+export class NoticeService {
 	
 	constructor(
 		private authHttp: AuthHttp
@@ -20,6 +20,12 @@ export class NotificationService {
     //Get unread count
     getCount(): Observable<number> {
         return this.authHttp.get('/api/notification/getCounts')
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
+
+    confirmInvitation(notification: Notification): Observable<Notification> {
+        return this.authHttp.post('/api/notification/confirmInvitation', notification)
             .map(this.handelResponse)
             .catch(this.handelError)
     }

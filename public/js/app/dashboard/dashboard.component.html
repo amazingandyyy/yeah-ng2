@@ -22,12 +22,17 @@
             <span class="label label-danger unread" [hidden]="noticeCount < 1">{{noticeCount}}</span>
             <div class="list-menu" *ngIf="inboxToggled" [class.active]="inboxToggled">
                 <ul>
-                    <li *ngFor="let m of notifications">
+                    <li *ngFor="let m of notifications" [hidden]="m.response">
                         <b>{{m.title}}</b> 
                         <small>{{m.description}}</small>
-                        <button class="btn btn-primary" *ngIf="m.state === 'invitation'">
-                            Accept
-                        </button>  
+                        <div>
+                            <button class="btn-accept" *ngIf="m.state === 'invitation'" (click)="respondToInvitation(m, true)">
+                                Accept
+                            </button>
+                            <button class="btn-decline" *ngIf="m.state === 'invitation'" (click)="respondToInvitation(m, false)">
+                                decline
+                            </button>             
+                        </div>
                     </li>
                     <li *ngIf="notifications[0]">more messages</li>
                     <li [hidden]="notifications[0]">No notification yet</li>
@@ -45,4 +50,6 @@
             </div>
         </span>
     </div><!-- nav-menu over-->
+    <!-- Notification popup -->
+    <simple-notifications [options]="options"></simple-notifications>
 </div>

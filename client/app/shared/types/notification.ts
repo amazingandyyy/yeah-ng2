@@ -1,5 +1,6 @@
 export class Notification {
   constructor(
+    public _id: string,
     public from: string, //ref
     public  to: string, //ref
     public title: string,

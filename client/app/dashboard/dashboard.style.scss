@@ -103,6 +103,19 @@
                 display: block;
                 opacity: 1;
             }
+            .btn-accept {
+                text-transform: capitalize;
+                background-color: black;
+                color: white;
+                border-radius: 5px;
+            }
+            .btn-decline {
+                text-transform: capitalize;
+                background-color: black;
+                color: white;
+                border-radius: 5px;
+
+            }
         }
     }
     .menu {

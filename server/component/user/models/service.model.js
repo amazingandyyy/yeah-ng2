@@ -22,7 +22,7 @@ let serviceSchema = new mongoose.Schema({
         default: 'normal'
     },
     price: {
-        price: String,
+        type: String,
         unit: String
     },
     participants: {
