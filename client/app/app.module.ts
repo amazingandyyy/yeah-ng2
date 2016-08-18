@@ -5,7 +5,7 @@ import { HTTP_PROVIDERS } from '@angular/http';
 import { Routes, RouterModule }   from '@angular/router';
 
 import { AppComponent }  from './app.component';
-import { routingModule, appRoutingProviders } from './app.routing';
+import { routingModule, appRouterProviders } from './app.routing';
 
 // Import pulgins
 import { SimpleNotificationsModule } from "notifications";

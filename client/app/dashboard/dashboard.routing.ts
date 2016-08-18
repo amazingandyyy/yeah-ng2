@@ -16,7 +16,7 @@ import { CompanyRoutes } from './company/company.routes';
 
 import { LoginGuard } from '../shared/services/guard/index';
 
-export const DashboardRoutes: Routes = [
+export const dashboardRoutes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
