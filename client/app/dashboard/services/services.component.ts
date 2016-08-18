@@ -41,7 +41,11 @@ export class ServicesComponent implements OnInit {
             .subscribe(
             user => {
                 this.currentUser = user
-                this.getServices()
+                if(this.currentUser.services && this.currentUser.services.length > 0){
+                    this.getServices()
+                }else{
+                    console.log('no services yet');
+                }
             },
             error => {
                 this.authService.logUserOut();
@@ -67,44 +71,6 @@ export class ServicesComponent implements OnInit {
     generateDate(unix) {
         return moment(unix).format('ll');
     }
-
-    // addService(email: string, service: string) {
-    //     if (email) {
-    //         let data = {
-    //             currentUser: this.currentUser,
-    //             userToAdd: {}
-    //         };
-    //         let self = this;
-    //         this.sending = true;
-    //         //Find user by email
-
-    //         this.authService.getUserByEmail(email)
-    //             .subscribe(
-    //             user => {
-    //                 //Check if this user has the role for the intended service
-    //                 if (user.role === service) {
-    //                     data.userToAdd = user;
-    //                     //Add user to this user's service
-    //                     this.service.createService(data)
-    //                         .subscribe(
-    //                         user => {
-    //                             console.log('service created');
-    //                             self.sending = false;
-    //                         },
-    //                         error => {
-    //                             console.log(error);
-    //                         });
-    //                 } else {
-    //                     self.roleNotMatchService = true;
-    //                     self.sending = false;
-    //                 }
-    //             },
-    //             error => {
-    //                 self.emailError = true;
-    //                 self.sending = false;
-    //             });
-    //     }
-    // }
 
     createService(newServiceData: any){
         let self = this;

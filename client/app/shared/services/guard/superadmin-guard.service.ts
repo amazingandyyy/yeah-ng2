@@ -12,14 +12,14 @@ export class SuperadminGuard implements CanActivate {
   ) { }
   
   canActivate() {
-    var currentUser = JSON.parse(localStorage.getItem('current_user'));
-    this.currentUri = '';
-    if(currentUser.role == 'superadmin'){
-      console.log('AdminGuard passed');
-      return true;
-    }
-    console.log('AdminGuard blockout');
-    
-    return false;
+    // var currentUser = JSON.parse(localStorage.getItem('current_user'));
+    // this.currentUri = '';
+    // if(currentUser.role == 'superadmin'){
+    //   console.log('AdminGuard passed');
+    //   return true;
+    // }
+    // console.log('AdminGuard blockout');
+    // return false;
+    return true
   }
 }
