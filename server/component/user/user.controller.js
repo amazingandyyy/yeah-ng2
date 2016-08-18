@@ -37,9 +37,9 @@ exports.getSingleUser = function (req, res) {
 };
 
 exports.findUserByEmail = function (req, res) {
-    User.findOne({ 'email.data': req.params.email }, (err, user) => {
-        if (err || !user) return res.status(404).send(err || {err:'User not found'})
-        console.log('found user by email: ', user)
+    User.findOne({ 'email.data': req.params.email }, (err, data) => {
+        console.log('found user by email: ', data)
+        if (err) return res.status(404).send(err)
         res.send(data)
     })
 };
