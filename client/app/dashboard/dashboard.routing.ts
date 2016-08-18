@@ -1,5 +1,5 @@
-import { RouterConfig } from '@angular/router';
-import { CanActivate } from '@angular/router';
+import { Routes }         from '@angular/router';
+
 import { DashboardComponent } from './dashboard.component';
 
 import { AccountComponent } from './account/account.component';
@@ -16,7 +16,7 @@ import { CompanyRoutes } from './company/company.routes';
 
 import { LoginGuard } from '../shared/services/guard/index';
 
-export const DashboardRoutes: RouterConfig = [
+export const DashboardRoutes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,

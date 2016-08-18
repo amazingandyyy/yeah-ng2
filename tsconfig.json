@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES5",
-    "module": "commonjs",
+    "target": "es5",
+    "module": "system",
     "moduleResolution": "node",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
@@ -11,12 +11,9 @@
     "outDir": "../public/js/app"
   },
   "files": [
-    "./assets/app/*"
+    "./client/app/*"
   ],
   "exclude": [
     "node_modules"
-  ],
-  "atom": {
-    "rewriteTsconfig": true
-  }
+  ]
 }
