@@ -115,6 +115,8 @@ export class ServicesComponent implements OnInit {
                 .subscribe(
                 user => {
                     if (user.role == 'student') {
+                        console.log('check');
+                        
                         // Add user to this user's service
                         newServiceData.studentData = user;
                         this.service.createService(newServiceData)
@@ -126,11 +128,15 @@ export class ServicesComponent implements OnInit {
                             error => {
                                 console.log(error);
                             });
+                    }else{
+                        console.log('Email is not student.');
                     }
                 },
                 error => {
                     console.log('Student is not found.');
                 });
+        }else{
+            console.log('Please type in a student email.');
         }
     }
 
@@ -143,7 +149,7 @@ export class ServicesComponent implements OnInit {
         this.activatedModal.title = title;
         this.activatedModal.state = state;
         this.activatedModal.behavior = behavior;
-        
+
         // Toggle the modal
         this.modalActivated = !this.modalActivated;
     }
