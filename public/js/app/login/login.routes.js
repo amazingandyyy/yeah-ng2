@@ -1,2 +1,26 @@
-"use strict";var checkin_guard_service_1=require("../shared/services/guard/checkin-guard.service"),login_component_1=require("./login.component");exports.LoginRoutes=[{path:"login",component:login_component_1.LoginComponent,canActivate:[checkin_guard_service_1.CheckinGuard]}];
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxvZ2luL2xvZ2luLnJvdXRlcy5qcyIsImxvZ2luL2xvZ2luLnJvdXRlcy50cyJdLCJuYW1lcyI6WyJjaGVja2luX2d1YXJkX3NlcnZpY2VfMSIsInJlcXVpcmUiLCJsb2dpbl9jb21wb25lbnRfMSIsImV4cG9ydHMiLCJMb2dpblJvdXRlcyIsInBhdGgiLCJjb21wb25lbnQiLCJMb2dpbkNvbXBvbmVudCIsImNhbkFjdGl2YXRlIiwiQ2hlY2tpbkd1YXJkIl0sIm1hcHBpbmdzIjoiQUFBQSxZQ0dBLElBQUFBLHlCQUFBQyxRQUE2QixrREFDN0JDLGtCQUFBRCxRQUErQixvQkFFbEJFLFNBQUFDLGNBRVRDLEtBQU0sUUFDTkMsVUFBV0osa0JBQUFLLGVBQ1hDLGFBQWNSLHdCQUFBUyIsImZpbGUiOiJsb2dpbi9sb2dpbi5yb3V0ZXMuanMiLCJzb3VyY2VzQ29udGVudCI6WyJcInVzZSBzdHJpY3RcIjtcbnZhciBjaGVja2luX2d1YXJkX3NlcnZpY2VfMSA9IHJlcXVpcmUoJy4uL3NoYXJlZC9zZXJ2aWNlcy9ndWFyZC9jaGVja2luLWd1YXJkLnNlcnZpY2UnKTtcbnZhciBsb2dpbl9jb21wb25lbnRfMSA9IHJlcXVpcmUoJy4vbG9naW4uY29tcG9uZW50Jyk7XG5leHBvcnRzLkxvZ2luUm91dGVzID0gW1xuICAgIHtcbiAgICAgICAgcGF0aDogJ2xvZ2luJyxcbiAgICAgICAgY29tcG9uZW50OiBsb2dpbl9jb21wb25lbnRfMS5Mb2dpbkNvbXBvbmVudCxcbiAgICAgICAgY2FuQWN0aXZhdGU6IFtjaGVja2luX2d1YXJkX3NlcnZpY2VfMS5DaGVja2luR3VhcmRdXG4gICAgfVxuXTtcbiIsImltcG9ydCB7IFJvdXRlckNvbmZpZyB9IGZyb20gJ0Bhbmd1bGFyL3JvdXRlcic7XG5pbXBvcnQgeyBDYW5BY3RpdmF0ZSB9IGZyb20gJ0Bhbmd1bGFyL3JvdXRlcic7XG5cbmltcG9ydCB7IENoZWNraW5HdWFyZCB9IGZyb20gJy4uL3NoYXJlZC9zZXJ2aWNlcy9ndWFyZC9jaGVja2luLWd1YXJkLnNlcnZpY2UnO1xuaW1wb3J0IHsgTG9naW5Db21wb25lbnQgfSBmcm9tICcuL2xvZ2luLmNvbXBvbmVudCc7XG5cbmV4cG9ydCBjb25zdCBMb2dpblJvdXRlczogUm91dGVyQ29uZmlnID0gW1xuICB7XG4gICAgcGF0aDogJ2xvZ2luJyxcbiAgICBjb21wb25lbnQ6IExvZ2luQ29tcG9uZW50LFxuICAgIGNhbkFjdGl2YXRlOiBbQ2hlY2tpbkd1YXJkXVxuICB9XG5dIl0sInNvdXJjZVJvb3QiOiIvc291cmNlLyJ9
+System.register(['../shared/services/guard/checkin-guard.service', './login.component'], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
+    var checkin_guard_service_1, login_component_1;
+    var LoginRoutes;
+    return {
+        setters:[
+            function (checkin_guard_service_1_1) {
+                checkin_guard_service_1 = checkin_guard_service_1_1;
+            },
+            function (login_component_1_1) {
+                login_component_1 = login_component_1_1;
+            }],
+        execute: function() {
+            exports_1("LoginRoutes", LoginRoutes = [
+                {
+                    path: 'login',
+                    component: login_component_1.LoginComponent,
+                    canActivate: [checkin_guard_service_1.CheckinGuard]
+                }
+            ]);
+        }
+    }
+});
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxvZ2luL2xvZ2luLnJvdXRlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O1FBTWEsV0FBVzs7Ozs7Ozs7OztZQUFYLHlCQUFBLFdBQVcsR0FBaUI7Z0JBQ3ZDO29CQUNFLElBQUksRUFBRSxPQUFPO29CQUNiLFNBQVMsRUFBRSxnQ0FBYztvQkFDekIsV0FBVyxFQUFFLENBQUMsb0NBQVksQ0FBQztpQkFDNUI7YUFDRixDQUFBLENBQUEiLCJmaWxlIjoibG9naW4vbG9naW4ucm91dGVzLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgUm91dGVyQ29uZmlnIH0gZnJvbSAnQGFuZ3VsYXIvcm91dGVyJztcbmltcG9ydCB7IENhbkFjdGl2YXRlIH0gZnJvbSAnQGFuZ3VsYXIvcm91dGVyJztcblxuaW1wb3J0IHsgQ2hlY2tpbkd1YXJkIH0gZnJvbSAnLi4vc2hhcmVkL3NlcnZpY2VzL2d1YXJkL2NoZWNraW4tZ3VhcmQuc2VydmljZSc7XG5pbXBvcnQgeyBMb2dpbkNvbXBvbmVudCB9IGZyb20gJy4vbG9naW4uY29tcG9uZW50JztcblxuZXhwb3J0IGNvbnN0IExvZ2luUm91dGVzOiBSb3V0ZXJDb25maWcgPSBbXG4gIHtcbiAgICBwYXRoOiAnbG9naW4nLFxuICAgIGNvbXBvbmVudDogTG9naW5Db21wb25lbnQsXG4gICAgY2FuQWN0aXZhdGU6IFtDaGVja2luR3VhcmRdXG4gIH1cbl0iXSwic291cmNlUm9vdCI6Ii9zb3VyY2UvIn0=
