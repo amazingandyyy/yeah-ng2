@@ -1,7 +1,7 @@
 'use strict';
 
 const Notification = require('./notification.model');
-const Service = require('../user/models/service.model');
+const Service = require('../service/service.model');
 const _ = require('lodash');
 
 exports.index = function(req, res) {

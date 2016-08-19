@@ -16,7 +16,7 @@
     <!--nav-menu is fixed position so put it under everything-->
     <div class="nav-menu">
         <span class="nav-item">
-            <i class="fa fa-bell" (click)="inboxToggled = !inboxToggled; profileToggled = false">
+            <i class="fa fa-bell" (click)="inboxToggled = !inboxToggled; profileToggled = false;">
             </i>
             <!-- This should disappear when unread counts is 0 -->
             <span class="label label-danger unread" [hidden]="noticeCount < 1">{{noticeCount}}</span>
@@ -34,7 +34,7 @@
                             </button>             
                         </div>
                     </li>
-                    <li *ngIf="notifications[0]">more messages</li>
+                    <li *ngIf="notifications[0]" (click)="goToMessagePage()">more messages</li>
                     <li [hidden]="notifications[0]">No notification yet</li>
                 </ul>
             </div>

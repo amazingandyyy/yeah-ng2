@@ -3,7 +3,7 @@
         <h3 class="title">Members</h3>
     </div>
     <div class="col-sm-4" *ngIf="arrayOfUsersKeys.length > 0">
-        <input type="text" class="form-control" placeholder="Search for members...">
+        <input type="text" class="form-control" placeholder="Search members...">
     </div>
 </div>
 <div class="row" *ngIf="arrayOfUsersKeys.length > 0">
@@ -38,8 +38,6 @@
                 </tbody>
             </table>
         </div>
-        <!--<div *ngIf="arrayOfUsersKeys.length < 1">
-            <button class="btn btn-primary" (click)="getUsers()">Get All Users</button>
-        </div>-->
     </div>
 </div>
+

@@ -1,56 +1,54 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <base href="/">
-    <title>Yeah Education Helper - beta</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <base href="/">
+        <title>Yeah Education Helper - beta</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel='shortcut icon' type='image/x-icon' href='assets/favicon.ico' />
+        <link rel='shortcut icon' type='image/x-icon' href='assets/favicon.ico' />
 
-    <!-- Load google font start -->
-    <link href='https://fonts.googleapis.com/css?family=PT+Serif|Lato:100,400,300,700,900' rel='stylesheet' type='text/css' />
-    <!--<link href='https://fonts.googleapis.com/css?family=Teko:500,300' rel='stylesheet' type='text/css'>-->
-    <!-- Load google font over -->
+        <!-- Load google font start -->
+        <link href='https://fonts.googleapis.com/css?family=PT+Serif|Lato:100,400,300,700,900' rel='stylesheet' type='text/css' />
+        <!--<link href='https://fonts.googleapis.com/css?family=Teko:500,300' rel='stylesheet' type='text/css'>-->
+        <!-- Load google font over -->
 
-    <!-- Load css libraries start -->
-    <link href="/bower_components/animate.css/animate.min.css" rel='stylesheet' type='text/css' />
-    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel='stylesheet' type='text/css' />
-    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
-    <!-- Load css libraries over -->
+        <!-- Load css libraries start -->
+        <link href="/bower_components/animate.css/animate.min.css" rel='stylesheet' type='text/css' />
+        <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel='stylesheet' type='text/css' />
+        <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+        <!-- Load css libraries over -->
 
-    <!-- Load libraries start -->
-    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Load libraries over -->
-    
-    <!-- Polyfill(s) for older browsers start -->
-    <script src="node_modules/es6-shim/es6-shim.min.js"></script>
-    <!-- Polyfill(s) for older browsers over -->
+        <!-- Load libraries start -->
+        <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+        <!-- Load libraries over -->
+        
+        <!-- Polyfill(s) for older browsers start -->
+        <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+        <!-- Polyfill(s) for older browsers over -->
 
-    <!-- Load vendor folder start -->
-    <script src="node_modules/zone.js/dist/zone.js"></script>
-    <script src="node_modules/reflect-metadata/Reflect.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <script src="node_modules/lodash/lodash.min.js"></script>
-    <!-- Load vendor folder over -->
+        <!-- Load vendor folder start -->
+        <script src="node_modules/zone.js/dist/zone.js"></script>
+        <script src="node_modules/reflect-metadata/Reflect.js"></script>
+        <script src="node_modules/systemjs/dist/system.src.js"></script>
+        <script src="node_modules/lodash/lodash.min.js"></script>
+        <!-- Load vendor folder over -->
 
-    <!-- Load in jquery start -->
-    <!--<script src="assets/custom.js"></script>-->
-    <!-- Load in jquery over -->
+        <!-- Load in jquery start -->
+        <!--<script src="assets/custom.js"></script>-->
+        <!-- Load in jquery over -->
 
-    <!-- Configure SystemJS start -->
-    <script src="systemjs.config.js"></script>
-    <!-- Configure SystemJS over -->
-</head>
-<body style="background: #fbfcfd; font-family: Lato">
-    <sp-app>Loading...</sp-app>
+        <!-- Configure SystemJS start -->
+        <script src="systemjs.config.js"></script>
+        <!-- Configure SystemJS over -->
+        <script>System.import('app').catch(function(err){ console.error(err);  });</script>
+    </head>
 
+    <body style="background: #fbfcfd; font-family: Lato">
+        <sp-app>Loading...</sp-app>    
+    </body>
 
-    <script>
-        System.import('app').catch(function(err){ console.error(err);  });
-    </script>
     <!-- Load in css stylesheet start -->
     <link rel='stylesheet' href='/css/style.css'/>
     <!-- Load in css stylesheet over -->
-</body>
 </html>

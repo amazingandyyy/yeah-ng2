@@ -35,7 +35,7 @@ gulp.task('js', function () {
     return gulp.src(appDev + '**/*.ts')
         .pipe(sourcemaps.init())
         .pipe(typescript(tsProject))
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(sourcemaps.write())
         // .pipe(tslint({
         //     formatter: "verbose"

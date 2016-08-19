@@ -11,7 +11,10 @@ import { SocketService } from '../../shared/services/socket.service';
     moduleId: module.id,
     selector: 'yeah-services',
     templateUrl: 'services.component.html',
-    styleUrls: ['services.style.css'],
+    styleUrls: [
+        '../dashboard.style.css',
+        'services.style.css'
+        ],
     providers: [AuthService, SocketService, ServiceService]
 })
 export class ServicesComponent implements OnInit {
@@ -40,11 +43,17 @@ export class ServicesComponent implements OnInit {
         this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
             user => {
-                this.currentUser = user
-                this.getServices()
+                console.log('current user data: ', user);
+                this.currentUser = user;                
+                if(this.currentUser.services[0]){
+                    console.log('get services');
+                    this.getServices()
+                }else{
+                    console.log('no services yet');
+                }
             },
             error => {
-                this.authService.logUserOut();
+                // this.authService.logUserOut();
                 console.log(<any>error)
             });
     }
@@ -68,44 +77,6 @@ export class ServicesComponent implements OnInit {
         return moment(unix).format('ll');
     }
 
-    // addService(email: string, service: string) {
-    //     if (email) {
-    //         let data = {
-    //             currentUser: this.currentUser,
-    //             userToAdd: {}
-    //         };
-    //         let self = this;
-    //         this.sending = true;
-    //         //Find user by email
-
-    //         this.authService.getUserByEmail(email)
-    //             .subscribe(
-    //             user => {
-    //                 //Check if this user has the role for the intended service
-    //                 if (user.role === service) {
-    //                     data.userToAdd = user;
-    //                     //Add user to this user's service
-    //                     this.service.createService(data)
-    //                         .subscribe(
-    //                         user => {
-    //                             console.log('service created');
-    //                             self.sending = false;
-    //                         },
-    //                         error => {
-    //                             console.log(error);
-    //                         });
-    //                 } else {
-    //                     self.roleNotMatchService = true;
-    //                     self.sending = false;
-    //                 }
-    //             },
-    //             error => {
-    //                 self.emailError = true;
-    //                 self.sending = false;
-    //             });
-    //     }
-    // }
-
     createService(newServiceData: any){
         let self = this;
         newServiceData.createrData = this.currentUser;
@@ -115,7 +86,7 @@ export class ServicesComponent implements OnInit {
                 .subscribe(
                 user => {
                     if (user.role == 'student') {
-                        // Add user to this user's service
+                        // Add student to this student's service
                         newServiceData.studentData = user;
                         this.service.createService(newServiceData)
                             .subscribe(
@@ -126,11 +97,15 @@ export class ServicesComponent implements OnInit {
                             error => {
                                 console.log(error);
                             });
+                    }else{
+                        console.log('Email is not student.');
                     }
                 },
                 error => {
                     console.log('Student is not found.');
                 });
+        }else{
+            console.log('Please type in a student email.');
         }
     }
 
@@ -143,7 +118,7 @@ export class ServicesComponent implements OnInit {
         this.activatedModal.title = title;
         this.activatedModal.state = state;
         this.activatedModal.behavior = behavior;
-        
+
         // Toggle the modal
         this.modalActivated = !this.modalActivated;
     }
@@ -163,8 +138,10 @@ export class ServicesComponent implements OnInit {
     }
 
     getServices() {
+
         this.serviceDataList = this.currentUser[`${this.currentUser.role}Data`].services;
         console.log(Array.isArray(this.serviceDataList));
+
         this.arrayOfServiceKey = Object.keys(this.serviceDataList);
         this.arrayOfServiceKey.reverse();
         console.log(this.arrayOfServiceKey);

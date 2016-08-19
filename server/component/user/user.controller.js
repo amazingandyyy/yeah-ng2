@@ -1,10 +1,10 @@
 'use strict';
 
-var User = require('./models/user.model');
+const User = require('./models/user.model');
 
-var Service = require('./models/service.model');
-var Notification = require('../notification/notification.model');
-var _ = require('lodash');
+const Service = require('../service/service.model');
+const Notification = require('../notification/notification.model');
+const _ = require('lodash');
 
 exports.index = function (req, res) {
     res.render('index');
@@ -28,6 +28,19 @@ exports.getCurrentUser = function (req, res) {
     }
 };
 
+exports.getCurrentUserDeeply = function (req, res) {
+    if (!req.user) {
+        console.log('authentication failed')
+        return res.status(409).send()
+    }
+    if (req.user._id == req.params.userId) {
+        User.getCurrentUserDeeply(req.user, (err, data) => {
+            if (err) return handleError(res, err)
+            res.send(data)
+        });
+    }
+};
+
 exports.getSingleUser = function (req, res) {
     User.findById(req.params.userId, (err, data) => {
         console.log('single user: ', data)
@@ -47,7 +60,7 @@ exports.findUserByEmail = function (req, res) {
 exports.getAllUsers = function (req, res) {
     if (req.role === 'superadmin') {
         User.find({}, (err, data) => {
-            if (er || !data) return res.status(409).send(err)
+            if (err || !data) return res.status(409).send(err)
             res.send(data)
         })
     } else {
@@ -64,36 +77,49 @@ exports.signup = function (req, res) {
 }
 
 exports.updateCurrentUser = function (req, res) {
+    if (!req.user) {
+        console.log('authentication failed')
+        return res.status(409).send()
+    }
     if (req.user._id == req.body._id) {
         User.updateCurrentUser(req.body, (err, data) => {
             if (err) return handleError(res, err)
             return res.status(200).send(data)
         })
-    } else {
-        return handleError(res, err)
     }
 }
 exports.getOneService = function (req, res) {
     if (checkAuthority('student', req.role)) {
         let serviceId = req.params.serviceId;
-        Service.findById(serviceId, (err, data) => {
+        Service.getOneService(serviceId, (err, data) => {
             if (err) return handleError(res, err)
             return res.status(200).send(data)
         })
-    } else {
-        return handleError(res, err)
     }
 }
 
 exports.createService = function (req, res) {
     let newServiceData = req.body;
-    let isAuthorized = checkAuthority('admin', req.role);
-    let priceIsFine = newServiceData.price > 500.00;
-    if(!priceIsFine){
-        return res.status(409).send({error:'Price is not good.'})
+    let isAuthorized = checkAuthority('admin', req.role) && (req.role!=='superadmin');
+    let priceLimit;
+    switch(newServiceData.priceUnit){
+        case 'RMB':
+            priceLimit = 3000.00
+            break
+        case 'USD':
+            priceLimit = 500.00
+            break
+        default:
+            priceLimit = 500.00
     }
-    if(!isAuthorized){
+    let priceIsFine = newServiceData.price > priceLimit;
+    if (!isAuthorized) {
+        // block out if the user is not authorized
         return res.status(401).send({ error: 'You are not authorized.' })
+    }
+    if (!priceIsFine) {
+        // block out if the price is not good
+        return res.status(409).send({ error: 'Price is not good.' })
     }
     if (isAuthorized && priceIsFine) {
         let from = newServiceData.createrData;
@@ -106,25 +132,25 @@ exports.createService = function (req, res) {
                 admin: {}
             },
             price: {
-                price: newServiceData.price,
+                tag: newServiceData.price,
                 unit: newServiceData.priceUnit
             },
             package: newServiceData.package,
         };
-        console.log('new service: ', service);
         let notice = {
             title: 'New service created by ' + from.name,
             desc: 'Your ' + from.role + ' just created a yeah service for you.',
             res: false,
-            state: 'newService'
+            state: 'invitation'
         }
         // Add both user according to his/her role
         if (from && to) {
-            service.participants[from.role].userId = getRoleData(from);
+            // let superadmin can create package
+            service.participants[from.role].userData = from._id;
             notice.from = from._id;
-            service.participants[to.role].userId = getRoleData(to);
+            service.participants[to.role].userData = to._id;
             notice.to = to._id;
-        }else{
+        } else {
             return handleError(res, err);
         }
         // TO DO: Should check if this kind of service package already exist
@@ -135,7 +161,10 @@ exports.createService = function (req, res) {
             notice.service = data._id;
             
             Notification.sendNotice(notice, (err, noticeSaved) => {
-                if (err) return handleError(res, err);
+                if (err) {
+                    console.log('error @sendNotice: ', err)
+                    return handleError(res, err);
+                }
                 return res.status(200).json(data);
             });
         });
@@ -154,27 +183,7 @@ function checkAuthority(requiredRole, userRole) {
     return false;
 }
 
-function getRoleData(user) {
-    switch (user.role) {
-        case 'student':
-            return user.studentData._id
-            break;
-        case 'advisor':
-            return user.advisorData._id
-            break;
-        case 'supervisor':
-            return user.supervisorData._id
-            break;
-        case 'admin':
-            return user.adminData._id
-            break;
-        default:
-            return;
-            break;
-    }
-}
-
 function handleError(res, err) {
     console.log(err);
-    res.status(400).send(err);
+    return res.status(400).send(err);
 }

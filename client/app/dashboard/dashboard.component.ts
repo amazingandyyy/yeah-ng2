@@ -134,6 +134,10 @@ export class DashboardComponent implements OnInit, OnDestroy{
         cb(exist);
     }
 
+    goToMessagePage() {
+        
+    }
+
     ngOnInit() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getUser();

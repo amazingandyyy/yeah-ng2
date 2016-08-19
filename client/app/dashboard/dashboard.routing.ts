@@ -12,7 +12,7 @@ import { CompanyComponent } from './company/company.component';
 import { MembersComponent } from './company/members.component';
 import { SalesComponent }   from './company/sales.component';
 
-import { CompanyRoutes } from './company/company.routes'; 
+import { CompanyRoutes } from './company/company.routing'; 
 
 import { LoginGuard } from '../shared/services/guard/index';
 
@@ -29,6 +29,7 @@ export const DashboardRoutes: RouterConfig = [
       { path: 'account', component: AccountComponent },
       { path: 'setting', component: SettingComponent },
       { path: 'services', component: ServicesComponent },
+      // { path: 'messages', component: ServicesComponent },
       ...CompanyRoutes
     ]
   }

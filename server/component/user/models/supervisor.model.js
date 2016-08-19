@@ -3,10 +3,10 @@
 const mongoose = require('mongoose');
 const autopopulate = require('mongoose-autopopulate');
 const User = require('./user.model');
-const Service = require('./service.model');
+const Service = require('../../service/service.model');
 
 let supervisorSchema = new mongoose.Schema({
-    user: {
+    userData: {
         type: mongoose.Schema.ObjectId,
         ref: 'User'
     },

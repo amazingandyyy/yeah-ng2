@@ -1,22 +1,46 @@
-<div class="container" style="padding-top: 50px;">
+<div class="container">
     <h3 class="title">Services</h3>
     <hr>
-    <div class="row" *ngIf="!(currentUser.role === 'student')">
+    <div class="row" *ngIf="!(currentUser.role === 'student') && !(currentUser.role == 'superadmin')">
         <div class="col-md-4 col-small">
             <div class="card" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)">
                 <div class="card-block service hoverable">
-                    <h1>Create service</h1>
+                    <p class="title">Create service</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-small" *ngFor="let serviceKey of serviceDataList">
+
+        <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
                 <div class="card-block service hoverable">
                     <div>
-                        Student: <span>{{serviceDataList[serviceKey].participants.student.userId}} <small>(Foothill)</small></span>
+                        Student: <span>{{serviceDataList[serviceKey].participants.student.userData.name}} <small>(Foothill)</small></span>
                     </div>
                     <div>
-                        Advisor: <span>{{serviceDataList[serviceKey].participants.advisor.userId}}</span>
+                        Advisor: <span>{{serviceDataList[serviceKey].participants.advisor.userData.name}}</span>
+                    </div>
+                    <div>
+                        CreateAt: <span>{{generateDate(serviceDataList[serviceKey].createAt)}}</span>
+                    </div>
+                    <div>
+                        Packages: <span>{{serviceDataList[serviceKey].package}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="(currentUser.role == 'superadmin')">
+        <div class="col-sm-12">
+            <h5 class="title">You can see all services!!!</h5>
+        </div>
+        <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
+            <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
+                <div class="card-block service hoverable">
+                    <div>
+                        Student: <span>{{serviceDataList[serviceKey].participants.student.userData.name.user.name}} <small>(Foothill)</small></span>
+                    </div>
+                    <div>
+                        Advisor: <span>{{serviceDataList[serviceKey].participants.advisor.userData.name}}</span>
                     </div>
                     <div>
                         CreateAt: <span>{{generateDate(serviceDataList[serviceKey].createAt)}}</span>
@@ -44,17 +68,26 @@
                 <div class="form-group row">
                     <label class="col-xs-4 col-form-label">Student <small>(client)</small></label>
                     <div class="col-xs-8">
-                        <input class="form-control" placeholder="Student Email" type="text" (ngModel)="newService.student" name="student" required>
+                        <input class="form-control" placeholder="Student Email" type="email" (ngModel)="newService.student" name="student" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-xs-4 col-form-label">Package</label>
                     <div class="col-xs-8">
-                        <select name="package" class="form-control" (ngModel)="newService.package" name="package" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
+                        <select name="package" placeholder="choose a package" class="form-control" (ngModel)="newService.package" name="package" required>
+                            <option value disabled>&#9662; Application package &#9662;</option>
+                            <option value="app_regular1">Application Regular Private/Hass package</option>
+                            <option value="app_regular2">Application Regular UCB/UCLA package</option>
+                            <option value="app_regular3">Application Regular UCs package</option>
+                            <option value="app_guarantee1">Application Guarantee UCB/UCLA package</option>
+                            <option value="app_president">Application CEO package</option>
+                            <option value disabled>&#9662; Longterm package &#9662;</option>
+                            <option value="long_ch1">Longterm Gold package (China)</option>
+                            <option value="long_ch2">Longterm Silver package (China)</option>
+                            <option value="long_ch3">Longterm Bronze package (China)</option>
+                            <option value="long_us1">Longterm Gold package (US)</option>
+                            <option value="long_us2">Longterm Silver package (US)</option>
+                            <option value="long_us3">Longterm Bronze package (US)</option>
                         </select>
                     </div>
                 </div>
@@ -64,7 +97,8 @@
                         <input class="form-control" placeholder="Price" type="number" (ngModel)="newService.price" name="price" required>
                     </div>
                     <div class="col-xs-4">
-                        <select name="priceUnit" class="form-control" (ngModel)="newService.priceUnit" name="priceUnit" required>
+                        <select name="priceUnit" placeholder="choose a price unit" class="form-control" (ngModel)="newService.priceUnit" name="priceUnit" required>
+                            <option value disabled selected>choose a price unit</option>
                             <option value="USD">USD</option>
                             <option value="RMB">RMB</option>
                         </select>
@@ -73,12 +107,12 @@
                 </div>
                 <div style="text-align: right;">
                     <button class="btn btn-primary-o" (click)="toggleModal()">Cancel</button>
-                    <button class="btn btn-primary" type="submit" (click)="createService(newServiceForm.value)">{{activatedModal.behavior}}</button>
+                    <button class="btn btn-primary" type="submit" (click)="createService(newServiceForm.value)" [disabled]="!newServiceForm.form.valid">{{activatedModal.behavior}}</button>
                 </div>
             </form>
         </body>
         <body *ngIf="activatedModal.state == 'details' ">
-            ddd
+            Details
         </body>
         <!--<footer>
             
