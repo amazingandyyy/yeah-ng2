@@ -1,81 +1,26 @@
 @import "../../shared/scss/variables";
 @import "../../shared/scss/global";
 @import "../../shared/scss/loader";
-
-
 .card-block {
-    // box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.15);
-    user-select: none;
-    .row {
-        cursor: default;
-        text-transform: capitalize;
-        padding: 4px 1px;
-        .col-xs-4 {
-            padding-top: 3px;
-            padding-bottom: 3px;
-            text-align: left;
-        }
-        .col-xs-8 {
-            text-align: right;
-        }
-        &:hover {
-            opacity: 0.95;
-        }
-    }
-    h6 {
-        text-transform: capitalize;
-        b {
-            text-align: left;
-        }
-        .editBtn {
-            text-transform: uppercase;
-            padding-left: 6px;
-            cursor: pointer;
-            float: right;
-            opacity: 0.5;
-            &:hover {
-                opacity: 0.9;
-            }
-            &:active {
-                color: $brand-primary;
-            }
-        }
-    }
-    input {
-        padding: 6px 16px;
-    }
     input[disabled] {
         cursor: default;
         background: none;
         border: 1px solid rgba($deep-gray, 0);
         text-align: right;
+        padding-right: 0px;
     }
-    .send {
-        background: #1E1E1E;
+    .tag {
+        box-shadow: inset 0px 0px 0px 0.7px rgba($brand-primary, 0.4);
         text-transform: uppercase;
-        color: white;
+        transform: translateY(-2px);
+        letter-spacing: 0px;
+        color: $brand-primary;
+        font-weight: 100;
+        &:hover{
+            box-shadow: inset 0px 0px 0px 0.7px rgba($brand-primary, 0.7);
+            small {
+                opacity: 0.8;
+            }
+        }
     }
-
-    select {
-        
-        text-align: center;
-        padding: 6px 16px;
-        font-size: 16px;
-        -webkit-appearance: none;
-        background: transparent;
-        border: 0px;
-        color: white;
-    }
-
-    .select-service {
-        overflow:hidden;
-        background: $brand-primary url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll 98% center;
-        margin-bottom: 10px;
-    }
-    .spinner > div {
-        background-color: white;
-    }    
 }
-
-
-

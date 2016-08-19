@@ -1,4 +1,4 @@
-<div class="container" style="padding-top: 50px;">
+<div class="container">
     <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
@@ -18,9 +18,9 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <span>Email</span>
-                                <span style="opacity: 0.6;">
-                                    <small *ngIf="!currentUser.email.verified">(Not verified)</small>
-                                    <small *ngIf="currentUser.email.verified">(Verified)</small>
+                                <span class="tag">
+                                    <small *ngIf="!currentUser.email.verified">Not verified</small>
+                                    <small *ngIf="currentUser.email.verified">Verified</small>
                                 </span>
                             </div>
                             <div class="col-xs-8">

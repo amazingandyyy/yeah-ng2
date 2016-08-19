@@ -8,7 +8,6 @@ import { AuthService } from '../shared/services/auth.service';
 	moduleId: module.id,
 	selector: 'yeah-login',
 	templateUrl: 'login.component.html',
-	styleUrls: ['../shared/scss/partial/auth.css'],
     providers: [AuthService],
     directives: [ROUTER_DIRECTIVES]
 })

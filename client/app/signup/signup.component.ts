@@ -9,7 +9,6 @@ import { Auth } from '../shared/types/auth';
     moduleId: module.id,
     selector: 'signup',
     templateUrl: 'signup.component.html',
-    styleUrls: ['../shared/scss/partial/auth.css'],
     providers: [AuthService],
     directives: [ROUTER_DIRECTIVES]
 })

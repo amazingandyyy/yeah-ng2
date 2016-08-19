@@ -47,7 +47,7 @@ exports.findUserByEmail = function (req, res) {
 exports.getAllUsers = function (req, res) {
     if (req.role === 'superadmin') {
         User.find({}, (err, data) => {
-            if (er || !data) return res.status(409).send(err)
+            if (err || !data) return res.status(409).send(err)
             res.send(data)
         })
     } else {
@@ -89,10 +89,10 @@ exports.createService = function (req, res) {
     let newServiceData = req.body;
     let isAuthorized = checkAuthority('admin', req.role);
     let priceIsFine = newServiceData.price > 500.00;
-    if(!priceIsFine){
-        return res.status(409).send({error:'Price is not good.'})
+    if (!priceIsFine) {
+        return res.status(409).send({ error: 'Price is not good.' })
     }
-    if(!isAuthorized){
+    if (!isAuthorized) {
         return res.status(401).send({ error: 'You are not authorized.' })
     }
     if (isAuthorized && priceIsFine) {
@@ -106,7 +106,7 @@ exports.createService = function (req, res) {
                 admin: {}
             },
             price: {
-                price: newServiceData.price,
+                tag: newServiceData.price,
                 unit: newServiceData.priceUnit
             },
             package: newServiceData.package,
@@ -119,11 +119,16 @@ exports.createService = function (req, res) {
         }
         // Add both user according to his/her role
         if (from && to) {
-            service.participants[from.role].userId = from[`${from.role}Data`]._id;
+            // let superadmin can create package
+            if (from.role !== 'admin') {
+                // it may be superadmin...
+                return handleError(res, {err: `You are ${from.role}, Please change to admin account.`});
+            }
+            service.participants[from.role_fake].userId = from[`${from.role}Data`]._id;
             notice.from = from._id;
             service.participants[to.role].userId = to[`${to.role}Data`]._id;
             notice.to = to._id;
-        }else{
+        } else {
             return handleError(res, err);
         }
         // TO DO: Should check if this kind of service package already exist
@@ -131,11 +136,15 @@ exports.createService = function (req, res) {
             if (err) return handleError(res, err);
             // Create and send out notification here
             Notification.sendNotice(notice, (err, noticeSaved) => {
-                if (err) return handleError(res, err);
+                if (err) {
+                    console.log('error @sendNotice: ', err)
+                    return handleError(res, err);
+                }
+                console.log('check')
                 // Attach service package id to notification for easier query
                 notice.service = data._id;
-                    return res.status(200).json(data);
-                });
+                return res.status(200).json(data);
+            });
         });
     } else {
         return res.status(401).send({ error: 'You are not authorized.' })

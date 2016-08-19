@@ -29,7 +29,7 @@ let serviceSchema = new mongoose.Schema({
         ]
     },
     price: {
-        type: String,
+        tag: String,
         unit: String
     },
     participants: {

@@ -9,7 +9,7 @@ import { AuthService } from '../../shared/services/auth.service';
     moduleId: module.id,
     selector: 'yeah-resumes',
     templateUrl: 'resumes.component.html',
-    styleUrls: ['resumes.style.css'],
+    styleUrls: ['../dashboard.style.css','resumes.style.css'],
     providers: [AuthService]
 })
 export class ResumesComponent implements OnInit {

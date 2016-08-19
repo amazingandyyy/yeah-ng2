@@ -53,7 +53,7 @@ notificationSchema.statics = {
         });
         notice.save((err, savedNotice) => {
             if (err) return cb(err)
-            cb(savedNotice);
+            cb(null, savedNotice);
         });
     },
     getThreeNew: function(userId, cb) {

@@ -1,13 +1,36 @@
-<div class="container" style="padding-top: 50px;">
+<div class="container">
     <h3 class="title">Services</h3>
     <hr>
-    <div class="row" *ngIf="!(currentUser.role === 'student')">
+    <div class="row" *ngIf="!(currentUser.role === 'student') && !(currentUser.role == 'superadmin')">
         <div class="col-md-4 col-small">
             <div class="card" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)">
                 <div class="card-block service hoverable">
                     <h1>Create service</h1>
                 </div>
             </div>
+        </div>
+        <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
+            <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
+                <div class="card-block service hoverable">
+                    <div>
+                        Student: <span>{{serviceDataList[serviceKey].participants.student.userId}} <small>(Foothill)</small></span>
+                    </div>
+                    <div>
+                        Advisor: <span>{{serviceDataList[serviceKey].participants.advisor.userId}}</span>
+                    </div>
+                    <div>
+                        CreateAt: <span>{{generateDate(serviceDataList[serviceKey].createAt)}}</span>
+                    </div>
+                    <div>
+                        Packages: <span>{{serviceDataList[serviceKey].package}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="(currentUser.role == 'superadmin')">
+        <div class="col-sm-12">
+            <h5 class="title">You can see all services!!!</h5>
         </div>
         <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
@@ -51,11 +74,19 @@
                     <label class="col-xs-4 col-form-label">Package</label>
                     <div class="col-xs-8">
                         <select name="package" placeholder="choose a package" class="form-control" (ngModel)="newService.package" name="package" required>
-                            <option value disabled selected>choose a package</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
+                            <option value disabled>&#9662; Application package &#9662;</option>
+                            <option value="app_regular1">Application Regular Private/Hass package</option>
+                            <option value="app_regular2">Application Regular UCB/UCLA package</option>
+                            <option value="app_regular3">Application Regular UCs package</option>
+                            <option value="app_guarantee1">Application Guarantee UCB/UCLA package</option>
+                            <option value="app_president">Application CEO package</option>
+                            <option value disabled>&#9662; Longterm package &#9662;</option>
+                            <option value="long_ch1">Longterm Gold package (China)</option>
+                            <option value="long_ch2">Longterm Silver package (China)</option>
+                            <option value="long_ch3">Longterm Bronze package (China)</option>
+                            <option value="long_us1">Longterm Gold package (US)</option>
+                            <option value="long_us2">Longterm Silver package (US)</option>
+                            <option value="long_us3">Longterm Bronze package (US)</option>
                         </select>
                     </div>
                 </div>

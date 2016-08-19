@@ -8,7 +8,7 @@ import { AuthService } from '../../shared/services/auth.service';
     moduleId: module.id,
     selector: 'yeah-company',
     templateUrl: 'company.component.html',
-    styleUrls: ['company.style.css'],
+    styleUrls: ['../dashboard.style.css', 'company.style.css'],
     providers: [AuthService],
     directives: [ROUTER_DIRECTIVES]
 })
