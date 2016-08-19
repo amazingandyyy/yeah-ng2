@@ -1,7 +1,7 @@
 import { enableProdMode, provide } from "@angular/core";
 
 import { bootstrap } from '@angular/platform-browser-dynamic';
-import { appRouterProviders } from './app.routes';
+import { appRouterProviders } from './app.routing';
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
 import { HTTP_PROVIDERS } from '@angular/http';
 import 'rxjs/add/operator/map';

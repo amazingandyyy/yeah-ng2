@@ -11,7 +11,7 @@ import { SocketService } from '../../shared/services/socket.service';
     moduleId: module.id,
     selector: 'yeah-account',
     templateUrl: 'account.component.html',
-    styleUrls: ['account.style.css'],
+    styleUrls: ['../dashboard.style.css','account.style.css'],
     providers: [AuthService, SocketService, ServiceService]
 })
 

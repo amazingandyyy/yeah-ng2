@@ -11,7 +11,10 @@ import { SocketService } from '../../shared/services/socket.service';
     moduleId: module.id,
     selector: 'yeah-services',
     templateUrl: 'services.component.html',
-    styleUrls: ['services.style.css'],
+    styleUrls: [
+        '../dashboard.style.css',
+        'services.style.css'
+        ],
     providers: [AuthService, SocketService, ServiceService]
 })
 export class ServicesComponent implements OnInit {

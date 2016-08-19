@@ -3,6 +3,9 @@
 @import "global";
 @import "./bootstrap-sass/bootstrap.scss";
 
-// import partial scss files
+// Import partial scss files
 @import "./partial/form";
+@import "./partial/auth";
 @import "./partial/modal";
+@import "./partial/navbar";
+@import "./partial/button";

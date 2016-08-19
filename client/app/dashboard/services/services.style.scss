@@ -1,64 +1,12 @@
 @import "../../shared/scss/variables";
 @import "../../shared/scss/global";
 
-
 .card-block {
-    // box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.15);
-    user-select: none;
-    .row {
-        text-transform: capitalize;
-        padding: 8px 5px;
-        .col-xs-4 {
-            text-align: left;
-        }
-        .col-xs-8 {
-            text-align: right;
-        }
-        &:hover {
-            opacity: 0.95;
-        }
-    }
-    h6 {
-        text-transform: capitalize;
-        b {
-            text-align: left;
-        }
-        .editBtn {
-            text-transform: uppercase;
-            padding-left: 6px;
-            cursor: pointer;
-            float: right;
-            opacity: 0.5;
-            &:hover {
-                opacity: 0.9;
-            }
-            &:active {
-                color: $brand-primary;
-            }
-        }
-    }
-    &.hoverable {
-        cursor: pointer;
-        &:hover{
-            box-shadow: 1px 1px 10px 0px rgba($deep-gray, 0.3);
-        }
-    }
     &.service {
         span {
             text-align: right;
             float: right;
         }
-    }
-}
-
-h3.title {
-    font-weight: 900;
-}
-
-.row {
-    .col-small {
-        padding-right: 7px;
-        padding-left: 7px;
     }
 }
 
