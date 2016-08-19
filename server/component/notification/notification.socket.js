@@ -28,5 +28,5 @@ function onSave(socket, doc, cb) {
 }
 
 function onRemove(socket, doc, cb) {
-  socket.emit('user:remove', doc);
+  socket.emit('notification:remove', doc);
 }

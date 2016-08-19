@@ -13,10 +13,10 @@
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
                 <div class="card-block service hoverable">
                     <div>
-                        Student: <span>{{serviceDataList[serviceKey].participants.student.userData}} <small>(Foothill)</small></span>
+                        Student: <span>{{serviceDataList[serviceKey].participants.student.userData.name}} <small>(Foothill)</small></span>
                     </div>
                     <div>
-                        Advisor: <span>{{serviceDataList[serviceKey].participants.advisor.userData}}</span>
+                        Advisor: <span>{{serviceDataList[serviceKey].participants.advisor.userData.name}}</span>
                     </div>
                     <div>
                         CreateAt: <span>{{generateDate(serviceDataList[serviceKey].createAt)}}</span>
@@ -36,10 +36,10 @@
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
                 <div class="card-block service hoverable">
                     <div>
-                        Student: <span>{{serviceDataList[serviceKey].participants.student.userData.user.name}} <small>(Foothill)</small></span>
+                        Student: <span>{{serviceDataList[serviceKey].participants.student.userData.name.user.name}} <small>(Foothill)</small></span>
                     </div>
                     <div>
-                        Advisor: <span>{{serviceDataList[serviceKey].participants.advisor.userData}}</span>
+                        Advisor: <span>{{serviceDataList[serviceKey].participants.advisor.userData.name}}</span>
                     </div>
                     <div>
                         CreateAt: <span>{{generateDate(serviceDataList[serviceKey].createAt)}}</span>

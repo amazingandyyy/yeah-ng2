@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const autopopulate = require('mongoose-autopopulate');
-const Service = require('./service.model');
+const Service = require('../../service/service.model');
 const User = require('./user.model');
 
 let advisorSchema = new mongoose.Schema({

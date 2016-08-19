@@ -40,12 +40,12 @@ export class ServicesComponent implements OnInit {
     ) { }
 
     getCurrentUser() {
-        this.authService.getCurrentUserDeeply(JSON.parse(localStorage.getItem('current_user'))._id)
+        this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
             user => {
                 console.log('current user data: ', user);
                 this.currentUser = user;                
-                if(this.currentUser[`${this.currentUser.role}Data`].services && this.currentUser[`${this.currentUser.role}Data`].services[0]){
+                if(this.currentUser.services[0]){
                     console.log('get services');
                     this.getServices()
                 }else{
@@ -86,7 +86,7 @@ export class ServicesComponent implements OnInit {
                 .subscribe(
                 user => {
                     if (user.role == 'student') {
-                        // Add user to this user's service
+                        // Add student to this student's service
                         newServiceData.studentData = user;
                         this.service.createService(newServiceData)
                             .subscribe(
@@ -138,7 +138,7 @@ export class ServicesComponent implements OnInit {
     }
 
     getServices() {
-        this.serviceDataList = this.currentUser[`${this.currentUser.role}Data`].services;
+        this.serviceDataList = this.currentUser.services;
         this.arrayOfServiceKey = Object.keys(this.serviceDataList);
         this.arrayOfServiceKey.reverse();
     }

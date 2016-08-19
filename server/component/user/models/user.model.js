@@ -20,6 +20,7 @@ const Advisor = require('./advisor.model');
 const Student = require('./student.model');
 const Superadmin = require('./superadmin.model');
 const Supervisor = require('./supervisor.model');
+const Service = require('../../service/service.model');
 
 // SES is AWS's simple email service
 const ses = require('node-ses')
@@ -62,31 +63,31 @@ let userSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Student',
         autopopulate: true,
-        childPath: 'user'
+        childPath: 'userData'
     },
     advisorData: {
         type: mongoose.Schema.ObjectId,
         ref: 'Advisor',
         autopopulate: true,
-        childPath: 'user'
+        childPath: 'userData'
     },
     supervisorData: {
         type: mongoose.Schema.ObjectId,
         ref: 'Supervisor',
         autopopulate: true,
-        childPath: 'user'
+        childPath: 'userData'
     },
     adminData: {
         type: mongoose.Schema.ObjectId,
         ref: 'Admin',
         autopopulate: true,
-        childPath: 'user'
+        childPath: 'userData'
     },
     superadminData: {
         type: mongoose.Schema.ObjectId,
         ref: 'Superadmin',
         autopopulate: true,
-        childPath: 'user'
+        childPath: 'userData'
     },
     lastLoginTime: [{
         type: Number
@@ -94,7 +95,14 @@ let userSchema = new mongoose.Schema({
     createAt: {
         type: Number,
         default: Date.now
-    }
+    },
+    services: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Service',
+            autopopulate: true
+        }
+    ]
 })
 userSchema.plugin(autopopulate);
 userSchema.plugin(relationship, { relationshipPathName: ['studentData', 'advisorData', 'supervisorData', 'adminData', 'superadminData'] });
@@ -298,7 +306,7 @@ userSchema.statics = {
     },
     getCurrentUserDeeply: function (userData, cb) {
         User.findById(userData._id)
-            .deepPopulate(deepPopulateOption)
+            // .deepPopulate(deepPopulateOption)
             .exec((err, dbUser) => {
                 if (err || !dbUser) return cb(err)
                 console.log('single user: ', dbUser)

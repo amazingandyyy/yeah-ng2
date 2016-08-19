@@ -1,10 +1,10 @@
 'use strict';
 
-var User = require('./models/user.model');
+const User = require('./models/user.model');
 
-var Service = require('./models/service.model');
-var Notification = require('../notification/notification.model');
-var _ = require('lodash');
+const Service = require('./models/service.model');
+const Notification = require('../notification/notification.model');
+const _ = require('lodash');
 
 exports.index = function (req, res) {
     res.render('index');
@@ -37,7 +37,7 @@ exports.getCurrentUserDeeply = function (req, res) {
         User.getCurrentUserDeeply(req.user, (err, data) => {
             if (err) return handleError(res, err)
             res.send(data)
-        });   
+        });
     }
 };
 
@@ -100,13 +100,26 @@ exports.getOneService = function (req, res) {
 
 exports.createService = function (req, res) {
     let newServiceData = req.body;
-    let isAuthorized = checkAuthority('admin', req.role);
-    let priceIsFine = newServiceData.price > 500.00;
-    if (!priceIsFine) {
-        return res.status(409).send({ error: 'Price is not good.' })
+    let isAuthorized = checkAuthority('admin', req.role) && (req.role!=='superadmin');
+    let priceLimit;
+    switch(newServiceData.priceUnit){
+        case 'RMB':
+            priceLimit = 3000.00
+            break
+        case 'USD':
+            priceLimit = 500.00
+            break
+        default:
+            priceLimit = 500.00
     }
+    let priceIsFine = newServiceData.price > priceLimit;
     if (!isAuthorized) {
+        // block out if the user is not authorized
         return res.status(401).send({ error: 'You are not authorized.' })
+    }
+    if (!priceIsFine) {
+        // block out if the price is not good
+        return res.status(409).send({ error: 'Price is not good.' })
     }
     if (isAuthorized && priceIsFine) {
         let from = newServiceData.createrData;
@@ -133,13 +146,9 @@ exports.createService = function (req, res) {
         // Add both user according to his/her role
         if (from && to) {
             // let superadmin can create package
-            if (from.role !== 'admin') {
-                // it may be superadmin...
-                return handleError(res, { err: `You are ${from.role}, Please change to admin account.` });
-            }
-            service.participants[from.role].userData = from[`${from.role}Data`]._id;
+            service.participants[from.role].userData = from._id;
             notice.from = from._id;
-            service.participants[to.role].userData = to[`${to.role}Data`]._id;
+            service.participants[to.role].userData = to._id;
             notice.to = to._id;
         } else {
             return handleError(res, err);
