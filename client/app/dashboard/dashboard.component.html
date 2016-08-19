@@ -9,6 +9,7 @@
             <div [routerLink]="['/dashboard/resumes']" class="menu-item" (click)="checkMenuStyle('resumes')" [class.active]="currentSession==='resumes'" *ngIf="currentUserRole=='student'">Resumes</div>
             <div [routerLink]="['/dashboard/services']" class="menu-item" (click)="checkMenuStyle('services')" [class.active]="currentSession==='services'" *ngIf="true">Services</div>
             <div [routerLink]="['/dashboard/company']" class="menu-item" (click)="checkMenuStyle('company')" [class.active]="currentSession==='company'" *ngIf="currentUserRole=='superadmin'">Company</div>
+            <div [routerLink]="['/dashboard/messages']" class="menu-item" (click)="checkMenuStyle('messages')" [class.active]="currentSession==='messages'">Messages</div>
         </div>
         <router-outlet></router-outlet>
     </span>

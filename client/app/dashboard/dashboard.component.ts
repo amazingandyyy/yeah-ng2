@@ -135,7 +135,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
     }
 
     goToMessagePage() {
-        
+        this.inboxToggled = !this.inboxToggled;
+        this.router.navigate(['dashboard/messages']);
     }
 
     ngOnInit() {
