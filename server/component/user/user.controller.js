@@ -28,6 +28,19 @@ exports.getCurrentUser = function (req, res) {
     }
 };
 
+exports.getCurrentUserDeeply = function (req, res) {
+    if (!req.user) {
+        console.log('authentication failed')
+        return res.status(409).send()
+    }
+    if (req.user._id == req.params.userId) {
+        User.getCurrentUserDeeply(req.user, (err, data) => {
+            if (err) return handleError(res, err)
+            res.send(data)
+        });   
+    }
+};
+
 exports.getSingleUser = function (req, res) {
     User.findById(req.params.userId, (err, data) => {
         console.log('single user: ', data)
@@ -64,24 +77,24 @@ exports.signup = function (req, res) {
 }
 
 exports.updateCurrentUser = function (req, res) {
+    if (!req.user) {
+        console.log('authentication failed')
+        return res.status(409).send()
+    }
     if (req.user._id == req.body._id) {
         User.updateCurrentUser(req.body, (err, data) => {
             if (err) return handleError(res, err)
             return res.status(200).send(data)
         })
-    } else {
-        return handleError(res, err)
     }
 }
 exports.getOneService = function (req, res) {
     if (checkAuthority('student', req.role)) {
         let serviceId = req.params.serviceId;
-        Service.findById(serviceId, (err, data) => {
+        Service.getOneService(serviceId, (err, data) => {
             if (err) return handleError(res, err)
             return res.status(200).send(data)
         })
-    } else {
-        return handleError(res, err)
     }
 }
 
@@ -122,11 +135,11 @@ exports.createService = function (req, res) {
             // let superadmin can create package
             if (from.role !== 'admin') {
                 // it may be superadmin...
-                return handleError(res, {err: `You are ${from.role}, Please change to admin account.`});
+                return handleError(res, { err: `You are ${from.role}, Please change to admin account.` });
             }
-            service.participants[from.role_fake].userId = from[`${from.role}Data`]._id;
+            service.participants[from.role].userData = from[`${from.role}Data`]._id;
             notice.from = from._id;
-            service.participants[to.role].userId = to[`${to.role}Data`]._id;
+            service.participants[to.role].userData = to[`${to.role}Data`]._id;
             notice.to = to._id;
         } else {
             return handleError(res, err);
@@ -163,5 +176,5 @@ function checkAuthority(requiredRole, userRole) {
 
 function handleError(res, err) {
     console.log(err);
-    res.status(400).send(err);
+    return res.status(400).send(err);
 }

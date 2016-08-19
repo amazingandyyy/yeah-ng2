@@ -6,18 +6,23 @@ let Notification;
 
 let notificationSchema = new mongoose.Schema({
     from: {
-    	type: mongoose.Schema.ObjectId,
-    	ref: 'User'
-    }, 
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+    },
     to: {
-    	type: mongoose.Schema.ObjectId,
-    	ref: 'User'
-    }, 
-    title: String,
-    description: String,
-    response: Boolean,
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+    },
+    title: {
+        type: String
+    },
+    description: {
+        type: String
+    },
+    response: {
+        type: Boolean
+    },
     state: {
-        // "message" || "invitation"
         type: String,
         enum: ['message', 'invitation']
     },
@@ -41,7 +46,7 @@ let notificationSchema = new mongoose.Schema({
 })
 
 notificationSchema.statics = {
-    sendNotice: function(message, cb) {
+    sendNotice: function (message, cb) {
         let notice = new Notification({
             from: message.from,
             to: message.to,
@@ -56,31 +61,31 @@ notificationSchema.statics = {
             cb(null, savedNotice);
         });
     },
-    getThreeNew: function(userId, cb) {
-        Notification.find({to: userId})
-        .sort({'date': -1})
-        .populate('from to', 'name role')
-        .limit(3)
-        .exec(function(err, notice) {
-            if(err) { cb(err) }
-            cb(null, notice);
-        });
+    getThreeNew: function (userId, cb) {
+        Notification.find({ to: userId })
+            .sort({ 'date': -1 })
+            .populate('from to', 'name role')
+            .limit(3)
+            .exec(function (err, notice) {
+                if (err) return cb(err)
+                cb(null, notice);
+            });
     },
-    getAll: function(userId, cb) {
-        Notification.find({to: userId})
-        .sort({'date': -1})
-        .exec(function(err, notice) {
-            if(err) { cb(err) }
-            cb(null, notice);
-        });
+    getAll: function (userId, cb) {
+        Notification.find({ to: userId })
+            .sort({ 'date': -1 })
+            .exec(function (err, notice) {
+                if (err) return cb(err)
+                cb(null, notice);
+            });
     },
-    notificationCount: function(userId, cb) {
-        Notification.find({to: userId, read: false})
-        .count()
-        .exec(function(err, count) {
-            if(err) { cb(err) }
-            cb(null, count);
-        });
+    notificationCount: function (userId, cb) {
+        Notification.find({ to: userId, read: false })
+            .count()
+            .exec(function (err, count) {
+                if (err) return cb(err)
+                cb(null, count);
+            });
     }
 }
 

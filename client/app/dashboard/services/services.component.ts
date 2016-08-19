@@ -40,18 +40,20 @@ export class ServicesComponent implements OnInit {
     ) { }
 
     getCurrentUser() {
-        this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
+        this.authService.getCurrentUserDeeply(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
             user => {
-                this.currentUser = user
-                if(this.currentUser.services && this.currentUser.services.length > 0){
+                console.log('current user data: ', user);
+                this.currentUser = user;                
+                if(this.currentUser[`${this.currentUser.role}Data`].services && this.currentUser[`${this.currentUser.role}Data`].services[0]){
+                    console.log('get services');
                     this.getServices()
                 }else{
                     console.log('no services yet');
                 }
             },
             error => {
-                this.authService.logUserOut();
+                // this.authService.logUserOut();
                 console.log(<any>error)
             });
     }
@@ -84,8 +86,6 @@ export class ServicesComponent implements OnInit {
                 .subscribe(
                 user => {
                     if (user.role == 'student') {
-                        console.log('check');
-                        
                         // Add user to this user's service
                         newServiceData.studentData = user;
                         this.service.createService(newServiceData)

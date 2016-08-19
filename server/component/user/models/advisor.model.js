@@ -6,7 +6,7 @@ const Service = require('./service.model');
 const User = require('./user.model');
 
 let advisorSchema = new mongoose.Schema({
-    user: {
+    userData: {
         type: mongoose.Schema.ObjectId,
         ref: 'User'
     },

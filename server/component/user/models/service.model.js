@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const autopopulate = require('mongoose-autopopulate');
+const deepPopulate = require('mongoose-deep-populate')(mongoose);
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Import data from other roleSchema
@@ -21,11 +22,11 @@ let serviceSchema = new mongoose.Schema({
         type: String,
         default: 'normal',
         enum: [
-            'app_regular1','app_regular2','app_regular3',
+            'app_regular1', 'app_regular2', 'app_regular3',
             'app_guarantee1', 'app_guarantee2',
             'app_president',
-            'long_ch1','long_ch2','long_ch3',
-            'long_us1','long_us2','long_us3'
+            'long_ch1', 'long_ch2', 'long_ch3',
+            'long_us1', 'long_us2', 'long_us3'
         ]
     },
     price: {
@@ -34,7 +35,7 @@ let serviceSchema = new mongoose.Schema({
     },
     participants: {
         student: {
-            userId: {
+            userData: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'Student',
                 childPath: 'services'
@@ -45,7 +46,7 @@ let serviceSchema = new mongoose.Schema({
             }
         },
         advisor: {
-            userId: {
+            userData: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'Advisor',
                 childPath: 'services'
@@ -56,7 +57,7 @@ let serviceSchema = new mongoose.Schema({
             }
         },
         supervisor: {
-            userId: {
+            userData: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'Supervisor',
                 childPath: 'services'
@@ -67,7 +68,7 @@ let serviceSchema = new mongoose.Schema({
             }
         },
         admin: {
-            userId: {
+            userData: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'Admin',
                 childPath: 'services'
@@ -78,10 +79,42 @@ let serviceSchema = new mongoose.Schema({
             }
         }
     }
-})
+});
 
 serviceSchema.plugin(autopopulate);
-serviceSchema.plugin(relationship, { relationshipPathName:['participants.student.userId', 'participants.advisor.userId', 'participants.supervisor.userId', 'participants.admin.userId'] });
+serviceSchema.plugin(relationship, { relationshipPathName: ['participants.student.userData', 'participants.advisor.userData', 'participants.supervisor.userData', 'participants.admin.userData'] });
+let deepPopulateOption; 
+serviceSchema.plugin(deepPopulate, deepPopulateOption);
+
+serviceSchema.statics = {
+    getOneService: function (serviceId, cb) {
+        Service.findById(serviceId)
+            .deepPopulate(deepPopulateOption)
+            .exec((err, data) => {
+                if (err || !data) return cb(err)
+                cb(null, data)
+            })
+    }
+}
+
+deepPopulateOption = [
+    'participants.student.userData.userData',
+    'participants.advisor.userData.userData',
+    'participants.supervisor.userData.userData',
+    'participants.admin.userData.userData',
+    'participants.student.userData.userData',
+    'participants.advisor.userData.userData',
+    'participants.supervisor.userData.userData',
+    'participants.admin.userData.userData',
+    'participants.student.userData.userData',
+    'participants.advisor.userData.userData',
+    'participants.supervisor.userData.userData',
+    'participants.admin.userData.userData',
+    'participants.student.userData.userData',
+    'participants.advisor.userData.userData',
+    'participants.supervisor.userData.userData',
+    'participants.admin.userData.userData'
+]
 
 let Service = mongoose.model('Service', serviceSchema);
 module.exports = Service;

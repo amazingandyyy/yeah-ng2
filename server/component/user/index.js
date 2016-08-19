@@ -11,6 +11,8 @@ router.get('/', Controller.index);
 // user to get its own data, user need to login and it's the current user
 router.get('/currentUser/:userId', User.authMiddleware, Controller.getCurrentUser);
 
+router.get('/currentUserDeeply/:userId', User.authMiddleware, Controller.getCurrentUserDeeply);
+
 // just simpily get one user's data, user do not need to login
 router.get('/singleUser/:userId', Controller.getSingleUser);
 

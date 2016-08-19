@@ -5,7 +5,7 @@ const autopopulate = require('mongoose-autopopulate');
 const Service = require('./service.model');
 
 let superadminSchema = new mongoose.Schema({
-    user: {
+    userData: {
         type: mongoose.Schema.ObjectId,
         ref: 'User'
     },
