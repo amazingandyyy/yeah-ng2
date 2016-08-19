@@ -14,7 +14,7 @@ import { SocketService } from '../../shared/services/socket.service';
     styleUrls: [
         '../dashboard.style.css',
         'services.style.css'
-        ],
+    ],
     providers: [AuthService, SocketService, ServiceService]
 })
 export class ServicesComponent implements OnInit {
@@ -44,11 +44,11 @@ export class ServicesComponent implements OnInit {
             .subscribe(
             user => {
                 console.log('current user data: ', user);
-                this.currentUser = user;                
-                if(this.currentUser.services[0]){
+                this.currentUser = user;
+                if (this.currentUser.services[0]) {
                     console.log('get services');
                     this.getServices()
-                }else{
+                } else {
                     console.log('no services yet');
                 }
             },
@@ -77,7 +77,7 @@ export class ServicesComponent implements OnInit {
         return moment(unix).format('ll');
     }
 
-    createService(newServiceData: any){
+    createService(newServiceData: any) {
         let self = this;
         newServiceData.createrData = this.currentUser;
         if (newServiceData.student && newServiceData.student !== this.currentUser.email) {
@@ -92,19 +92,20 @@ export class ServicesComponent implements OnInit {
                             .subscribe(
                             data => {
                                 console.log('Service created: ', data);
-                                self.toggleModal('','','','')
+                                this.getCurrentUser()
+                                self.toggleModal('', '', '', '')
                             },
                             error => {
                                 console.log(error);
                             });
-                    }else{
+                    } else {
                         console.log('Email is not student.');
                     }
                 },
                 error => {
                     console.log('Student is not found.');
                 });
-        }else{
+        } else {
             console.log('Please type in a student email.');
         }
     }
@@ -123,13 +124,13 @@ export class ServicesComponent implements OnInit {
         this.modalActivated = !this.modalActivated;
     }
 
-    getOneServce(serviceId: string){
+    getOneServce(serviceId: string) {
         console.log('Selected service id: ', serviceId);
         this.service.getOneService(serviceId)
             .subscribe(
             data => {
                 console.log('Service created: ', data);
-                this.toggleModal('Service Details', 'details', 'update','');
+                this.toggleModal('Service Details', 'details', 'update', '');
                 this.selectedService = data;
             },
             error => {

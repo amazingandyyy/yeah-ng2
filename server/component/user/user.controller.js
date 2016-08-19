@@ -2,7 +2,7 @@
 
 const User = require('./models/user.model');
 
-const Service = require('./models/service.model');
+const Service = require('../service/service.model');
 const Notification = require('../notification/notification.model');
 const _ = require('lodash');
 
@@ -24,7 +24,10 @@ exports.getCurrentUser = function (req, res) {
         return res.status(409).send()
     }
     if (req.user._id == req.params.userId) {
-        res.send(req.user)
+        User.findById(req.user._id, (err, dbUser)=>{
+            if (err) return res.status(404).send(err)
+            res.send(dbUser)
+        }).populate('services')
     }
 };
 
@@ -154,19 +157,26 @@ exports.createService = function (req, res) {
             return handleError(res, err);
         }
         // TO DO: Should check if this kind of service package already exist
-        Service.create(service, (err, data) => {
+        Service.create(service, (err, savedService) => {
             if (err) return handleError(res, err);
-            // Create and send out notification here
-            Notification.sendNotice(notice, (err, noticeSaved) => {
-                if (err) {
-                    console.log('error @sendNotice: ', err)
-                    return handleError(res, err);
-                }
-                console.log('check')
-                // Attach service package id to notification for easier query
-                notice.service = data._id;
-                return res.status(200).json(data);
-            });
+            User.findById(from._id, (err, dbUser)=>{
+               if (err) return handleError(res, err);
+                dbUser.services.push(savedService._id)
+                dbUser.save((err, savedUser)=>{
+                    if (err) return handleError(res, err);
+                    // Create and send out notification here
+                    Notification.sendNotice(notice, (err, noticeSaved) => {
+                        if (err) {
+                            console.log('error @sendNotice: ', err)
+                            return handleError(res, err);
+                        }
+                        // Attach service package id to notification for easier query
+                        notice.service = savedService._id;
+                        return res.status(200).json(savedService);
+                    });
+                })
+            })
+            
         });
     } else {
         return res.status(401).send({ error: 'You are not authorized.' })

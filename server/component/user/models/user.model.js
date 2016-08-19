@@ -98,15 +98,13 @@ let userSchema = new mongoose.Schema({
     },
     services: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Service',
-            autopopulate: true
+            type: mongoose.Schema.ObjectId,
+            ref: 'Service'
         }
     ]
 })
 userSchema.plugin(autopopulate);
 userSchema.plugin(relationship, { relationshipPathName: ['studentData', 'advisorData', 'supervisorData', 'adminData', 'superadminData'] });
-
 
 let deepPopulateOption;
 userSchema.plugin(deepPopulate, deepPopulateOption);

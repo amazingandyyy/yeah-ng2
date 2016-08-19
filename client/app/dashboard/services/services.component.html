@@ -2,21 +2,21 @@
     <h3 class="title">Services</h3>
     <hr>
     <div class="row" *ngIf="!(currentUser.role === 'student') && !(currentUser.role == 'superadmin')">
-        <div class="col-md-4 col-small">
+        <div class="col-sm-6 col-md-4 col-small">
             <div class="card" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)">
                 <div class="card-block service hoverable">
                     <p class="title">Create service</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
+        <div class="col-sm-6 col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
                 <div class="card-block service hoverable">
                     <div>
-                        Student: <span>{{serviceDataList[serviceKey].participants.student.userData.name}} <small>(Foothill)</small></span>
+                        Student: <span *ngIf="serviceDataList[serviceKey].participants.student.userData">{{serviceDataList[serviceKey].participants.student.userData.name}} <small>(Foothill)</small></span>
                     </div>
                     <div>
-                        Advisor: <span>{{serviceDataList[serviceKey].participants.advisor.userData.name}}</span>
+                        Advisor: <span *ngIf="serviceDataList[serviceKey].participants.advisor.userData">{{serviceDataList[serviceKey].participants.advisor.userData.name}}</span>
                     </div>
                     <div>
                         CreateAt: <span>{{generateDate(serviceDataList[serviceKey].createAt)}}</span>
@@ -32,7 +32,7 @@
         <div class="col-sm-12">
             <h5 class="title">You can see all services!!!</h5>
         </div>
-        <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
+        <div class="col-sm-6 col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
                 <div class="card-block service hoverable">
                     <div>
@@ -81,9 +81,9 @@
                             <option value="app_guarantee1">Application Guarantee UCB/UCLA package</option>
                             <option value="app_president">Application CEO package</option>
                             <option value disabled>&#9662; Longterm package &#9662;</option>
-                            <option value="long_ch1">Longterm Gold package (China)</option>
-                            <option value="long_ch2">Longterm Silver package (China)</option>
-                            <option value="long_ch3">Longterm Bronze package (China)</option>
+                            <option value="long_cn1">Longterm Gold package (China)</option>
+                            <option value="long_cn2">Longterm Silver package (China)</option>
+                            <option value="long_cn3">Longterm Bronze package (China)</option>
                             <option value="long_us1">Longterm Gold package (US)</option>
                             <option value="long_us2">Longterm Silver package (US)</option>
                             <option value="long_us3">Longterm Bronze package (US)</option>
