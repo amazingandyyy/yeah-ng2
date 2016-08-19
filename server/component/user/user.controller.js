@@ -73,43 +73,69 @@ exports.updateCurrentUser = function (req, res) {
         return handleError(res, err)
     }
 }
+exports.getOneService = function (req, res) {
+    if (checkAuthority('student', req.role)) {
+        let serviceId = req.params.serviceId;
+        Service.findById(serviceId, (err, data) => {
+            if (err) return handleError(res, err)
+            return res.status(200).send(data)
+        })
+    } else {
+        return handleError(res, err)
+    }
+}
 
 exports.createService = function (req, res) {
-    if (checkAuthority('admin', req.role)) {
-        let body = req.body;
-        let from = body.currentUser;
-        let to = body.userToAdd;
+    let newServiceData = req.body;
+    let isAuthorized = checkAuthority('admin', req.role);
+    let priceIsFine = newServiceData.price > 500.00;
+    if(!priceIsFine){
+        return res.status(409).send({error:'Price is not good.'})
+    }
+    if(!isAuthorized){
+        return res.status(401).send({ error: 'You are not authorized.' })
+    }
+    if (isAuthorized && priceIsFine) {
+        let from = newServiceData.createrData;
+        let to = newServiceData.studentData;
         let service = {
-            details: {
+            participants: {
                 student: {},
                 advisor: {},
                 supervisor: {},
                 admin: {}
-            }
+            },
+            price: {
+                price: newServiceData.price,
+                unit: newServiceData.priceUnit
+            },
+            package: newServiceData.package,
         };
+        console.log('new service: ', service);
         let notice = {
-            title: 'Add request from ' + from.name,
-            desc: 'May I be your ' + from.role + '?',
+            title: 'New service created by ' + from.name,
+            desc: 'Your ' + from.role + ' just created a yeah service for you.',
             res: false,
-            state: 'invitation'
+            state: 'newService'
         }
         // Add both user according to his/her role
-        if (from) {
-            service.details[from.role].userId = getRoleData(from);
+        if (from && to) {
+            service.participants[from.role].userId = getRoleData(from);
             notice.from = from._id;
-        }
-        if (to) {
-            service.details[to.role].userId = getRoleData(to);
+            service.participants[to.role].userId = getRoleData(to);
             notice.to = to._id;
+        }else{
+            return handleError(res, err);
         }
         // TO DO: Should check if this kind of service package already exist
         Service.create(service, (err, data) => {
-            if (err) return res.status(400).send()
+            if (err) return handleError(res, err);
             // Create and send out notification here
             //Attach service package id to notification for easier query
             notice.service = data._id;
-            console.log('notification saved', notice);
-            Notification.sendNotice(notice, (noticeSaved)=> {
+            
+            Notification.sendNotice(notice, (err, noticeSaved) => {
+                if (err) return handleError(res, err);
                 return res.status(200).json(data);
             });
         });
@@ -120,7 +146,6 @@ exports.createService = function (req, res) {
 
 function checkAuthority(requiredRole, userRole) {
     const rolesArray = ['student', 'advisor', 'supervisor', 'admin', 'superadmin'];
-
     if (userRole) {
         if (rolesArray.indexOf(userRole) >= rolesArray.indexOf(requiredRole)) {
             return true;
@@ -146,7 +171,6 @@ function getRoleData(user) {
         default:
             return;
             break;
-
     }
 }
 

@@ -25,7 +25,8 @@ router.post('/login', Controller.login);
 
 router.post('/signup', Controller.signup);
 
-router.post('/createService', User.authMiddleware,Controller.createService);
+router.post('/createService', User.authMiddleware, Controller.createService);
 
+router.get('/getOneService/:serviceId', User.authMiddleware, Controller.getOneService);
 
 module.exports = router;

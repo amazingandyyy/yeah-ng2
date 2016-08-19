@@ -13,6 +13,10 @@ let superadminSchema = new mongoose.Schema({
         yeahEmail: {
             type: String
         }
+    },
+    createAt: {
+        type: Number,
+        default: Date.now
     }
 })
 

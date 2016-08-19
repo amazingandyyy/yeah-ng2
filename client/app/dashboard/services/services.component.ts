@@ -4,7 +4,7 @@ import moment = require('moment');
 
 import { User } from '../../shared/types/user'
 import { AuthService } from '../../shared/services/auth.service';
-import { ServicePackageService } from '../../shared/services/service.package.service';
+import { ServiceService } from '../../shared/services/service.service';
 import { SocketService } from '../../shared/services/socket.service';
 
 @Component({
@@ -12,29 +12,37 @@ import { SocketService } from '../../shared/services/socket.service';
     selector: 'yeah-services',
     templateUrl: 'services.component.html',
     styleUrls: ['services.style.css'],
-    providers: [AuthService, SocketService, ServicePackageService]
+    providers: [AuthService, SocketService, ServiceService]
 })
 export class ServicesComponent implements OnInit {
     currentUser = {};
+
     emailError: boolean;
     sending: boolean;
     roleNotMatchService: boolean;
-    service = 'student';
+
     modalActivated: boolean = false;
     activatedModal = {};
-    activatedService = {}
+    activatedService = {};
+    serviceDataList = {};
+    arrayOfServiceKey = [];
+
+    selectedService = {};
 
     constructor(
         private router: Router,
         private authService: AuthService,
         private socket: SocketService,
-        private servicePackage: ServicePackageService
+        private service: ServiceService
     ) { }
 
     getCurrentUser() {
         this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
-            user => this.currentUser = user,
+            user => {
+                this.currentUser = user
+                this.getServices()
+            },
             error => {
                 this.authService.logUserOut();
                 console.log(<any>error)
@@ -56,63 +64,114 @@ export class ServicesComponent implements OnInit {
         this.emailError = false;
     }
 
-    addService(email: string, service: string) {
-        if (email) {
-            let data = {
-                currentUser: this.currentUser,
-                userToAdd: {}
-            };
-            let self = this;
-            this.sending = true;
-            //Find user by email
+    generateDate(unix) {
+        return moment(unix).format('ll');
+    }
 
-            this.authService.getUserByEmail(email)
+    // addService(email: string, service: string) {
+    //     if (email) {
+    //         let data = {
+    //             currentUser: this.currentUser,
+    //             userToAdd: {}
+    //         };
+    //         let self = this;
+    //         this.sending = true;
+    //         //Find user by email
+
+    //         this.authService.getUserByEmail(email)
+    //             .subscribe(
+    //             user => {
+    //                 //Check if this user has the role for the intended service
+    //                 if (user.role === service) {
+    //                     data.userToAdd = user;
+    //                     //Add user to this user's service
+    //                     this.service.createService(data)
+    //                         .subscribe(
+    //                         user => {
+    //                             console.log('service created');
+    //                             self.sending = false;
+    //                         },
+    //                         error => {
+    //                             console.log(error);
+    //                         });
+    //                 } else {
+    //                     self.roleNotMatchService = true;
+    //                     self.sending = false;
+    //                 }
+    //             },
+    //             error => {
+    //                 self.emailError = true;
+    //                 self.sending = false;
+    //             });
+    //     }
+    // }
+
+    createService(newServiceData: any){
+        let self = this;
+        newServiceData.createrData = this.currentUser;
+        if (newServiceData.student && newServiceData.student !== this.currentUser.email) {
+            // Find student by email
+            this.authService.getUserByEmail(newServiceData.student)
                 .subscribe(
                 user => {
-                    //Check if this user has the role for the intended service
-                    if (user.role === service) {
-                        data.userToAdd = user;
-                        //Add user to this user's service
-                        this.servicePackage.createService(data)
+                    if (user.role == 'student') {
+                        // Add user to this user's service
+                        newServiceData.studentData = user;
+                        this.service.createService(newServiceData)
                             .subscribe(
-                            user => {
-                                console.log('service created');
-                                self.sending = false;
+                            data => {
+                                console.log('Service created: ', data);
+                                self.toggleModal('','','','')
                             },
                             error => {
                                 console.log(error);
                             });
-                    } else {
-                        self.roleNotMatchService = true;
-                        self.sending = false;
                     }
                 },
                 error => {
-                    self.emailError = true;
-                    self.sending = false;
+                    console.log('Student is not found.');
                 });
         }
     }
 
-    createService(newServiceData: any){
-        console.log('newServiceData: ', newServiceData);
-    }
+    toggleModal(title: string, state: string, behavior: string, attach: string) {
+        // Reset data
+        this.activatedModal = {};
+        this.selectedService = {};
 
-    toggleModal(title: string, state: string, behavior, attach: string) {
+        // Set modal data
         this.activatedModal.title = title;
         this.activatedModal.state = state;
         this.activatedModal.behavior = behavior;
-        this.modalActivated = !this.modalActivated
+        
+        // Toggle the modal
+        this.modalActivated = !this.modalActivated;
+    }
+
+    getOneServce(serviceId: string){
+        console.log('Selected service id: ', serviceId);
+        this.service.getOneService(serviceId)
+            .subscribe(
+            data => {
+                console.log('Service created: ', data);
+                this.toggleModal('Service Details', 'details', 'update','');
+                this.selectedService = data;
+            },
+            error => {
+                console.log(error);
+            });
     }
 
     getServices() {
-        console.log('getServices');
-        
+        this.serviceDataList = this.currentUser[`${this.currentUser.role}Data`].services;
+        console.log(Array.isArray(this.serviceDataList));
+        this.arrayOfServiceKey = Object.keys(this.serviceDataList);
+        this.arrayOfServiceKey.reverse();
+        console.log(this.arrayOfServiceKey);
     }
 
     ngOnInit() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getCurrentUser();
-        this.getServices()
     }
 }

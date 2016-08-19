@@ -6,7 +6,7 @@ import { NoticeService } from '../shared/services/notification.service';
 import { SocketService } from '../shared/services/socket.service';
 import { User } from '../shared/types/user';
 import { Notification } from '../shared/types/notification';
-// import { NotificationsService, SimpleNotificationsComponent } from 'notifications';
+import { NotificationsService, SimpleNotificationsModule } from 'notifications';
 
 
 @Component({

@@ -183,26 +183,27 @@ userSchema.statics.emailSignup = function (userObj, cb) {
                 savedUser.password = null;
 
                 console.log('-> SES triggered -> ')
-                SESserver.sendEmail({
-                    to: savedUser.email.data,
-                    from: process.env.AWS_SES_SENDER,
-                    cc: null,
-                    bcc: ['amazingandyyy@gmail.com'],
-                    subject: 'Welcome to Yeah. Please verify this email.',
-                    message: SESservice.send({
-                        title: `Hi, ${savedUser.name}.`,
-                        description: `Welcome for joining Yeah. You are signed up as ${savedUser.role}`,
-                        destination: `verify/email/${token}`,
-                        button: `Verify this Email`
-                    }),
-                    altText: 'Verify this Email and login'
-                }, function (err, data, res) {
-                    if (err) {
-                        console.log(err);
-                        return cb({ error: 'email is incorrect' }, null)
-                    }
-                    cb(null, { token: token, user: savedUser})
-                })
+                // SESserver.sendEmail({
+                //     to: savedUser.email.data,
+                //     from: process.env.AWS_SES_SENDER,
+                //     cc: null,
+                //     bcc: ['amazingandyyy@gmail.com'],
+                //     subject: 'Welcome to Yeah. Please verify this email.',
+                //     message: SESservice.send({
+                //         title: `Hi, ${savedUser.name}.`,
+                //         description: `Welcome for joining Yeah. You are signed up as ${savedUser.role}`,
+                //         destination: `verify/email/${token}`,
+                //         button: `Verify this Email`
+                //     }),
+                //     altText: 'Verify this Email and login'
+                // }, function (err, data, res) {
+                //     if (err) {
+                //         console.log(err);
+                //         return cb({ error: 'email is incorrect' }, null)
+                //     }
+                //     cb(null, { token: token, user: savedUser})
+                // })
+                cb(null, { token: token, user: savedUser})
             })
         })
         }

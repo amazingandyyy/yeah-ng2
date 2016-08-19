@@ -27,7 +27,7 @@ let studentSchema = new mongoose.Schema({
         },
         langauges: [
             { type: String }
-        ]
+        ] 
     },
     services: [
         {
@@ -35,7 +35,11 @@ let studentSchema = new mongoose.Schema({
             ref: 'Service',
             autopopulate: true
         }
-    ]
+    ],
+    createAt: {
+        type: Number,
+        default: Date.now
+    }
 })
 studentSchema.plugin(autopopulate);
 
