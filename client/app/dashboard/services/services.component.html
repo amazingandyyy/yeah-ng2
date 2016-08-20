@@ -3,11 +3,10 @@
     <hr>
     <div class="row" *ngIf="(currentUser.role === 'admin') || (currentUser.role == 'supervisor')">
         <div class="col-sm-6 col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
-        <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
                 <div class="card-block service hoverable">
                     <div>
-                        Student: <span *ngIf="serviceDataList[serviceKey].participants.student.userData">{{serviceDataList[serviceKey].participants.student.userData.name}} <small>(Foothill)</small></span>
+                        Student: <span *ngIf="serviceDataList[serviceKey].participants.student.userData">{{serviceDataList[serviceKey].participants.student.userData.name}} <small>({{serviceDataList[serviceKey].participants.student.confirmed}})</small></span>
                     </div>
                     <div>
                         Advisor: <span *ngIf="serviceDataList[serviceKey].participants.advisor.userData">{{serviceDataList[serviceKey].participants.advisor.userData.name}}</span>
@@ -20,7 +19,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
     <div class="row" *ngIf="(currentUser.role == 'student')">
@@ -38,11 +36,12 @@
     </div>
     <div class="row" *ngIf="(currentUser.role == 'superadmin')">
         <div class="col-sm-12">
-            <h5 class="title">You can see all services!!!</h5>
+            <h5 class="title">Superadmin can see all services!!!</h5>
         </div>
     </div>
 </div>
 
+<!-- Modal below -->
 <div class="modal" [class.active]="modalActivated" [class.fadeIn]="modalActivated">
     <div class="card animated">
 
@@ -105,25 +104,26 @@
             <body>
                 <div>
                     Package: <span>{{selectedService.package}}</span>
-                </div>
-                <div>
-                    Create At: <span>{{generateTime(selectedService.createAt)}}</span>
-                </div>
-                <div>
-                    Admin: <span *ngIf="selectedService.participants.admin.userData">{{selectedService.participants.admin.userData.name}}</span>
-                </div>
-                <div>
-                    Advisor: <span *ngIf="selectedService.participants.advisor.userData">{{selectedService.participants.advisor.userData.name}}</span>
-                </div>
-                <div>
-                    Student: <span *ngIf="selectedService.participants.student.userData">{{selectedService.participants.student.userData.name}}</span>
-                </div>
-                <div>
-                    Supervisor: <span *ngIf="selectedService.participants.supervisor.userData">{{selectedService.participants.supervisor.userData.name}}</span>
-                </div>
-            </body>
-            <footer>
-            </footer>
-        </span>
     </div>
+    <div>
+        Create At: <span>{{generateTime(selectedService.createAt)}}</span>
+    </div>
+    <div>
+        Admin: <span *ngIf="selectedService.participants.admin.userData">{{selectedService.participants.admin.userData.name}}</span>
+    </div>
+    <div>
+        Advisor: <span *ngIf="selectedService.participants.advisor.userData">{{selectedService.participants.advisor.userData.name}}</span>
+    </div>
+    <div>
+        Student: <span *ngIf="selectedService.participants.student.userData">{{selectedService.participants.student.userData.name}}</span>
+    </div>
+    <div>
+        Supervisor: <span *ngIf="selectedService.participants.supervisor.userData">{{selectedService.participants.supervisor.userData.name}}</span>
+    </div>
+    </body>
+    <footer>
+    </footer>
+    </span>
 </div>
+</div>
+<!--Modal over-->

@@ -23,7 +23,7 @@ var tsProject = typescript.createProject('tsconfig.json');
 // gulp.task('default', ['watch', 'build-ts', 'build-copy']);
 gulp.task('init', ['build', 'transfer']);
 gulp.task('default', ['build', 'serve', 'watch']);
-gulp.task('build', ['js', 'css', 'html', 'assets']);
+gulp.task('build', ['js', 'css', 'app:css', 'html', 'assets']);
 gulp.task('serve', function () {
     nodemon({
         script: './app.js',
@@ -51,8 +51,8 @@ gulp.task('clean:js', function () {
         .pipe(rimraf());
 });
 
-gulp.task('css', ['clean:css', 'app:css'], function () {
-    return gulp.src(['client/style/style.scss'])
+gulp.task('css', ['clean:css'], function () {
+    return gulp.src(['client/style/**/*.scss'])
         .pipe(sourcemaps.init())
         .pipe(plumber())
         .pipe(sass().on('error', sass.logError))
@@ -93,7 +93,7 @@ gulp.task('html', function () {
 
 gulp.task('watch', function () {
     gulp.watch(appDev + '**/*.ts', ['js']);
-    gulp.watch('public/style/**/*.scss', ['css']);
+    gulp.watch('client/style/**/*.scss', ['css']);
     gulp.watch(appDev + '**/*.scss', ['app:css']);
     gulp.watch(appDev + '**/*.{html,htm}', ['html']);
     gulp.watch('gulpfile.js', ['build']);
