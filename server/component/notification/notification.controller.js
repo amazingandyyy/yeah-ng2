@@ -3,6 +3,7 @@
 const Notification = require('./notification.model');
 const Service = require('../service/service.model');
 const _ = require('lodash');
+const mockData = require('./message.mock.json');
 
 exports.index = function(req, res) {
 	res.render('index');
@@ -25,10 +26,10 @@ exports.getThreeNew = function(req, res) {
 };
 
 exports.getAll = function(req, res) {
-	Notification.getAll(req.user._id, function(err, notices) {
-		if(err) { return handleError(res, err); }
-		return res.status(201).json(notices);
-	});
+	// Notification.getAll(req.user._id, function(err, notices) {
+	// 	if(err) { return handleError(res, err); }
+	// });
+	return res.status(201).json(mockData);
 };
 
 exports.getCounts = function(req, res) {
