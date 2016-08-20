@@ -77,6 +77,10 @@ export class ServicesComponent implements OnInit {
         return moment(unix).format('ll');
     }
 
+    generateTime(unix) {
+        return moment(unix).format('LLL');
+    }
+
     createService(newServiceData: any) {
         let self = this;
         newServiceData.createrData = this.currentUser;
@@ -129,7 +133,7 @@ export class ServicesComponent implements OnInit {
         this.service.getOneService(serviceId)
             .subscribe(
             data => {
-                console.log('Service created: ', data);
+                console.log('Service details: ', data);
                 this.toggleModal('Service Details', 'details', 'update', '');
                 this.selectedService = data;
             },

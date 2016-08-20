@@ -53,15 +53,15 @@
     </div>
 </div>
 
-<div class="modal" [class.active]="modalActivated">
-    <div class="card animated" [class.fadeIn]="modalActivated">
+<div class="modal" [class.active]="modalActivated" [class.fadeIn]="modalActivated">
+    <div class="card animated">
 
         <header>
             <h3 class="title">{{activatedModal.title}}</h3>
             <div class="close" (click)="toggleModal()">×</div>
         </header>
-
-        <body *ngIf="activatedModal.state == 'new' ">
+        <span *ngIf="activatedModal.state == 'new' ">
+        <body>
             <form #newServiceForm="ngForm">
                 <div class="row" *ngIf="activatedModal.state == 'new' ">
                 <div class="form-group row">
@@ -105,16 +105,36 @@
                 </div>
                 </div>
                 <div style="text-align: right;">
-                    <button class="btn btn-secondary-o" (click)="toggleModal()">Cancel</button>
+                    <button class="btn btn-secondary-o" (click)="toggleModal()">Delete</button>
                     <button class="btn btn-primary" type="submit" (click)="createService(newServiceForm.value)" [disabled]="!newServiceForm.form.valid">{{activatedModal.behavior}}</button>
                 </div>
             </form>
         </body>
-        <body *ngIf="activatedModal.state == 'details' ">
-            Details
-        </body>
-        <!--<footer>
-            
-        </footer>-->
+        </span>
+        <span *ngIf="activatedModal.state == 'details' ">
+            <body>
+                <div>
+                    Admin: <span *ngIf="selectedService.participants.admin.userData">{{selectedService.participants.admin.userData.name}}</span>
+                </div>
+                <div>
+                    Advisor: <span *ngIf="selectedService.participants.advisor.userData">{{selectedService.participants.advisor.userData.name}}</span>
+                </div>
+                <div>
+                    Student: <span *ngIf="selectedService.participants.student.userData">{{selectedService.participants.student.userData.name}}</span>
+                </div>
+                <div>
+                    Supervisor: <span *ngIf="selectedService.participants.supervisor.userData">{{selectedService.participants.supervisor.userData.name}}</span>
+                </div>
+                <div>
+                    Package: <span>{{selectedService.package}}</span>
+                </div>
+                <div>
+                    Create At: <span>{{generateTime(selectedService.createAt)}}</span>
+                </div>
+            </body>
+            <footer>
+                
+            </footer>
+        </span>
     </div>
 </div>

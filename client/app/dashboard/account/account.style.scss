@@ -9,18 +9,4 @@
         text-align: right;
         padding-right: 0px;
     }
-    .tag {
-        box-shadow: inset 0px 0px 0px 0.7px rgba($brand-primary, 0.4);
-        text-transform: uppercase;
-        transform: translateY(-2px);
-        letter-spacing: 0px;
-        color: $brand-primary;
-        font-weight: 100;
-        &:hover{
-            box-shadow: inset 0px 0px 0px 0.7px rgba($brand-primary, 0.7);
-            small {
-                opacity: 0.8;
-            }
-        }
-    }
 }

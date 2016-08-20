@@ -8,11 +8,13 @@ button.btn {
     margin: 10px auto 15px;
     border: 1px solid rgba($brand-primary, 0); // no color
     padding: 8px 40px;
-    // transition: 0.1s background ease-in-out;
+    transition: 0.3s background ease-in-out;
     cursor: pointer;
     outline: none;
     overflow: hidden;
     user-select: none;
+    border-radius: 4px !important;
+    outline: none;
 }
 button.btn.btn-primary {
     background: $brand-primary;
@@ -25,12 +27,12 @@ button.btn.btn-primary {
         }
     }
     &:hover {
-        // transition: 0.1s background ease-in-out;
-        background: darken($brand-secondary, 3%);
-        border-color: darken($brand-secondary, 3%);
+        transition: 0s background ease-in-out;
+        background: lighten($brand-primary, 10%);
+        border-color: lighten($brand-primary, 8%);
     }
     &:active {
-        background: darken($brand-primary, 10%);
+        background: darken($brand-primary, 5%);
         // transform: scale(0.99);
     }
 }
@@ -61,6 +63,10 @@ button.btn.btn-secondary-o {
         background: rgba($deep-gray, 0.04);
         // transform: scale(0.99);
     }
+}
+select.form-control {
+    border-radius: 3px !important;
+    height: 2.4rem !important;
 }
 
 @media (min-width: 767px) {  }
