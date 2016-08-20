@@ -176,7 +176,18 @@ exports.createService = function (req, res) {
                     });
                 })
             })
+            // // Create and send out notification here
+            // //Attach service package id to notification for easier query
+            // notice.service = data._id;
             
+            // Notification.sendNotice(notice, (err, noticeSaved) => {
+            //     if (err) {
+            //         console.log('error @sendNotice: ', err)
+            //         return handleError(res, err);
+            //     }
+            //     return res.status(200).json(data);
+            // });
+
         });
     } else {
         return res.status(401).send({ error: 'You are not authorized.' })

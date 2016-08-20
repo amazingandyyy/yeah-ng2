@@ -114,7 +114,7 @@ export class ServicesComponent implements OnInit {
         }
     }
 
-    toggleModal(title: string, state: string, behavior, attach: string) {
+    toggleModal(title: string, state: string, behavior: string, attach: string) {
         // Reset data
         this.activatedModal = {};
         this.selectedService = {};
@@ -143,9 +143,13 @@ export class ServicesComponent implements OnInit {
     }
 
     getServices() {
-        this.serviceDataList = this.currentUser.services;
+
+        this.serviceDataList = this.currentUser[`${this.currentUser.role}Data`].services;
+        console.log(Array.isArray(this.serviceDataList));
+
         this.arrayOfServiceKey = Object.keys(this.serviceDataList);
         this.arrayOfServiceKey.reverse();
+        console.log(this.arrayOfServiceKey);
     }
 
     ngOnInit() {

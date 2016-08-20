@@ -9,6 +9,7 @@
             <div [routerLink]="['/dashboard/resumes']" class="menu-item" (click)="checkMenuStyle('resumes')" [class.active]="currentSession==='resumes'" *ngIf="currentUserRole=='student'">Resumes</div>
             <div [routerLink]="['/dashboard/services']" class="menu-item" (click)="checkMenuStyle('services')" [class.active]="currentSession==='services'" *ngIf="true">Services</div>
             <div [routerLink]="['/dashboard/company']" class="menu-item" (click)="checkMenuStyle('company')" [class.active]="currentSession==='company'" *ngIf="currentUserRole=='superadmin'">Company</div>
+            <div [routerLink]="['/dashboard/messages']" class="menu-item" (click)="checkMenuStyle('messages')" [class.active]="currentSession==='messages'">Messages</div>
         </div>
         <router-outlet></router-outlet>
     </span>
@@ -16,7 +17,7 @@
     <!--nav-menu is fixed position so put it under everything-->
     <div class="nav-menu">
         <span class="nav-item">
-            <i class="fa fa-bell" (click)="inboxToggled = !inboxToggled; profileToggled = false">
+            <i class="fa fa-bell" (click)="inboxToggled = !inboxToggled; profileToggled = false;">
             </i>
             <!-- This should disappear when unread counts is 0 -->
             <span class="label label-danger unread" [hidden]="noticeCount < 1">{{noticeCount}}</span>
@@ -34,8 +35,8 @@
                             </span>             
                         </div>
                     </li>
-                    <li *ngIf="notifications[0]">more messages</li>
-                    <li *ngIf="!notifications[0]">No notification yet</li>
+                    <li *ngIf="notifications[0]" (click)="goToMessagePage()">more messages</li>
+                    <li *ngIf="notifications[0]">No notification yet</li>
                 </ul>
             </div>
         </span>

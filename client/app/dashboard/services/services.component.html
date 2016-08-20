@@ -3,6 +3,7 @@
     <hr>
     <div class="row" *ngIf="!(currentUser.role === 'student') && !(currentUser.role == 'superadmin')">
         <div class="col-sm-6 col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
+        <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
                 <div class="card-block service hoverable">
                     <div>
@@ -124,11 +125,8 @@
                 <div>
                     Supervisor: <span *ngIf="selectedService.participants.supervisor.userData">{{selectedService.participants.supervisor.userData.name}}</span>
                 </div>
-                
-                
             </body>
             <footer>
-                
             </footer>
         </span>
     </div>

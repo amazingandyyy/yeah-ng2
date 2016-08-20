@@ -32,7 +32,7 @@ let notificationSchema = new mongoose.Schema({
             default: false
         },
         timeStamp: {
-            type: Boolean
+            type: Number
         }
     },
     createAt: {
@@ -58,7 +58,9 @@ notificationSchema.statics = {
         });
         notice.save((err, savedNotice) => {
             if (err) return cb(err)
+
             cb(null, savedNotice);
+
         });
     },
     getThreeNew: function (userId, cb) {
@@ -80,7 +82,7 @@ notificationSchema.statics = {
             });
     },
     notificationCount: function (userId, cb) {
-        Notification.find({ to: userId, read: false })
+        Notification.find({ to: userId, 'read.state': false })
             .count()
             .exec(function (err, count) {
                 if (err) return cb(err)
