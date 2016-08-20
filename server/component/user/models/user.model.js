@@ -21,6 +21,7 @@ const Student = require('./student.model');
 const Superadmin = require('./superadmin.model');
 const Supervisor = require('./supervisor.model');
 const Service = require('../../service/service.model');
+const Notification = require('../../notification/notification.model');
 
 // SES is AWS's simple email service
 const ses = require('node-ses')
@@ -101,7 +102,11 @@ let userSchema = new mongoose.Schema({
             type: mongoose.Schema.ObjectId,
             ref: 'Service'
         }
-    ]
+    ],
+    notifications: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Notification',
+    }]
 })
 userSchema.plugin(autopopulate);
 userSchema.plugin(relationship, { relationshipPathName: ['studentData', 'advisorData', 'supervisorData', 'adminData', 'superadminData'] });
