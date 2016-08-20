@@ -41,5 +41,11 @@
         font-weight: 500;
     }
 }
+.row {
+    .col-small {
+        padding-right: 7px;
+        padding-left: 7px;
+    }
+}
 
 @media (min-width: 767px) {  }
