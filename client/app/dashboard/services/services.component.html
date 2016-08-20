@@ -1,14 +1,7 @@
 <div class="container">
-    <h3 class="title">Services</h3>
+    <h3 class="title">Services <button class="btn btn-primary btn-narrow btn-small" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)"><i class="fa fa-plus"></i></button></h3>
     <hr>
     <div class="row" *ngIf="!(currentUser.role === 'student') && !(currentUser.role == 'superadmin')">
-        <div class="col-sm-6 col-md-4 col-small">
-            <div class="card" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)">
-                <div class="card-block service hoverable">
-                    <p class="title">Create service</p>
-                </div>
-            </div>
-        </div>
         <div class="col-sm-6 col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
                 <div class="card-block service hoverable">
@@ -114,6 +107,12 @@
         <span *ngIf="activatedModal.state == 'details' ">
             <body>
                 <div>
+                    Package: <span>{{selectedService.package}}</span>
+                </div>
+                <div>
+                    Create At: <span>{{generateTime(selectedService.createAt)}}</span>
+                </div>
+                <div>
                     Admin: <span *ngIf="selectedService.participants.admin.userData">{{selectedService.participants.admin.userData.name}}</span>
                 </div>
                 <div>
@@ -125,12 +124,8 @@
                 <div>
                     Supervisor: <span *ngIf="selectedService.participants.supervisor.userData">{{selectedService.participants.supervisor.userData.name}}</span>
                 </div>
-                <div>
-                    Package: <span>{{selectedService.package}}</span>
-                </div>
-                <div>
-                    Create At: <span>{{generateTime(selectedService.createAt)}}</span>
-                </div>
+                
+                
             </body>
             <footer>
                 
