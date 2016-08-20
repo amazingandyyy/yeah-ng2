@@ -21,6 +21,7 @@ export class PipeComponent implements OnInit {
     ) { }
 
     getCurrentUser() {
+        // console.log( this.authService.currentUser);
         this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
             .subscribe(
             user => this.currentUser = user,

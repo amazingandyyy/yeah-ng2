@@ -87,11 +87,9 @@ export class MessagesComponent implements OnInit {
             });//forEach loop ends
             //Getting the first message of each user to display at the main threads
             for (var notices in recorder) {
-
                 self.mainThreads.push(recorder[notices][0]);
             }
             console.log(self.mainThreads);
-            
         }
     }
 

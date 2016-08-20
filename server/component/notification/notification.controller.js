@@ -42,11 +42,12 @@ exports.getCounts = function (req, res) {
 exports.confirmInvitation = function (req, res) {
 	console.log('req.body: ', req.body)
 	Notification.findById(req.body._id, function (err, dbNotice) {
-		if (err) { return handleError(res, err); }
+		if (err || !dbNotice) return handleError(res, err, '@Notification.findById'); 
 		var newNotice = _.merge(dbNotice, req.body);
 		Service.findById(newNotice.attachment.service, function (err, dbService) {
 			if (err || !dbService) return handleError(res, (err || { err: 'No service found!' }));
-			console.log('dbService')
+			console.log('dbService: ', dbService)
+			console.log('newNotice: ', newNotice)
 			if (dbService.participants[newNotice.from.role] && dbService.participants[newNotice.to.role]) {
 				console.log('check')
 				if (newNotice.response) {
@@ -78,7 +79,7 @@ exports.confirmInvitation = function (req, res) {
 	});
 };
 
-function handleError(res, err) {
-	console.log(err);
+function handleError(res, err, state) {
+	console.log(state, ': ', err);
 	return res.status(500).send(err);
 }

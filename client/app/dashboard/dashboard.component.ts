@@ -172,7 +172,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
         //         });
         //     });   
         // });
-        this.getNotificationCount();
+        // this.getNotificationCount();
     }
 
     ngOnDestroy() {

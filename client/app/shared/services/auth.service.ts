@@ -38,7 +38,6 @@ export class AuthService {
             .catch(this.handelError)
     }
 
-
     getUserByEmail(email: string): Observable<any> {
         return this.authHttp.get(`/api/user/getUserByEmail/${email}`)
             .map((res: Response) => res.json() || {})
@@ -80,7 +79,6 @@ export class AuthService {
 
     checkAuthority(requiredRole: string, userRole: string) {
         const rolesArray = ['student', 'advisor', 'supervisor', 'admin', 'superadmin'];
-        
         if(userRole) {
             if(rolesArray.indexOf(userRole) >= rolesArray.indexOf(requiredRole)) {
                 return true;
@@ -93,7 +91,7 @@ export class AuthService {
         let data = res.json();
         this.isLoggedIn = true;
         this.currentUser = data;
-        
+
         return data || {};
     }
     

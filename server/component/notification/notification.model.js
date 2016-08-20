@@ -49,6 +49,7 @@ let notificationSchema = new mongoose.Schema({
         }
     }
 })
+
 notificationSchema.plugin(autopopulate);
 
 notificationSchema.statics = {
