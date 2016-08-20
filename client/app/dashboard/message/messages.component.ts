@@ -37,10 +37,16 @@ export class MessagesComponent implements OnInit {
                 // this.authService.logUserOut();
                 console.log(<any>error)
             });
-    }   
+    }
+
+    getMessages()  {
+        
+        
+    }  
 
     ngOnInit() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getCurrentUser();
+        this.getMessages();
     }
 }
