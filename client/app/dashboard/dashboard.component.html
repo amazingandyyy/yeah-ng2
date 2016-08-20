@@ -36,7 +36,7 @@
                         </div>
                     </li>
                     <li *ngIf="notifications[0]" (click)="goToMessagePage()">more messages</li>
-                    <li *ngIf="notifications[0]">No notification yet</li>
+                    <li *ngIf="!notifications[0]">No notification yet</li>
                 </ul>
             </div>
         </span>

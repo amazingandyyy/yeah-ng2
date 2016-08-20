@@ -20,7 +20,7 @@
                                 <span>Email</span>
                                 <span class="tag">
                                     <span *ngIf="!currentUser.email.verified">Not Verified</span>
-                                    <span *ngIf="currentUser.email.verified">Verified</span>
+                                <span *ngIf="currentUser.email.verified">Verified</span>
                                 </span>
                             </div>
                             <div class="col-xs-8">
@@ -41,12 +41,11 @@
                         </div>
                     </div>
                     <span *ngIf="editAI">
-                        <h6>
-                            <span class="editBtn" (click)="updateCurrentUser(currentUser, 'editAI')">
-                                Save
-                            </span>
-                        </h6>
-                    <br>
+                        <button class="btn btn-primary btn-small pull-right" (click)="updateCurrentUser(currentUser, 'editAI')">
+                            Save
+                        </button>
+                        <br>
+                        <br>
                     </span>
                 </div>
             </div>

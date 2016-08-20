@@ -1,0 +1,15 @@
+@import "override";
+
+@import "global";
+@import "./bootstrap/bootstrap";
+
+// Import partial scss files
+@import "./partial/form";
+@import "./partial/auth";
+@import "./partial/modal";
+@import "./partial/navbar";
+@import "./partial/button";
+@import "./partial/utility";
+
+// Import third-party scss files
+@import "./animate";

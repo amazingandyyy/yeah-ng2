@@ -21,6 +21,7 @@ var uglify = require('gulp-uglify');
 var tsProject = typescript.createProject('tsconfig.json');
 
 // gulp.task('default', ['watch', 'build-ts', 'build-copy']);
+gulp.task('init', ['build', 'transfer']);
 gulp.task('default', ['build', 'serve', 'watch']);
 gulp.task('build', ['js', 'css', 'html', 'assets']);
 gulp.task('serve', function () {
@@ -51,7 +52,7 @@ gulp.task('clean:js', function () {
 });
 
 gulp.task('css', ['clean:css', 'app:css'], function () {
-    return gulp.src(['client/app/shared/scss/**/*.scss', 'client/app/shared/scss/**/*.sass'])
+    return gulp.src(['client/style/style.scss'])
         .pipe(sourcemaps.init())
         .pipe(plumber())
         .pipe(sass().on('error', sass.logError))
@@ -60,12 +61,14 @@ gulp.task('css', ['clean:css', 'app:css'], function () {
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('public/css'));
 });
+
 gulp.task('clean:css', function () {
-    return gulp.src('public/css', {
+    return gulp.src('public/css/style.css', {
         read: false
     })
         .pipe(rimraf());
 });
+
 gulp.task('app:css', ['app:clean:css'],function () {
     return gulp.src(appDev + '**/*.scss')
         .pipe(sourcemaps.init())
@@ -82,24 +85,20 @@ gulp.task('app:clean:css', function () {
     })
         .pipe(rimraf());
 });
+
 gulp.task('html', function () {
     return gulp.src(appDev + '**/*.html')
         .pipe(gulp.dest(appProd));
 });
 
-// gulp.task('build-copy', function () {
-//     return gulp.src([appDev + '**/*.html', appDev + '**/*.htm', appDev + '**/*.css'])
-//         .pipe(gulp.dest(appProd));
-// });
-
 gulp.task('watch', function () {
     gulp.watch(appDev + '**/*.ts', ['js']);
-    gulp.watch(['client/app/shared/scss/**/*.scss', 'client/app/shared/scss/**/*.sass'], ['css']);
-    gulp.watch(appDev + '**/*.{html,htm}', ['html']);
+    gulp.watch('public/style/**/*.scss', ['css']);
     gulp.watch(appDev + '**/*.scss', ['app:css']);
+    gulp.watch(appDev + '**/*.{html,htm}', ['html']);
     gulp.watch('gulpfile.js', ['build']);
-    // gulp.watch('node_modules/**', ['pkg']);
-    // gulp.watch('public/assets/**', ['assets']);
+    gulp.watch('client/assets/**', ['assets']);
+    gulp.watch('package.json', ['node_modules']);
 });
 
 gulp.task('assets', ['clean:assets'], function () {
@@ -147,13 +146,30 @@ gulp.task('clean:assets', function () {
 //     //lodash
 //     gulp.src('node_modules/lodash/**')
 //         .pipe(gulp.dest(vendor + '/lodash/'));
-    
+
 //     //zonejs
 //     return gulp.src('node_modules/zone.js/**')
 //         .pipe(gulp.dest(vendor + '/zone.js/'));
 // });
 
-gulp.task('pkg', function () {
+gulp.task('transfer', ['systemjs', 'bower', 'node_modules']);
+
+gulp.task('bower', function () {
+    return gulp.src('bower_components/**')
+        .pipe(gulp.dest('public/'));
+});
+
+gulp.task('bower', function () {
+    return gulp.src('bower_components/**')
+        .pipe(gulp.dest('public/'));
+});
+
+gulp.task('systemjs', function () {
+    return gulp.src('systemjs.config.js')
+        .pipe(gulp.dest('public/'));
+});
+
+gulp.task('node_modules', function () {
     return gulp.src('node_modules/**')
         .pipe(gulp.dest('public/node_modules/'));
 });

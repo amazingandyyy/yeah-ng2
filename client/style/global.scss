@@ -1,0 +1,19 @@
+@import "variables";
+@import "override";
+@import "responsive";
+
+body {
+    font-family: 'Lato', 'helvetica neue', helvetica, arial, sans-serif !important;
+    hr.small {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+}
+
+
+@media (min-width: 767px) {
+    // on desktop
+}
+@media (max-width: 767px) {
+    // on mobile specific - deprecated
+}
