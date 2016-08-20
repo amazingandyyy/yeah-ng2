@@ -1,7 +1,7 @@
 <div class="container">
-    <h3 class="title">Services <button class="btn btn-primary btn-narrow btn-small" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)"><i class="fa fa-plus"></i></button></h3>
+    <h3 class="title">Services <button *ngIf="(currentUser.role == 'admin')" class="btn btn-primary btn-narrow btn-small btn-inline" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)"><i class="fa fa-plus"></i></button></h3>
     <hr>
-    <div class="row" *ngIf="!(currentUser.role === 'student') && !(currentUser.role == 'superadmin')">
+    <div class="row" *ngIf="(currentUser.role === 'admin') || (currentUser.role == 'supervisor')">
         <div class="col-sm-6 col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
         <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
@@ -21,28 +21,24 @@
                 </div>
             </div>
         </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="(currentUser.role == 'student')">
+        <div class="col-sm-12" *ngIf="!(currentUser.services[0])">
+            <div class="icon-poster">
+                <h5 class="title">
+                    <i class="icon fa fa-hourglass-o" aria-hidden="true"></i>
+                </h5>
+                <h5 class="title">You don't have any package yet.</h5>
+            </div>
+        </div>
+        <div class="col-sm-12" *ngIf="(currentUser.services[0])">
+            <h5 class="title">This is your package</h5>
+        </div>
     </div>
     <div class="row" *ngIf="(currentUser.role == 'superadmin')">
         <div class="col-sm-12">
             <h5 class="title">You can see all services!!!</h5>
-        </div>
-        <div class="col-sm-6 col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
-            <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
-                <div class="card-block service hoverable">
-                    <div>
-                        Student: <span>{{serviceDataList[serviceKey].participants.student.userData.name.user.name}} <small>(Foothill)</small></span>
-                    </div>
-                    <div>
-                        Advisor: <span>{{serviceDataList[serviceKey].participants.advisor.userData.name}}</span>
-                    </div>
-                    <div>
-                        CreateAt: <span>{{generateDate(serviceDataList[serviceKey].createAt)}}</span>
-                    </div>
-                    <div>
-                        Packages: <span>{{serviceDataList[serviceKey].package}}</span>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

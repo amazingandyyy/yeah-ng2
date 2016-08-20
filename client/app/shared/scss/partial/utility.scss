@@ -24,4 +24,22 @@
     }
 }
 
+.text-center {
+    text-align: center;
+}
+.icon-poster {
+    text-align: center;
+    padding: 100px 20px;
+    opacity: 0.6;
+
+    .icon {
+        font-size: 2em;
+        opacity: 0.5;
+    }
+
+    .title {
+        font-weight: 500;
+    }
+}
+
 @media (min-width: 767px) {  }

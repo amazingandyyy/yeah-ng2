@@ -21,6 +21,7 @@ var uglify = require('gulp-uglify');
 var tsProject = typescript.createProject('tsconfig.json');
 
 // gulp.task('default', ['watch', 'build-ts', 'build-copy']);
+gulp.task('init', ['build', 'transfer', 'serve', 'watch']);
 gulp.task('default', ['build', 'serve', 'watch']);
 gulp.task('build', ['js', 'css', 'html', 'assets']);
 gulp.task('serve', function () {
@@ -50,8 +51,8 @@ gulp.task('clean:js', function () {
         .pipe(rimraf());
 });
 
-gulp.task('css', ['clean:css', 'app:css'], function () {
-    return gulp.src(['client/app/shared/scss/**/*.scss', 'client/app/shared/scss/**/*.sass'])
+gulp.task('css', ['clean:css'], function () {
+    return gulp.src(['client/app/shared/scss/style.scss'])
         .pipe(sourcemaps.init())
         .pipe(plumber())
         .pipe(sass().on('error', sass.logError))
@@ -60,28 +61,14 @@ gulp.task('css', ['clean:css', 'app:css'], function () {
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('public/css'));
 });
+
 gulp.task('clean:css', function () {
-    return gulp.src('public/css', {
+    return gulp.src('public/css/style.css', {
         read: false
     })
         .pipe(rimraf());
 });
-gulp.task('app:css', ['app:clean:css'],function () {
-    return gulp.src(appDev + '**/*.scss')
-        .pipe(sourcemaps.init())
-        .pipe(plumber())
-        .pipe(sass().on('error', sass.logError))
-        .pipe(autoprefixer())
-        .pipe(cleanCSS())
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest(appProd));
-});
-gulp.task('app:clean:css', function () {
-    return gulp.src(appProd + '**/*.css', {
-        read: false
-    })
-        .pipe(rimraf());
-});
+
 gulp.task('html', function () {
     return gulp.src(appDev + '**/*.html')
         .pipe(gulp.dest(appProd));
@@ -96,9 +83,7 @@ gulp.task('watch', function () {
     gulp.watch(appDev + '**/*.ts', ['js']);
     gulp.watch(['client/app/shared/scss/**/*.scss', 'client/app/shared/scss/**/*.sass'], ['css']);
     gulp.watch(appDev + '**/*.{html,htm}', ['html']);
-    gulp.watch(appDev + '**/*.scss', ['app:css']);
     gulp.watch('gulpfile.js', ['build']);
-    // gulp.watch('node_modules/**', ['pkg']);
     // gulp.watch('public/assets/**', ['assets']);
 });
 
@@ -153,7 +138,27 @@ gulp.task('clean:assets', function () {
 //         .pipe(gulp.dest(vendor + '/zone.js/'));
 // });
 
+gulp.task('transfer',['pkg', 'bootstrap:css']);
+
 gulp.task('pkg', function () {
     return gulp.src('node_modules/**')
         .pipe(gulp.dest('public/node_modules/'));
 });
+
+// gulp.task('bootstrap:css', ['clean:bootstrap:css'], function () {
+//     gulp.src(['client/app/shared/scss/bootstrap/bootstrap.scss'])
+//         .pipe(sourcemaps.init())
+//         .pipe(plumber())
+//         .pipe(sass().on('error', sass.logError))
+//         .pipe(autoprefixer())
+//         .pipe(cleanCSS())
+//         .pipe(sourcemaps.write())
+//         .pipe(gulp.dest('public/css/'));
+// });
+
+// gulp.task('clean:bootstrap:css', function () {
+//     return gulp.src('public/css/bootstrap.css', {
+//         read: false
+//     })
+//         .pipe(rimraf());
+// });
