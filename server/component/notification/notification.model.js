@@ -1,17 +1,20 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const autopopulate = require('mongoose-autopopulate');
 
 let Notification;
 
 let notificationSchema = new mongoose.Schema({
     from: {
         type: mongoose.Schema.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        autopopulate: true
     },
     to: {
         type: mongoose.Schema.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        autopopulate: true
     },
     title: {
         type: String
@@ -39,11 +42,14 @@ let notificationSchema = new mongoose.Schema({
         type: Number,
         default: Date.now
     },
-    service: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Service'
+    attachment: {
+        service: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Service'
+        }
     }
 })
+notificationSchema.plugin(autopopulate);
 
 notificationSchema.statics = {
     sendNotice: function (message, cb) {
@@ -54,17 +60,23 @@ notificationSchema.statics = {
             description: message.desc,
             response: message.res,
             state: message.state,
-            service: message.service
+            attachment: {
+                service: message.serviceId
+            }
         });
+        console.log('notice: ', notice)
         notice.save((err, savedNotice) => {
             if (err) return cb(err)
-
-            cb(null, savedNotice);
-
+            console.log('savedNotice: ', savedNotice)
+            Notification.findById(savedNotice._id,(err, dbNotice)=>{
+                if (err) return cb(err)
+                console.log('dbNotice: ', dbNotice)
+                cb(null, dbNotice);
+            })
         });
     },
     getThreeNew: function (userId, cb) {
-        Notification.find({ to: userId })
+        Notification.find({ to: userId, 'read.state': false })
             .sort({ 'date': -1 })
             .populate('from to', 'name role')
             .limit(3)

@@ -153,6 +153,7 @@ exports.createService = function (req, res) {
             notice.from = from._id;
             service.participants[to.role].userData = to._id;
             notice.to = to._id;
+            // Attach service package id to notification for easier query
         } else {
             return handleError(res, err);
         }
@@ -165,13 +166,12 @@ exports.createService = function (req, res) {
                 dbUser.save((err, savedUser)=>{
                     if (err) return handleError(res, err);
                     // Create and send out notification here
+                    notice.serviceId = savedService._id
                     Notification.sendNotice(notice, (err, noticeSaved) => {
                         if (err) {
                             console.log('error @sendNotice: ', err)
                             return handleError(res, err);
                         }
-                        // Attach service package id to notification for easier query
-                        notice.service = savedService._id;
                         return res.status(200).json(savedService);
                     });
                 })

@@ -4,69 +4,80 @@ const Notification = require('./notification.model');
 const Service = require('../service/service.model');
 const _ = require('lodash');
 
-exports.index = function(req, res) {
+exports.index = function (req, res) {
 	res.render('index');
 };
 
-exports.createNotification = function(req, res) {
+exports.createNotification = function (req, res) {
 	var sentFrom = { from: req.user._id };
 	var newNotice = _.merge(req.body, sentFrom);
-	Notification.create(newNotice, function(err, notice) {
-		if(err) { return handleError(res, err); }
+	Notification.create(newNotice, function (err, notice) {
+		if (err) { return handleError(res, err); }
 		return res.status(201).json(notice);
 	});
 };
 
-exports.getThreeNew = function(req, res) {
-	Notification.getThreeNew(req.user._id, function(err, notices) {
-		if(err) { return handleError(res, err); }
-		return res.status(201).json(notices);
-	}); 
-};
-
-exports.getAll = function(req, res) {
-	Notification.getAll(req.user._id, function(err, notices) {
-		if(err) { return handleError(res, err); }
+exports.getThreeNew = function (req, res) {
+	Notification.getThreeNew(req.user._id, function (err, notices) {
+		if (err) { return handleError(res, err); }
 		return res.status(201).json(notices);
 	});
 };
 
-exports.getCounts = function(req, res) {
-	Notification.notificationCount(req.user._id, function(err, count) {
-		if(err) { return handleError(res, err); }
+exports.getAll = function (req, res) {
+	Notification.getAll(req.user._id, function (err, notices) {
+		if (err) { return handleError(res, err); }
+		return res.status(201).json(notices);
+	});
+};
+
+exports.getCounts = function (req, res) {
+	Notification.notificationCount(req.user._id, function (err, count) {
+		if (err) { return handleError(res, err); }
 		return res.status(201).json(count);
 	});
 };
 
-exports.confirmInvitation = function(req, res) {
-	Notification.findById(req.body._id, function(err, notice) {
-		if(err) { return handleError(res, err); }
-		var newNotice = _.merge(notice, req.body);
-		newNotice.read.state = true;
-		newNotice.read.timeStamp = Date.now();
-		newNotice.save(function(err, savedNotice) {
-			//Update User Relationship
-			console.log('notification found', savedNotice);
-			Service.findById(savedNotice.service, function(err, serviceFound) {
-				if(err) { return handleError(res, err); }
-				//When invite accept
-				if(serviceFound.participants[notice.from.role] && serviceFound.participants[notice.to.role]) {
-					if(notice.response) {
-						serviceFound.participants[notice.from.role]['confirmed'] = true;
-						serviceFound.participants[notice.to.role]['confirmed'] = true;
-					} else {
-						serviceFound.participants[notice.from.role]['confirmed'] = false;
-						serviceFound.participants[notice.to.role]['confirmed'] = false;
-					}
+exports.confirmInvitation = function (req, res) {
+	console.log('req.body: ', req.body)
+	Notification.findById(req.body._id, function (err, dbNotice) {
+		if (err) { return handleError(res, err); }
+		var newNotice = _.merge(dbNotice, req.body);
+		Service.findById(newNotice.attachment.service, function (err, dbService) {
+			if (err || !dbService) return handleError(res, (err || { err: 'No service found!' }));
+			console.log('dbService')
+			if (dbService.participants[newNotice.from.role] && dbService.participants[newNotice.to.role]) {
+				console.log('check')
+				if (newNotice.response) {
+					//When invite accept
+					dbService.participants[newNotice.from.role].confirmed = true;
+					dbService.participants[newNotice.to.role].confirmed = true;
+					dbService.save((err, updatedService) => {
+						if (err) return handleError(res, err);
+						newNotice.read.state = true;
+						newNotice.read.timeStamp = Date.now();
+						newNotice.save(function (err, updatedNotice) {
+							if (err) return handleError(res, err);
+							//Update User Relationship
+							console.log('notification saved', updatedNotice);
+							return res.status(200).send({
+								updatedService: updatedService,
+								updatedNotice: updatedNotice
+							});
+						})
+					});
+				} else {
+					dbService.participants[newNotice.from.role].confirmed = false;
+					dbService.participants[newNotice.to.role].confirmed = false;
 				}
-				serviceFound.save();
-			});
-			return res.status(201).json(savedNotice);
+			}else{
+				return handleError(res, { err: 'Not read successfully!' });
+			}
 		});
 	});
 };
 
 function handleError(res, err) {
-  console.log(err);
-  return res.status(500).send(err);
+	console.log(err);
+	return res.status(500).send(err);
 }

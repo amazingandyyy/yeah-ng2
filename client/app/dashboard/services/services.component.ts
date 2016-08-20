@@ -46,7 +46,6 @@ export class ServicesComponent implements OnInit {
                 console.log('current user data: ', user);
                 this.currentUser = user;
                 if (this.currentUser.services[0]) {
-                    console.log('get services');
                     this.getServices()
                 } else {
                     console.log('no services yet');
@@ -144,11 +143,9 @@ export class ServicesComponent implements OnInit {
 
     getServices() {
         this.serviceDataList = this.currentUser.services;
-        console.log(Array.isArray(this.serviceDataList));
-
+        // console.log(Array.isArray(this.serviceDataList));
         this.arrayOfServiceKey = Object.keys(this.serviceDataList);
         this.arrayOfServiceKey.reverse();
-        console.log(this.arrayOfServiceKey);
     }
 
     ngOnInit() {

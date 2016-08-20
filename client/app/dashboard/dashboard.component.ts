@@ -32,9 +32,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
         private authService: AuthService,
         private router: Router,
         private socket: SocketService,
-        private noticeService: NoticeService,
-        // private notificationService: NotificationsService
-
+        // private notificationService: NotificationsService,
+        private noticeService: NoticeService
     ){}
 
     public options = {
@@ -75,17 +74,15 @@ export class DashboardComponent implements OnInit, OnDestroy{
             });
     }
 
-    getNotification(cb) {
+    getNotification() {
         let self = this;
         this.noticeService.getThree()
             .subscribe(
             notices => {
                 this.notifications = notices;
-                cb();
             },
             error => {
                 console.log(<any>error)
-                cb();
             });
     }
 
@@ -116,6 +113,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
             notice => {
                 //
                 console.log('confirmed')
+                this.getNotificationCount()
             },
             error => {
                 console.log(<any>error)
@@ -143,32 +141,38 @@ export class DashboardComponent implements OnInit, OnDestroy{
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getUser();
         let self = this;
-        this.getNotification(function() {
-            //Listen to updates after loading the first three notifications
-            self.socket.syncById('notification', self.currentUser._id, function(notice) {
-                self.checkNotications(notice, function(exist) {
-                    //If notification already exist only update read count
-                    if(exist) {
-                        if(notice.read) {
-                            self.noticeCount--;
-                        }
-                        return;
-                    } else {
-                        // self.notificationService.success(notice.title, notice.description, {id: 123});
-                        self.notifications.unshift(notice);
-                        //Only display three messages
-                        if(self.notifications.length > 3) {
-                            self.notifications.pop();
-                        }
-                        if(!notice.read) {
-                            self.noticeCount++;
-                        }
-                    }
-                });
-            });   
-        });
+        this.getNotification()
+        this.getNotificationCount()
+        self.socket.syncById('notification', self.currentUser._id, (notice) => {
+            this.getNotification()
+            this.getNotificationCount()
+        })
+        // this.getNotification(function() {
+        //     //Listen to updates after loading the first three notifications
+        //     self.socket.syncById('notification', self.currentUser._id, (notice) => {
+        //         self.getNotificationCount()
+        //         self.checkNotications(notice, function(exist) {
+        //             //If notification already exist only update read count
+        //             if(exist) {
+        //                 if(notice.read) {
+        //                     self.noticeCount--;
+        //                 }
+        //                 return;
+        //             } else {
+        //                 // self.notificationService.success(notice.title, notice.description, {id: 123});
+        //                 self.notifications.unshift(notice);
+        //                 //Only display three messages
+        //                 if(self.notifications.length > 3) {
+        //                     self.notifications.pop();
+        //                 }
+        //                 if(!notice.read) {
+        //                     self.noticeCount++;
+        //                 }
+        //             }
+        //         });
+        //     });   
+        // });
         this.getNotificationCount();
-        
     }
 
     ngOnDestroy() {
