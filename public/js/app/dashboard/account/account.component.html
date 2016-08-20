@@ -19,8 +19,8 @@
                             <div class="col-xs-4">
                                 <span>Email</span>
                                 <span class="tag">
-                                    <small *ngIf="!currentUser.email.verified">Not verified</small>
-                                    <small *ngIf="currentUser.email.verified">Verified</small>
+                                    <span *ngIf="!currentUser.email.verified">Not Verified</span>
+                                    <span *ngIf="currentUser.email.verified">Verified</span>
                                 </span>
                             </div>
                             <div class="col-xs-8">

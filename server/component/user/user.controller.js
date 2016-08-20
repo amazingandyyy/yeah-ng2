@@ -1,10 +1,10 @@
 'use strict';
 
-var User = require('./models/user.model');
+const User = require('./models/user.model');
 
-var Service = require('./models/service.model');
-var Notification = require('../notification/notification.model');
-var _ = require('lodash');
+const Service = require('../service/service.model');
+const Notification = require('../notification/notification.model');
+const _ = require('lodash');
 
 exports.index = function (req, res) {
     res.render('index');
@@ -24,7 +24,23 @@ exports.getCurrentUser = function (req, res) {
         return res.status(409).send()
     }
     if (req.user._id == req.params.userId) {
-        res.send(req.user)
+        User.findById(req.user._id, (err, dbUser)=>{
+            if (err) return res.status(404).send(err)
+            res.send(dbUser)
+        }).populate('services')
+    }
+};
+
+exports.getCurrentUserDeeply = function (req, res) {
+    if (!req.user) {
+        console.log('authentication failed')
+        return res.status(409).send()
+    }
+    if (req.user._id == req.params.userId) {
+        User.getCurrentUserDeeply(req.user, (err, data) => {
+            if (err) return handleError(res, err)
+            res.send(data)
+        });
     }
 };
 
@@ -64,36 +80,49 @@ exports.signup = function (req, res) {
 }
 
 exports.updateCurrentUser = function (req, res) {
+    if (!req.user) {
+        console.log('authentication failed')
+        return res.status(409).send()
+    }
     if (req.user._id == req.body._id) {
         User.updateCurrentUser(req.body, (err, data) => {
             if (err) return handleError(res, err)
             return res.status(200).send(data)
         })
-    } else {
-        return handleError(res, err)
     }
 }
 exports.getOneService = function (req, res) {
     if (checkAuthority('student', req.role)) {
         let serviceId = req.params.serviceId;
-        Service.findById(serviceId, (err, data) => {
+        Service.getOneService(serviceId, (err, data) => {
             if (err) return handleError(res, err)
             return res.status(200).send(data)
         })
-    } else {
-        return handleError(res, err)
     }
 }
 
 exports.createService = function (req, res) {
     let newServiceData = req.body;
-    let isAuthorized = checkAuthority('admin', req.role);
-    let priceIsFine = newServiceData.price > 500.00;
-    if (!priceIsFine) {
-        return res.status(409).send({ error: 'Price is not good.' })
+    let isAuthorized = checkAuthority('admin', req.role) && (req.role!=='superadmin');
+    let priceLimit;
+    switch(newServiceData.priceUnit){
+        case 'RMB':
+            priceLimit = 3000.00
+            break
+        case 'USD':
+            priceLimit = 500.00
+            break
+        default:
+            priceLimit = 500.00
     }
+    let priceIsFine = newServiceData.price > priceLimit;
     if (!isAuthorized) {
+        // block out if the user is not authorized
         return res.status(401).send({ error: 'You are not authorized.' })
+    }
+    if (!priceIsFine) {
+        // block out if the price is not good
+        return res.status(409).send({ error: 'Price is not good.' })
     }
     if (isAuthorized && priceIsFine) {
         let from = newServiceData.createrData;
@@ -120,31 +149,45 @@ exports.createService = function (req, res) {
         // Add both user according to his/her role
         if (from && to) {
             // let superadmin can create package
-            if (from.role !== 'admin') {
-                // it may be superadmin...
-                return handleError(res, {err: `You are ${from.role}, Please change to admin account.`});
-            }
-            service.participants[from.role_fake].userId = from[`${from.role}Data`]._id;
+            service.participants[from.role].userData = from._id;
             notice.from = from._id;
-            service.participants[to.role].userId = to[`${to.role}Data`]._id;
+            service.participants[to.role].userData = to._id;
             notice.to = to._id;
         } else {
             return handleError(res, err);
         }
         // TO DO: Should check if this kind of service package already exist
-        Service.create(service, (err, data) => {
+        Service.create(service, (err, savedService) => {
             if (err) return handleError(res, err);
-            // Create and send out notification here
-            Notification.sendNotice(notice, (err, noticeSaved) => {
-                if (err) {
-                    console.log('error @sendNotice: ', err)
-                    return handleError(res, err);
-                }
-                console.log('check')
-                // Attach service package id to notification for easier query
-                notice.service = data._id;
-                return res.status(200).json(data);
-            });
+            User.findById(from._id, (err, dbUser)=>{
+               if (err) return handleError(res, err);
+                dbUser.services.push(savedService._id)
+                dbUser.save((err, savedUser)=>{
+                    if (err) return handleError(res, err);
+                    // Create and send out notification here
+                    Notification.sendNotice(notice, (err, noticeSaved) => {
+                        if (err) {
+                            console.log('error @sendNotice: ', err)
+                            return handleError(res, err);
+                        }
+                        // Attach service package id to notification for easier query
+                        notice.service = savedService._id;
+                        return res.status(200).json(savedService);
+                    });
+                })
+            })
+            // // Create and send out notification here
+            // //Attach service package id to notification for easier query
+            // notice.service = data._id;
+            
+            // Notification.sendNotice(notice, (err, noticeSaved) => {
+            //     if (err) {
+            //         console.log('error @sendNotice: ', err)
+            //         return handleError(res, err);
+            //     }
+            //     return res.status(200).json(data);
+            // });
+
         });
     } else {
         return res.status(401).send({ error: 'You are not authorized.' })
@@ -163,5 +206,5 @@ function checkAuthority(requiredRole, userRole) {
 
 function handleError(res, err) {
     console.log(err);
-    res.status(400).send(err);
+    return res.status(400).send(err);
 }

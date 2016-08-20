@@ -32,6 +32,13 @@ export class AuthService {
             .catch(this.handelError)
     }
 
+    getCurrentUserDeeply(userId): Observable<User> {
+        return this.authHttp.get(`/api/user/currentUserDeeply/${userId}`)
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
+
+
     getUserByEmail(email: string): Observable<any> {
         return this.authHttp.get(`/api/user/getUserByEmail/${email}`)
             .map((res: Response) => res.json() || {})

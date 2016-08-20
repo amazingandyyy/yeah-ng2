@@ -1,7 +1,7 @@
 'use strict';
 
 const Notification = require('./notification.model');
-const Service = require('../user/models/service.model');
+const Service = require('../service/service.model');
 const _ = require('lodash');
 
 exports.index = function(req, res) {
@@ -42,20 +42,21 @@ exports.confirmInvitation = function(req, res) {
 	Notification.findById(req.body._id, function(err, notice) {
 		if(err) { return handleError(res, err); }
 		var newNotice = _.merge(notice, req.body);
-		newNotice.read = true;
+		newNotice.read.state = true;
+		newNotice.read.timeStamp = Date.now();
 		newNotice.save(function(err, savedNotice) {
 			//Update User Relationship
 			console.log('notification found', savedNotice);
 			Service.findById(savedNotice.service, function(err, serviceFound) {
 				if(err) { return handleError(res, err); }
 				//When invite accept
-				if(serviceFound.details[notice.from.role] && serviceFound.details[notice.to.role]) {
+				if(serviceFound.participants[notice.from.role] && serviceFound.participants[notice.to.role]) {
 					if(notice.response) {
-						serviceFound.details[notice.from.role]['confirmed'] = true;
-						serviceFound.details[notice.to.role]['confirmed'] = true;
+						serviceFound.participants[notice.from.role]['confirmed'] = true;
+						serviceFound.participants[notice.to.role]['confirmed'] = true;
 					} else {
-						serviceFound.details[notice.from.role]['confirmed'] = false;
-						serviceFound.details[notice.to.role]['confirmed'] = false;
+						serviceFound.participants[notice.from.role]['confirmed'] = false;
+						serviceFound.participants[notice.to.role]['confirmed'] = false;
 					}
 				}
 				serviceFound.save();

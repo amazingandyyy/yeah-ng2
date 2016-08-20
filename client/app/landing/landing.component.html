@@ -1,8 +1,13 @@
 <div class="container" style="text-align: center;padding-top: 200px;">
-    <h3 class="title">Explore</h3>
-    <hr>
-	<button class="btn btn-primary" [routerLink]="['/login']">Login</button>
-	<br>
-	<button class="btn btn-primary-o" [routerLink]="['/signup']">Sign up</button>
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-4">
+			<h3 class="title">Landing</h3>
+			<hr>
+			<button class="btn btn-block btn-primary" [routerLink]="['/login']">Login</button>
+			<button class="btn btn-block btn-secondary-o" [routerLink]="['/signup']">Sign up</button>
+		</div>
+		<div class="col-sm-4"></div>
+	</div>
 	<!--<button [routerLink]="['/signup/admin']">Admin Signup</button>-->
 </div>
