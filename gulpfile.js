@@ -138,27 +138,9 @@ gulp.task('clean:assets', function () {
 //         .pipe(gulp.dest(vendor + '/zone.js/'));
 // });
 
-gulp.task('transfer',['pkg', 'bootstrap:css']);
+gulp.task('transfer',['pkg']);
 
 gulp.task('pkg', function () {
     return gulp.src('node_modules/**')
         .pipe(gulp.dest('public/node_modules/'));
 });
-
-// gulp.task('bootstrap:css', ['clean:bootstrap:css'], function () {
-//     gulp.src(['client/app/shared/scss/bootstrap/bootstrap.scss'])
-//         .pipe(sourcemaps.init())
-//         .pipe(plumber())
-//         .pipe(sass().on('error', sass.logError))
-//         .pipe(autoprefixer())
-//         .pipe(cleanCSS())
-//         .pipe(sourcemaps.write())
-//         .pipe(gulp.dest('public/css/'));
-// });
-
-// gulp.task('clean:bootstrap:css', function () {
-//     return gulp.src('public/css/bootstrap.css', {
-//         read: false
-//     })
-//         .pipe(rimraf());
-// });
