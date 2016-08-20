@@ -18,9 +18,10 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <span>Email</span>
+                                <br>
                                 <span class="tag">
                                     <span *ngIf="!currentUser.email.verified">Not Verified</span>
-                                <span *ngIf="currentUser.email.verified">Verified</span>
+                                    <span *ngIf="currentUser.email.verified">Verified</span>
                                 </span>
                             </div>
                             <div class="col-xs-8">

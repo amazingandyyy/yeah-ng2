@@ -3,7 +3,7 @@
     <hr>
     <div class="row" *ngIf="(currentUser.role === 'admin') || (currentUser.role == 'supervisor')">
         <div class="col-sm-6 col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
-        <div class="col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
+        <div class="col-small" *ngFor="let serviceKey of arrayOfServiceKey">
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
                 <div class="card-block service hoverable">
                     <div>

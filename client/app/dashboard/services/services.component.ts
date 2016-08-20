@@ -143,8 +143,7 @@ export class ServicesComponent implements OnInit {
     }
 
     getServices() {
-
-        this.serviceDataList = this.currentUser[`${this.currentUser.role}Data`].services;
+        this.serviceDataList = this.currentUser.services;
         console.log(Array.isArray(this.serviceDataList));
 
         this.arrayOfServiceKey = Object.keys(this.serviceDataList);
