@@ -1,14 +1,38 @@
 <div class="container">
-    <h3 class="title">Messages</h3>
-    <hr>
-    <div class="row message-window">
-        <div class="col-sm-3">
-            <ul class="list-group">
-                <li class="list-group-item"></li>
-            </ul>
+    <div class="message-window">
+        <div class="main-thread">
+            <div class="state-selection-container">
+                <span>Messages</span>
+                <span>|</span>
+                <span>Invitation</span>
+            </div>
+            <div class="main-thread-content">
+                <ul>
+                    <li class="single-main-thread" *ngFor="let notice of mainThreads">
+                        <span class="time">
+                            {{notice.createAt}}
+                        </span>
+                        <div class="clearfix">
+                            <div class="image-container">
+                                <img src="{{notice.from.photo.url}}" alt="">
+                            </div>
+                            <div class="text-container">
+                                <div class="sender-name">{{notice.from.name}}
+                                </div>
+                                <div class="deep-grey">{{notice.description}}</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col-sm-9">
-            <input class="form-control"/>
+        <div class="conversation-thread">
+            <div class="title-container">
+                <span class="sender-name">David Yu</span>
+            </div>
+            <div class="message-input-container">
+                <input class="form-control"/>
+            </div>
         </div>
     </div>
 </div>

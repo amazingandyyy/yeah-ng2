@@ -1,7 +1,121 @@
 @import "../../../style/variables";
-// @import "../../shared/scss/global";*/
+// @import "../../style/global";
 
 .message-window {
 	background: white;
-	height: 700px;
+	height: 600px;
 }
+
+.main-thread {
+	width: 30%;
+	border: 1px solid $silent-grey;
+	border-right: none;
+	float: left;
+	min-height: 600px;
+	position: relative;
+}
+
+.conversation-thread {
+	width: 70%;
+	border: 1px solid $silent-grey;
+	float: left;
+	min-height: 600px;
+	position: relative;
+}
+
+.message-input-container {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding: 5px 10px 10px;
+	border-top: 1px solid $silent-grey;
+	background: #F6F7F9;
+}
+
+.state-selection-container {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	padding: 18px 19px 18px 22px;
+	border-bottom: 1px solid $silent-grey;
+	color: $silent-grey;
+	span {
+		cursor: pointer;
+		&:hover {
+			color: black;
+		}
+	}
+}
+
+.title-container {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	padding: 18px 19px 18px 22px;
+	border-bottom: 1px solid $silent-grey;
+}
+
+.main-thread-content {
+	position: relative;
+	top: 61px;
+	ul {
+		padding: 0px;
+	}
+}
+
+.single-main-thread {
+	cursor: pointer;
+	list-style: none;
+	padding: 10px;
+	border-bottom: 1px solid $silent-grey;
+	
+	.image-container {
+		float: left;
+		width: 55px;
+		img {
+			width: 50px;
+			height: 50px;
+		}
+	}
+	.text-container {
+		float: left;
+		width: 160px;
+		padding-top: 5px;
+		div {
+			overflow: hidden;
+			height: 20px;
+			text-overflow: ellipsis;
+			width: 100%;
+			white-space: nowrap;
+		}
+	}
+
+	.time {
+		float: right;
+		color: $silent-grey;
+		font-weight: thin;
+	}
+
+	&:hover {
+		background: $light-gray;
+	}
+}
+
+.sender-name {
+	font-weight: bolder;
+}
+
+.deep-grey {
+	color: $silent-grey;
+}
+
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+
