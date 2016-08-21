@@ -30,6 +30,12 @@
 	padding: 5px 10px 10px;
 	border-top: 1px solid $silent-grey;
 	background: #F6F7F9;
+	.btn { 
+		margin: 0;
+		padding: 6px 10px;
+		border-top-left-radius: 0px !important;
+		border-bottom-left-radius: 0px !important;
+	}
 }
 
 .state-selection-container {
@@ -113,6 +119,10 @@
      }
 .clearfix { display: inline-block; }
 
+* html .clearfix { height: 1%; }
+
+.clearfix { display: block; }
+
 .active { color: black; }
 
 .mainActive {
@@ -133,7 +143,6 @@
 	position: relative;
 	top: 61px;
 	list-style: none;
-	cursor: pointer;
 	padding: 10px;
 	border-bottom: 1px solid $silent-grey;
 	height: 500px;
@@ -144,16 +153,16 @@
 	padding: 8px 20px;
 	.image-container {
 		float: left;
-		width: 10%;
+		width: 8%;
 		padding-top: 5px;
 		img {
-			width: 50px;
-			height: 50px;
+			width: 32px;
+			height: 32px;
 		}
 	}
 	.text-container {
 		float: left;
-		width: 80%;
+		width: 85%;
 	}
 	.description {
 		color: black;

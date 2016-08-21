@@ -59,12 +59,29 @@ export class MessagesComponent implements OnInit {
 
     checkTabStyle(item: string) {
         this.tabSelected = item;
+
+        if(item === 'message') {
+            this.messageDetail = this.messageIndex[this.selectedUserId];
+        }
+        if(item === 'invitation') {
+            this.messageDetail = this.inviteIndex[this.selectedUserId];
+        }
     }
 
-    selectMessage(user: any) {
+    selectMessage(user: any, state: string) {
         this.selectedUser = user;
         this.selectedUserId = user._id;
+
+        if(state === 'message') {
+            this.messageDetail = this.messageIndex[user._id];
+        }
+        if(state === 'invitation') {
+            this.messageDetail = this.inviteIndex[user._id];
+        }
+
     }
+
+
 
     getMessages()  {
         let self = this;
@@ -172,8 +189,6 @@ export class MessagesComponent implements OnInit {
             this.selectedUser = firstNotice.from;
             this.selectedUserId = firstNotice.from._id;
             this.messageDetail = this.messageIndex[firstNotice.from._id];
-
-            console.log(this.messageDetail);
 
             for(var id in this.inviteIndex) {
                 let firstInvite = this.inviteIndex[id][0];
