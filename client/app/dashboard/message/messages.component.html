@@ -2,13 +2,13 @@
     <div class="message-window">
         <div class="main-thread">
             <div class="state-selection-container">
-                <span>Messages</span>
+                <span [class.active]="tabSelected === 'message'">Messages</span>
                 <span>|</span>
                 <span>Invitation</span>
             </div>
             <div class="main-thread-content">
                 <ul>
-                    <li class="single-main-thread" *ngFor="let notice of mainThreads">
+                    <li class="single-main-thread" *ngFor="let notice of messageMain">
                         <span class="time">
                             {{notice.createAt}}
                         </span>

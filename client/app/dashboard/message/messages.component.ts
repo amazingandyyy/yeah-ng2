@@ -21,8 +21,13 @@ import { NoticeService } from '../../shared/services/notification.service';
 })
 export class MessagesComponent implements OnInit {
     currentUser = {};
-    messages = [];
-    mainThreads = [];
+    messageMain = [];
+    inviteMain = [];   
+    messageDetail = [];
+    messageIndex = {};
+    inviteIndex = {};
+    tabSelected = 'message';
+
 
     constructor(
         private router: Router,
@@ -44,13 +49,17 @@ export class MessagesComponent implements OnInit {
             });
     }
 
+    checkTabStyle(item: string) {
+        this.tabSelected = item;
+    }
+
     getMessages()  {
         let self = this;
         this.noticeService.getAll()
             .subscribe(
             notifications => {
                 // this.messages = messages;
-                self.getMainThread(notifications);                
+                self.arrangeNotification(notifications);                
             },
             error => {
                 // this.authService.logUserOut();
@@ -58,41 +67,86 @@ export class MessagesComponent implements OnInit {
             });
     }
 
-    getMainThread(notifications: Array<Notification>) {
+    arrangeNotification(notifications: Array<Notification>) {
+
+        let sortByCreateAt = function(a, b) {
+            if (a.createAt > b.createAt) {
+                return -1;
+              }
+              if (a.createAt < b.createAt) {
+                return 1;
+              }
+              // a must be equal to b
+              return 0;
+        }
+
+        let categorize = function(arrayOfState: any, arrayOfNotification: Array<Notification>, currentUserId: string) {
+            let finalObj = {};
+            // console.log(arrayOfState, arrayOfNotification, currentUserId);
+            arrayOfNotification.forEach(function(n) {
+                arrayOfState.forEach(function(state) {
+                    if(n.state === state) {
+                        //If state is not defined yet, define here
+                        if(!finalObj[state]) {
+                            finalObj[state] = {};
+                        }
+                        if(n.from._id !== currentUserId) {
+                            //If it's not recorded yet add
+                            if(!finalObj[state][n.from._id]) {
+                                finalObj[state][n.from._id] = [n];
+                            } else {
+                                finalObj[state][n.from._id].push(n);
+                            }
+                        } else {
+                            //Get notification sent by user
+                            if(!finalObj[state][n.to._id]) {
+                                finalObj[state][n.to._id] = [n];
+                            } else {
+                                finalObj[state][n.to._id].push(n);
+                            }
+                        }
+                    }
+
+                });//State loop end
+            });//Notification loop end
+            return finalObj;
+        }//Categorize function ends
+
         if(notifications[0]) {
             let self = this;
-            //Recorder keep track of the ids so we don't get duplicated ids
-            let recorder = {};
-            notifications.forEach(function(n) {
-                //Get the unique from._id, that's not the current user's id
-                if(n.from._id !== self.currentUser._id) {
-                    //If it's not recorded yet add
-                    if(!recorder[n.from._id]) {
-                        recorder[n.from._id] = [n];
-                    } else {
-                        recorder[n.from._id].push(n);
-                    }
-                    recorder[n.from._id].sort(function (a, b) {
-                      if (a.createAt > b.createAt) {
-                        return -1;
-                      }
-                      if (a.createAt < b.createAt) {
-                        return 1;
-                      }
-                      // a must be equal to b
-                      return 0;
-                    });
-                    
-                }
-            });//forEach loop ends
-            //Getting the first message of each user to display at the main threads
-            for (var notices in recorder) {
 
-                self.mainThreads.push(recorder[notices][0]);
-            }
-            console.log(self.mainThreads);
+            let states = ['message', 'invitation'];
+            // 1. Sort the notification by createAt
+            // 2. Use user id that's not the current user as key
             
+            notifications.sort(sortByCreateAt);
+
+            let categorizedNotification = categorize(states, notifications, self.currentUser._id);
+
+            console.log(categorizedNotification);
+
+            //Saving it for user to index detail message
+            for(var state in categorizedNotification) {
+                if(state === 'message') {
+                    this.messageIndex = categorizedNotification[state];
+                }
+                if(state === 'invitation') {
+                    this.inviteIndex = categorizedNotification[state];
+                }
+            }
+            for(var id in this.messageIndex) {
+                let firstMessage = this.messageIndex[id][0];
+                this.messageMain.push(firstMessage);
+            }
+
+            for(var id in this.inviteIndex) {
+                let firstInvite = this.inviteIndex[id][0];
+                this.inviteMain.push(firstInvite);
+            }
+
         }
+
+       
     }
 
 
