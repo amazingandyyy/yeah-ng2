@@ -8,7 +8,7 @@
             </div>
             <div class="main-thread-content">
                 <ul *ngIf="tabSelected === 'message'">
-                    <li class="single-main-thread" *ngFor="let notice of messageMain" [class.mainActive]="notice.from._id === selectedFromId" (click)="selectMessage(notice.from)">
+                    <li class="single-main-thread" *ngFor="let notice of messageMain" [class.mainActive]="notice.from._id === selectedUserId" (click)="selectMessage(notice.from)">
                         <span class="time">
                             {{notice.createAt}}
                         </span>
@@ -25,7 +25,7 @@
                     </li>
                 </ul>
                 <ul *ngIf="tabSelected === 'invitation'">
-                    <li class="single-main-thread" *ngFor="let notice of inviteMain" [class.mainActive]="notice.from._id === selectedFromId" (click)="selectMessage(notice.from)">
+                    <li class="single-main-thread" *ngFor="let notice of inviteMain" [class.mainActive]="notice.from._id === selectedUserId" (click)="selectMessage(notice.from)">
                         <span class="time">
                             {{notice.createAt}}
                         </span>
@@ -36,7 +36,7 @@
                             <div class="text-container">
                                 <div class="sender-name">{{notice.from.name}}
                                 </div>
-                                <div class="deep-grey">{{notice.description}}</div>
+                                <div class="description">{{notice.description}}</div>
                             </div>
                         </div>
                     </li>
@@ -45,13 +45,28 @@
         </div>
         <div class="conversation-thread">
             <div class="title-container">
-                <span class="sender-name">{{selectedFrom.name}}</span>
+                <span class="sender-name">{{selectedUser.name}}</span>
             </div>
             <ul class="message-list">
-                <li class="message-list-item"></li>
+                <li class="message-list-item" *ngFor="let m of messageDetail">
+                    
+                    <div class="clearfix">
+                        <span class="time">
+                            {{m.createAt}}
+                        </span>
+                        <div class="image-container">
+                            <img src="{{m.from.photo.url}}" alt="">
+                        </div>
+                        <div class="text-container">
+                            <div class="sender-name">{{m.from.name}}
+                            </div>
+                            <div class="description">{{m.description}}</div>
+                        </div>
+                    </div>
+                </li>
             </ul>
             <div class="message-input-container">
-                <input class="form-control"/>
+                <input class="form-control" placeholder="Say something..." />
             </div>
         </div>
     </div>

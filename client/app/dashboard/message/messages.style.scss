@@ -90,12 +90,6 @@
 		}
 	}
 
-	.time {
-		float: right;
-		color: $silent-grey;
-		font-weight: thin;
-	}
-
 	&:hover {
 		background: $light-gray;
 	}
@@ -135,3 +129,39 @@
 	}
 }
 
+.message-list {
+	position: relative;
+	top: 61px;
+	list-style: none;
+	cursor: pointer;
+	padding: 10px;
+	border-bottom: 1px solid $silent-grey;
+	height: 500px;
+	overflow-y: scroll;
+}
+
+.message-list-item {
+	padding: 8px 20px;
+	.image-container {
+		float: left;
+		width: 10%;
+		padding-top: 5px;
+		img {
+			width: 50px;
+			height: 50px;
+		}
+	}
+	.text-container {
+		float: left;
+		width: 80%;
+	}
+	.description {
+		color: black;
+	}
+}
+
+.time {
+	float: right;
+	color: $silent-grey;
+	font-weight: thin;
+}
