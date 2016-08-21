@@ -147,32 +147,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
             this.getNotification()
             this.getNotificationCount()
         })
-        // this.getNotification(function() {
-        //     //Listen to updates after loading the first three notifications
-        //     self.socket.syncById('notification', self.currentUser._id, (notice) => {
-        //         self.getNotificationCount()
-        //         self.checkNotications(notice, function(exist) {
-        //             //If notification already exist only update read count
-        //             if(exist) {
-        //                 if(notice.read) {
-        //                     self.noticeCount--;
-        //                 }
-        //                 return;
-        //             } else {
-        //                 // self.notificationService.success(notice.title, notice.description, {id: 123});
-        //                 self.notifications.unshift(notice);
-        //                 //Only display three messages
-        //                 if(self.notifications.length > 3) {
-        //                     self.notifications.pop();
-        //                 }
-        //                 if(!notice.read) {
-        //                     self.noticeCount++;
-        //                 }
-        //             }
-        //         });
-        //     });   
-        // });
-        // this.getNotificationCount();
     }
 
     ngOnDestroy() {
