@@ -27,6 +27,8 @@ export class MessagesComponent implements OnInit {
     messageIndex = {};
     inviteIndex = {};
     tabSelected = 'message';
+    selectedFromId: string;
+    selectedFrom = {};
 
 
     constructor(
@@ -51,6 +53,11 @@ export class MessagesComponent implements OnInit {
 
     checkTabStyle(item: string) {
         this.tabSelected = item;
+    }
+
+    selectMessage(user: any) {
+        this.selectedFrom = user;
+        this.selectedFromId = user._id;
     }
 
     getMessages()  {
@@ -138,6 +145,13 @@ export class MessagesComponent implements OnInit {
                 let firstMessage = this.messageIndex[id][0];
                 this.messageMain.push(firstMessage);
             }
+            //Default to selecting the first message in the message category
+
+            let firstNotice = this.messageMain[0];
+            this.selectedFrom = firstNotice.from;
+            this.selectedFromId = firstNotice.from._id;
+
+            console.log(this.selectedFrom, this.selectedFromId);
 
             for(var id in this.inviteIndex) {
                 let firstInvite = this.inviteIndex[id][0];

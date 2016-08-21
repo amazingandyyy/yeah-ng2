@@ -2,13 +2,30 @@
     <div class="message-window">
         <div class="main-thread">
             <div class="state-selection-container">
-                <span [class.active]="tabSelected === 'message'">Messages</span>
+                <span [class.active]="tabSelected === 'message'" (click)="checkTabStyle('message')">Messages</span>
                 <span>|</span>
-                <span>Invitation</span>
+                <span [class.active]="tabSelected === 'invitation'" (click)="checkTabStyle('invitation')">Invitation</span>
             </div>
             <div class="main-thread-content">
-                <ul>
-                    <li class="single-main-thread" *ngFor="let notice of messageMain">
+                <ul *ngIf="tabSelected === 'message'">
+                    <li class="single-main-thread" *ngFor="let notice of messageMain" [class.mainActive]="notice.from._id === selectedFromId" (click)="selectMessage(notice.from)">
+                        <span class="time">
+                            {{notice.createAt}}
+                        </span>
+                        <div class="clearfix">
+                            <div class="image-container">
+                                <img src="{{notice.from.photo.url}}" alt="">
+                            </div>
+                            <div class="text-container">
+                                <div class="sender-name">{{notice.from.name}}
+                                </div>
+                                <div class="description">{{notice.description}}</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul *ngIf="tabSelected === 'invitation'">
+                    <li class="single-main-thread" *ngFor="let notice of inviteMain" [class.mainActive]="notice.from._id === selectedFromId" (click)="selectMessage(notice.from)">
                         <span class="time">
                             {{notice.createAt}}
                         </span>
@@ -28,8 +45,11 @@
         </div>
         <div class="conversation-thread">
             <div class="title-container">
-                <span class="sender-name">David Yu</span>
+                <span class="sender-name">{{selectedFrom.name}}</span>
             </div>
+            <ul class="message-list">
+                <li class="message-list-item"></li>
+            </ul>
             <div class="message-input-container">
                 <input class="form-control"/>
             </div>

@@ -105,7 +105,7 @@
 	font-weight: bolder;
 }
 
-.deep-grey {
+.description {
 	color: $silent-grey;
 }
 
@@ -120,4 +120,18 @@
 .clearfix { display: inline-block; }
 
 .active { color: black; }
+
+.mainActive {
+	background-color: $brand-primary;
+	color: white;
+	.time {
+		color: white;
+	}
+	.description {
+		color: white;
+	}
+	&:hover {
+		background-color: $brand-primary;
+	}
+}
 
