@@ -2,13 +2,13 @@
     <div class="message-window">
         <div class="main-thread">
             <div class="state-selection-container">
-                <span>Messages</span>
+                <span [class.active]="tabSelected === 'message'" (click)="checkTabStyle('message')">Messages</span>
                 <span>|</span>
-                <span>Invitation</span>
+                <span [class.active]="tabSelected === 'invitation'" (click)="checkTabStyle('invitation')">Invitation</span>
             </div>
             <div class="main-thread-content">
-                <ul>
-                    <li class="single-main-thread" *ngFor="let notice of mainThreads">
+                <ul *ngIf="tabSelected === 'message'">
+                    <li class="single-main-thread" *ngFor="let notice of messageMain" [class.mainActive]="notice.from._id === selectedUserId" (click)="selectMessage(notice.from, 'message')">
                         <span class="time">
                             {{notice.createAt}}
                         </span>
@@ -19,19 +19,62 @@
                             <div class="text-container">
                                 <div class="sender-name">{{notice.from.name}}
                                 </div>
-                                <div class="deep-grey">{{notice.description}}</div>
+                                <div class="description">{{notice.description}}</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul *ngIf="tabSelected === 'invitation'">
+                    <li class="single-main-thread" *ngFor="let notice of inviteMain" [class.mainActive]="notice.from._id === selectedUserId" (click)="selectMessage(notice.from, 'invitation')">
+                        <span class="time">
+                            {{notice.createAt}}
+                        </span>
+                        <div class="clearfix">
+                            <div class="image-container">
+                                <img src="{{notice.from.photo.url}}" alt="">
+                            </div>
+                            <div class="text-container">
+                                <div class="sender-name">{{notice.from.name}}
+                                </div>
+                                <div class="description">{{notice.description}}</div>
                             </div>
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
+        <!-- Conversation thread on the right -->
         <div class="conversation-thread">
             <div class="title-container">
-                <span class="sender-name">David Yu</span>
+                <span class="sender-name">{{selectedUser.name}}</span>
             </div>
+            <ul class="message-list">
+                <li class="message-list-item" *ngFor="let m of messageDetail">
+                    <div class="clearfix">
+                        <span class="time">
+                            {{m.createAt}}
+                        </span>
+                        <div class="image-container">
+                            <img src="{{m.from.photo.url}}" alt="">
+                        </div>
+                        <div class="text-container">
+                            <div class="sender-name">{{m.from.name}}
+                            </div>
+                            <div class="description">{{m.description}}</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
             <div class="message-input-container">
-                <input class="form-control"/>
+                <form>
+                    <div class="input-group">
+                        <input class="form-control" placeholder="Say something..." />
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">Enter</button>
+                        </div>
+                    </div>
+                    
+                </form>
             </div>
         </div>
     </div>
