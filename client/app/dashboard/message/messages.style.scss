@@ -27,15 +27,26 @@
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	padding: 5px 10px 10px;
+	padding: 0px;
 	border-top: 1px solid $silent-grey;
-	background: #F6F7F9;
-	.btn { 
-		margin: 0;
-		padding: 6px 10px;
-		border-top-left-radius: 0px !important;
-		border-bottom-left-radius: 0px !important;
+	// background: #F6F7F9;
+	.input-group {
+		.form-control {
+			border: 0px solid rgba(0,0,0,0);
+			padding: 10px 15px;
+			font-size: 1.1em;
+		}
+
+		.input-group-btn {
+			.btn {
+				border: 0px solid;
+				margin: 0 5px;
+				padding: 6px 10px;
+				border-radius: 3px !important;
+			}
+		}
 	}
+
 }
 
 .state-selection-container {
@@ -74,6 +85,7 @@
 	list-style: none;
 	padding: 10px;
 	border-bottom: 1px solid $silent-grey;
+	user-select: none;
 	
 	.image-container {
 		float: left;
@@ -103,6 +115,7 @@
 
 .sender-name {
 	font-weight: bolder;
+	user-select: none;
 }
 
 .description {
@@ -144,8 +157,8 @@
 	top: 61px;
 	list-style: none;
 	padding: 10px;
-	border-bottom: 1px solid $silent-grey;
-	height: 500px;
+	// border-bottom: 1px solid $silent-grey;
+	height: 485px;
 	overflow-y: scroll;
 }
 
@@ -162,7 +175,7 @@
 	}
 	.text-container {
 		float: left;
-		width: 85%;
+		width: 82%;
 	}
 	.description {
 		color: black;

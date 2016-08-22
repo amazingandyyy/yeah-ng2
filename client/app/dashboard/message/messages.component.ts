@@ -36,6 +36,8 @@ export class MessagesComponent implements OnInit {
     selectedUserId: string;
     selectedUser = {};
 
+    newMessage = {};
+
 
     constructor(
         private router: Router,
@@ -207,8 +209,13 @@ export class MessagesComponent implements OnInit {
                 this.inviteMain.push(firstInvite);
             }
         }
+    }
 
-       
+    submitMessage(newMessage: any){
+        console.log('newMessage: ', newMessage);
+        // After submit, clean up the textarea.
+        this.newMessage = {};
+        
     }
 
 
