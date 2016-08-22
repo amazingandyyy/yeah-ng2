@@ -5,7 +5,7 @@
         </nav>
         <div class="menu">
             <div [routerLink]="['/dashboard/pipe']" class="menu-item" (click)="checkMenuStyle('pipe')" [class.active]="currentSession==='pipe'" *ngIf=" currentUserRole=='student' || currentUserRole=='advisor' ">Timeline</div>
-            <div [routerLink]="['/dashboard/explore']" class="menu-item" (click)="checkMenuStyle('explore')" [class.active]="currentSession==='explore'">Explore</div>
+            <div [routerLink]="['/dashboard/explore']" class="menu-item" (click)="checkMenuStyle('explore')" [class.active]="currentSession==='explore'"  *ngIf="false">Explore</div>
             <div [routerLink]="['/dashboard/resumes']" class="menu-item" (click)="checkMenuStyle('resumes')" [class.active]="currentSession==='resumes'" *ngIf="currentUserRole=='student'">Resumes</div>
             <div [routerLink]="['/dashboard/services']" class="menu-item" (click)="checkMenuStyle('services')" [class.active]="currentSession==='services'" *ngIf="true">Services</div>
             <div [routerLink]="['/dashboard/company']" class="menu-item" (click)="checkMenuStyle('company')" [class.active]="currentSession==='company'" *ngIf="currentUserRole=='superadmin'">Company</div>
