@@ -103,9 +103,6 @@ let userSchema = new mongoose.Schema({
         }
     ],
     notifications:{
-        count: {
-            type: Number
-        },
         data: [{
             type: mongoose.Schema.ObjectId,
             ref: 'Notification'
@@ -297,7 +294,6 @@ userSchema.statics = {
         })
     },
     updateCurrentUser: function (updatedUser, cb) {
-        console.log('ddd')
         User.findById(updatedUser._id)
             .exec((err, dbUser) => {
                 if (err || !dbUser) return cb(err)
@@ -312,8 +308,8 @@ userSchema.statics = {
                 })
             })
     },
-    getCurrentUserDeeply: function (userData, cb) {
-        User.findById(userData._id)
+    getCurrentUserDeeply: function (userId, cb) {
+        User.findById(userId)
             // .deepPopulate(deepPopulateOption)
             .exec((err, dbUser) => {
                 if (err || !dbUser) return cb(err)

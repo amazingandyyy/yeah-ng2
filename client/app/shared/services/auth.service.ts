@@ -32,6 +32,12 @@ export class AuthService {
             .catch(this.handelError)
     }
 
+    resetCurrentUser(userId): Observable<User> {
+        return this.authHttp.get(`/api/user/currentUser/${userId}`)
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
+
     getCurrentUserDeeply(userId): Observable<User> {
         return this.authHttp.get(`/api/user/currentUserDeeply/${userId}`)
             .map(this.handelResponse)
@@ -91,6 +97,8 @@ export class AuthService {
         let data = res.json();
         this.isLoggedIn = true;
         this.currentUser = data;
+
+        localStorage.setItem('current_user', JSON.stringify(data))
 
         return data || {};
     }

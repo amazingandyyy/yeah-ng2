@@ -37,7 +37,7 @@ exports.getCurrentUserDeeply = function (req, res) {
         return res.status(409).send()
     }
     if (req.user._id == req.params.userId) {
-        User.getCurrentUserDeeply(req.user, (err, data) => {
+        User.getCurrentUserDeeply(req.user._id, (err, data) => {
             if (err) return handleError(res, err)
             res.send(data)
         });
