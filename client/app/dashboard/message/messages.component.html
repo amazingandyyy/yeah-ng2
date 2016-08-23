@@ -7,7 +7,7 @@
                 <span [class.active]="tabSelected === 'invitation'" (click)="checkTabStyle('invitation')">Invitation</span>
             </div>
             <div class="main-thread-content">
-                <ul *ngIf="tabSelected === 'message'">
+                <ul class="main-thread-list" *ngIf="tabSelected === 'message'">
                     <li class="single-main-thread" *ngFor="let notice of messageMain" [class.mainActive]="notice.from._id === selectedUserId" (click)="selectMessage(notice.from, 'message')">
                         <span class="time">
                             {{notice.createAt}}
@@ -61,6 +61,14 @@
                             <div class="sender-name">{{m.from.name}}
                             </div>
                             <div class="description">{{m.description}}</div>
+                            <div class="msg-behavior" *ngIf="m.state === 'invitation'">
+                                <span class="btn-accept" (click)="respondToInvitation(m, true)">
+                                    <i class="fa fa-check"></i> Accept
+                                </span>
+                                <span class="btn-decline" (click)="respondToInvitation(m, false)">
+                                    <i class="fa fa-times"></i> Decline
+                                </span>             
+                            </div>
                         </div>
                     </div>
                 </li>

@@ -1,5 +1,6 @@
 @import "../../../style/variables";
-// @import "../../style/global";
+@import "../../../style/global";
+@import "../../../style/override";
 
 .message-window {
 	background: white;
@@ -13,6 +14,11 @@
 	float: left;
 	min-height: 600px;
 	position: relative;
+}
+
+.main-thread-list {
+	height: 539px;
+	overflow-y: scroll;
 }
 
 .conversation-thread {
@@ -157,7 +163,6 @@
 	top: 61px;
 	list-style: none;
 	padding: 10px;
-	// border-bottom: 1px solid $silent-grey;
 	height: 485px;
 	overflow-y: scroll;
 }
@@ -186,4 +191,59 @@
 	float: right;
 	color: $silent-grey;
 	font-weight: thin;
+}
+.msg-behavior {
+	float: right;
+    span {
+        transition: .1s all ease-in-out;
+        transform: scale(0);
+        opacity: 0.6;
+        cursor: pointer;
+        text-transform: capitalize;
+        border-radius: 5px;
+        background-color: none;
+        padding: 5px 10px;
+        margin: 10px 5px;
+        border-radius: 4px;
+        &:hover{
+            opacity: 1;
+            i {
+                opacity: 1;
+            }
+        }
+    }
+    .btn-accept {
+        color: $luxury-green;
+        &:hover{
+            transform: scale(1.05);
+            background: rgba($luxury-green,0.2);
+            i {
+                color: darken($luxury-green,5%);
+            }
+        }
+        &:active{
+            color: white;
+            background: rgba($luxury-green,0.8);
+            i {
+                color: ligten($luxury-green,5%);
+            }
+        }
+    }
+    .btn-decline {
+        color: $luxury-rose;
+        &:hover{
+            transform: scale(1.05);
+            background: rgba($luxury-rose,0.1);
+            i {
+                color: darken($luxury-rose,5%);
+            }
+        }
+        &:active{
+            color: white;
+            background: rgba($luxury-rose,0.6);
+            i {
+                color: ligten($luxury-rose,5%);
+            }
+        }
+    }
 }
