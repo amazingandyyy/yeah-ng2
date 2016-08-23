@@ -147,10 +147,14 @@ export class DashboardComponent implements OnInit, OnDestroy{
         self.socket.syncById('notification', self.currentUser._id, (notice) => {
             this.getNotification()
             this.getNotificationCount()
-        })
+        });
+        this.socket.syncById('user', this.currentUser._id, function(user) {
+            self.currentUser = user;
+        });
     }
 
     ngOnDestroy() {
         this.socket.unsyncById('notification', this.currentUser._id);
+        this.socket.unsyncById('user', this.currentUser._id);
     }
 }

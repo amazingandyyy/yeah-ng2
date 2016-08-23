@@ -75,7 +75,7 @@
 
 .main-thread-content {
 	position: relative;
-	top: 61px;
+	top: 60px;
 	ul {
 		padding: 0px;
 	}
@@ -110,7 +110,10 @@
 	}
 
 	&:hover {
-		background: $light-gray;
+		background: darken($light-gray, 1%);
+	}
+	&:active {
+		background: darken($light-gray, 3%);
 	}
 }
 
@@ -155,7 +158,7 @@
 
 .message-list {
 	position: relative;
-	top: 61px;
+	top: 60px;
 	list-style: none;
 	padding: 10px;
 	// border-bottom: 1px solid $silent-grey;
