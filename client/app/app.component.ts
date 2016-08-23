@@ -4,7 +4,7 @@ import { Router }               from '@angular/router';
 
 @Component({
     moduleId: module.id,
-    selector: 'sp-app',
+    selector: 'yeah-app',
     templateUrl: 'app.template.html',
     directives: [ROUTER_DIRECTIVES],
 })

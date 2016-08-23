@@ -20,7 +20,7 @@ import { NotificationsService, SimpleNotificationsModule } from 'notifications';
 
 export class DashboardComponent implements OnInit, OnDestroy{
     // serve for the two dropdown list in top-right of the navbar
-    currentUser: User;
+    currentUser: {};
     profileToggled: boolean = false;
     inboxToggled: boolean = false;
     currentSession: string;

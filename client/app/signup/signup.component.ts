@@ -7,7 +7,7 @@ import { Auth } from '../shared/types/auth';
 
 @Component({
     moduleId: module.id,
-    selector: 'signup',
+    selector: 'yeah-signup',
     templateUrl: 'signup.component.html',
     providers: [AuthService],
     directives: [ROUTER_DIRECTIVES]

@@ -51,6 +51,7 @@
 }
 
 .state-selection-container {
+	user-select: none;
 	position: absolute;
 	top: 0;
 	width: 100%;
