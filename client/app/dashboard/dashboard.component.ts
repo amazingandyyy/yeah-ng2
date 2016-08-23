@@ -67,6 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
             user => {
                 this.currentUserRole = user.role;
                 this.currentUser = user
+                console.log(`dashboard ${user.role}: `, user);
             },
             error => {
                 this.authService.logUserOut();
