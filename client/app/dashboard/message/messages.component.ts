@@ -48,15 +48,7 @@ export class MessagesComponent implements OnInit {
     ) { }
 
     getCurrentUser() {
-        this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
-            .subscribe(
-            user => {
-                this.currentUser = user;                
-            },
-            error => {
-                // this.authService.logUserOut();
-                console.log(<any>error)
-            });
+        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
     }
 
     checkTabStyle(item: string) {
@@ -214,14 +206,12 @@ export class MessagesComponent implements OnInit {
     submitMessage(newMessage: any){
         console.log('click');
         console.log('newMessage: ', newMessage);
-        // After submit, clean up the textarea.
-        this.newMessage = {};
+        this.newMessage = {}; // After submit, clean up the textarea.
         
     }
 
 
     ngOnInit() {
-        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getCurrentUser();
         this.getMessages();
     }

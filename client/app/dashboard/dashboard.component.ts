@@ -8,7 +8,6 @@ import { User } from '../shared/types/user';
 import { Notification } from '../shared/types/notification';
 import { NotificationsService, SimpleNotificationsModule } from 'notifications';
 
-
 @Component({
     moduleId: module.id,
     selector: 'yeah-dashboard',
@@ -20,7 +19,7 @@ import { NotificationsService, SimpleNotificationsModule } from 'notifications';
 
 export class DashboardComponent implements OnInit, OnDestroy{
     // serve for the two dropdown list in top-right of the navbar
-    currentUser: User;
+    currentUser: {};
     profileToggled: boolean = false;
     inboxToggled: boolean = false;
     currentSession: string;
@@ -62,11 +61,17 @@ export class DashboardComponent implements OnInit, OnDestroy{
     }
 
     getUser() {
-        this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
+        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+    }
+
+    getCurrentUser(userId) {
+        this.authService.getCurrentUser(userId)
             .subscribe(
             user => {
                 this.currentUserRole = user.role;
-                this.currentUser = user
+                this.currentUser = user;
+                localStorage.setItem('current_user', JSON.stringify(user));
+                console.log(`dashboard ${user.role}: `, user);
             },
             error => {
                 this.authService.logUserOut();
@@ -138,12 +143,17 @@ export class DashboardComponent implements OnInit, OnDestroy{
     }
 
     ngOnInit() {
-        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
-        this.getUser();
-        let self = this;
+        this.getUser()
+        this.socket.syncById('user', this.currentUser._id, (user) => {
+            console.log(`Trigger ${this.currentUser._id}'s socket.`);
+            // this.currentUser = user;
+                // trigger authService again
+                this.getCurrentUser(this.currentUser._id)
+        })
+
         this.getNotification()
         this.getNotificationCount()
-        self.socket.syncById('notification', self.currentUser._id, (notice) => {
+        this.socket.syncById('notification', this.currentUser._id, (notice) => {
             this.getNotification()
             this.getNotificationCount()
         })
@@ -151,5 +161,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
     ngOnDestroy() {
         this.socket.unsyncById('notification', this.currentUser._id);
+        this.socket.unsyncById('user', this.currentUser._id);
     }
 }

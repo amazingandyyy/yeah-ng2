@@ -1,7 +1,15 @@
 <div class="container">
     <h3 class="title">Services <button *ngIf="(currentUser.role == 'admin')" class="btn btn-primary btn-narrow btn-small btn-inline" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)"><i class="fa fa-plus"></i></button></h3>
     <hr>
-    <div class="row" *ngIf="(currentUser.role === 'admin') || (currentUser.role == 'supervisor')">
+    <div class="row" *ngIf="(currentUser.role == 'admin') || (currentUser.role == 'supervisor')">
+        <div class="col-sm-12" *ngIf="!(currentUser.services[0])">
+            <div class="icon-poster">
+                <h5 class="title">
+                    <i class="icon fa fa-hourglass-o" aria-hidden="true"></i>
+                </h5>
+                <h5 class="title">You don't have any clients yet.</h5>
+            </div>
+        </div>
         <div class="col-sm-6 col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
                 <div class="card-block service hoverable">

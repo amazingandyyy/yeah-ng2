@@ -7,13 +7,13 @@ import { Auth } from '../shared/types/auth';
 
 @Component({
     moduleId: module.id,
-    selector: 'signup',
+    selector: 'yeah-signup',
     templateUrl: 'signup.component.html',
     providers: [AuthService],
     directives: [ROUTER_DIRECTIVES]
 })
 
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
 	  private selectedRole: string;
     private sub: any;
     private roleCh: string;
@@ -80,7 +80,7 @@ export class SignupComponent implements OnInit {
           console.log(res);
           localStorage.setItem('id_token', JSON.stringify(res.token));
           localStorage.setItem('current_user', JSON.stringify(res.user));
-          self.router.navigate(['dashboard']);
+          self.router.navigate(['dashboard/account']);
       }
 
       function handleError(err) {

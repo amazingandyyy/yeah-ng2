@@ -7,7 +7,7 @@
 
 // @Component({
 //     moduleId: module.id,
-//     selector: 'sp-authForm',
+//     selector: 'yeah-authForm',
 //     templateUrl: 'auth.form.component.html',
 //     styleUrls: ['auth.form.style.css'],
 //     providers: [AuthService]

@@ -21,19 +21,10 @@ export class PipeComponent implements OnInit {
     ) { }
 
     getCurrentUser() {
-        // console.log( this.authService.currentUser);
-        this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
-            .subscribe(
-            user => this.currentUser = user,
-            error => {
-                this.authService.logUserOut();
-                console.log(<any>error)
-            });
+        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
     }
 
     ngOnInit() {
-        // console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
-        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getCurrentUser();
     }
 }

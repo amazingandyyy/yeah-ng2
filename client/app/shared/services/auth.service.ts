@@ -3,6 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
+import { Subject }    from 'rxjs/Subject';
 
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
@@ -18,7 +19,8 @@ import { User } from '../types/user';
 export class AuthService {
      public isLoggedIn: boolean;
      public redirectUrl: string;
-     public currentUser: User;
+     public currentUser = new Subject<User>(); // the data will be updated
+     public userAbsorvable = this.currentUser.asObservable();
 
     constructor(
         private http: Http,
@@ -27,6 +29,12 @@ export class AuthService {
     ) { }
 
     getCurrentUser(userId): Observable<User> {
+        return this.authHttp.get(`/api/user/currentUser/${userId}`)
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
+
+    resetCurrentUser(userId): Observable<User> {
         return this.authHttp.get(`/api/user/currentUser/${userId}`)
             .map(this.handelResponse)
             .catch(this.handelError)
@@ -92,13 +100,14 @@ export class AuthService {
         this.isLoggedIn = true;
         this.currentUser = data;
 
+        localStorage.setItem('current_user', JSON.stringify(data))
+
         return data || {};
     }
     
-     handelError(err: any) {
+    handelError(err: any) {
         console.log('err @authService: ', err);
         this.isLoggedIn = false;
         return Observable.throw(err);
     }
-
 }

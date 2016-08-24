@@ -44,10 +44,11 @@
 		}
 
 		.input-group-btn {
+			padding: 0px;
 			.btn {
 				border: 0px solid;
-				margin: 0 5px;
-				padding: 6px 20px;
+				margin: 0 3px;
+				padding: 8px 30px;
 				border-radius: 3px !important;
 			}
 		}
@@ -56,6 +57,7 @@
 }
 
 .state-selection-container {
+	user-select: none;
 	position: absolute;
 	top: 0;
 	width: 100%;
@@ -80,7 +82,7 @@
 
 .main-thread-content {
 	position: relative;
-	top: 61px;
+	top: 60px;
 	ul {
 		padding: 0px;
 	}
@@ -115,7 +117,10 @@
 	}
 
 	&:hover {
-		background: $light-gray;
+		background: darken($light-gray, 1%);
+	}
+	&:active {
+		background: darken($light-gray, 3%);
 	}
 }
 
@@ -160,7 +165,7 @@
 
 .message-list {
 	position: relative;
-	top: 61px;
+	top: 60px;
 	list-style: none;
 	padding: 10px;
 	height: 485px;
