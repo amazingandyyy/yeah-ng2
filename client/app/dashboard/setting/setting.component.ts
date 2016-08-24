@@ -33,7 +33,6 @@ export class SettingComponent implements OnChanges, OnInit {
     }
 
     ngOnInit() {
-        console.log('ngOnInit');
         this.getCurrentUser();
     }
 }

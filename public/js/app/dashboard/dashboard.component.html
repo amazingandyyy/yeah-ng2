@@ -11,7 +11,7 @@
             <div [routerLink]="['/dashboard/company']" class="menu-item" (click)="checkMenuStyle('company')" [class.active]="currentSession==='company'" *ngIf="currentUserRole=='superadmin'">Company</div>
             <div [routerLink]="['/dashboard/messages']" class="menu-item" (click)="checkMenuStyle('messages')" [class.active]="currentSession==='messages'" *ngIf="false">Messages</div>
         </div>
-        <router-outlet [currentUser]="currentUser"></router-outlet>
+        <router-outlet></router-outlet>
     </span>
     
     <!--nav-menu is fixed position so put it under everything-->

@@ -13,5 +13,5 @@ export class AppComponent {
     }
     go(desination: string) {
         this.router.navigate([desination]);
-    }    
+    }
 }

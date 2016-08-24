@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router }    from '@angular/router';
 import moment = require('moment');
+import { Subscription }   from 'rxjs/Subscription';
 
 import { User } from '../../shared/types/user'
 import { AuthService } from '../../shared/services/auth.service';
@@ -17,7 +18,7 @@ import { SocketService } from '../../shared/services/socket.service';
     ],
     providers: [AuthService, SocketService, ServiceService]
 })
-export class ServicesComponent implements OnInit {
+export class ServicesComponent implements OnInit, OnDestroy {
     currentUser = {};
 
     emailError: boolean;
@@ -31,6 +32,7 @@ export class ServicesComponent implements OnInit {
     arrayOfServiceKey = [];
 
     selectedService = {};
+    subscription: Subscription;
 
     constructor(
         private router: Router,
@@ -40,21 +42,7 @@ export class ServicesComponent implements OnInit {
     ) { }
 
     getCurrentUser() {
-        this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
-            .subscribe(
-            user => {
-                console.log('current user data: ', user);
-                this.currentUser = user;
-                if (this.currentUser.services[0]) {
-                    this.getServices()
-                } else {
-                    console.log('no services yet');
-                }
-            },
-            error => {
-                // this.authService.logUserOut();
-                console.log(<any>error)
-            });
+        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
     }
 
     checkRole(role: string, user: User) {
@@ -149,7 +137,12 @@ export class ServicesComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getCurrentUser();
+        this.getServices()
     }
+
+    ngOnDestroy() {
+        // this.subscription.unsubscribe();
+    }
+
 }
