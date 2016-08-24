@@ -76,7 +76,7 @@
             <div class="message-input-container">
                 <form #newMessageForm="ngForm" (ngSubmit)="submitMessage(newMessageForm.value)">
                     <div class="input-group">
-                        <input class="form-control" rows="3" [(ngModel)]="newMessage.body" placeholder="Your message..." name="body" required />
+                        <input class="form-control" rows="3" [(ngModel)]="newMessage.body" placeholder="Your message..." name="body" required autofocus/>
                         <div class="input-group-btn">
                             <button [disabled]="!newMessageForm.form.valid"  class="btn btn-primary" type="submit">Send</button>
                         </div>

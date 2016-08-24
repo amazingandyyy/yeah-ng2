@@ -212,6 +212,7 @@ export class MessagesComponent implements OnInit {
     }
 
     submitMessage(newMessage: any){
+        console.log('click');
         console.log('newMessage: ', newMessage);
         // After submit, clean up the textarea.
         this.newMessage = {};

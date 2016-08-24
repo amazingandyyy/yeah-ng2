@@ -87,7 +87,8 @@ notificationSchema.statics = {
             });
     },
     getAll: function (userId, cb) {
-        Notification.find({ to: userId })
+        //Getting the notification intended for user
+        Notification.find({ $or: [{ to: userId }, { from: userId }] })
             .sort({ 'createAt': -1 })
             .exec(function (err, notice) {
                 if (err) return cb(err)
