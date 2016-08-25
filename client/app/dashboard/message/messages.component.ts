@@ -84,6 +84,7 @@ export class MessagesComponent implements OnInit {
             .subscribe(
             notifications => {
                 // this.messages = messages;
+
                 self.arrangeNotification(notifications);                
             },
             error => {
@@ -153,9 +154,11 @@ export class MessagesComponent implements OnInit {
             for(var state in categorizedNotification) {
                 if(state === 'message') {
                     this.messageIndex = categorizedNotification[state];
+
                 }
                 if(state === 'invitation') {
                     this.inviteIndex = categorizedNotification[state];
+                    console.log(this.inviteIndex);
                 }
             }
 

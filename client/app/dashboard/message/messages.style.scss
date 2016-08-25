@@ -253,3 +253,31 @@
         }
     }
 }
+
+.invite-box {
+	padding: 20px;
+	width: 90%;
+	margin: 10px auto;
+	border-radius: 2px;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+	.image-container {
+		float: left;
+		width: 10%;
+	}
+	.text-container {
+		float: left;
+		width: 70%;
+	}
+	.description {
+		color: black;
+	}
+	p {
+		margin-top: 10px;
+		margin-bottom: 0px;
+	}
+}
+
+.inviteHeight {
+	height: 539px;
+}
+
