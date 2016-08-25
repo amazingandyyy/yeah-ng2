@@ -25,6 +25,8 @@ router.post('/update', User.authMiddleware, Controller.updateCurrentUser);
 
 router.post('/login', Controller.login);
 
+router.put('/checkAuthorization/:state',  User.authMiddleware, Controller.checkAuthorization);
+
 router.post('/signup', Controller.signup);
 
 router.post('/createService', User.authMiddleware, Controller.createService);

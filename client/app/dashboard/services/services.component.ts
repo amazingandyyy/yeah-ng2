@@ -41,7 +41,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
         private service: ServiceService
     ) { }
 
-    getCurrentUser() {        
+    getCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         // get data from currentUser data
         console.log(this.currentUser);
@@ -73,34 +73,46 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
     createService(newServiceData: any) {
         let self = this;
-        newServiceData.createrData = this.currentUser;
-        if (newServiceData.student && newServiceData.student !== this.currentUser.email) {
-            // Find student by email
-            this.authService.getUserByEmail(newServiceData.student)
+        let password = window.prompt(`Hi ${this.currentUser.name}(${this.currentUser.role}). Enter your password`);
+        if (password) {
+            this.authService.checkAuthorization('checkUserPassword', password)
                 .subscribe(
-                user => {
-                    if (user.role == 'student') {
-                        // Add student to this student's service
-                        newServiceData.studentData = user;
-                        this.service.createService(newServiceData)
+                good => {
+                    newServiceData.createrData = this.currentUser;
+                    if (newServiceData.student && newServiceData.student !== this.currentUser.email) {
+                        // Find student by email
+                        this.authService.getUserByEmail(newServiceData.student)
                             .subscribe(
-                            createdService => {
-                                // need time out...
-                                setTimeout(() => this.getCurrentUser(), 300);
-                                self.toggleModal('', '', '', '')
+                            user => {
+                                if (user.role == 'student') {
+                                    // Add student to this student's service
+                                    newServiceData.studentData = user;
+                                    this.service.createService(newServiceData)
+                                        .subscribe(
+                                        createdService => {
+                                            // need time out...
+                                            setTimeout(() => this.getCurrentUser(), 300);
+                                            self.toggleModal('', '', '', '')
+                                        },
+                                        error => {
+                                            console.log(error);
+                                        });
+                                } else {
+                                    console.log('Email is not student.');
+                                }
                             },
                             error => {
-                                console.log(error);
+                                console.log('Student is not found.');
                             });
                     } else {
-                        console.log('Email is not student.');
+                        console.log('Please type in a student email.');
                     }
                 },
                 error => {
-                    console.log('Student is not found.');
+                    console.log('Wrong password!');
                 });
         } else {
-            console.log('Please type in a student email.');
+            console.log('no');
         }
     }
 

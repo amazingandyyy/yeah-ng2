@@ -11,11 +11,29 @@ exports.index = function (req, res) {
 };
 
 exports.login = function (req, res) {
-    console.log('login req.body', req.body);
     User.login(req.body, (err, data) => {
         if (err) return res.status(409).send(err)
         res.send(data)
     });
+};
+exports.checkAuthorization = function (req, res) {
+    console.log('req.body:', req.body)
+    switch (req.params.state) {
+        case 'checkUserPassword':
+            console.log('checkUserPassword');
+            User.checkUserPassword({user: req.user, password: req.body}, (err, good) => {
+                if (err) return res.status(409).send(err)
+                res.send(good)
+            });
+            break;
+        case 'checkCompanyCode':
+            console.log('checkCompanyCode');
+            break;
+        default:
+            res.status(409).send('No event state')
+            break
+    }
+    
 };
 
 exports.getCurrentUser = function (req, res) {
