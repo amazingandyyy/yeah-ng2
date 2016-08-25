@@ -49,6 +49,7 @@ export class MessagesComponent implements OnInit {
 
     getCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+        console.log(this.currentUser);
     }
 
     checkTabStyle(item: string) {
