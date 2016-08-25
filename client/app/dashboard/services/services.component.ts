@@ -41,8 +41,11 @@ export class ServicesComponent implements OnInit, OnDestroy {
         private service: ServiceService
     ) { }
 
-    getCurrentUser() {
+    getCurrentUser() {        
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+        // get data from currentUser data
+        console.log(this.currentUser);
+        this.getServices()
     }
 
     checkRole(role: string, user: User) {
@@ -81,9 +84,9 @@ export class ServicesComponent implements OnInit, OnDestroy {
                         newServiceData.studentData = user;
                         this.service.createService(newServiceData)
                             .subscribe(
-                            data => {
-                                console.log('Service created: ', data);
-                                this.getCurrentUser()
+                            createdService => {
+                                // need time out...
+                                setTimeout(() => this.getCurrentUser(), 300);
                                 self.toggleModal('', '', '', '')
                             },
                             error => {
@@ -131,7 +134,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
     getServices() {
         this.serviceDataList = this.currentUser.services;
-        // console.log(Array.isArray(this.serviceDataList));
         this.arrayOfServiceKey = Object.keys(this.serviceDataList);
         this.arrayOfServiceKey.reverse();
     }

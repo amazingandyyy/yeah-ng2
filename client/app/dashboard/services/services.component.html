@@ -1,5 +1,5 @@
 <div class="container">
-    <h3 class="title">Services <button *ngIf="(currentUser.role == 'admin')" class="btn btn-primary btn-narrow btn-small btn-inline" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)"><i class="fa fa-plus"></i></button></h3>
+    <h3 class="title">Service <button *ngIf="(currentUser.role == 'admin')" class="btn btn-primary btn-narrow btn-small btn-inline" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)"><i class="fa fa-plus"></i></button></h3>
     <hr>
     <div class="row" *ngIf="(currentUser.role == 'admin') || (currentUser.role == 'supervisor')">
         <div class="col-sm-12" *ngIf="!(currentUser.services[0])">
@@ -8,6 +8,7 @@
                     <i class="icon fa fa-hourglass-o" aria-hidden="true"></i>
                 </h5>
                 <h5 class="title">You don't have any clients yet.</h5>
+                <button class="btn btn-primary" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)">Create new service</button>
             </div>
         </div>
         <div class="col-sm-6 col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
@@ -36,6 +37,7 @@
                     <i class="icon fa fa-hourglass-o" aria-hidden="true"></i>
                 </h5>
                 <h5 class="title">You don't have any package yet.</h5>
+                <button class="btn btn-primary">Explore service</button>
             </div>
         </div>
         <div class="col-sm-12" *ngIf="(currentUser.services[0])">

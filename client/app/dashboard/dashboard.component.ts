@@ -60,23 +60,24 @@ export class DashboardComponent implements OnInit, OnDestroy{
         this.authService.logUserOut()
     }
 
-    getUser() {
-        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
-    }
-
-    getCurrentUser(userId) {
+    requestUserDataFromDataBase(userId) {
         this.authService.getCurrentUser(userId)
             .subscribe(
             user => {
                 this.currentUserRole = user.role;
                 this.currentUser = user;
                 localStorage.setItem('current_user', JSON.stringify(user));
-                console.log(`dashboard ${user.role}: `, user);
+                console.log(`complete ${user.role} data: `, user);
             },
             error => {
                 this.authService.logUserOut();
                 console.log(<any>error)
             });
+    }
+
+    getCurrentUser() {
+        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+        this.currentUserRole = JSON.parse(localStorage.getItem('current_user')).role;
     }
 
     getNotification() {
@@ -143,12 +144,12 @@ export class DashboardComponent implements OnInit, OnDestroy{
     }
 
     ngOnInit() {
-        this.getUser()
+        this.getCurrentUser()
         this.socket.syncById('user', this.currentUser._id, (user) => {
             console.log(`Trigger ${this.currentUser._id}'s socket.`);
-            // this.currentUser = user;
-                // trigger authService again
-                this.getCurrentUser(this.currentUser._id)
+            console.log('user from socket: ', user);
+            // trigger authService again
+            this.requestUserDataFromDataBase(this.currentUser._id)
         })
 
         this.getNotification()
