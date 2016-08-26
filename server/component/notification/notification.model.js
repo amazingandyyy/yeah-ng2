@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const autopopulate = require('mongoose-autopopulate');
+const relationship = require('mongoose-relationship');
 
 let Notification;
 
@@ -9,12 +10,14 @@ let notificationSchema = new mongoose.Schema({
     from: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
-        autopopulate: true
+        autopopulate: true,
+        childPath: 'notifications'
     },
     to: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
-        autopopulate: true
+        autopopulate: true,
+        childPath: 'notifications'
     },
     title: {
         type: String
@@ -51,6 +54,7 @@ let notificationSchema = new mongoose.Schema({
 })
 
 notificationSchema.plugin(autopopulate);
+notificationSchema.plugin(relationship, { relationshipPathName: ['from', 'to'] });
 
 notificationSchema.statics = {
     sendNotice: function (message, cb) {

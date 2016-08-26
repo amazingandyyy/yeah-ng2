@@ -102,18 +102,27 @@ let userSchema = new mongoose.Schema({
             ref: 'Service'
         }
     ],
-    notifications: {
-        data: [{
-            type: mongoose.Schema.ObjectId,
-            ref: 'Notification'
-        }]
-    }
+    notifications: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Notification'
+    }]
 })
 
 userSchema.plugin(autopopulate);
 userSchema.plugin(relationship, { relationshipPathName: ['studentData', 'advisorData', 'supervisorData', 'adminData', 'superadminData'], triggerMiddleware: true });
 
-let deepPopulateOption;
+let deepPopulateOption = {
+    populate: {
+        'notifications': {
+            options: {
+                limit: 10
+            }
+        },
+        'notifications.from': {},
+        'notifications.to': {}
+    }
+};
+
 userSchema.plugin(deepPopulate, deepPopulateOption);
 // promised-based mongoose tutorial
 // http://www.summa.com/blog/avoiding-callback-hell-while-using-mongoose

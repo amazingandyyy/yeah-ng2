@@ -1,34 +1,190 @@
 /**
  * Populate DB with sample data on server start
  */
+/*
+1 Superadmin
+1 Admin
+1 Supervisor
+5 Advisors
+5 Students
+
+*/
+
 'use strict';
 
-var User = require('./server/component/user/models/user.model');
+const bcrypt = require('bcryptjs');
+const async = require('async');//http://caolan.github.io/async/docs.html
+
+const User = require('./server/component/user/models/user.model');
+const Student = require('./server/component/user/models/student.model');
+const Advisor = require('./server/component/user/models/advisor.model');
+const Supervisor = require('./server/component/user/models/supervisor.model');
+const Admin = require('./server/component/user/models/admin.model');
+const Superadmin = require('./server/component/user/models/superadmin.model');
 
 //Need to use pw hasing here. 
+function hashPw(pw, cb) {
+    bcrypt.hash(pw, 12, (err, hash) => {
+        if (err) return console.log('Err @hashPw: ', err);
+        cb(hash);
+    });
+};
 
-// User.find({}).remove(function() {
-//   User.create({
-//     provider: 'local',
-//     role: 'manager',
-//     name: '林小胖',
-//     email: 'fat@fat.com',
-//     password: 'fat',
-//     position: 'C-中鋒',
-//     jerseynumber: 65,
-//     height: 170,
-//     weight: 80,
-//     birthday: new Date('01/01/1990')
-//   }, function() {
-//       console.log('finished populating users');
-//       User.findOne({ name: 'Admin'}, function(err, user) {
-//         Point.create({Points: 100000, User: user._id}, function(err, point) {
-//           console.log('points added to', user.name);
-//         });
-//       });
-//     }
-//   );
-// });
+async.waterfall([
+    function(callback) {
+        //Clear out everything in DB first
+        async.parallel([
+            function(clearUserCb) {
+                User.find({}).remove(function() {
+                    clearUserCb(null);
+                });//.remove ends
+            },
+            function(clearStudentCb) {
+                Student.find({}).remove(function() {
+                    clearStudentCb(null);
+                });//.remove ends
+            },
+            function(clearAdvisorCb) {
+                Advisor.find({}).remove(function() {
+                    clearAdvisorCb(null);
+                });//.remove ends
+            },
+            function(clearSupervisorCb) {
+                Supervisor.find({}).remove(function() {
+                    clearSupervisorCb(null);
+                });//.remove ends
+            },
+            function(clearAdminCb) {
+                Admin.find({}).remove(function() {
+                    clearAdminCb(null);
+                });//.remove ends
+            },
+            function(clearSuperadminCb) {
+                Superadmin.find({}).remove(function() {
+                    clearSuperadminCb(null);
+                });//.remove ends
+            },
+        ],
+        // optional callback
+        function(err) {
+            callback(null);
+        });
+    },
+    function(callback) {
+        //Creating users here
+        let superadmin = new Superadmin({});
+          superadmin.save();
+          let admin = new Admin({});
+          admin.save();
+          let supervisor = new Supervisor({});
+          supervisor.save();
+          
+          //Super simple pw to speed up testing, pw is same for all user
+          hashPw('1234', function(hashPw) {
+            let count = 0;
+            //This saving the advisors and students to generate service and notification
+            let advisors =[];
+            let students = [];
+            //For multiple students and advisor
+            async.whilst(
+                function() { return count < 5; },
+                function(whilstCb) {
+                    count++;
+                    let advisor = new Advisor({});
+                    advisor.save();
+
+                    let student = new Student({});
+                    student.save();
+
+                    User.create({
+                        email: {
+                            data: 'advisor' + count + '@advisor.com',
+                            verified: true
+                        },
+                        password: hashPw,
+                        name: 'Advisor Guy' + count,
+                        photo: {
+                            url: 'http://http://lorempixel.com/100/100/people/'
+                        },
+                        role: 'advisor',
+                        advisorData: advisor._id
+                    }, {
+                         email: {
+                            data: 'student' + count + '@student.com',
+                            verified: true
+                        },
+                        password: hashPw,
+                        name: 'Student Guy' + count,
+                        photo: {
+                            url: 'http://http://lorempixel.com/100/100/people/'
+                        },
+                        role: 'student',
+                        studentData: student._id
+                    }, function(err, student, advisor) {
+                        students.push(student);
+                        advisors.push(advisor);
+                        whilstCb(null, students, advisors);
+
+                    });//.create ends
+                },
+                //Final cb of whilst
+                function (err, students, advisors) {
+                    User.create({
+                            email: {
+                                data: 'superadmin@superadmin.com',
+                                verified: true
+                            },
+                            password: hashPw,
+                            name: 'Superadmin Guy',
+                            photo: {
+                                url: 'http://http://lorempixel.com/100/100/people/'
+                            },
+                            role: 'superadmin',
+                            superadminData: superadmin._id
+                        }, {
+                            email: {
+                                data: 'admin@admin.com',
+                                verified: true
+                            },
+                            password: hashPw,
+                            name: 'Admin Guy',
+                            photo: {
+                                url: 'http://http://lorempixel.com/100/100/people/'
+                            },
+                            role: 'admin',
+                            adminData: admin._id
+                        }, {
+                            email: {
+                                data: 'supervisor@supervisor.com',
+                                verified: true
+                            },
+                            password: hashPw,
+                            name: 'Supervisor Guy',
+                            photo: {
+                                url: 'http://http://lorempixel.com/100/100/people/'
+                            },
+                            role: 'supervisor',
+                            supervisorData: supervisor._id
+                        }, function(err, superadmin, admin, supervisor) {
+                              console.log('finished populating users');
+
+                              callback(null, superadmin, admin, supervisor, advisors, students);
+                            });  
+                }//Final cb of whilst ends
+            );
+               
+          });//hashPw callback ends
+    },
+    function(superadmin, admin, supervisor, advisors, students, callback) {
+        // console.log('success', superadmin, admin, supervisor, advisors, students);
+        //Create service here
+        callback(null, 'done');
+    }
+], function (err, result) {
+    // result now equals 'done'
+});
+
+
 
 
 
