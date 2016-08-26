@@ -111,7 +111,7 @@
         </span>
         <span *ngIf="activatedModal.state == 'details' ">
             <body *ngIf="!editPk">
-                <span *ngIf="!editPk" class="editBtn" (click)="editPk=true">edit</span>
+                <span *ngIf="!editPk" class="editBtn" (click)=" edit('editPk') ">edit</span>
                 <div>
                     Package: <span>{{selectedService.package}}</span>
                 </div>
@@ -132,8 +132,19 @@
                 </div>
             </body>
             <body *ngIf="editPk">
-                <span *ngIf="editPk" class="editBtn" (click)="editPk=false">cancel</span>
-                <h1>editPk</h1>
+                <span *ngIf="editPk" class="editBtn" (click)=" edit('editPk') ">cancel</span>
+                <form #updateServiceForm="ngForm">
+                    <h3>Update Information</h3>
+                    <div>
+                        Advisor: <input placeholder="Advisor Email" type="text" class="form-control" *ngIf="tempararyService.participants.advisor" [(ngModel)]="tempararyService.participants.advisor.userData" name="advisor" [disabled]="!editPk">
+                    </div>
+                    <!--<div>
+                        Supervisor: <input placeholder="Supervisor Email" type="text" class="form-control" *ngIf="tempararyService.participants.supervisor" [(ngModel)]="tempararyService.participants.supervisor.userData" name="advisor" [disabled]="!editPk">
+                    </div>-->
+                    <br>
+                    <button class="btn btn-primary" type="submit" (click)=" updateService(tempararyService) " [disabled]="!updateServiceForm.form.valid">{{activatedModal.behavior}}</button>
+                    <br>
+                </form>
             </body>
             <footer>
             </footer>

@@ -3,7 +3,9 @@ import { Router }    from '@angular/router';
 import moment = require('moment');
 import { Subscription }   from 'rxjs/Subscription';
 
-import { User } from '../../shared/types/user'
+import { User } from '../../shared/types/user';
+import { Service } from '../../shared/types/service';
+
 import { AuthService } from '../../shared/services/auth.service';
 import { ServiceService } from '../../shared/services/service.service';
 import { SocketService } from '../../shared/services/socket.service';
@@ -35,6 +37,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     subscription: Subscription;
 
     editPk: boolean = false;
+    tempararyService = {};
 
     constructor(
         private router: Router,
@@ -138,7 +141,9 @@ export class ServicesComponent implements OnInit, OnDestroy {
             .subscribe(
             data => {
                 console.log('Service details: ', data);
-                this.toggleModal('Service Details', 'details', 'update', '');
+                if (!this.modalActivated) {
+                    this.toggleModal('Service Details', 'details', 'update', '');
+                }
                 this.selectedService = data;
             },
             error => {
@@ -150,6 +155,18 @@ export class ServicesComponent implements OnInit, OnDestroy {
         this.serviceDataList = this.currentUser.services;
         this.arrayOfServiceKey = Object.keys(this.serviceDataList);
         this.arrayOfServiceKey.reverse();
+    }
+
+    edit(formName: string) {
+        this[formName] = !(this[formName]);
+        this.getOneServce(this.selectedService._id);
+        this.tempararyService = this.selectedService;
+    }
+
+    updateService(service) {
+        // make a request to update the service
+        // remember to push serviceId into related User's services array;
+        console.log(service);
     }
 
     ngOnInit() {
