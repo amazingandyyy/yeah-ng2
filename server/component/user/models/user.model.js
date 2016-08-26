@@ -102,7 +102,7 @@ let userSchema = new mongoose.Schema({
             ref: 'Service'
         }
     ],
-    notifications:{
+    notifications: {
         data: [{
             type: mongoose.Schema.ObjectId,
             ref: 'Notification'
@@ -315,6 +315,22 @@ userSchema.statics = {
                 if (err || !dbUser) return cb(err)
                 console.log('single user: ', dbUser)
                 cb(null, dbUser)
+            })
+    },
+    checkUserPassword: function (data, cb) {
+        console.log('data: ', data)
+        User.findOne({
+            'email.data': {
+                '$in': data.user.email.data
+            }
+        })
+            .select('+password')
+            .exec((err, dbUser) => {
+                if (err, !dbUser) return cb(err || { message: 'user not found. Want to sign up?' })
+                return bcrypt.compare(data.password, dbUser.password, function (err, isGood) {
+                    if (err) return cb("Authentication failed.");
+                    cb(null, 'checkAuthorization passed');
+                })
             })
     }
 }

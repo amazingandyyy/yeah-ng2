@@ -17,10 +17,10 @@ import { User } from '../types/user';
 // Using auth service to keep track of users' login status across all component
 @Injectable()
 export class AuthService {
-     public isLoggedIn: boolean;
-     public redirectUrl: string;
-     public currentUser = new Subject<User>(); // the data will be updated
-     public userAbsorvable = this.currentUser.asObservable();
+    public isLoggedIn: boolean;
+    public redirectUrl: string;
+    public currentUser = new Subject<User>(); // the data will be updated
+    public userAbsorvable = this.currentUser.asObservable();
 
     constructor(
         private http: Http,
@@ -50,7 +50,7 @@ export class AuthService {
         return this.authHttp.get(`/api/user/getUserByEmail/${email}`)
             .map((res: Response) => res.json() || {})
             .catch((err: any) =>
-               Observable.throw(err)
+                Observable.throw(err)
             )
     }
 
@@ -66,6 +66,18 @@ export class AuthService {
             .catch(this.handelError)
     }
 
+    checkData(state: string, password: string): Observable<Auth> {
+        let data = {
+            state: state,
+            password: password
+        }
+        return this.authHttp.post(`/api/user/checkData`, data)
+            .map(res=>{
+                return res;
+            })
+            .catch(this.handelError)
+    }
+
     logUserOut() {
         localStorage.removeItem('id_token')
         localStorage.removeItem('current_user')
@@ -73,11 +85,11 @@ export class AuthService {
         this.router.navigate(['/'])
         return 'logout';
     }
-   
+
     updateCurrentUser(data: any): Observable<any> {
         //Don't let this null password replace the backend password
         // but user can replace th3 backend password through email pw reset (-todo)
-        if(data.password === null || data.password) {
+        if (data.password === null || data.password) {
             delete data.password
         }
         return this.authHttp.post('/api/user/update', data)
@@ -87,8 +99,8 @@ export class AuthService {
 
     checkAuthority(requiredRole: string, userRole: string) {
         const rolesArray = ['student', 'advisor', 'supervisor', 'admin', 'superadmin'];
-        if(userRole) {
-            if(rolesArray.indexOf(userRole) >= rolesArray.indexOf(requiredRole)) {
+        if (userRole) {
+            if (rolesArray.indexOf(userRole) >= rolesArray.indexOf(requiredRole)) {
                 return true;
             }
         }
@@ -96,6 +108,8 @@ export class AuthService {
     }
 
     handelResponse(res: Response) {
+        console.log('res: ', res);
+        
         let data = res.json();
         this.isLoggedIn = true;
         this.currentUser = data;
@@ -104,7 +118,7 @@ export class AuthService {
 
         return data || {};
     }
-    
+
     handelError(err: any) {
         console.log('err @authService: ', err);
         this.isLoggedIn = false;

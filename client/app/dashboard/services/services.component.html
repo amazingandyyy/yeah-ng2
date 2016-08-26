@@ -54,7 +54,6 @@
 <!-- Modal below -->
 <div class="modal" [class.active]="modalActivated" [class.fadeIn]="modalActivated">
     <div class="card animated">
-
         <header>
             <h3 class="title">{{activatedModal.title}}</h3>
             <div class="close" (click)="toggleModal()">×</div>
@@ -111,29 +110,45 @@
         </body>
         </span>
         <span *ngIf="activatedModal.state == 'details' ">
-            <body>
+            <body *ngIf="!editPk">
+                <span *ngIf="!editPk" class="editBtn" (click)=" edit('editPk') ">edit</span>
                 <div>
                     Package: <span>{{selectedService.package}}</span>
+                </div>
+                <div>
+                    Create At: <span>{{generateTime(selectedService.createAt)}}</span>
+                </div>
+                <div>
+                    Admin: <span *ngIf="selectedService.participants.admin.userData">{{selectedService.participants.admin.userData.name}}</span>
+                </div>
+                <div>
+                    Advisor: <span *ngIf="selectedService.participants.advisor.userData">{{selectedService.participants.advisor.userData.name}}</span>
+                </div>
+                <div>
+                    Student: <span *ngIf="selectedService.participants.student.userData">{{selectedService.participants.student.userData.name}}</span>
+                </div>
+                <div>
+                    Supervisor: <span *ngIf="selectedService.participants.supervisor.userData">{{selectedService.participants.supervisor.userData.name}}</span>
+                </div>
+            </body>
+            <body *ngIf="editPk">
+                <span *ngIf="editPk" class="editBtn" (click)=" edit('editPk') ">cancel</span>
+                <form #updateServiceForm="ngForm">
+                    <h3>Update Information</h3>
+                    <div>
+                        Advisor: <input placeholder="Advisor Email" type="text" class="form-control" *ngIf="tempararyService.participants.advisor" [(ngModel)]="tempararyService.participants.advisor.userData" name="advisor" [disabled]="!editPk">
+                    </div>
+                    <!--<div>
+                        Supervisor: <input placeholder="Supervisor Email" type="text" class="form-control" *ngIf="tempararyService.participants.supervisor" [(ngModel)]="tempararyService.participants.supervisor.userData" name="advisor" [disabled]="!editPk">
+                    </div>-->
+                    <br>
+                    <button class="btn btn-primary" type="submit" (click)=" updateService(tempararyService) " [disabled]="!updateServiceForm.form.valid">{{activatedModal.behavior}}</button>
+                    <br>
+                </form>
+            </body>
+            <footer>
+            </footer>
+        </span>
     </div>
-    <div>
-        Create At: <span>{{generateTime(selectedService.createAt)}}</span>
-    </div>
-    <div>
-        Admin: <span *ngIf="selectedService.participants.admin.userData">{{selectedService.participants.admin.userData.name}}</span>
-    </div>
-    <div>
-        Advisor: <span *ngIf="selectedService.participants.advisor.userData">{{selectedService.participants.advisor.userData.name}}</span>
-    </div>
-    <div>
-        Student: <span *ngIf="selectedService.participants.student.userData">{{selectedService.participants.student.userData.name}}</span>
-    </div>
-    <div>
-        Supervisor: <span *ngIf="selectedService.participants.supervisor.userData">{{selectedService.participants.supervisor.userData.name}}</span>
-    </div>
-    </body>
-    <footer>
-    </footer>
-    </span>
-</div>
 </div>
 <!--Modal over-->

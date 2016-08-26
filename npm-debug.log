@@ -1924,7 +1924,7 @@
 61 silly postinstall yeah@1.0.0 /Users/Andysign/project/yeah-ng2/yeah-fb9d2718
 62 info lifecycle yeah@1.0.0~postinstall: yeah@1.0.0
 63 verbose lifecycle yeah@1.0.0~postinstall: unsafe-perm in lifecycle true
-64 verbose lifecycle yeah@1.0.0~postinstall: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/Andysign/project/yeah-ng2/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:/Users/Andysign/.vimpkg/bin
+64 verbose lifecycle yeah@1.0.0~postinstall: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/Andysign/project/yeah-ng2/node_modules/.bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:/Users/Andysign/.vimpkg/bin
 65 verbose lifecycle yeah@1.0.0~postinstall: CWD: /Users/Andysign/project/yeah-ng2
 66 silly lifecycle yeah@1.0.0~postinstall: Args: [ '-c', 'typings install && bower i && gulp build && gulp pkg' ]
 67 silly lifecycle yeah@1.0.0~postinstall: Returned: code: 1  signal: null
