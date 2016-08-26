@@ -66,9 +66,15 @@ export class AuthService {
             .catch(this.handelError)
     }
 
-    checkAuthorization(state: string, password: string): Observable<Auth> {        
-        return this.authHttp.put(`/api/user/checkAuthorization/${state}`, password)
-            .map(this.handelResponse)
+    checkData(state: string, password: string): Observable<Auth> {
+        let data = {
+            state: state,
+            password: password
+        }
+        return this.authHttp.post(`/api/user/checkData`, data)
+            .map(res=>{
+                return res;
+            })
             .catch(this.handelError)
     }
 
@@ -102,6 +108,8 @@ export class AuthService {
     }
 
     handelResponse(res: Response) {
+        console.log('res: ', res);
+        
         let data = res.json();
         this.isLoggedIn = true;
         this.currentUser = data;

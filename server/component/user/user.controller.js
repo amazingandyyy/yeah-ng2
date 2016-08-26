@@ -16,14 +16,13 @@ exports.login = function (req, res) {
         res.send(data)
     });
 };
-exports.checkAuthorization = function (req, res) {
-    console.log('req.body:', req.body)
-    switch (req.params.state) {
+exports.checkData = function (req, res) {
+    switch (req.body.state) {
         case 'checkUserPassword':
             console.log('checkUserPassword');
-            User.checkUserPassword({user: req.user, password: req.body}, (err, good) => {
+            User.checkUserPassword({user: req.user, password: req.body.password}, (err, good) => {
                 if (err) return res.status(409).send(err)
-                res.send(good)
+                return res.send(good)
             });
             break;
         case 'checkCompanyCode':

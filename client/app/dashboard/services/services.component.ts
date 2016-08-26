@@ -19,7 +19,7 @@ import { SocketService } from '../../shared/services/socket.service';
     providers: [AuthService, SocketService, ServiceService]
 })
 export class ServicesComponent implements OnInit, OnDestroy {
-    currentUser = {};
+    currentUser = User;
 
     emailError: boolean;
     sending: boolean;
@@ -33,6 +33,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
     selectedService = {};
     subscription: Subscription;
+
+    editPk: boolean = false;
 
     constructor(
         private router: Router,
@@ -75,7 +77,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
         let self = this;
         let password = window.prompt(`Hi ${this.currentUser.name}(${this.currentUser.role}). Enter your password`);
         if (password) {
-            this.authService.checkAuthorization('checkUserPassword', password)
+            this.authService.checkData('checkUserPassword', password)
                 .subscribe(
                 good => {
                     newServiceData.createrData = this.currentUser;
@@ -95,7 +97,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
                                             self.toggleModal('', '', '', '')
                                         },
                                         error => {
-                                            console.log(error);
+                                            console.log('createService failed: ', error);
                                         });
                                 } else {
                                     console.log('Email is not student.');
@@ -112,7 +114,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
                     console.log('Wrong password!');
                 });
         } else {
-            console.log('no');
+            console.log('password needed');
         }
     }
 

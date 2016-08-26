@@ -332,7 +332,7 @@ userSchema.statics = {
                     cb(null, 'checkAuthorization passed');
                 })
             })
-    },
+    }
 }
 
 function generateToken(data) {
