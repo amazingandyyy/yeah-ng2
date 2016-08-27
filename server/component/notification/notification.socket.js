@@ -24,7 +24,6 @@ function onSave(socket, doc, cb) {
   // if(doc.from) {
   //   socket.emit('notification:save:' + doc.from, doc);
   // }
-  
 }
 
 function onRemove(socket, doc, cb) {

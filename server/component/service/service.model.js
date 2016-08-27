@@ -138,7 +138,6 @@ serviceSchema.statics = {
                                 cb(null, savedService)
                             })
                         })
-
                     } else {
                         cb({ message: 'Please enter an advisor\'s email' })
                     }

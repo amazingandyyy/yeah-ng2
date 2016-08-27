@@ -18,9 +18,7 @@ exports.register = function(socket) {
 }
 
 function onSave(socket, doc, cb) {
-  if(doc.to) {
-    socket.emit('service:save:' + doc.to, doc);
-  }
+    socket.emit('service:save:', doc);
 }
 
 function onRemove(socket, doc, cb) {
