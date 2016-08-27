@@ -1,0 +1,17 @@
+"use strict";
+var signup_component_1 = require('./signup.component');
+var checkin_guard_service_1 = require('../shared/services/guard/checkin-guard.service');
+exports.SignupRoutes = [
+    {
+        path: 'signup',
+        component: signup_component_1.SignupComponent,
+        canActivate: [checkin_guard_service_1.CheckinGuard]
+    },
+    {
+        path: 'signup/:role',
+        component: signup_component_1.SignupComponent,
+        canActivate: [checkin_guard_service_1.CheckinGuard]
+    }
+];
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNpZ251cC9zaWdudXAucm91dGVzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFDQSxpQ0FBZ0Msb0JBQW9CLENBQUMsQ0FBQTtBQUNyRCxzQ0FBNkIsZ0RBQWdELENBQUMsQ0FBQTtBQUVqRSxvQkFBWSxHQUFpQjtJQUN4QztRQUNFLElBQUksRUFBRSxRQUFRO1FBQ2QsU0FBUyxFQUFFLGtDQUFlO1FBQzFCLFdBQVcsRUFBRSxDQUFDLG9DQUFZLENBQUM7S0FDNUI7SUFDRDtRQUNFLElBQUksRUFBRSxjQUFjO1FBQ3BCLFNBQVMsRUFBRSxrQ0FBZTtRQUMxQixXQUFXLEVBQUUsQ0FBQyxvQ0FBWSxDQUFDO0tBQzVCO0NBQ0YsQ0FBQSIsImZpbGUiOiJzaWdudXAvc2lnbnVwLnJvdXRlcy5qcyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IFJvdXRlckNvbmZpZywgQ2FuQWN0aXZhdGUgfSBmcm9tICdAYW5ndWxhci9yb3V0ZXInO1xuaW1wb3J0IHsgU2lnbnVwQ29tcG9uZW50IH0gZnJvbSAnLi9zaWdudXAuY29tcG9uZW50JztcbmltcG9ydCB7IENoZWNraW5HdWFyZCB9IGZyb20gJy4uL3NoYXJlZC9zZXJ2aWNlcy9ndWFyZC9jaGVja2luLWd1YXJkLnNlcnZpY2UnO1xuXG5leHBvcnQgY29uc3QgU2lnbnVwUm91dGVzOiBSb3V0ZXJDb25maWcgPSBbXG4gIHtcbiAgICBwYXRoOiAnc2lnbnVwJyxcbiAgICBjb21wb25lbnQ6IFNpZ251cENvbXBvbmVudCxcbiAgICBjYW5BY3RpdmF0ZTogW0NoZWNraW5HdWFyZF1cbiAgfSxcbiAge1xuICAgIHBhdGg6ICdzaWdudXAvOnJvbGUnLFxuICAgIGNvbXBvbmVudDogU2lnbnVwQ29tcG9uZW50LFxuICAgIGNhbkFjdGl2YXRlOiBbQ2hlY2tpbkd1YXJkXVxuICB9XG5dIl0sInNvdXJjZVJvb3QiOiIvc291cmNlLyJ9

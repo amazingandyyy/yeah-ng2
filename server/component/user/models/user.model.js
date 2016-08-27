@@ -22,6 +22,7 @@ const Superadmin = require('./superadmin.model');
 const Supervisor = require('./supervisor.model');
 const Service = require('../../service/service.model');
 const Notification = require('../../notification/notification.model');
+
 // SES is AWS's simple email service
 const ses = require('node-ses')
 const SESserver = ses.createClient({
@@ -102,12 +103,10 @@ let userSchema = new mongoose.Schema({
             ref: 'Service'
         }
     ],
-    notifications: {
-        data: [{
-            type: mongoose.Schema.ObjectId,
-            ref: 'Notification'
-        }]
-    }
+    notifications: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Notification',
+    }]
 })
 
 userSchema.plugin(autopopulate);
