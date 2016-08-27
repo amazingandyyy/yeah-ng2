@@ -21,6 +21,7 @@ const Advisor = require('./server/component/user/models/advisor.model');
 const Supervisor = require('./server/component/user/models/supervisor.model');
 const Admin = require('./server/component/user/models/admin.model');
 const Superadmin = require('./server/component/user/models/superadmin.model');
+const Service = require('./server/component/service/service.model');
 
 //Need to use pw hasing here. 
 function hashPw(pw, cb) {
@@ -64,6 +65,11 @@ async.waterfall([
                     clearSuperadminCb(null);
                 });//.remove ends
             },
+            function(clearServiceCb) {
+                Service.find({}).remove(function() {
+                    clearServiceCb(null);
+                });//.remove ends
+            }
         ],
         // optional callback
         function(err) {
@@ -128,7 +134,7 @@ async.waterfall([
                     });//.create ends
                 },
                 //Final cb of whilst
-                function (err, students, advisors) {
+                function (err, advisors, students) {
                     User.create({
                             email: {
                                 data: 'superadmin@superadmin.com',
@@ -176,8 +182,100 @@ async.waterfall([
           });//hashPw callback ends
     },
     function(superadmin, admin, supervisor, advisors, students, callback) {
-        // console.log('success', superadmin, admin, supervisor, advisors, students);
         //Create service here
+        // .create() does not trigger mongoose relationship here, so using .save() instead
+        console.log(students[0]);
+        let newService = new Service({
+            package: 'app_regular1',
+            price: {
+                tag: '5000',
+                unit: 'usd'
+            },
+            participants: {
+                student: {
+                    userData: students[0]._id
+                },
+                advisor: {
+                    userData: advisors[0]._id
+                },
+                supervisor: {
+                    userData: supervisor._id
+                },
+                admin: {
+                    userData: admin._id
+                }
+            }
+        });
+        newService.save();
+
+        // let newService1 = new Service({
+        //     package: 'app_regular2',
+        //     price: {
+        //         tag: '3000',
+        //         unit: 'usd'
+        //     },
+        //     participants: {
+        //         student: {
+        //             userData: students[1]._id
+        //         },
+        //         advisor: {
+        //             userData: advisors[1]._id
+        //         }
+        //     }
+        // });
+        // newService1.save();
+
+        // let newService2 = new Service({
+        //     package: 'app_regular3',
+        //     price: {
+        //         tag: '4000',
+        //         unit: 'usd'
+        //     },
+        //     participants: {
+        //         student: {
+        //             userData: students[2]._id
+        //         },
+        //         advisor: {
+        //             userData: advisors[2]._id
+        //         }
+        //     }
+        // });
+        // newService2.save();
+
+        // let newService3 = new Service({
+        //     package: 'app_guarantee1',
+        //     price: {
+        //         tag: '6000',
+        //         unit: 'usd'
+        //     },
+        //     participants: {
+        //         student: {
+        //             userData: students[3]._id
+        //         },
+        //         advisor: {
+        //             userData: advisors[3]._id
+        //         }
+        //     }
+        // });
+        // newService3.save();
+
+        // let newService4 = new Service({
+        //     package: 'app_guarantee2',
+        //     price: {
+        //         tag: '7000',
+        //         unit: 'usd'
+        //     },
+        //     participants: {
+        //         student: {
+        //             userData: students[3]._id
+        //         },
+        //         advisor: {
+        //             userData: advisors[3]._id
+        //         }
+        //     }
+        // });
+        // newService4.save();
+
         callback(null, 'done');
     }
 ], function (err, result) {
