@@ -16,6 +16,7 @@ function onConnect(socket) {
   // Insert sockets for model change below
   require('./server/component/user/user.socket').register(socket);
   require('./server/component/notification/notification.socket').register(socket);
+  require('./server/component/service/service.socket').register(socket);
   // ... more to add
 };
 

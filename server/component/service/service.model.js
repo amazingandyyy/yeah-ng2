@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 const autopopulate = require('mongoose-autopopulate');
 const deepPopulate = require('mongoose-deep-populate')(mongoose);
 const JWT_SECRET = process.env.JWT_SECRET;
+const _ = require('lodash');
 
 // Import data from other roleSchema
+
 const Admin = require('../user/models/admin.model');
 const Advisor = require('../user/models/advisor.model');
 const Supervidor = require('../user/models/supervisor.model');
@@ -85,9 +87,11 @@ let serviceSchema = new mongoose.Schema({
     }
 });
 
+const User = require('../user/models/user.model');
+
 serviceSchema.plugin(autopopulate);
 serviceSchema.plugin(relationship, { relationshipPathName: ['participants.student.userData', 'participants.advisor.userData', 'participants.supervisor.userData', 'participants.admin.userData'] });
-let deepPopulateOption; 
+let deepPopulateOption;
 serviceSchema.plugin(deepPopulate, deepPopulateOption);
 
 serviceSchema.statics = {
@@ -98,6 +102,49 @@ serviceSchema.statics = {
                 if (err || !data) return cb(err)
                 cb(null, data)
             })
+    },
+    updateService: function (service, cb) {
+        Service.findById(service._id, (err, dbService) => {
+            if (err, !dbService) return cb(err || { message: 'service not found.' });
+            let advisorChanged = service.participants.advisor.newAdvisorEmail;
+            let advisorAlreadyExists = service.participants.advisor.userData._id;
+            // let adminChanged = service.participants.admin.email;
+            console.log('advisorChanged: ', advisorChanged);
+            if (advisorChanged) {
+                if(advisorAlreadyExists){
+                    console.log('advisorAlreadyExists: ', advisorAlreadyExists)
+                    // delete the service in the advisor
+                    mongoose.model('User').findById(advisorAlreadyExists, (err, dbAdvisor) => {
+                        if(err || !dbAdvisor) return cb(err || { message: 'dbAdvisor is not found.' })
+                        let index = dbAdvisor.services.indexOf(dbService._id);
+                        dbAdvisor.services.splice(index, 1)
+                        dbAdvisor.save((err, savedAdvisor)=>{
+                            if(err) return cb(err)
+                        })
+                    });
+                }
+                mongoose.model('User').findOne({ 'email.data': service.participants.advisor.newAdvisorEmail }, (err, dbUser) => {
+                    if (err || !dbUser) return cb(err || { message: 'Email is not found.' });
+                    if (dbUser.role == 'advisor') {
+                        console.log('new advisor!')
+                        // it's a user and it's advisor
+                        dbUser.services.push(dbService._id)
+                        dbUser.save((err, savedUser) => {
+                            if (err) return cb(err);
+                            dbService.participants.advisor.userData = dbUser._id;
+                            dbService.save((err, savedService) => {
+                                if (err) return cb(err)
+                                console.log('savedService: ', savedService)
+                                cb(null, savedService)
+                            })
+                        })
+
+                    } else {
+                        cb({ message: 'Please enter an advisor\'s email' })
+                    }
+                })
+            }
+        })
     }
 }
 

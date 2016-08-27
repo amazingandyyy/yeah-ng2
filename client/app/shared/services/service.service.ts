@@ -29,6 +29,12 @@ export class ServiceService {
             .catch(this.handelError)
     }
 
+    updateService(service: any): Observable<any> {
+        return this.authHttp.post('/api/user/updateService', service)
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
+
     getOneService(serviceId: string): Observable<any> {
         return this.authHttp.get(`/api/user/getOneService/${serviceId}`)
             .map(this.handelResponse)

@@ -49,6 +49,11 @@
             <h5 class="title">Superadmin can see all services!!!</h5>
         </div>
     </div>
+    <div class="row" *ngIf="(currentUser.role == 'advisor')">
+        <div class="col-sm-12">
+            <h5 class="title">Advisor can see your {{currentUser.services.length}} services!!!</h5>
+        </div>
+    </div>
 </div>
 
 <!-- Modal below -->
@@ -119,24 +124,23 @@
                     Create At: <span>{{generateTime(selectedService.createAt)}}</span>
                 </div>
                 <div>
-                    Admin: <span *ngIf="selectedService.participants.admin.userData">{{selectedService.participants.admin.userData.name}}</span>
+                    Admin: <span *ngIf="selectedService.participants.admin.userData">{{selectedService.participants.admin.userData.name}}<small> ({{selectedService.participants.admin.userData.email.data}})</small></span>
                 </div>
                 <div>
-                    Advisor: <span *ngIf="selectedService.participants.advisor.userData">{{selectedService.participants.advisor.userData.name}}</span>
+                    Advisor: <span *ngIf="selectedService.participants.advisor.userData">{{selectedService.participants.advisor.userData.name}}<small> ({{selectedService.participants.advisor.userData.email.data}})</small></span>
                 </div>
                 <div>
-                    Student: <span *ngIf="selectedService.participants.student.userData">{{selectedService.participants.student.userData.name}}</span>
+                    Student: <span *ngIf="selectedService.participants.student.userData">{{selectedService.participants.student.userData.name}}<small> ({{selectedService.participants.student.userData.email.data}})</small></span>
                 </div>
                 <div>
-                    Supervisor: <span *ngIf="selectedService.participants.supervisor.userData">{{selectedService.participants.supervisor.userData.name}}</span>
+                    Supervisor: <span *ngIf="selectedService.participants.supervisor.userData">{{selectedService.participants.supervisor.userData.name}}<small> ({{selectedService.participants.supervisor.userData.email.data}})</small></span>
                 </div>
             </body>
             <body *ngIf="editPk">
                 <span *ngIf="editPk" class="editBtn" (click)=" edit('editPk') ">cancel</span>
                 <form #updateServiceForm="ngForm">
-                    <h3>Update Information</h3>
                     <div>
-                        Advisor: <input placeholder="Advisor Email" type="text" class="form-control" *ngIf="tempararyService.participants.advisor" [(ngModel)]="tempararyService.participants.advisor.userData" name="advisor" [disabled]="!editPk">
+                        Advisor: <input placeholder="Advisor Email" type="text" class="form-control" *ngIf="tempararyService.participants.advisor" [(ngModel)]="tempararyService.participants.advisor.newAdvisorEmail" name="advisor" [disabled]="!editPk">
                     </div>
                     <!--<div>
                         Supervisor: <input placeholder="Supervisor Email" type="text" class="form-control" *ngIf="tempararyService.participants.supervisor" [(ngModel)]="tempararyService.participants.supervisor.userData" name="advisor" [disabled]="!editPk">

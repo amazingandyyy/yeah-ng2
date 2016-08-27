@@ -219,7 +219,10 @@ userSchema.statics = {
                                 console.log(err);
                                 return cb({ error: 'email is incorrect' }, null)
                             }
-                            cb(null, { token: token, user: savedUser })
+                            User.findById(savedUser._id, (err, sendUser)=>{
+                                if (err || !sendUser) return cb(err || { message: 'user not found. Want to sign up?' });
+                                cb(null, { token: token, user: sendUser })
+                            })
                         })
                     })
                 })
@@ -243,8 +246,12 @@ userSchema.statics = {
                     dbUser.lastLoginTime.unshift(Date.now())
                     dbUser.save((err, savedUser) => {
                         if (err) return cb(err);
-                        savedUser.password = null;
-                        cb(null, { token: token, user: savedUser })
+                        // cb(null, { token: token, user: savedUser })
+                        User.findById(savedUser._id, (err, sendUser)=>{
+                            console.log('sendUser: ', sendUser)
+                            if (err || !sendUser) return cb(err || { message: 'user not found.(internal Error)' });
+                            cb(null, { token: token, user: sendUser })
+                        }).populate('services')
                     })
                 })
             })

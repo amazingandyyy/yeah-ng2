@@ -49,7 +49,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     getCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         // get data from currentUser data
-        console.log(this.currentUser);
+        console.log('currentUser from localStorage: ', this.currentUser);
         this.getServices()
     }
 
@@ -164,9 +164,34 @@ export class ServicesComponent implements OnInit, OnDestroy {
     }
 
     updateService(service) {
-        // make a request to update the service
-        // remember to push serviceId into related User's services array;
-        console.log(service);
+        let password = window.prompt(`Hi ${this.currentUser.name}(${this.currentUser.role}). Enter your password`);
+        if (password) {
+            this.authService.checkData('checkUserPassword', password)
+                .subscribe(
+                good => {
+                    // make a request to update the service
+                    // remember to push serviceId into related User's services array;
+                    this.service.updateService(service)
+                        .subscribe(
+                        data => {
+                            // console.log('Service updated: ', data);
+                            setTimeout(() => {
+                                this.getCurrentUser()
+                            }, 300);
+                            this.toggleModal('', '', '', '')
+                            this.editPk = false;        
+                        },
+                        error => {
+                            console.log(error);
+                        });
+                },
+                error => {
+                    console.log('Wrong password!');
+                    this.editPk = false;
+                });
+        } else {
+            console.log('password needed');
+        }
     }
 
     ngOnInit() {
