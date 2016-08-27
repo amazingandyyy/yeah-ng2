@@ -272,9 +272,12 @@ userSchema.statics = {
             if (err) return res.status(401).send({
                 error: 'Must be authenticated.'
             })
+                console.log(payload._id);
             User
                 .findById(payload._id)
                 .exec((err, user) => {
+                    console.log('err', err);
+                    console.log('user', user);
                     if (err || !user) {
                         return res.status(404).send(err || {
                             error: 'User not found.'
