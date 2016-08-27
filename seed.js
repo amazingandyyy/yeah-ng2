@@ -184,8 +184,30 @@ async.waterfall([
     function(superadmin, admin, supervisor, advisors, students, callback) {
         //Create service here
         // .create() does not trigger mongoose relationship here, so using .save() instead
-        console.log(students[0]);
-        let newService = new Service({
+        // let newService = new Service({
+        //     package: 'app_regular1',
+        //     price: {
+        //         tag: '5000',
+        //         unit: 'usd'
+        //     },
+        //     participants: {
+        //         student: {
+        //             userData: students[0]._id
+        //         },
+        //         advisor: {
+        //             userData: advisors[0]._id
+        //         },
+        //         supervisor: {
+        //             userData: supervisor._id
+        //         },
+        //         admin: {
+        //             userData: admin._id
+        //         }
+        //     }
+        // });
+        // newService.save();
+
+        Service.create({
             package: 'app_regular1',
             price: {
                 tag: '5000',
@@ -205,8 +227,9 @@ async.waterfall([
                     userData: admin._id
                 }
             }
+        }, function(err) {
+            callback(null, 'done');
         });
-        newService.save();
 
         // let newService1 = new Service({
         //     package: 'app_regular2',
@@ -276,7 +299,7 @@ async.waterfall([
         // });
         // newService4.save();
 
-        callback(null, 'done');
+        
     }
 ], function (err, result) {
     // result now equals 'done'
