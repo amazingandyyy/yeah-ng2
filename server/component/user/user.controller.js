@@ -11,11 +11,13 @@ exports.index = function (req, res) {
 };
 
 exports.login = function (req, res) {
+    console.log('login req.body', req.body);
     User.login(req.body, (err, data) => {
         if (err) return res.status(409).send(err)
         res.send(data)
     });
 };
+
 exports.checkData = function (req, res) {
     switch (req.body.state) {
         case 'checkUserPassword':
@@ -48,14 +50,13 @@ exports.getCurrentUser = function (req, res) {
         }).populate('services')
     }
 };
-
 exports.getCurrentUserDeeply = function (req, res) {
     if (!req.user) {
         console.log('authentication failed')
         return res.status(409).send()
     }
     if (req.user._id == req.params.userId) {
-        User.getCurrentUserDeeply(req.user._id, (err, data) => {
+        User.getCurrentUserDeeply(req.user, (err, data) => {
             if (err) return handleError(res, err)
             res.send(data)
         });
@@ -68,7 +69,9 @@ exports.getSingleUser = function (req, res) {
         if (err) return res.status(404).send(err)
         res.send(data)
     })
+    
 };
+
 
 exports.findUserByEmail = function (req, res) {
     User.findOne({ 'email.data': req.params.email }, (err, data) => {
@@ -113,16 +116,6 @@ exports.getOneService = function (req, res) {
     if (checkAuthority('student', req.role)) {
         let serviceId = req.params.serviceId;
         Service.getOneService(serviceId, (err, data) => {
-            if (err) return handleError(res, err)
-            return res.status(200).send(data)
-        })
-    }
-}
-
-exports.updateService = function (req, res) {
-    if (checkAuthority('admin', req.role)) {
-        let service = req.body;
-        Service.updateService(service, (err, data) => {
             if (err) return handleError(res, err)
             return res.status(200).send(data)
         })
@@ -195,7 +188,7 @@ exports.createService = function (req, res) {
                     if (err) return handleError(res, err);
                     // Create and send out notification here
                     notice.serviceId = savedService._id
-                    Notification.sendNotice(notice, (err, savedNotice) => {
+                    Notification.sendNotice(notice, (err, noticeSaved) => {
                         if (err) {
                             console.log('error @sendNotice: ', err)
                             return handleError(res, err);
@@ -206,14 +199,14 @@ exports.createService = function (req, res) {
             })
             // // Create and send out notification here
             // //Attach service package id to notification for easier query
-            // notice.serviceId = savedService._id;
+            // notice.service = data._id;
             
-            // Notification.sendNotice(notice, (err, savedNotice) => {
+            // Notification.sendNotice(notice, (err, noticeSaved) => {
             //     if (err) {
             //         console.log('error @sendNotice: ', err)
             //         return handleError(res, err);
             //     }
-            //     return res.status(200).json(savedService);
+            //     return res.status(200).json(data);
             // });
         });
     } else {
