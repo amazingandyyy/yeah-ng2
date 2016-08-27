@@ -3,6 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { AuthHttp } from 'angular2-jwt';
+import { Subject }    from 'rxjs/Subject';
 
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
@@ -16,9 +17,10 @@ import { User } from '../types/user';
 // Using auth service to keep track of users' login status across all component
 @Injectable()
 export class AuthService {
-     public isLoggedIn: boolean;
-     public redirectUrl: string;
-     public currentUser: User;
+    public isLoggedIn: boolean;
+    public redirectUrl: string;
+    public currentUser = new Subject<User>(); // the data will be updated
+    public userAbsorvable = this.currentUser.asObservable();
 
     constructor(
         private http: Http,
@@ -32,18 +34,23 @@ export class AuthService {
             .catch(this.handelError)
     }
 
+    resetCurrentUser(userId): Observable<User> {
+        return this.authHttp.get(`/api/user/currentUser/${userId}`)
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
+
     getCurrentUserDeeply(userId): Observable<User> {
         return this.authHttp.get(`/api/user/currentUserDeeply/${userId}`)
             .map(this.handelResponse)
             .catch(this.handelError)
     }
 
-
     getUserByEmail(email: string): Observable<any> {
         return this.authHttp.get(`/api/user/getUserByEmail/${email}`)
             .map((res: Response) => res.json() || {})
             .catch((err: any) =>
-               Observable.throw(err)
+                Observable.throw(err)
             )
     }
 
@@ -59,6 +66,18 @@ export class AuthService {
             .catch(this.handelError)
     }
 
+    checkData(state: string, password: string): Observable<Auth> {
+        let data = {
+            state: state,
+            password: password
+        }
+        return this.authHttp.post(`/api/user/checkData`, data)
+            .map(res=>{
+                return res;
+            })
+            .catch(this.handelError)
+    }
+
     logUserOut() {
         localStorage.removeItem('id_token')
         localStorage.removeItem('current_user')
@@ -66,11 +85,11 @@ export class AuthService {
         this.router.navigate(['/'])
         return 'logout';
     }
-   
+
     updateCurrentUser(data: any): Observable<any> {
         //Don't let this null password replace the backend password
         // but user can replace th3 backend password through email pw reset (-todo)
-        if(data.password === null || data.password) {
+        if (data.password === null || data.password) {
             delete data.password
         }
         return this.authHttp.post('/api/user/update', data)
@@ -80,9 +99,8 @@ export class AuthService {
 
     checkAuthority(requiredRole: string, userRole: string) {
         const rolesArray = ['student', 'advisor', 'supervisor', 'admin', 'superadmin'];
-        
-        if(userRole) {
-            if(rolesArray.indexOf(userRole) >= rolesArray.indexOf(requiredRole)) {
+        if (userRole) {
+            if (rolesArray.indexOf(userRole) >= rolesArray.indexOf(requiredRole)) {
                 return true;
             }
         }
@@ -90,17 +108,20 @@ export class AuthService {
     }
 
     handelResponse(res: Response) {
+        console.log('res: ', res);
+        
         let data = res.json();
         this.isLoggedIn = true;
         this.currentUser = data;
-        
+
+        localStorage.setItem('current_user', JSON.stringify(data))
+
         return data || {};
     }
-    
-     handelError(err: any) {
+
+    handelError(err: any) {
         console.log('err @authService: ', err);
         this.isLoggedIn = false;
         return Observable.throw(err);
     }
-
 }

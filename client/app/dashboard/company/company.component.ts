@@ -21,17 +21,10 @@ export class CompanyComponent implements OnInit {
     ) { }
     
     getCurrentUser() {
-        this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
-            .subscribe(
-            user => this.currentUser = user,
-            error => {
-                this.authService.logUserOut();
-                console.log(<any>error)
-            });
+        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
     }
 
     ngOnInit() {
-        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getCurrentUser();
     }
 }

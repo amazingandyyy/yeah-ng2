@@ -8,7 +8,6 @@ import { User } from '../shared/types/user';
 import { Notification } from '../shared/types/notification';
 import { NotificationsService, SimpleNotificationsModule } from 'notifications';
 
-
 @Component({
     moduleId: module.id,
     selector: 'yeah-dashboard',
@@ -20,7 +19,7 @@ import { NotificationsService, SimpleNotificationsModule } from 'notifications';
 
 export class DashboardComponent implements OnInit, OnDestroy{
     // serve for the two dropdown list in top-right of the navbar
-    currentUser: User;
+    currentUser: {};
     profileToggled: boolean = false;
     inboxToggled: boolean = false;
     currentSession: string;
@@ -61,17 +60,24 @@ export class DashboardComponent implements OnInit, OnDestroy{
         this.authService.logUserOut()
     }
 
-    getUser() {
-        this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
+    requestUserDataFromDataBase(userId) {
+        this.authService.getCurrentUser(userId)
             .subscribe(
             user => {
                 this.currentUserRole = user.role;
-                this.currentUser = user
+                this.currentUser = user;
+                localStorage.setItem('current_user', JSON.stringify(user));
+                console.log(`complete ${user.role} data: `, user);
             },
             error => {
                 this.authService.logUserOut();
                 console.log(<any>error)
             });
+    }
+
+    getCurrentUser() {
+        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+        this.currentUserRole = JSON.parse(localStorage.getItem('current_user')).role;
     }
 
     getNotification() {
@@ -138,44 +144,24 @@ export class DashboardComponent implements OnInit, OnDestroy{
     }
 
     ngOnInit() {
-        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
-        this.getUser();
-        let self = this;
+        this.getCurrentUser()
+        this.socket.syncById('user', this.currentUser._id, (user) => {
+            console.log(`Trigger ${this.currentUser._id}'s socket.`);
+            console.log('user from socket: ', user);
+            // trigger authService again
+            this.requestUserDataFromDataBase(this.currentUser._id)
+        })
+
         this.getNotification()
         this.getNotificationCount()
-        self.socket.syncById('notification', self.currentUser._id, (notice) => {
+        this.socket.syncById('notification', this.currentUser._id, (notice) => {
             this.getNotification()
             this.getNotificationCount()
         })
-        // this.getNotification(function() {
-        //     //Listen to updates after loading the first three notifications
-        //     self.socket.syncById('notification', self.currentUser._id, (notice) => {
-        //         self.getNotificationCount()
-        //         self.checkNotications(notice, function(exist) {
-        //             //If notification already exist only update read count
-        //             if(exist) {
-        //                 if(notice.read) {
-        //                     self.noticeCount--;
-        //                 }
-        //                 return;
-        //             } else {
-        //                 // self.notificationService.success(notice.title, notice.description, {id: 123});
-        //                 self.notifications.unshift(notice);
-        //                 //Only display three messages
-        //                 if(self.notifications.length > 3) {
-        //                     self.notifications.pop();
-        //                 }
-        //                 if(!notice.read) {
-        //                     self.noticeCount++;
-        //                 }
-        //             }
-        //         });
-        //     });   
-        // });
-        this.getNotificationCount();
     }
 
     ngOnDestroy() {
         this.socket.unsyncById('notification', this.currentUser._id);
+        this.socket.unsyncById('user', this.currentUser._id);
     }
 }

@@ -76,6 +76,20 @@
             margin: auto;
         }
     }
+    .editBtn {
+        user-select: none;
+        text-transform: uppercase;
+        padding-left: 6px;
+        cursor: pointer;
+        float: right;
+        opacity: 0.5;
+        &:hover {
+            opacity: 0.9;
+        }
+        &:active {
+            color: $brand-primary;
+        }
+    }
 }
 
 @media (min-width: 767px) {

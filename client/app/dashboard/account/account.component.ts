@@ -40,17 +40,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     }
 
     getCurrentUser() {
-        this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
-            .subscribe(
-            user => {
-                console.log(user);
-                
-                this.currentUser = user
-            },
-            error => {
-                this.authService.logUserOut();
-                console.log(<any>error);
-            });
+        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
     }
 
     updateCurrentUser(value: any, cardName: string) {
@@ -66,6 +56,7 @@ export class AccountComponent implements OnInit, OnDestroy {
         function handleResponse(res) {
             // After saving successfully Close the specific card(form)
             self[cardName] = !(self[cardName]);
+            self.getCurrentUser()
         }
     }
 
@@ -128,11 +119,9 @@ export class AccountComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        let self = this;
-        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getCurrentUser();
-        this.socket.syncById('user', this.currentUser._id, function(user) {
-            self.currentUser = user;
+        this.socket.syncById('user', this.currentUser._id, (user) => {
+            this.getCurrentUser();
         });
     }
 

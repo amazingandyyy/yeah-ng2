@@ -108,8 +108,9 @@ let userSchema = new mongoose.Schema({
         ref: 'Notification',
     }]
 })
+
 userSchema.plugin(autopopulate);
-userSchema.plugin(relationship, { relationshipPathName: ['studentData', 'advisorData', 'supervisorData', 'adminData', 'superadminData'] });
+userSchema.plugin(relationship, { relationshipPathName: ['studentData', 'advisorData', 'supervisorData', 'adminData', 'superadminData'], triggerMiddleware: true });
 
 let deepPopulateOption;
 userSchema.plugin(deepPopulate, deepPopulateOption);
@@ -292,7 +293,6 @@ userSchema.statics = {
         })
     },
     updateCurrentUser: function (updatedUser, cb) {
-        console.log('ddd')
         User.findById(updatedUser._id)
             .exec((err, dbUser) => {
                 if (err || !dbUser) return cb(err)
@@ -307,13 +307,29 @@ userSchema.statics = {
                 })
             })
     },
-    getCurrentUserDeeply: function (userData, cb) {
-        User.findById(userData._id)
+    getCurrentUserDeeply: function (userId, cb) {
+        User.findById(userId)
             // .deepPopulate(deepPopulateOption)
             .exec((err, dbUser) => {
                 if (err || !dbUser) return cb(err)
                 console.log('single user: ', dbUser)
                 cb(null, dbUser)
+            })
+    },
+    checkUserPassword: function (data, cb) {
+        console.log('data: ', data)
+        User.findOne({
+            'email.data': {
+                '$in': data.user.email.data
+            }
+        })
+            .select('+password')
+            .exec((err, dbUser) => {
+                if (err, !dbUser) return cb(err || { message: 'user not found. Want to sign up?' })
+                return bcrypt.compare(data.password, dbUser.password, function (err, isGood) {
+                    if (err) return cb("Authentication failed.");
+                    cb(null, 'checkAuthorization passed');
+                })
             })
     }
 }

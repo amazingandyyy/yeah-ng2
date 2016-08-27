@@ -39,7 +39,5 @@ let adminSchema = new mongoose.Schema({
 })
 adminSchema.plugin(autopopulate);
 
-
-
 let Admin = mongoose.model('Admin', adminSchema);
 module.exports = Admin;

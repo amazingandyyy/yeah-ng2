@@ -49,6 +49,7 @@ let notificationSchema = new mongoose.Schema({
         }
     }
 })
+
 notificationSchema.plugin(autopopulate);
 
 notificationSchema.statics = {
@@ -77,7 +78,7 @@ notificationSchema.statics = {
     },
     getThreeNew: function (userId, cb) {
         Notification.find({ to: userId, 'read.state': false })
-            .sort({ 'date': -1 })
+            .sort({ 'createAt': -1 })
             .populate('from to', 'name role')
             .limit(3)
             .exec(function (err, notice) {
@@ -87,7 +88,7 @@ notificationSchema.statics = {
     },
     getAll: function (userId, cb) {
         Notification.find({ to: userId })
-            .sort({ 'date': -1 })
+            .sort({ 'createAt': -1 })
             .exec(function (err, notice) {
                 if (err) return cb(err)
                 cb(null, notice);

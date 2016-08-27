@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
         function handleResponse(res) {
             localStorage.setItem('id_token', JSON.stringify(res.token));
             localStorage.setItem('current_user', JSON.stringify(res.user));
-            self.router.navigate(['dashboard/pipe'])
+            self.router.navigate(['dashboard/services'])
         }
     }
 

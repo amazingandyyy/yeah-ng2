@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChange, OnInit } from '@angular/core';
 import { Router }    from '@angular/router';
 import moment = require('moment');
 
@@ -12,8 +12,8 @@ import { AuthService } from '../../shared/services/auth.service';
     styleUrls: ['setting.style.css'],
     providers: [AuthService]
 })
-export class SettingComponent implements OnInit {
-    currentUser = {};
+export class SettingComponent implements OnChanges, OnInit {
+    @Input() currentUser: any;
 
     constructor(
         private router: Router,
@@ -21,18 +21,18 @@ export class SettingComponent implements OnInit {
     ) { }
 
     getCurrentUser() {
-        this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
-            .subscribe(
-            user => this.currentUser = user,
-            error => {
-                this.authService.logUserOut();
-                console.log(<any>error)
-            });
+        console.log('currentUser: ', this.currentUser);
+    }
+
+    ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
+        console.log('triggered');
+        console.log('changes: ', changes);
+        for (let propName in changes) {
+            console.log('propName: ', propName)
+        }
     }
 
     ngOnInit() {
-        // console.log('check currentUser data', JSON.parse(localStorage.getItem('current_user')));
-        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         this.getCurrentUser();
     }
 }

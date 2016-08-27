@@ -11,11 +11,28 @@ exports.index = function (req, res) {
 };
 
 exports.login = function (req, res) {
-    console.log('login req.body', req.body);
     User.login(req.body, (err, data) => {
         if (err) return res.status(409).send(err)
         res.send(data)
     });
+};
+exports.checkData = function (req, res) {
+    switch (req.body.state) {
+        case 'checkUserPassword':
+            console.log('checkUserPassword');
+            User.checkUserPassword({user: req.user, password: req.body.password}, (err, good) => {
+                if (err) return res.status(409).send(err)
+                return res.send(good)
+            });
+            break;
+        case 'checkCompanyCode':
+            console.log('checkCompanyCode');
+            break;
+        default:
+            res.status(409).send('No event state')
+            break
+    }
+    
 };
 
 exports.getCurrentUser = function (req, res) {
@@ -26,6 +43,7 @@ exports.getCurrentUser = function (req, res) {
     if (req.user._id == req.params.userId) {
         User.findById(req.user._id, (err, dbUser)=>{
             if (err) return res.status(404).send(err)
+            console.log('dbUser: ', dbUser);
             res.send(dbUser)
         }).populate('services')
     }
@@ -37,7 +55,7 @@ exports.getCurrentUserDeeply = function (req, res) {
         return res.status(409).send()
     }
     if (req.user._id == req.params.userId) {
-        User.getCurrentUserDeeply(req.user, (err, data) => {
+        User.getCurrentUserDeeply(req.user._id, (err, data) => {
             if (err) return handleError(res, err)
             res.send(data)
         });
@@ -167,7 +185,7 @@ exports.createService = function (req, res) {
                     if (err) return handleError(res, err);
                     // Create and send out notification here
                     notice.serviceId = savedService._id
-                    Notification.sendNotice(notice, (err, noticeSaved) => {
+                    Notification.sendNotice(notice, (err, savedNotice) => {
                         if (err) {
                             console.log('error @sendNotice: ', err)
                             return handleError(res, err);
@@ -178,14 +196,14 @@ exports.createService = function (req, res) {
             })
             // // Create and send out notification here
             // //Attach service package id to notification for easier query
-            // notice.service = data._id;
+            // notice.serviceId = savedService._id;
             
-            // Notification.sendNotice(notice, (err, noticeSaved) => {
+            // Notification.sendNotice(notice, (err, savedNotice) => {
             //     if (err) {
             //         console.log('error @sendNotice: ', err)
             //         return handleError(res, err);
             //     }
-            //     return res.status(200).json(data);
+            //     return res.status(200).json(savedService);
             // });
         });
     } else {

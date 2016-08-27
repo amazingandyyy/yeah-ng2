@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router }    from '@angular/router';
 import moment = require('moment');
+import { Subscription }   from 'rxjs/Subscription';
 
-import { User } from '../../shared/types/user'
+import { User } from '../../shared/types/user';
+import { Service } from '../../shared/types/service';
+
 import { AuthService } from '../../shared/services/auth.service';
 import { ServiceService } from '../../shared/services/service.service';
 import { SocketService } from '../../shared/services/socket.service';
@@ -17,8 +20,8 @@ import { SocketService } from '../../shared/services/socket.service';
     ],
     providers: [AuthService, SocketService, ServiceService]
 })
-export class ServicesComponent implements OnInit {
-    currentUser = {};
+export class ServicesComponent implements OnInit, OnDestroy {
+    currentUser = User;
 
     emailError: boolean;
     sending: boolean;
@@ -31,6 +34,10 @@ export class ServicesComponent implements OnInit {
     arrayOfServiceKey = [];
 
     selectedService = {};
+    subscription: Subscription;
+
+    editPk: boolean = false;
+    tempararyService = {};
 
     constructor(
         private router: Router,
@@ -40,21 +47,10 @@ export class ServicesComponent implements OnInit {
     ) { }
 
     getCurrentUser() {
-        this.authService.getCurrentUser(JSON.parse(localStorage.getItem('current_user'))._id)
-            .subscribe(
-            user => {
-                console.log('current user data: ', user);
-                this.currentUser = user;
-                if (this.currentUser.services[0]) {
-                    this.getServices()
-                } else {
-                    console.log('no services yet');
-                }
-            },
-            error => {
-                // this.authService.logUserOut();
-                console.log(<any>error)
-            });
+        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+        // get data from currentUser data
+        console.log(this.currentUser);
+        this.getServices()
     }
 
     checkRole(role: string, user: User) {
@@ -82,34 +78,46 @@ export class ServicesComponent implements OnInit {
 
     createService(newServiceData: any) {
         let self = this;
-        newServiceData.createrData = this.currentUser;
-        if (newServiceData.student && newServiceData.student !== this.currentUser.email) {
-            // Find student by email
-            this.authService.getUserByEmail(newServiceData.student)
+        let password = window.prompt(`Hi ${this.currentUser.name}(${this.currentUser.role}). Enter your password`);
+        if (password) {
+            this.authService.checkData('checkUserPassword', password)
                 .subscribe(
-                user => {
-                    if (user.role == 'student') {
-                        // Add student to this student's service
-                        newServiceData.studentData = user;
-                        this.service.createService(newServiceData)
+                good => {
+                    newServiceData.createrData = this.currentUser;
+                    if (newServiceData.student && newServiceData.student !== this.currentUser.email) {
+                        // Find student by email
+                        this.authService.getUserByEmail(newServiceData.student)
                             .subscribe(
-                            data => {
-                                console.log('Service created: ', data);
-                                this.getCurrentUser()
-                                self.toggleModal('', '', '', '')
+                            user => {
+                                if (user.role == 'student') {
+                                    // Add student to this student's service
+                                    newServiceData.studentData = user;
+                                    this.service.createService(newServiceData)
+                                        .subscribe(
+                                        createdService => {
+                                            // need time out...
+                                            setTimeout(() => this.getCurrentUser(), 300);
+                                            self.toggleModal('', '', '', '')
+                                        },
+                                        error => {
+                                            console.log('createService failed: ', error);
+                                        });
+                                } else {
+                                    console.log('Email is not student.');
+                                }
                             },
                             error => {
-                                console.log(error);
+                                console.log('Student is not found.');
                             });
                     } else {
-                        console.log('Email is not student.');
+                        console.log('Please type in a student email.');
                     }
                 },
                 error => {
-                    console.log('Student is not found.');
+                    console.log('Wrong password!');
                 });
         } else {
-            console.log('Please type in a student email.');
+            console.log('password needed');
         }
     }
 
@@ -133,7 +141,9 @@ export class ServicesComponent implements OnInit {
             .subscribe(
             data => {
                 console.log('Service details: ', data);
-                this.toggleModal('Service Details', 'details', 'update', '');
+                if (!this.modalActivated) {
+                    this.toggleModal('Service Details', 'details', 'update', '');
+                }
                 this.selectedService = data;
             },
             error => {
@@ -143,13 +153,29 @@ export class ServicesComponent implements OnInit {
 
     getServices() {
         this.serviceDataList = this.currentUser.services;
-        // console.log(Array.isArray(this.serviceDataList));
         this.arrayOfServiceKey = Object.keys(this.serviceDataList);
         this.arrayOfServiceKey.reverse();
     }
 
-    ngOnInit() {
-        this.currentUser = JSON.parse(localStorage.getItem('current_user'));
-        this.getCurrentUser();
+    edit(formName: string) {
+        this[formName] = !(this[formName]);
+        this.getOneServce(this.selectedService._id);
+        this.tempararyService = this.selectedService;
     }
+
+    updateService(service) {
+        // make a request to update the service
+        // remember to push serviceId into related User's services array;
+        console.log(service);
+    }
+
+    ngOnInit() {
+        this.getCurrentUser();
+        this.getServices()
+    }
+
+    ngOnDestroy() {
+        // this.subscription.unsubscribe();
+    }
+
 }
