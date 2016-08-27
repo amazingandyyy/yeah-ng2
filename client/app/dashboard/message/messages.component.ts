@@ -49,6 +49,7 @@ export class MessagesComponent implements OnInit {
 
     getCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+        console.log(this.currentUser);
     }
 
     checkTabStyle(item: string) {
@@ -83,6 +84,7 @@ export class MessagesComponent implements OnInit {
             .subscribe(
             notifications => {
                 // this.messages = messages;
+
                 self.arrangeNotification(notifications);                
             },
             error => {
@@ -152,9 +154,11 @@ export class MessagesComponent implements OnInit {
             for(var state in categorizedNotification) {
                 if(state === 'message') {
                     this.messageIndex = categorizedNotification[state];
+
                 }
                 if(state === 'invitation') {
                     this.inviteIndex = categorizedNotification[state];
+                    console.log(this.inviteIndex);
                 }
             }
 
@@ -204,6 +208,7 @@ export class MessagesComponent implements OnInit {
     }
 
     submitMessage(newMessage: any){
+        console.log('click');
         console.log('newMessage: ', newMessage);
         this.newMessage = {}; // After submit, clean up the textarea.
         

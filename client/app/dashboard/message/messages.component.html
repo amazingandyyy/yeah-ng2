@@ -7,7 +7,7 @@
                 <span [class.active]="tabSelected === 'invitation'" (click)="checkTabStyle('invitation')">Invitation</span>
             </div>
             <div class="main-thread-content">
-                <ul *ngIf="tabSelected === 'message'">
+                <ul class="main-thread-list" *ngIf="tabSelected === 'message'">
                     <li class="single-main-thread" *ngFor="let notice of messageMain" [class.mainActive]="notice.from._id === selectedUserId" (click)="selectMessage(notice.from, 'message')">
                         <span class="time">
                             {{notice.createAt}}
@@ -48,27 +48,64 @@
             <div class="title-container">
                 <span class="sender-name">{{selectedUser.name}}</span>
             </div>
-            <ul class="message-list">
-                <li class="message-list-item" *ngFor="let m of messageDetail">
-                    <div class="clearfix">
-                        <span class="time">
-                            {{m.createAt}}
-                        </span>
-                        <div class="image-container">
-                            <img src="{{m.from.photo.url}}" alt="">
-                        </div>
-                        <div class="text-container">
-                            <div class="sender-name">{{m.from.name}}
+            <ul class="message-list" [class.inviteHeight]="tabSelected === 'invitation'">
+                <li *ngFor="let m of messageDetail">
+                    <div class="message-list-item" *ngIf="m.state === 'message'">
+                        <div class="clearfix">
+                            <span class="time">
+                                {{m.createAt}}
+                            </span>
+                            <div class="image-container">
+                                <img src="{{m.from.photo.url}}" alt="">
                             </div>
-                            <div class="description">{{m.description}}</div>
+                            <div class="text-container">
+                                <div class="sender-name">{{m.from.name}}
+                                </div>
+                                <div class="description">{{m.description}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="m.state ==='invitation'" class="invite-box">
+                        <div class="clearfix">
+                            <div class="time">
+                                {{m.createAt}}
+                            </div>
+                            <div class="image-container">
+                                <img src="{{m.from.photo.url}}" alt="">
+                            </div>
+                            <div class="text-container">
+                                <div class="sender-name">
+                                    {{m.from.name}}
+                                </div>
+                                <div class="description">
+                                    Invites you to package: {{m.attachment.package}}
+                                </div>
+                                <p>
+                                    <i class="fa fa-dollar"></i>
+                                    {{m.attachment.price.tag}}
+                                    {{m.attachment.price.unit}} 
+                                </p>
+                                <p>
+                                    <i class="fa fa-users"></i>
+                                    participants
+                                </p>
+                            </div>
+                            <div class="msg-behavior">
+                                <span class="btn-accept" (click)="respondToInvitation(m, true)">
+                                    <i class="fa fa-check"></i> Accept
+                                </span>
+                                <span class="btn-decline" (click)="respondToInvitation(m, false)">
+                                    <i class="fa fa-times"></i> Decline
+                                </span>             
+                            </div>
                         </div>
                     </div>
                 </li>
             </ul>
-            <div class="message-input-container">
+            <div class="message-input-container" *ngIf="tabSelected === 'message'">
                 <form #newMessageForm="ngForm" (ngSubmit)="submitMessage(newMessageForm.value)">
                     <div class="input-group">
-                        <input class="form-control" rows="3" [(ngModel)]="newMessage.body" placeholder="Your message..." name="body" required />
+                        <input class="form-control" rows="3" [(ngModel)]="newMessage.body" placeholder="Your message..." name="body" required autofocus/>
                         <div class="input-group-btn">
                             <button [disabled]="!newMessageForm.form.valid" (click)="submitMessage(newMessageForm.value)" class="btn btn-primary" type="submit">Send</button>
                         </div>
