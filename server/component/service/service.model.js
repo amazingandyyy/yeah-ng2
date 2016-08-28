@@ -39,7 +39,7 @@ let serviceSchema = new mongoose.Schema({
                 type: mongoose.Schema.ObjectId,
                 ref: 'User',
                 childPath: 'services',
-                autopopulate: true
+                validateExistence: true
             },
             confirmed: {
                 type: Boolean,
@@ -50,8 +50,7 @@ let serviceSchema = new mongoose.Schema({
             userData: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'User',
-                childPath: 'services',
-                autopopulate: true
+                childPath: 'services'
             },
             confirmed: {
                 type: Boolean,
@@ -62,8 +61,7 @@ let serviceSchema = new mongoose.Schema({
             userData: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'User',
-                childPath: 'services',
-                autopopulate: true
+                childPath: 'services'
             },
             confirmed: {
                 type: Boolean,
@@ -74,8 +72,7 @@ let serviceSchema = new mongoose.Schema({
             userData: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'User',
-                childPath: 'services',
-                autopopulate: true
+                childPath: 'services'
             },
             confirmed: {
                 type: Boolean,
@@ -86,7 +83,7 @@ let serviceSchema = new mongoose.Schema({
 });
 
 serviceSchema.plugin(autopopulate);
-serviceSchema.plugin(relationship, { relationshipPathName: ['participants.student.userData', 'participants.advisor.userData', 'participants.supervisor.userData', 'participants.admin.userData'] });
+serviceSchema.plugin(relationship, { relationshipPathName: ['participants.student.userData', 'participants.advisor.userData', 'participants.supervisor.userData', 'participants.admin.userData']});
 let deepPopulateOption; 
 serviceSchema.plugin(deepPopulate, deepPopulateOption);
 

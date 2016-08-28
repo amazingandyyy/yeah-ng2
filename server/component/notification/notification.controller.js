@@ -26,10 +26,10 @@ exports.getThreeNew = function (req, res) {
 };
 
 exports.getAll = function(req, res) {
-	// Notification.getAll(req.user._id, function(err, notices) {
-	// 	if(err) { return handleError(res, err); }
-	// });
-	return res.status(201).json(mockData);
+	Notification.getAll(req.user._id, function(err, notices) {
+		if(err) { return handleError(res, err); }
+		return res.status(201).json(notices);
+	});
 };
 
 exports.getCounts = function (req, res) {

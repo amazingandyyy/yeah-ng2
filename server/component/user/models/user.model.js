@@ -97,13 +97,11 @@ let userSchema = new mongoose.Schema({
         type: Number,
         default: Date.now
     },
-    services: [
-        {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Service',
-            autopopulate: true
-        }
-    ],
+    services: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Service',
+        autopopulate: true
+    }],
     notifications: [{
         type: mongoose.Schema.ObjectId,
         ref: 'Notification'
@@ -276,8 +274,7 @@ userSchema.statics = {
             User
                 .findById(payload._id)
                 .exec((err, user) => {
-                    console.log('err', err);
-                    console.log('user', user);
+                    
                     if (err || !user) {
                         return res.status(404).send(err || {
                             error: 'User not found.'

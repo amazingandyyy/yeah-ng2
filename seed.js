@@ -22,6 +22,7 @@ const Supervisor = require('./server/component/user/models/supervisor.model');
 const Admin = require('./server/component/user/models/admin.model');
 const Superadmin = require('./server/component/user/models/superadmin.model');
 const Service = require('./server/component/service/service.model');
+const Notification = require('./server/component/notification/notification.model');
 
 //Need to use pw hasing here. 
 function hashPw(pw, cb) {
@@ -69,6 +70,11 @@ async.waterfall([
                 Service.find({}).remove(function() {
                     clearServiceCb(null);
                 });//.remove ends
+            },
+            function(clearNotificationCb) {
+                Notification.find({}).remove(function() {
+                    clearNotificationCb(null);
+                });//.remove ends
             }
         ],
         // optional callback
@@ -110,7 +116,7 @@ async.waterfall([
                         password: hashPw,
                         name: 'Advisor Guy' + count,
                         photo: {
-                            url: 'http://http://lorempixel.com/100/100/people/'
+                            url: 'http://lorempixel.com/100/100/people/'
                         },
                         role: 'advisor',
                         advisorData: advisor._id
@@ -122,7 +128,7 @@ async.waterfall([
                         password: hashPw,
                         name: 'Student Guy' + count,
                         photo: {
-                            url: 'http://http://lorempixel.com/100/100/people/'
+                            url: 'http://lorempixel.com/100/100/people/'
                         },
                         role: 'student',
                         studentData: student._id
@@ -143,7 +149,7 @@ async.waterfall([
                             password: hashPw,
                             name: 'Superadmin Guy',
                             photo: {
-                                url: 'http://http://lorempixel.com/100/100/people/'
+                                url: 'http://lorempixel.com/100/100/people/'
                             },
                             role: 'superadmin',
                             superadminData: superadmin._id
@@ -155,7 +161,7 @@ async.waterfall([
                             password: hashPw,
                             name: 'Admin Guy',
                             photo: {
-                                url: 'http://http://lorempixel.com/100/100/people/'
+                                url: 'http://lorempixel.com/100/100/people/'
                             },
                             role: 'admin',
                             adminData: admin._id
@@ -167,7 +173,7 @@ async.waterfall([
                             password: hashPw,
                             name: 'Supervisor Guy',
                             photo: {
-                                url: 'http://http://lorempixel.com/100/100/people/'
+                                url: 'http://lorempixel.com/100/100/people/'
                             },
                             role: 'supervisor',
                             supervisorData: supervisor._id
@@ -182,6 +188,20 @@ async.waterfall([
           });//hashPw callback ends
     },
     function(superadmin, admin, supervisor, advisors, students, callback) {
+        Notification.create({
+            from: advisors[0]._id,
+            to: students[0]._id,
+            title: 'Assignment1',
+            description: 'Work work',
+            response: false,
+            state: 'message'
+        }, function(err) {
+            callback(null, 'done');
+        });
+
+
+
+        /*---------------------------------------------------*/
         //Create service here
         // .create() does not trigger mongoose relationship here, so using .save() instead
         // let newService = new Service({
@@ -207,29 +227,29 @@ async.waterfall([
         // });
         // newService.save();
 
-        Service.create({
-            package: 'app_regular1',
-            price: {
-                tag: '5000',
-                unit: 'usd'
-            },
-            participants: {
-                student: {
-                    userData: students[0]._id
-                },
-                advisor: {
-                    userData: advisors[0]._id
-                },
-                supervisor: {
-                    userData: supervisor._id
-                },
-                admin: {
-                    userData: admin._id
-                }
-            }
-        }, function(err) {
-            callback(null, 'done');
-        });
+        // Service.create({
+        //     package: 'app_regular1',
+        //     price: {
+        //         tag: '5000',
+        //         unit: 'usd'
+        //     },
+        //     participants: {
+        //         student: {
+        //             userData: students[0]._id
+        //         },
+        //         advisor: {
+        //             userData: advisors[0]._id
+        //         },
+        //         supervisor: {
+        //             userData: supervisor._id
+        //         },
+        //         admin: {
+        //             userData: admin._id
+        //         }
+        //     }
+        // }, function(err) {
+        //     callback(null, 'done');
+        // });
 
         // let newService1 = new Service({
         //     package: 'app_regular2',
@@ -299,7 +319,7 @@ async.waterfall([
         // });
         // newService4.save();
 
-        
+       
     }
 ], function (err, result) {
     // result now equals 'done'

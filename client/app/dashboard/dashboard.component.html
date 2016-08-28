@@ -21,7 +21,7 @@
             </i>
             <!-- This should disappear when unread counts is 0 -->
             <span class="label label-danger label-unread" [hidden]="noticeCount < 1">{{noticeCount}}</span>
-            <div class="list-menu-msg" *ngIf="inboxToggled" [class.active]="inboxToggled">
+            <!-- <div class="list-menu-msg" *ngIf="inboxToggled" [class.active]="inboxToggled">
                 <ul>
                     <li *ngFor="let m of notifications" [hidden]="m.response">
                         <div class="msg-title">{{m.title}}</div>
@@ -38,7 +38,7 @@
                     <li *ngIf="notifications[0]" (click)="goToMessagePage()">more messages</li>
                     <li *ngIf="!notifications[0]" (click)="goToMessagePage()">No unread notification</li>
                 </ul>
-            </div>
+            </div> -->
         </span>
         <span class="nav-item">
             <i class="fa fa-user" (click)="profileToggled = !profileToggled; inboxToggled = false"></i>
