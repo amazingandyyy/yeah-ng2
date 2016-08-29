@@ -57,10 +57,18 @@ export class MessagesComponent implements OnInit, OnDestroy {
         this.tabSelected = item;
 
         if(item === 'message') {
-            this.messageDetail = this.messageIndex[this.selectedUserId];
-        }
+            if(this.messageIndex) {
+                this.messageDetail = this.messageIndex[this.selectedUserId];
+            } else {
+                this.messageDetail = [];
+            }
+        }    
         if(item === 'invitation') {
-            this.messageDetail = this.inviteIndex[this.selectedUserId];
+            if(this.inviteIndex) {
+                this.messageDetail = this.inviteIndex[this.selectedUserId]; 
+            } else {
+                this.messageDetail = [];
+            }
         }
     }
 

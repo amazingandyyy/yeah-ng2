@@ -229,7 +229,10 @@ userSchema.statics = {
                                 console.log(err);
                                 return cb({ error: 'email is incorrect' }, null)
                             }
-                            cb(null, { token: token, user: savedUser })
+                            User.findById(savedUser._id, (err, sendUser)=>{
+                                if (err || !sendUser) return cb(err || { message: 'user not found. Want to sign up?' });
+                                cb(null, { token: token, user: sendUser })
+                            })
                         })
                     })
                 })
@@ -250,11 +253,15 @@ userSchema.statics = {
                 return bcrypt.compare(userObj.password, dbUser.password, function (err, isGood) {
                     if (err) return cb("Authentication failed.");
                     let token = generateToken(dbUser)
-                    dbUser.lastLoginTime.unshift(Date.now())
+                    dbUser.lastLoginTime.unshift(Date.novw())
                     dbUser.save((err, savedUser) => {
                         if (err) return cb(err);
-                        savedUser.password = null;
-                        cb(null, { token: token, user: savedUser })
+                        // cb(null, { token: token, user: savedUser })
+                        User.findById(savedUser._id, (err, sendUser)=>{
+                            console.log('sendUser: ', sendUser)
+                            if (err || !sendUser) return cb(err || { message: 'user not found.(internal Error)' });
+                            cb(null, { token: token, user: sendUser })
+                        }).populate('services')
                     })
                 })
             })
@@ -270,14 +277,14 @@ userSchema.statics = {
             if (err) return res.status(401).send({
                 error: 'Must be authenticated.'
             })
-                console.log(payload._id);
+            
             User
                 .findById(payload._id)
                 .exec((err, user) => {
                     
                     if (err || !user) {
                         return res.status(404).send(err || {
-                            error: 'User not found.'
+                            error: 'middleware User not found!!!'
                         });
                     }
                     user.password = null;

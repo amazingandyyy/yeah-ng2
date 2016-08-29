@@ -31,6 +31,8 @@ router.post('/signup', Controller.signup);
 
 router.post('/createService', User.authMiddleware, Controller.createService);
 
+router.post('/updateService', User.authMiddleware, Controller.updateService);
+
 router.get('/getOneService/:serviceId', User.authMiddleware, Controller.getOneService);
 
 module.exports = router;

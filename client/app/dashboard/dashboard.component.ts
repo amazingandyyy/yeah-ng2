@@ -135,10 +135,18 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
         this.getNotification()
         this.getNotificationCount()
-        // this.socket.syncById('notification', this.currentUser._id, (notice) => {
-        //     this.getNotification()
-        //     this.getNotificationCount()
-        // })
+
+        this.socket.syncById('notification', this.currentUser._id, (notice) => {
+            this.getNotification()
+            this.getNotificationCount()
+        })
+
+        this.socket.syncById('service', this.currentUser._id, (service) => {
+            console.log(`Trigger ${this.currentUser._id}'s socket.`);
+            // trigger authService again
+            this.requestUserDataFromDataBase(this.currentUser._id)
+        })
+>>>>>>> ff0eb8626e2e2916fbe7ba5be70985d7bd0578d8
     }
 
     ngOnDestroy() {

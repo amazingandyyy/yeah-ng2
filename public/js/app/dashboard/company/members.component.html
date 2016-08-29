@@ -29,7 +29,7 @@
                     <tr *ngFor="let userKey of arrayOfUsersKeys">
                         <th>{{userDataList[userKey].name}}</th>
                         <td>{{userDataList[userKey].role}}</td>
-                        <td>{{userDataList[userKey].email.data}} <small>- {{userDataList[userKey].email.verified}}</small></td>
+                        <td><div>{{userDataList[userKey].email.data}}</div> <small>- {{userDataList[userKey].email.verified}}</small></td>
                         <td>{{renderLLT(userDataList[userKey].lastLoginTime[0])}}</td>
                         <td (click)="getSingleUser(userDataList[userKey]._id)">
                             <span class="moreInfo">Info</span>

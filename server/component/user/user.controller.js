@@ -119,6 +119,16 @@ exports.getOneService = function (req, res) {
     }
 }
 
+exports.updateService = function (req, res) {
+    if (checkAuthority('admin', req.role)) {
+        let service = req.body;
+        Service.updateService(service, (err, data) => {
+            if (err) return handleError(res, err)
+            return res.status(200).send(data)
+        })
+    }
+}
+
 exports.createService = function (req, res) {
     let newServiceData = req.body;
     let isAuthorized = checkAuthority('admin', req.role) && (req.role!=='superadmin');

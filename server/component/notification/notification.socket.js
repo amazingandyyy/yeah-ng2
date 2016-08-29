@@ -29,7 +29,6 @@ function onSave(socket, doc, cb) {
       socket.emit('notification:save:' + doc.from._id, _doc);
     });
   }
-  
 }
 
 function onRemove(socket, doc, cb) {
