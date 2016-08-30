@@ -253,7 +253,7 @@ userSchema.statics = {
                 return bcrypt.compare(userObj.password, dbUser.password, function (err, isGood) {
                     if (err) return cb("Authentication failed.");
                     let token = generateToken(dbUser)
-                    dbUser.lastLoginTime.unshift(Date.novw())
+                    dbUser.lastLoginTime.unshift(Date.now())
                     dbUser.save((err, savedUser) => {
                         if (err) return cb(err);
                         // cb(null, { token: token, user: savedUser })

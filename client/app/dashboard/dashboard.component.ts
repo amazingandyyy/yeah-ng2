@@ -81,14 +81,14 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
     getNotification() {
         let self = this;
-        // this.noticeService.getThree()
-        //     .subscribe(
-        //     notices => {
-        //         this.notifications = notices;
-        //     },
-        //     error => {
-        //         console.log(<any>error)
-        //     });
+        this.noticeService.getThree()
+            .subscribe(
+            notices => {
+                this.notifications = notices;
+            },
+            error => {
+                console.log(<any>error)
+            });
     }
 
     getNotificationCount() {
@@ -146,7 +146,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
             // trigger authService again
             this.requestUserDataFromDataBase(this.currentUser._id)
         })
->>>>>>> ff0eb8626e2e2916fbe7ba5be70985d7bd0578d8
     }
 
     ngOnDestroy() {
