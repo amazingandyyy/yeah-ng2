@@ -168,6 +168,7 @@ exports.createService = function (req, res) {
             },
             package: newServiceData.package,
         };
+        
         let notice = {
             title: 'New service created by ' + from.name,
             desc: 'Your ' + from.role + ' just created a yeah service for you.',
