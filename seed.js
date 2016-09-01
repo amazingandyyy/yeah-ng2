@@ -188,16 +188,61 @@ async.waterfall([
           });//hashPw callback ends
     },
     function(superadmin, admin, supervisor, advisors, students, callback) {
-        Notification.create({
-            from: advisors[0]._id,
-            to: students[0]._id,
-            title: 'Assignment1',
-            description: 'Work work',
-            response: false,
-            state: 'message'
-        }, function(err) {
+        
+        Service.create({
+            package: 'app_regular1',
+            price: {
+                tag: '5000',
+                unit: 'usd'
+            },
+            participants: {
+                student: {
+                    userData: students[0]._id
+                },
+                advisor: {
+                    userData: advisors[0]._id
+                },
+                supervisor: {
+                    userData: supervisor._id
+                },
+                admin: {
+                    userData: admin._id
+                }
+            }
+        }, function(err, service) {
+            console.log(service);
+            let notice1 = new Notification({
+                from: advisors[0]._id,
+                to: students[0]._id,
+                title: 'Assignment1',
+                description: 'Work work',
+                response: false,
+                state: 'message'
+            });
+            
+            notice1.save(function() {
+                let notice2 = new Notification({
+                    from: advisors[0]._id,
+                    to: students[0]._id,
+                    title: 'Invite',
+                    description: advisors[0].name + ' invites you to join ' + service.package,
+                    response: false,
+                    state: 'invitation',
+                    attachment: {
+                        service: service._id
+                    }
+                });
+
+                notice2.save();
+                
+            });
+
+
+            
             callback(null, 'done');
+            
         });
+
 
 
 

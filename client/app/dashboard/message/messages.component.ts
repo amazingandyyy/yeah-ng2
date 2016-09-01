@@ -93,6 +93,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
             .subscribe(
             notifications => {
                 this.notifications = notifications;
+                console.log(notifications);
                 self.arrangeNotification(notifications);                
             },
             error => {

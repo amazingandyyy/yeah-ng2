@@ -41,7 +41,7 @@ let serviceSchema = new mongoose.Schema({
                 type: mongoose.Schema.ObjectId,
                 ref: 'User',
                 childPath: 'services',
-                validateExistence: true
+                autopopulate: true
             },
             confirmed: {
                 type: Boolean,
@@ -52,7 +52,8 @@ let serviceSchema = new mongoose.Schema({
             userData: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'User',
-                childPath: 'services'
+                childPath: 'services',
+                autopopulate: true
             },
             confirmed: {
                 type: Boolean,
@@ -63,7 +64,8 @@ let serviceSchema = new mongoose.Schema({
             userData: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'User',
-                childPath: 'services'
+                childPath: 'services', 
+                autopopulate: true
             },
             confirmed: {
                 type: Boolean,
@@ -74,7 +76,8 @@ let serviceSchema = new mongoose.Schema({
             userData: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'User',
-                childPath: 'services'
+                childPath: 'services',
+                autopopulate: true
             },
             confirmed: {
                 type: Boolean,

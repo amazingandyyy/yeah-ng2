@@ -96,16 +96,36 @@
                                     {{m.from.name}}
                                 </div>
                                 <div class="description">
-                                    Invites you to package: {{m.attachment.package}}
+                                    Invites you to package: {{m.attachment.service.package}}
                                 </div>
                                 <p>
                                     <i class="fa fa-dollar"></i>
-                                    {{m.attachment.price.tag}}
-                                    {{m.attachment.price.unit}} 
+                                    {{m.attachment.service.price.tag}}
+                                    {{m.attachment.service.price.unit}} 
                                 </p>
-                                <p>
-                                    <i class="fa fa-users"></i>
-                                    participants
+                                <p *ngIf="m.attachment.service.participants.admin">
+                                    <span>
+                                        <img class="participant-img"src="{{m.attachment.service.participants.admin.userData.photo.url}}" alt="">
+                                        {{m.attachment.service.participants.admin.userData.name}} - Admin
+                                    </span>
+                                </p>
+                                <p *ngIf="m.attachment.service.participants.supervisor">
+                                    <span>
+                                        <img class="participant-img"src="{{m.attachment.service.participants.supervisor.userData.photo.url}}" alt="">
+                                        {{m.attachment.service.participants.supervisor.userData.name}} - Supervisor
+                                    </span>
+                                </p>
+                                <p *ngIf="m.attachment.service.participants.advisor">
+                                    <span>
+                                        <img class="participant-img"src="{{m.attachment.service.participants.advisor.userData.photo.url}}" alt="">
+                                        {{m.attachment.service.participants.advisor.userData.name}} - Advisor
+                                    </span>
+                                </p>
+                                <p *ngIf="m.attachment.service.participants.student">
+                                    <span>
+                                        <img class="participant-img"src="{{m.attachment.service.participants.student.userData.photo.url}}" alt="">
+                                        {{m.attachment.service.participants.student.userData.name}} - Student
+                                    </span>
                                 </p>
                             </div>
                             <div class="msg-behavior">

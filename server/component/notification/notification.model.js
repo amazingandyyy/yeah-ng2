@@ -49,7 +49,8 @@ let notificationSchema = new mongoose.Schema({
     attachment: {
         service: {
             type: mongoose.Schema.ObjectId,
-            ref: 'Service'
+            ref: 'Service',
+            autopopulate: true
         }
     }
 })
