@@ -17,12 +17,18 @@ var cleanCSS = require('gulp-clean-css');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 // var tslint = require('gulp-tslint');
+var open = require('gulp-open');
+var os = require('os');
+
+var browser = os.platform() === 'linux' ? 'google-chrome' : (
+  os.platform() === 'darwin' ? 'google chrome' : (
+  os.platform() === 'win32' ? 'chrome' : 'firefox'));
 
 var tsProject = typescript.createProject('tsconfig.json');
 
 // gulp.task('default', ['watch', 'build-ts', 'build-copy']);
 gulp.task('init', ['build', 'transfer']);
-gulp.task('default', ['build', 'serve', 'watch']);
+gulp.task('default', ['build', 'serve', 'watch', 'open']);
 gulp.task('build', ['js', 'css', 'app:css', 'html', 'assets']);
 gulp.task('serve', function () {
     nodemon({
@@ -30,6 +36,12 @@ gulp.task('serve', function () {
         ext: 'js css ejs html',
         ignore: ['public/*', 'client/*', 'node_modules/*']
     });
+});
+
+//Open browser
+gulp.task('open', function(){
+  gulp.src('')
+  .pipe(open({uri: 'http://localhost:8000'}));
 });
 
 gulp.task('js', function () {
