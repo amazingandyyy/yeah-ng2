@@ -23,17 +23,32 @@
             <span class="label label-danger label-unread" [hidden]="noticeCount < 1">{{noticeCount}}</span>
             <div class="list-menu-msg" *ngIf="inboxToggled" [class.active]="inboxToggled">
                 <ul>
-                    <li *ngFor="let m of notifications" [hidden]="m.response" (click)="goToMessagePage()">
+                    <li *ngFor="let m of notifications" [hidden]="m.response" class="single-main-thread" (click)="goToMessagePage()">
+                        <!-- <img src="{{m.from.photo.url}}" alt="">
                         <div class="msg-title">{{m.title}}</div>
-                        <div class="msg-decs">{{m.description}}</div>
-                        <div class="msg-behavior">
+                        <div class="msg-decs">{{m.description}}</div> -->
+                        <span class="time">
+                            {{m.createAt | date}}
+                        </span>
+
+                        <div class="clearfix">
+                            <div class="image-container">
+                                <img src="{{m.from.photo.url}}" alt="userphoto">
+                            </div>
+                            <div class="text-container">
+                                <div class="sender-name">{{m.from.name}}
+                                </div>
+                                <div class="description">{{m.title}}</div>
+                            </div>
+                        </div>
+                        <!-- <div class="msg-behavior">
                             <span class="btn-accept" *ngIf="m.state === 'invitation'" (click)="respondToInvitation(m, true)">
                                 <i class="fa fa-check"></i> Accept
                             </span>
                             <span class="btn-decline" *ngIf="m.state === 'invitation'" (click)="respondToInvitation(m, false)">
                                 <i class="fa fa-times"></i> Decline
                             </span>             
-                        </div>
+                        </div> -->
                     </li>
                     <li *ngIf="notifications[0]" (click)="goToMessagePage()">more messages</li>
                     <li *ngIf="!notifications[0]" (click)="goToMessagePage()">No unread notification</li>

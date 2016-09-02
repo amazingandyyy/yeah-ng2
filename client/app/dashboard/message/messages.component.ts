@@ -212,7 +212,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
                     this.inviteMain.push(firstInvite);
                 }  
             }
-            if(this.messageIndex) {
+            if(this.messageIndex && this.tabSelected === 'message') {
                 //Default to selecting the first message in the message category
                 let firstNotice = this.messageMain[0];
                 
@@ -264,10 +264,14 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
+        let self = this;
+
         this.getCurrentUser();
         this.getMessages((notifications) => {
-            this.socket.syncArray('notification', this.currentUser._id, this.notifications, (event, item, array) => {
-                this.notifications = array;
+            self.socket.syncArray('notification', self.currentUser._id, self.notifications, (event, item, array) => {
+                self.notifications = array;
+                console.log('@message component notification socket', array);
+                self.arrangeNotification(self.notifications);
             });     
         });
     }
