@@ -72,7 +72,7 @@ exports.getSingleUser = function (req, res) {
 
 exports.findUserByEmail = function (req, res) {
     User.findOne({ 'email.data': req.params.email }, (err, data) => {
-        console.log('found user by email: ', data)
+        console.log('found user by email: ', data._id)
         if (err) return res.status(404).send(err)
         res.send(data)
     })
@@ -131,11 +131,12 @@ exports.updateService = function (req, res) {
 
 exports.createService = function (req, res) {
     let newServiceData = req.body;
+    console.log('createService!')
     let isAuthorized = checkAuthority('admin', req.role) && (req.role!=='superadmin');
     let priceLimit;
     switch(newServiceData.priceUnit){
         case 'RMB':
-            priceLimit = 3000.00
+            priceLimit = 2999.00
             break
         case 'USD':
             priceLimit = 500.00
@@ -168,7 +169,7 @@ exports.createService = function (req, res) {
             },
             package: newServiceData.package,
         };
-        
+
         
         let notice = {
             title: 'New service created by ' + from.name,
@@ -190,6 +191,7 @@ exports.createService = function (req, res) {
         // TO DO: Should check if this kind of service package already exist
         Service.create(service, (err, savedService) => {
             if (err) return handleError(res, err);
+            console.log('go to create this service')
             User.findById(from._id, (err, dbUser)=>{
                if (err) return handleError(res, err);
                 dbUser.services.push(savedService._id)
