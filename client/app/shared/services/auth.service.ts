@@ -108,7 +108,7 @@ export class AuthService {
     }
 
     handelResponse(res: Response) {
-        console.log('res: ', res);
+        // console.log('res: ', res);
         
         let data = res.json();
         this.isLoggedIn = true;

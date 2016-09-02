@@ -8,9 +8,14 @@
             </div>
             <div class="main-thread-content">
                 <ul class="main-thread-list" *ngIf="tabSelected === 'message'">
+                    <li class="single-main-thread" [hidden]="messageMain[0]">
+                        <div class="description">
+                            No messages yet...
+                        </div>
+                    </li>
                     <li class="single-main-thread" *ngFor="let notice of messageMain" [class.mainActive]="notice.from._id === selectedUserId" (click)="selectMessage(notice.from, 'message')">
                         <span class="time">
-                            {{notice.createAt}}
+                            {{notice.createAt | date}}
                         </span>
                         <div class="clearfix">
                             <div class="image-container">
@@ -25,9 +30,14 @@
                     </li>
                 </ul>
                 <ul *ngIf="tabSelected === 'invitation'">
+                    <li class="single-main-thread" [hidden]="inviteMain[0]">
+                        <div class="description">
+                            No invitation yet...
+                        </div>
+                    </li>
                     <li class="single-main-thread" *ngFor="let notice of inviteMain" [class.mainActive]="notice.from._id === selectedUserId" (click)="selectMessage(notice.from, 'invitation')">
                         <span class="time">
-                            {{notice.createAt}}
+                            {{notice.createAt | date}}
                         </span>
                         <div class="clearfix">
                             <div class="image-container">
@@ -48,12 +58,20 @@
             <div class="title-container">
                 <span class="sender-name">{{selectedUser.name}}</span>
             </div>
-            <ul class="message-list" [class.inviteHeight]="tabSelected === 'invitation'">
+            <!-- Show when there's no message -->
+            <div [hidden]="messageDetail[0]" class="icon-poster">
+                <h5 class="title">
+                    <i class="icon fa fa-hourglass-o" aria-hidden="true"></i>
+                </h5>
+                <h5 class="title" *ngIf="tabSelected === 'invitation'">You don't have any invites yet.</h5>
+                <h5 class="title" *ngIf="tabSelected === 'message'">You don't have any messages yet.</h5>
+            </div>
+            <ul class="message-list" [class.inviteHeight]="tabSelected === 'invitation'" *ngIf="messageDetail[0]">
                 <li *ngFor="let m of messageDetail">
                     <div class="message-list-item" *ngIf="m.state === 'message'">
                         <div class="clearfix">
                             <span class="time">
-                                {{m.createAt}}
+                                {{m.createAt | date: 'hh:mm'}}
                             </span>
                             <div class="image-container">
                                 <img src="{{m.from.photo.url}}" alt="">
@@ -68,7 +86,7 @@
                     <div *ngIf="m.state ==='invitation'" class="invite-box">
                         <div class="clearfix">
                             <div class="time">
-                                {{m.createAt}}
+                                {{m.createAt | date}}
                             </div>
                             <div class="image-container">
                                 <img src="{{m.from.photo.url}}" alt="">
@@ -78,19 +96,39 @@
                                     {{m.from.name}}
                                 </div>
                                 <div class="description">
-                                    Invites you to package: {{m.attachment.package}}
+                                    Invites you to package: {{m.attachment.service.package}}
                                 </div>
                                 <p>
                                     <i class="fa fa-dollar"></i>
-                                    {{m.attachment.price.tag}}
-                                    {{m.attachment.price.unit}} 
+                                    {{m.attachment.service.price.tag}}
+                                    {{m.attachment.service.price.unit}} 
                                 </p>
-                                <p>
-                                    <i class="fa fa-users"></i>
-                                    participants
+                                <p *ngIf="m.attachment.service.participants.admin">
+                                    <span>
+                                        <img class="participant-img"src="{{m.attachment.service.participants.admin.userData.photo.url}}" alt="">
+                                        {{m.attachment.service.participants.admin.userData.name}} - Admin
+                                    </span>
+                                </p>
+                                <p *ngIf="m.attachment.service.participants.supervisor">
+                                    <span>
+                                        <img class="participant-img"src="{{m.attachment.service.participants.supervisor.userData.photo.url}}" alt="">
+                                        {{m.attachment.service.participants.supervisor.userData.name}} - Supervisor
+                                    </span>
+                                </p>
+                                <p *ngIf="m.attachment.service.participants.advisor">
+                                    <span>
+                                        <img class="participant-img"src="{{m.attachment.service.participants.advisor.userData.photo.url}}" alt="">
+                                        {{m.attachment.service.participants.advisor.userData.name}} - Advisor
+                                    </span>
+                                </p>
+                                <p *ngIf="m.attachment.service.participants.student">
+                                    <span>
+                                        <img class="participant-img"src="{{m.attachment.service.participants.student.userData.photo.url}}" alt="">
+                                        {{m.attachment.service.participants.student.userData.name}} - Student
+                                    </span>
                                 </p>
                             </div>
-                            <div class="msg-behavior">
+                            <div class="msg-behavior" *ngIf="!m.read.state">
                                 <span class="btn-accept" (click)="respondToInvitation(m, true)">
                                     <i class="fa fa-check"></i> Accept
                                 </span>
@@ -98,16 +136,24 @@
                                     <i class="fa fa-times"></i> Decline
                                 </span>             
                             </div>
+                            <div class="msg-behavior" *ngIf="m.read.state">
+                                <span class="btn-accept" *ngIf="m.response">
+                                    <i class="fa fa-check"></i> Accepted
+                                </span>
+                                <span class="btn-decline" *ngIf="!m.response">
+                                    <i class="fa fa-times"></i> Declined
+                                </span>             
+                            </div>
                         </div>
                     </div>
                 </li>
             </ul>
             <div class="message-input-container" *ngIf="tabSelected === 'message'">
-                <form #newMessageForm="ngForm" (ngSubmit)="submitMessage(newMessageForm.value)">
+                <form #newMessageForm="ngForm">
                     <div class="input-group">
-                        <input class="form-control" rows="3" [(ngModel)]="newMessage.body" placeholder="Your message..." name="body" required autofocus/>
+                        <input class="form-control" rows="3" [(ngModel)]="newMessage" placeholder="Your message..." name="body" required autofocus/>
                         <div class="input-group-btn">
-                            <button [disabled]="!newMessageForm.form.valid" (click)="submitMessage(newMessageForm.value)" class="btn btn-primary" type="submit">Send</button>
+                            <button [disabled]="!newMessageForm.form.valid" (click)="submitMessage(newMessage)" class="btn btn-primary" type="submit">Send</button>
                         </div>
                     </div>
                 </form>

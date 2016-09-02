@@ -64,7 +64,7 @@ let serviceSchema = new mongoose.Schema({
             userData: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'User',
-                childPath: 'services',
+                childPath: 'services', 
                 autopopulate: true
             },
             confirmed: {
@@ -90,8 +90,10 @@ let serviceSchema = new mongoose.Schema({
 const User = require('../user/models/user.model');
 
 serviceSchema.plugin(autopopulate);
-serviceSchema.plugin(relationship, { relationshipPathName: ['participants.student.userData', 'participants.advisor.userData', 'participants.supervisor.userData', 'participants.admin.userData'] });
-let deepPopulateOption;
+
+serviceSchema.plugin(relationship, { relationshipPathName: ['participants.student.userData', 'participants.advisor.userData', 'participants.supervisor.userData', 'participants.admin.userData']});
+let deepPopulateOption; 
+
 serviceSchema.plugin(deepPopulate, deepPopulateOption);
 
 serviceSchema.statics = {

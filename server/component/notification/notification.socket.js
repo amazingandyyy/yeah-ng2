@@ -19,11 +19,16 @@ exports.register = function(socket) {
 
 function onSave(socket, doc, cb) {
   if(doc.to) {
-    socket.emit('notification:save:' + doc.to, doc);
+    doc.deepPopulate('from to', function(err, _doc) {
+      console.log('_doc.to', _doc);
+      socket.emit('notification:save:' + doc.to._id, _doc);
+    });
   }
-  // if(doc.from) {
-  //   socket.emit('notification:save:' + doc.from, doc);
-  // }
+  if(doc.from) {
+    doc.deepPopulate('from to', function(err, _doc) {
+      socket.emit('notification:save:' + doc.from._id, _doc);
+    });
+  }
 }
 
 function onRemove(socket, doc, cb) {

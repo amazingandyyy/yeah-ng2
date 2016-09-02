@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 const autopopulate = require('mongoose-autopopulate');
 const relationship = require('mongoose-relationship');
+const deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 let Notification;
 
@@ -48,13 +49,25 @@ let notificationSchema = new mongoose.Schema({
     attachment: {
         service: {
             type: mongoose.Schema.ObjectId,
-            ref: 'Service'
+            ref: 'Service',
+            autopopulate: true
         }
     }
 })
 
 notificationSchema.plugin(autopopulate);
 notificationSchema.plugin(relationship, { relationshipPathName: ['from', 'to'] });
+
+notificationSchema.plugin(deepPopulate, {
+  populate: {
+    'from.photo': {
+      select: 'url'
+    },
+    'to.photo': {
+      select: 'url'
+    }
+  }
+});
 
 notificationSchema.statics = {
     sendNotice: function (message, cb) {

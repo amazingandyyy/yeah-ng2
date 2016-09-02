@@ -67,7 +67,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
                 this.currentUserRole = user.role;
                 this.currentUser = user;
                 localStorage.setItem('current_user', JSON.stringify(user));
-                console.log(`complete ${user.role} data: `, user);
             },
             error => {
                 this.authService.logUserOut();
@@ -108,24 +107,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
             });
     }
 
-    respondToInvitation(notice: Notification, response: boolean) {
-        if(response) {
-            notice.response = true;
-        } else {
-            notice.response = false;
-        }
-        this.noticeService.confirmInvitation(notice)
-            .subscribe(
-            notice => {
-                //
-                console.log('confirmed')
-                this.getNotificationCount()
-            },
-            error => {
-                console.log(<any>error)
-            });
-    }
-
     checkNotications(notice: Notification, cb: any) {
         let exist = false;
         this.notifications.forEach(function(eachNoticeNow) {
@@ -145,15 +126,16 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
     ngOnInit() {
         this.getCurrentUser()
-        this.socket.syncById('user', this.currentUser._id, (user) => {
-            console.log(`Trigger ${this.currentUser._id}'s socket.`);
-            console.log('user from socket: ', user);
-            // trigger authService again
-            this.requestUserDataFromDataBase(this.currentUser._id)
-        })
+        // this.socket.syncById('user', this.currentUser._id, (user) => {
+        //     console.log(`Trigger ${this.currentUser._id}'s socket.`);
+        //     console.log('user from socket: ', user);
+        //     // trigger authService again
+        //     this.requestUserDataFromDataBase(this.currentUser._id)
+        // })
 
         this.getNotification()
         this.getNotificationCount()
+
         this.socket.syncById('notification', this.currentUser._id, (notice) => {
             this.getNotification()
             this.getNotificationCount()
@@ -167,7 +149,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
     }
 
     ngOnDestroy() {
-        this.socket.unsyncById('notification', this.currentUser._id);
+        // this.socket.unsyncById('notification', this.currentUser._id);
         this.socket.unsyncById('user', this.currentUser._id);
     }
 }

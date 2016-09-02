@@ -27,6 +27,9 @@
 	float: left;
 	min-height: 600px;
 	position: relative;
+	.icon-poster {
+		padding-top: 35%;
+	}
 }
 
 .message-input-container {
@@ -185,7 +188,7 @@
 	}
 	.text-container {
 		float: left;
-		width: 82%;
+		width: 75%;
 	}
 	.description {
 		color: black;
@@ -263,6 +266,10 @@
 	.image-container {
 		float: left;
 		width: 10%;
+		img {
+			width: 50px;
+			height: 50px;
+		}
 	}
 	.text-container {
 		float: left;
@@ -279,5 +286,11 @@
 
 .inviteHeight {
 	height: 539px;
+}
+
+.participant-img {
+	width: 30px;
+	height: 30px;
+	border-radius: 20px;
 }
 

@@ -23,6 +23,12 @@ export class NoticeService {
             .catch(this.handelError)
     }
 
+    sendMessage(notification: Notification): void {
+        return this.authHttp.post('/api/notification/send', notification)
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
+
     //Get unread count
     getCount(): Observable<number> {
         return this.authHttp.get('/api/notification/getCounts')

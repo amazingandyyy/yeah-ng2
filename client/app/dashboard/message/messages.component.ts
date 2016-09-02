@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router }    from '@angular/router';
 import moment = require('moment');
 
@@ -19,7 +19,7 @@ import { NoticeService } from '../../shared/services/notification.service';
         ],
     providers: [AuthService, SocketService, ServiceService, NoticeService]
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit, OnDestroy {
     currentUser = {};
     //This are displayed on the left as main thread
     messageMain = [];
@@ -28,15 +28,17 @@ export class MessagesComponent implements OnInit {
     //This is displayed on the right as detailed list   
     messageDetail = [];
     //These two index are for switching between threads
-    messageIndex = {};
-    inviteIndex = {};
+    messageIndex = null;
+    inviteIndex = null;
     //Default to selecting message tab
     tabSelected = 'message';
 
     selectedUserId: string;
     selectedUser = {};
 
-    newMessage = {};
+    newMessage: string;
+
+    notifications: Array<Notification>;
 
 
     constructor(
@@ -49,17 +51,24 @@ export class MessagesComponent implements OnInit {
 
     getCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
-        console.log(this.currentUser);
     }
 
     checkTabStyle(item: string) {
         this.tabSelected = item;
 
         if(item === 'message') {
-            this.messageDetail = this.messageIndex[this.selectedUserId];
-        }
+            if(this.messageIndex) {
+                this.messageDetail = this.messageIndex[this.selectedUserId];
+            } else {
+                this.messageDetail = [];
+            }
+        }    
         if(item === 'invitation') {
-            this.messageDetail = this.inviteIndex[this.selectedUserId];
+            if(this.inviteIndex) {
+                this.messageDetail = this.inviteIndex[this.selectedUserId]; 
+            } else {
+                this.messageDetail = [];
+            }
         }
     }
 
@@ -78,17 +87,17 @@ export class MessagesComponent implements OnInit {
 
 
 
-    getMessages()  {
+    getMessages(cb)  {
         let self = this;
         this.noticeService.getAll()
             .subscribe(
             notifications => {
-                // this.messages = messages;
-
+                this.notifications = notifications;
+                cb(notifications);
+                console.log(notifications);
                 self.arrangeNotification(notifications);                
             },
             error => {
-                // this.authService.logUserOut();
                 console.log(<any>error)
             });
     }
@@ -138,6 +147,7 @@ export class MessagesComponent implements OnInit {
             return finalObj;
         }//Categorize function ends
 
+
         if(notifications[0]) {
             let self = this;
 
@@ -154,69 +164,119 @@ export class MessagesComponent implements OnInit {
             for(var state in categorizedNotification) {
                 if(state === 'message') {
                     this.messageIndex = categorizedNotification[state];
-
                 }
+
                 if(state === 'invitation') {
                     this.inviteIndex = categorizedNotification[state];
-                    console.log(this.inviteIndex);
                 }
             }
 
-            for(var id in this.messageIndex) {
-                let firstMessage;
-                //Get the first message that's not by sent by yourself
-                let arrOfNoticeByUser = this.messageIndex[id];
-                for (var i = 0; i < arrOfNoticeByUser.length; i++) {
-                    //Stop loop if there's already a firstMessage
-                    if(firstMessage) {
-                        break;
-                    } else {
-                        if(arrOfNoticeByUser[i].from._id === self.currentUser._id) {
-                            continue;
+            if(this.messageIndex) {
+                this.messageMain = [];
+                for(var id in this.messageIndex) {
+                    let firstMessage;
+                    //Get the first message that's not by sent by yourself
+                    let arrOfNoticeByUser = this.messageIndex[id];
+                    for (var i = 0; i < arrOfNoticeByUser.length; i++) {
+                        //Stop loop if there's already a firstMessage
+                        if(firstMessage) {
+                            break;
                         } else {
-                            firstMessage = arrOfNoticeByUser[i];
+                            if(arrOfNoticeByUser[i].from._id === self.currentUser._id) {
+                                continue;
+                            } else {
+                                firstMessage = arrOfNoticeByUser[i];
+                            }
                         }
                     }
+                    this.messageMain.push(firstMessage);
                 }
-                this.messageMain.push(firstMessage);
             }
-            //Default to selecting the first message in the message category
-            let firstNotice = this.messageMain[0];
-            
-            this.selectedUser = firstNotice.from;
-            this.selectedUserId = firstNotice.from._id;
-            this.messageDetail = this.messageIndex[firstNotice.from._id];
-
-            for(var id in this.inviteIndex) {
-                let firstInvite = this.inviteIndex[id][0];
-                let arrOfNoticeByUser = this.inviteIndex[id];
-                for (var i = 0; i < arrOfNoticeByUser.length; i++) {
-                    //Stop loop if there's already a firstInvite
-                    if(firstInvite) {
-                        break;
-                    } else {
-                        if(arrOfNoticeByUser[i].from._id === self.currentUser._id) {
-                            continue;
+            if(this.inviteIndex) {
+                this.inviteMain = [];
+                for(var id in this.inviteIndex) {
+                    let firstInvite = this.inviteIndex[id][0];
+                    let arrOfNoticeByUser = this.inviteIndex[id];
+                    for (var i = 0; i < arrOfNoticeByUser.length; i++) {
+                        //Stop loop if there's already a firstInvite
+                        if(firstInvite) {
+                            break;
                         } else {
-                            firstInvite = arrOfNoticeByUser[i];
+                            if(arrOfNoticeByUser[i].from._id === self.currentUser._id) {
+                                continue;
+                            } else {
+                                firstInvite = arrOfNoticeByUser[i];
+                            }
                         }
                     }
-                }
-                this.inviteMain.push(firstInvite);
+                    this.inviteMain.push(firstInvite);
+                }  
+            }
+            if(this.messageIndex && this.tabSelected === 'message') {
+                //Default to selecting the first message in the message category
+                let firstNotice = this.messageMain[0];
+                
+                this.selectedUser = firstNotice.from;
+                this.selectedUserId = firstNotice.from._id;
+                this.messageDetail = this.messageIndex[firstNotice.from._id];
+            } else {
+                let firstNotice = this.inviteMain[0];
+                
+                this.selectedUser = firstNotice.from;
+                this.selectedUserId = firstNotice.from._id;
+                this.messageDetail = this.inviteIndex[firstNotice.from._id];
             }
         }
     }
 
     submitMessage(newMessage: any){
-        console.log('click');
-        console.log('newMessage: ', newMessage);
-        this.newMessage = {}; // After submit, clean up the textarea.
+        let notification = {
+            to: this.selectedUserId,
+            description: newMessage,
+            state: 'message'
+        };
         
+        this.noticeService.sendMessage(notification)
+            .subscribe(
+            notice => {
+                this.newMessage = ''; // After submit, clean up the textarea.
+            },
+            error => {
+                console.log(<any>error)
+            });
+    }
+
+    respondToInvitation(notice: Notification, response: boolean) {
+        if(response) {
+            notice.response = true;
+        } else {
+            notice.response = false;
+        }
+        this.noticeService.confirmInvitation(notice)
+            .subscribe(
+            notice => {
+                console.log('confirmed')
+            },
+            error => {
+                console.log(<any>error)
+            });
     }
 
 
     ngOnInit() {
+        let self = this;
+
         this.getCurrentUser();
-        this.getMessages();
+        this.getMessages((notifications) => {
+            self.socket.syncArray('notification', self.currentUser._id, self.notifications, (event, item, array) => {
+                self.notifications = array;
+                console.log('@message component notification socket', array);
+                self.arrangeNotification(self.notifications);
+            });     
+        });
+    }
+
+    ngOnDestroy() {
+        this.socket.unsyncById('notification', this.currentUser._id);
     }
 }
