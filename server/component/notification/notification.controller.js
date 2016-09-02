@@ -71,6 +71,20 @@ exports.confirmInvitation = function (req, res) {
 				} else {
 					dbService.participants[newNotice.from.role].confirmed = false;
 					dbService.participants[newNotice.to.role].confirmed = false;
+					dbService.save((err, updatedService) => {
+						if (err) return handleError(res, err);
+						newNotice.read.state = true;
+						newNotice.read.timeStamp = Date.now();
+						newNotice.save(function (err, updatedNotice) {
+							if (err) return handleError(res, err);
+							//Update User Relationship
+							console.log('notification saved', updatedNotice);
+							return res.status(200).send({
+								updatedService: updatedService,
+								updatedNotice: updatedNotice
+							});
+						})
+					});
 				}
 			}else{
 				return handleError(res, { err: 'Not read successfully!' });

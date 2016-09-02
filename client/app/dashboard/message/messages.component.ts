@@ -87,17 +87,17 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
 
 
-    getMessages()  {
+    getMessages(cb)  {
         let self = this;
         this.noticeService.getAll()
             .subscribe(
             notifications => {
                 this.notifications = notifications;
+                cb(notifications);
                 console.log(notifications);
                 self.arrangeNotification(notifications);                
             },
             error => {
-                // this.authService.logUserOut();
                 console.log(<any>error)
             });
     }
@@ -265,11 +265,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.getCurrentUser();
-        this.getMessages();
-        this.socket.syncById('notification', this.currentUser._id, (notice) => {
-            this.notifications.push(notice);
-            
-            this.arrangeNotification(this.notifications);
+        this.getMessages((notifications) => {
+            this.socket.syncArray('notification', this.currentUser._id, this.notifications, (event, item, array) => {
+                this.notifications = array;
+            });     
         });
     }
 

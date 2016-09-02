@@ -128,12 +128,20 @@
                                     </span>
                                 </p>
                             </div>
-                            <div class="msg-behavior">
+                            <div class="msg-behavior" *ngIf="!m.read.state">
                                 <span class="btn-accept" (click)="respondToInvitation(m, true)">
                                     <i class="fa fa-check"></i> Accept
                                 </span>
                                 <span class="btn-decline" (click)="respondToInvitation(m, false)">
                                     <i class="fa fa-times"></i> Decline
+                                </span>             
+                            </div>
+                            <div class="msg-behavior" *ngIf="m.read.state">
+                                <span class="btn-accept" *ngIf="m.response">
+                                    <i class="fa fa-check"></i> Accepted
+                                </span>
+                                <span class="btn-decline" *ngIf="!m.response">
+                                    <i class="fa fa-times"></i> Declined
                                 </span>             
                             </div>
                         </div>
