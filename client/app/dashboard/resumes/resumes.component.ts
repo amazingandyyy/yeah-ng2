@@ -10,7 +10,7 @@ import { AuthService } from '../../shared/services/auth.service';
     selector: 'yeah-resumes',
     templateUrl: 'resumes.component.html',
     styleUrls: ['../dashboard.style.css','resumes.style.css'],
-    providers: [AuthService]
+    // providers: [AuthService]
 })
 export class ResumesComponent implements OnInit {
     currentUser = {};

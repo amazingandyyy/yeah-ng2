@@ -12,7 +12,7 @@ import { SocketService } from '../../shared/services/socket.service';
     selector: 'yeah-account',
     templateUrl: 'account.component.html',
     styleUrls: ['../dashboard.style.css','account.style.css'],
-    providers: [AuthService, SocketService, ServiceService]
+    providers: [ SocketService, ServiceService]
 })
 
 export class AccountComponent implements OnInit, OnDestroy {

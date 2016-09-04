@@ -17,7 +17,7 @@ import { NoticeService } from '../../shared/services/notification.service';
         '../dashboard.style.css',
         'messages.style.css'
         ],
-    providers: [AuthService, SocketService, ServiceService, NoticeService]
+    providers: [SocketService, ServiceService, NoticeService]
 })
 export class MessagesComponent implements OnInit, OnDestroy {
     currentUser = {};

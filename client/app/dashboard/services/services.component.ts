@@ -18,7 +18,7 @@ import { SocketService } from '../../shared/services/socket.service';
         '../dashboard.style.css',
         'services.style.css'
     ],
-    providers: [AuthService, SocketService, ServiceService]
+    providers: [SocketService, ServiceService]
 })
 export class ServicesComponent implements OnInit, OnDestroy {
     currentUser = User;
@@ -49,7 +49,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
     getCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         // get data from currentUser data
-        console.log('currentUser from localStorage: ', this.currentUser);
         this.getServices()
     }
 

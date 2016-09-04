@@ -17,34 +17,57 @@ import { User } from '../types/user';
 // Using auth service to keep track of users' login status across all component
 @Injectable()
 export class AuthService {
-    public isLoggedIn: boolean;
-    public redirectUrl: string;
-    public currentUser = new Subject<User>(); // the data will be updated
-    public userAbsorvable = this.currentUser.asObservable();
-
     constructor(
         private http: Http,
         private authHttp: AuthHttp,
         private router: Router
-    ) { }
+    ){}
+
+    isLoggedIn: boolean;
+    redirectUrl: string;
+    // currentUser: User;
+    currentUser = new Subject<User>(); // the data will be updated
+    userObservable$ = this.currentUser.asObservable();
+
+
+    logIn(data: Auth): Observable<Auth> {
+        let self = this;
+        return this.http.post('/api/user/login', data)
+            .map((res: Response) => {
+                let data = res.json();
+                self.isLoggedIn = true;
+                self.currentUser.next(data.user);
+                console.log('currentUser @auth', self.currentUser);
+                return data;
+            })
+            .catch(this.handleError)
+    }
+
+    logOut() {
+        localStorage.removeItem('id_token')
+        localStorage.removeItem('current_user')
+        this.isLoggedIn = false;
+        this.router.navigate(['/'])
+        return 'logout';
+    }
 
     getCurrentUser(userId): Observable<User> {
         return this.authHttp.get(`/api/user/currentUser/${userId}`)
-            .map(this.handelResponse)
-            .catch(this.handelError)
+            .map(this.handleResponse)
+            .catch(this.handleError)
     }
 
-    resetCurrentUser(userId): Observable<User> {
-        return this.authHttp.get(`/api/user/currentUser/${userId}`)
-            .map(this.handelResponse)
-            .catch(this.handelError)
-    }
+    // resetCurrentUser(userId): Observable<User> {
+    //     return this.authHttp.get(`/api/user/currentUser/${userId}`)
+    //         .map(this.handleResponse)
+    //         .catch(this.handleError)
+    // }
 
-    getCurrentUserDeeply(userId): Observable<User> {
-        return this.authHttp.get(`/api/user/currentUserDeeply/${userId}`)
-            .map(this.handelResponse)
-            .catch(this.handelError)
-    }
+    // getCurrentUserDeeply(userId): Observable<User> {
+    //     return this.authHttp.get(`/api/user/currentUserDeeply/${userId}`)
+    //         .map(this.handleResponse)
+    //         .catch(this.handleError)
+    // }
 
     getUserByEmail(email: string): Observable<any> {
         return this.authHttp.get(`/api/user/getUserByEmail/${email}`)
@@ -56,14 +79,8 @@ export class AuthService {
 
     signUp(data: Auth): Observable<Auth> {
         return this.http.post('/api/user/signup', data)
-            .map(this.handelResponse)
-            .catch(this.handelError)
-    }
-
-    logUserIn(data: Auth): Observable<Auth> {
-        return this.http.post('/api/user/login', data)
-            .map(this.handelResponse)
-            .catch(this.handelError)
+            .map(this.handleResponse)
+            .catch(this.handleError)
     }
 
     checkData(state: string, password: string): Observable<Auth> {
@@ -75,15 +92,7 @@ export class AuthService {
             .map(res=>{
                 return res;
             })
-            .catch(this.handelError)
-    }
-
-    logUserOut() {
-        localStorage.removeItem('id_token')
-        localStorage.removeItem('current_user')
-        this.isLoggedIn = false;
-        this.router.navigate(['/'])
-        return 'logout';
+            .catch(this.handleError)
     }
 
     updateCurrentUser(data: any): Observable<any> {
@@ -93,8 +102,8 @@ export class AuthService {
             delete data.password
         }
         return this.authHttp.post('/api/user/update', data)
-            .map(this.handelResponse)
-            .catch(this.handelError)
+            .map(this.handleResponse)
+            .catch(this.handleError)
     }
 
     checkAuthority(requiredRole: string, userRole: string) {
@@ -107,19 +116,21 @@ export class AuthService {
         return false;
     }
 
-    handelResponse(res: Response) {
-        // console.log('res: ', res);
-        
+    handleResponse(res: Response) {
+        // console.log('res', res);
         let data = res.json();
         this.isLoggedIn = true;
-        this.currentUser = data;
+
+        // this.currentUser = data.user;
+
+        // console.log('current user auth service login', this.currentUser);
 
         localStorage.setItem('current_user', JSON.stringify(data))
 
         return data || {};
     }
 
-    handelError(err: any) {
+    handleError(err: any) {
         console.log('err @authService: ', err);
         this.isLoggedIn = false;
         return Observable.throw(err);

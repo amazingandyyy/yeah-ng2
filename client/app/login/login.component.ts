@@ -13,19 +13,21 @@ import { AuthService } from '../shared/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 	constructor(
-        private authService: AuthService,
+        public authService: AuthService,
         private router: Router
         ){}
         
 	onSubmit(auth: Auth) {
         let self = this;
-        this.authService.logUserIn(auth)
+        this.authService.logIn(auth)
             .subscribe(
                 res => handleResponse(res),
                 err => console.log('err when logUserIn: ', err)
             )
 
         function handleResponse(res) {
+            console.log('loggedIn @login component', self.authService.isLoggedIn);
+            console.log('currentUser @login component', self.authService.currentUser);
             localStorage.setItem('id_token', JSON.stringify(res.token));
             localStorage.setItem('current_user', JSON.stringify(res.user));
             self.router.navigate(['dashboard/services'])

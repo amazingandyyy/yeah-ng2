@@ -9,6 +9,8 @@ import { DashboardRoutes } from './dashboard/dashboard.routing';
 // guards
 import { GuardProviders } from './shared/services/guard/index';
 
+import { AuthService } from './shared/services/auth.service';
+
 let routes: RouterConfig = [
   {
     path: '',
@@ -26,5 +28,6 @@ let routes: RouterConfig = [
 
 export const appRouterProviders = [
   provideRouter(routes),
-  GuardProviders
+  GuardProviders,
+  AuthService
 ];
