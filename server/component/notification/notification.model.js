@@ -84,17 +84,15 @@ notificationSchema.statics = {
         });
         console.log('notice: ', notice)
         // -> die here
-        // notice.save((err, savedNotice) => {
-        //     console.log('checkkkk!')
-        //     if (err) return cb(err)
-        //     console.log('savedNotice: ', savedNotice)
-        //     Notification.findById(savedNotice._id,(err, dbNotice)=>{
-        //         if (err) return cb(err)
-        //         console.log('dbNotice: ', dbNotice)
-        //         cb(null, dbNotice);
-        //     })
-        // });
-        cb(null, 'testing');
+        notice.save((err, savedNotice) => {
+            if (err) return cb(err)
+            console.log('savedNotice: ', savedNotice)
+            Notification.findById(savedNotice._id, (err, dbNotice) => {
+                if (err) return cb(err)
+                cb(null, dbNotice);
+            })
+        });
+        // cb(null, 'testing');
     },
     getThreeNew: function (userId, cb) {
         Notification.find({ to: userId, 'read.state': false })

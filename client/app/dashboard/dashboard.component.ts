@@ -17,9 +17,9 @@ import { NotificationsService, SimpleNotificationsModule } from 'notifications';
     styleUrls: ['dashboard.style.css']
 })
 
-export class DashboardComponent implements OnInit, OnDestroy{
+export class DashboardComponent implements OnInit, OnDestroy {
     // serve for the two dropdown list in top-right of the navbar
-    currentUser: {};
+    currentUser: User;
     profileToggled: boolean = false;
     inboxToggled: boolean = false;
     currentSession: string;
@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
         private socket: SocketService,
         // private notificationService: NotificationsService,
         private noticeService: NoticeService
-    ){}
+    ) { }
 
     public options = {
         timeOut: 5000,
@@ -84,6 +84,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
         this.noticeService.getThree()
             .subscribe(
             notices => {
+                console.log('getThree: ', notices);
                 this.notifications = notices;
             },
             error => {
@@ -96,7 +97,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
         this.noticeService.getCount()
             .subscribe(
             count => {
-                if(isNaN(count)) {
+                if (isNaN(count)) {
                     self.noticeCount = null;
                 } else {
                     self.noticeCount = count;
@@ -109,8 +110,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
     checkNotications(notice: Notification, cb: any) {
         let exist = false;
-        this.notifications.forEach(function(eachNoticeNow) {
-            if(notice._id === eachNoticeNow._id) {
+        this.notifications.forEach(function (eachNoticeNow) {
+            if (notice._id === eachNoticeNow._id) {
                 exist = true;
                 cb(exist);
                 return;
@@ -126,12 +127,12 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
     ngOnInit() {
         this.getCurrentUser()
-        // this.socket.syncById('user', this.currentUser._id, (user) => {
-        //     console.log(`Trigger ${this.currentUser._id}'s socket.`);
-        //     console.log('user from socket: ', user);
-        //     // trigger authService again
-        //     this.requestUserDataFromDataBase(this.currentUser._id)
-        // })
+        this.socket.syncById('user', this.currentUser._id, (user) => {
+            console.log(`Trigger ${this.currentUser._id}'s socket.`);
+            console.log('user from socket: ', user);
+            // trigger authService again
+            this.requestUserDataFromDataBase(this.currentUser._id)
+        })
 
         this.getNotification()
         this.getNotificationCount()
@@ -142,14 +143,15 @@ export class DashboardComponent implements OnInit, OnDestroy{
         })
 
         this.socket.syncById('service', this.currentUser._id, (service) => {
-            console.log(`Trigger ${this.currentUser._id}'s socket.`);
+            console.log(`Trigger ${this.currentUser._id}'s socket.`)
             // trigger authService again
             this.requestUserDataFromDataBase(this.currentUser._id)
         })
     }
 
     ngOnDestroy() {
-        // this.socket.unsyncById('notification', this.currentUser._id);
-        this.socket.unsyncById('user', this.currentUser._id);
+        this.socket.unsyncById('notification', this.currentUser._id)
+        this.socket.unsyncById('user', this.currentUser._id)
+        this.socket.unsyncById('service', this.currentUser._id)
     }
 }

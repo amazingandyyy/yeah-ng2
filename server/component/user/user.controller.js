@@ -20,7 +20,7 @@ exports.checkData = function (req, res) {
     switch (req.body.state) {
         case 'checkUserPassword':
             console.log('checkUserPassword');
-            User.checkUserPassword({user: req.user, password: req.body.password}, (err, good) => {
+            User.checkUserPassword({ user: req.user, password: req.body.password }, (err, good) => {
                 if (err) return res.status(409).send(err)
                 return res.send(good)
             });
@@ -32,7 +32,7 @@ exports.checkData = function (req, res) {
             res.status(409).send('No event state')
             break
     }
-    
+
 };
 
 exports.getCurrentUser = function (req, res) {
@@ -41,7 +41,7 @@ exports.getCurrentUser = function (req, res) {
         return res.status(409).send()
     }
     if (req.user._id == req.params.userId) {
-        User.findById(req.user._id, (err, dbUser)=>{
+        User.findById(req.user._id, (err, dbUser) => {
             if (err) return res.status(404).send(err)
             console.log('dbUser: ', dbUser);
             res.send(dbUser)
@@ -130,11 +130,19 @@ exports.updateService = function (req, res) {
 }
 
 exports.createService = function (req, res) {
+    // [v] check authorization
+    // [v] check price
+    // [v] prepare service data and add student and admin userId to participants list
+    // [v] prepare notice data
+    // [v] create services
+    // [v] update admin data
+    // [v] send service
+
     let newServiceData = req.body;
     console.log('createService!')
-    let isAuthorized = checkAuthority('admin', req.role) && (req.role!=='superadmin');
+    let isAuthorized = checkAuthority('admin', req.role) && (req.role !== 'superadmin');
     let priceLimit;
-    switch(newServiceData.priceUnit){
+    switch (newServiceData.priceUnit) {
         case 'RMB':
             priceLimit = 2999.00
             break
@@ -170,7 +178,7 @@ exports.createService = function (req, res) {
             package: newServiceData.package,
         };
 
-        
+
         let notice = {
             title: 'New service created by ' + from.name,
             desc: 'Your ' + from.role + ' just created a yeah service for you.',
@@ -192,10 +200,13 @@ exports.createService = function (req, res) {
         Service.create(service, (err, savedService) => {
             if (err) return handleError(res, err);
             console.log('go to create this service')
-            User.findById(from._id, (err, dbUser)=>{
-               if (err) return handleError(res, err);
-                dbUser.services.push(savedService._id)
-                dbUser.save((err, savedUser)=>{
+            User.findById(from._id, (err, dbUser) => {
+                if (err) return handleError(res, err);
+                if (dbUser.role == 'admin') {
+                    console.log('push service to admin')
+                    dbUser.services.push(savedService._id)
+                }
+                dbUser.save((err, savedUser) => {
                     if (err) return handleError(res, err);
                     // Create and send out notification here
                     notice.serviceId = savedService._id
@@ -204,14 +215,14 @@ exports.createService = function (req, res) {
                             console.log('error @sendNotice: ', err)
                             return handleError(res, err);
                         }
-                        return res.status(200).json(savedService);
+                        return res.status(200).send();
                     });
                 })
             })
             // // Create and send out notification here
             // //Attach service package id to notification for easier query
             // notice.serviceId = savedService._id;
-            
+
             // Notification.sendNotice(notice, (err, savedNotice) => {
             //     if (err) {
             //         console.log('error @sendNotice: ', err)
