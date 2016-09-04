@@ -24,19 +24,19 @@ export class ServiceService {
     ) { }
 
     createService(data: any): Observable<any> {
-        return this.authHttp.post('/api/user/createService', data)
+        return this.authHttp.post('/api/service/createService', data)
             .map(this.handelResponse)
             .catch(this.handelError)
     }
 
     updateService(service: any): Observable<any> {
-        return this.authHttp.post('/api/user/updateService', service)
+        return this.authHttp.post('/api/service/updateService', service)
             .map(this.handelResponse)
             .catch(this.handelError)
     }
 
     getOneService(serviceId: string): Observable<any> {
-        return this.authHttp.get(`/api/user/getOneService/${serviceId}`)
+        return this.authHttp.get(`/api/service/getOneService/${serviceId}`)
             .map(this.handelResponse)
             .catch(this.handelError)
     }

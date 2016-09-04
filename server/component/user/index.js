@@ -9,9 +9,9 @@ var Controller = require('./user.controller');
 router.get('/', Controller.index);
 
 // user to get its own data, user need to login and it's the current user
-router.get('/currentUser/:userId', User.authMiddleware, Controller.getCurrentUser);
+router.get('/currentUser/:userId', User.authMiddleware(), Controller.getCurrentUser);
 
-router.get('/currentUserDeeply/:userId', User.authMiddleware, Controller.getCurrentUserDeeply);
+router.get('/currentUserDeeply/:userId', User.authMiddleware(), Controller.getCurrentUserDeeply);
 
 // just simpily get one user's data, user do not need to login
 router.get('/singleUser/:userId', Controller.getSingleUser);
@@ -19,20 +19,22 @@ router.get('/singleUser/:userId', Controller.getSingleUser);
 router.get('/getUserByEmail/:email', Controller.findUserByEmail);
 
 // admin to get all users' data!!! (extremely dangerous!!!)
-router.get('/all', User.authMiddleware, Controller.getAllUsers);
+router.get('/all', User.authMiddleware(), Controller.getAllUsers);
 
-router.post('/update', User.authMiddleware, Controller.updateCurrentUser);
+router.post('/update', User.authMiddleware(), Controller.updateCurrentUser);
 
 router.post('/login', Controller.login);
 
-router.post('/checkData', User.authMiddleware, Controller.checkData);
+router.post('/checkData', User.authMiddleware(), Controller.checkData);
 
 router.post('/signup', Controller.signup);
 
-router.post('/createService', User.authMiddleware, Controller.createService);
+//Moved to /component/service/index
 
-router.post('/updateService', User.authMiddleware, Controller.updateService);
+// router.post('/createService', User.authMiddleware, Controller.createService);
 
-router.get('/getOneService/:serviceId', User.authMiddleware, Controller.getOneService);
+// router.post('/updateService', User.authMiddleware, Controller.updateService);
+
+// router.get('/getOneService/:serviceId', User.authMiddleware, Controller.getOneService);
 
 module.exports = router;

@@ -36,8 +36,7 @@ export class AuthService {
             .map((res: Response) => {
                 let data = res.json();
                 self.isLoggedIn = true;
-                self.currentUser.next(data.user);
-                console.log('currentUser @auth', self.currentUser);
+                
                 return data;
             })
             .catch(this.handleError)
@@ -122,8 +121,6 @@ export class AuthService {
         this.isLoggedIn = true;
 
         // this.currentUser = data.user;
-
-        // console.log('current user auth service login', this.currentUser);
 
         localStorage.setItem('current_user', JSON.stringify(data))
 
