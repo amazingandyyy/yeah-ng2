@@ -31,10 +31,10 @@ router.post('/signup', Controller.signup);
 
 //Moved to /component/service/index
 
-// router.post('/createService', User.authMiddleware, Controller.createService);
+// router.post('/createService', User.authMiddleware(), Controller.createService);
 
-// router.post('/updateService', User.authMiddleware, Controller.updateService);
+// router.post('/updateService', User.authMiddleware(), Controller.updateService);
 
-// router.get('/getOneService/:serviceId', User.authMiddleware, Controller.getOneService);
+// router.get('/getOneService/:serviceId', User.authMiddleware(), Controller.getOneService);
 
 module.exports = router;

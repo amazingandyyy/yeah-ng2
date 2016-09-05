@@ -12,6 +12,8 @@ export class NoticeService {
 	) {}
 
 	getThree(): Observable<Array<Notification>> {
+        console.log('yooo');
+        
         return this.authHttp.get('/api/notification/getThreeNew')
             .map(this.handelResponse)
             .catch(this.handelError)

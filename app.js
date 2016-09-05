@@ -16,7 +16,7 @@ var mongoose = require('mongoose');
 
 var env = process.env.ENV || 'dev';
 
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT
 const MONGOURL = process.env.MONGOLAB_URI || 'mongodb://localhost/yeah'
 
 // Set up mongoDB connection if the JWT_SECRET is available

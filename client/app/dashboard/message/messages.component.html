@@ -19,7 +19,7 @@
                         </span>
                         <div class="clearfix">
                             <div class="image-container">
-                                <img src="{{notice.from.photo.url}}" alt="">
+                                <!--<img src="{{notice.from.photo.url}}" alt="">-->
                             </div>
                             <div class="text-container">
                                 <div class="sender-name">{{notice.from.name}}
@@ -41,7 +41,7 @@
                         </span>
                         <div class="clearfix">
                             <div class="image-container">
-                                <img src="{{notice.from.photo.url}}" alt="">
+                                <!--<img src="{{notice.from.photo.url}}" alt="">-->
                             </div>
                             <div class="text-container">
                                 <div class="sender-name">{{notice.from.name}}
@@ -74,7 +74,7 @@
                                 {{m.createAt | date: 'hh:mm'}}
                             </span>
                             <div class="image-container">
-                                <img src="{{m.from.photo.url}}" alt="">
+                                <!--<img src="{{m.from.photo.url}}" alt="">-->
                             </div>
                             <div class="text-container">
                                 <div class="sender-name">{{m.from.name}}
@@ -89,7 +89,7 @@
                                 {{m.createAt | date}}
                             </div>
                             <div class="image-container">
-                                <img src="{{m.from.photo.url}}" alt="">
+                                <!--<img src="{{m.from.photo.url}}" alt="">-->
                             </div>
                             <div class="text-container">
                                 <div class="sender-name">
@@ -103,27 +103,27 @@
                                     {{m.attachment.service.price.tag}}
                                     {{m.attachment.service.price.unit}} 
                                 </p>
-                                <p *ngIf="m.attachment.service.participants.admin">
+                                <p *ngIf="m.attachment.service.participants.admin.userData">
                                     <span>
-                                        <img class="participant-img"src="{{m.attachment.service.participants.admin.userData.photo.url}}" alt="">
+                                        <!--<img class="participant-img"src="{{m.attachment.service.participants.admin.userData.photo.url}}" alt="">-->
                                         {{m.attachment.service.participants.admin.userData.name}} - Admin
                                     </span>
                                 </p>
-                                <p *ngIf="m.attachment.service.participants.supervisor">
+                                <p *ngIf="m.attachment.service.participants.supervisor.userData">
                                     <span>
-                                        <img class="participant-img"src="{{m.attachment.service.participants.supervisor.userData.photo.url}}" alt="">
+                                        <!--<img class="participant-img"src="{{m.attachment.service.participants.supervisor.userData.photo.url}}" alt="">-->
                                         {{m.attachment.service.participants.supervisor.userData.name}} - Supervisor
                                     </span>
                                 </p>
-                                <p *ngIf="m.attachment.service.participants.advisor">
+                                <p *ngIf="m.attachment.service.participants.advisor.userData">
                                     <span>
-                                        <img class="participant-img"src="{{m.attachment.service.participants.advisor.userData.photo.url}}" alt="">
+                                        <!--<img class="participant-img"src="{{m.attachment.service.participants.advisor.userData.photo.url}}" alt="">-->
                                         {{m.attachment.service.participants.advisor.userData.name}} - Advisor
                                     </span>
                                 </p>
-                                <p *ngIf="m.attachment.service.participants.student">
+                                <p *ngIf="m.attachment.service.participants.student.userData">
                                     <span>
-                                        <img class="participant-img"src="{{m.attachment.service.participants.student.userData.photo.url}}" alt="">
+                                        <!--<img class="participant-img"src="{{m.attachment.service.participants.student.userData.photo.url}}" alt="">-->
                                         {{m.attachment.service.participants.student.userData.name}} - Student
                                     </span>
                                 </p>

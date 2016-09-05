@@ -148,7 +148,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
                             .subscribe(
                             createdService => {
                                 console.log('createdService', createdService);
-
                                 // need time out...
                                 // setTimeout(() => this.getCurrentUser(), 500);
                                 self.toggleModal('', '', '', '')

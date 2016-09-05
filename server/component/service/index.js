@@ -12,8 +12,8 @@ router.get('/getAll', Controller.getAll);
 
 router.post('/createService', User.hasRole('advisor'), Controller.createService);
 
-// router.post('/updateService', User.authMiddleware, Controller.updateService);
+router.post('/updateService', User.hasRole('admin'), Controller.updateService);
 
-// router.get('/getOneService/:serviceId', User.authMiddleware, Controller.getOneService);
+router.get('/getOneService/:serviceId', User.hasRole('student'), Controller.getOneService);
 
 module.exports = router;

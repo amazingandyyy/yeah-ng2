@@ -15,7 +15,7 @@ router.get('/email/:token', function(req, res) {
         res.render('emailVerified');
     })
 })
-router.post('/phone', User.authMiddleware, (req, res) => {
+router.post('/phone', User.authMiddleware(), (req, res) => {
     if(req.user._id==req.body.userData._id){
         User.sendPhoneVerify(req.body, (err, data) => {
             if (err) return console.log('err @sendPhoneVerify: ', err);
@@ -23,7 +23,7 @@ router.post('/phone', User.authMiddleware, (req, res) => {
         })
     }
 })
-router.put('/phone', User.authMiddleware, (req, res) => {
+router.put('/phone', User.authMiddleware(), (req, res) => {
     if(req.user._id==req.body.userData._id){
         console.log('verify phone verification code')
         User.verifyPhoneToken(req.body, (err, data) => {

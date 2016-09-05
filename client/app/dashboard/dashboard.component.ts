@@ -129,7 +129,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         console.log('dashboard init')
         this.getCurrentUser()
-<<<<<<< HEAD
         // this.socket.syncById('user', this.currentUser._id, (user) => {
         //     console.log(`Trigger ${this.currentUser._id}'s socket.`);
         //     console.log('user from socket: ', user);
@@ -152,28 +151,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
         //     // trigger authService again
         //     this.requestUserDataFromDataBase(this.currentUser._id)
         // })
-=======
-        this.socket.syncById('user', this.currentUser._id, (user) => {
-            console.log(`Trigger ${this.currentUser._id}'s socket.`);
-            console.log('user from socket: ', user);
-            // trigger authService again
-            this.requestUserDataFromDataBase(this.currentUser._id)
-        })
 
-        this.getNotification()
-        this.getNotificationCount()
+//         this.socket.syncById('user', this.currentUser._id, (user) => {
+//             console.log(`Trigger ${this.currentUser._id}'s socket.`);
+//             console.log('user from socket: ', user);
+//             // trigger authService again
+//             this.requestUserDataFromDataBase(this.currentUser._id)
+//         })
 
-        this.socket.syncById('notification', this.currentUser._id, (notice) => {
-            this.getNotification()
-            this.getNotificationCount()
-        })
+//         this.getNotification()
+//         this.getNotificationCount()
 
-        this.socket.syncById('service', this.currentUser._id, (service) => {
-            console.log(`Trigger ${this.currentUser._id}'s socket.`)
-            // trigger authService again
-            this.requestUserDataFromDataBase(this.currentUser._id)
-        })
->>>>>>> 5f5685635878d07ee0ae3f453736efa2332453b5
+//         this.socket.syncById('notification', this.currentUser._id, (notice) => {
+//             this.getNotification()
+//             this.getNotificationCount()
+//         })
+
+//         this.socket.syncById('service', this.currentUser._id, (service) => {
+//             console.log(`Trigger ${this.currentUser._id}'s socket.`)
+//             // trigger authService again
+//             this.requestUserDataFromDataBase(this.currentUser._id)
+//         })
     }
 
     ngOnDestroy() {

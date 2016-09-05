@@ -19,7 +19,7 @@ exports.createNotification = function (req, res) {
 };
 
 exports.getThreeNew = function (req, res) {
-	console.log('get three new');
+	console.log('get three new: ', req.user._id);
 	Notification.getThreeNew(req.user._id, function (err, notices) {
 		if (err) { return handleError(res, err); }
 		return res.status(201).json(notices);

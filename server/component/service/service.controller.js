@@ -168,25 +168,25 @@ exports.createService = function (req, res) {
     // }
 };
 
-// exports.getOneService = function (req, res) {
-//     if (checkAuthority('student', req.role)) {
-//         let serviceId = req.params.serviceId;
-//         Service.getOneService(serviceId, (err, data) => {
-//             if (err) return handleError(res, err)
-//             return res.status(200).send(data)
-//         })
-//     }
-// }
+exports.getOneService = function (req, res) {
+    // if (checkAuthority('student', req.role)) {
+        let serviceId = req.params.serviceId;
+        Service.getOneService(serviceId, (err, data) => {
+            if (err) return handleError(res, err)
+            return res.status(200).send(data)
+        })
+    // }
+}
 
-// exports.updateService = function (req, res) {
-//     if (checkAuthority('admin', req.role)) {
-//         let service = req.body;
-//         Service.updateService(service, (err, data) => {
-//             if (err) return handleError(res, err)
-//             return res.status(200).send(data)
-//         })
-//     }
-// }
+exports.updateService = function (req, res) {
+    // if (checkAuthority('admin', req.role)) {
+        let service = req.body;
+        Service.updateService(service, (err, data) => {
+            if (err) return handleError(res, err)
+            return res.status(200).send(data)
+        })
+    // }
+}
 
 
 function handleError(res, err) {
