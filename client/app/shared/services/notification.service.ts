@@ -43,6 +43,7 @@ export class NoticeService {
     }
 
     handelResponse(res: Response) {
+        console.log('response')
         return res.json() || {};
     }
     

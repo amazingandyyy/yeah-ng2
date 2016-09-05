@@ -80,7 +80,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
     }
 
     getNotification() {
-        console.log('get notification');
         let self = this;
         this.noticeService.getThree()
             .subscribe(
@@ -138,7 +137,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
         // console.log(this.authService.isLoggedIn);
 
         this.getNotification()
-        this.getNotificationCount()
+        // this.getNotificationCount()
 
 
         // this.socket.syncById('notification', this.currentUser._id, (notice) => {
