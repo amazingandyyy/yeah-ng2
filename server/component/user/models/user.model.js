@@ -101,8 +101,7 @@ let userSchema = new mongoose.Schema({
     },
     services: [{
         type: mongoose.Schema.ObjectId,
-        ref: 'Service',
-        autopopulate: true
+        ref: 'Service'
     }],
     notifications: [{
         type: mongoose.Schema.ObjectId,

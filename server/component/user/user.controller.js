@@ -20,7 +20,7 @@ exports.checkData = function (req, res) {
     switch (req.body.state) {
         case 'checkUserPassword':
             console.log('checkUserPassword');
-            User.checkUserPassword({user: req.user, password: req.body.password}, (err, good) => {
+            User.checkUserPassword({ user: req.user, password: req.body.password }, (err, good) => {
                 if (err) return res.status(409).send(err)
                 return res.send(good)
             });
@@ -32,7 +32,7 @@ exports.checkData = function (req, res) {
             res.status(409).send('No event state')
             break
     }
-    
+
 };
 
 exports.getCurrentUser = function (req, res) {
@@ -41,7 +41,7 @@ exports.getCurrentUser = function (req, res) {
         return res.status(409).send()
     }
     if (req.user._id == req.params.userId) {
-        User.findById(req.user._id, (err, dbUser)=>{
+        User.findById(req.user._id, (err, dbUser) => {
             if (err) return res.status(404).send(err)
             console.log('dbUser: ', dbUser);
             res.send(dbUser)
@@ -72,7 +72,7 @@ exports.getSingleUser = function (req, res) {
 
 exports.findUserByEmail = function (req, res) {
     User.findOne({ 'email.data': req.params.email }, (err, data) => {
-        console.log('found user by email: ', data)
+        console.log('found user by email: ', data._id)
         if (err) return res.status(404).send(err)
         res.send(data)
     })
@@ -224,6 +224,113 @@ exports.updateCurrentUser = function (req, res) {
 //         return res.status(401).send({ error: 'You are not authorized.' })
 //     }
 // };
+exports.createService = function (req, res) {
+    // [v] check authorization
+    // [v] check price
+    // [v] prepare service data and add student and admin userId to participants list
+    // [v] prepare notice data
+    // [v] create services
+    // [v] update admin data
+    // [v] send service
+
+    let newServiceData = req.body;
+    console.log('createService!')
+    let isAuthorized = checkAuthority('admin', req.role) && (req.role !== 'superadmin');
+    let priceLimit;
+    switch (newServiceData.priceUnit) {
+        case 'RMB':
+            priceLimit = 2999.00
+            break
+        case 'USD':
+            priceLimit = 500.00
+            break
+        default:
+            priceLimit = 500.00
+    }
+    let priceIsFine = newServiceData.price > priceLimit;
+    if (!isAuthorized) {
+        // block out if the user is not authorized
+        return res.status(401).send({ error: 'You are not authorized.' })
+    }
+    if (!priceIsFine) {
+        // block out if the price is not good
+        return res.status(409).send({ error: 'Price is not good.' })
+    }
+    if (isAuthorized && priceIsFine) {
+        let from = newServiceData.createrData;
+        let to = newServiceData.studentData;
+        let service = {
+            participants: {
+                student: {},
+                advisor: {},
+                supervisor: {},
+                admin: {}
+            },
+            price: {
+                tag: newServiceData.price,
+                unit: newServiceData.priceUnit
+            },
+            package: newServiceData.package,
+        };
+
+
+        let notice = {
+            title: 'New service created by ' + from.name,
+            desc: 'Your ' + from.role + ' just created a yeah service for you.',
+            res: false,
+            state: 'invitation'
+        }
+        // Add both user according to his/her role
+        if (from && to) {
+            // let superadmin can create package
+            service.participants[from.role].userData = from._id;
+            notice.from = from._id;
+            service.participants[to.role].userData = to._id;
+            notice.to = to._id;
+            // Attach service package id to notification for easier query
+        } else {
+            return handleError(res, err);
+        }
+        // TO DO: Should check if this kind of service package already exist
+        Service.create(service, (err, savedService) => {
+            if (err) return handleError(res, err);
+            console.log('go to create this service')
+            User.findById(from._id, (err, dbUser) => {
+                if (err) return handleError(res, err);
+                if (dbUser.role == 'admin') {
+                    console.log('push service to admin')
+                    dbUser.services.push(savedService._id)
+                }
+                dbUser.save((err, savedUser) => {
+                    if (err) return handleError(res, err);
+                    // Create and send out notification here
+                    notice.serviceId = savedService._id
+                    Notification.sendNotice(notice, (err, savedNotice) => {
+                        if (err) {
+                            console.log('error @sendNotice: ', err)
+                            return handleError(res, err);
+                        }
+                        return res.status(200).send();
+                    });
+                })
+            })
+            // // Create and send out notification here
+            // //Attach service package id to notification for easier query
+            // notice.serviceId = savedService._id;
+
+            // Notification.sendNotice(notice, (err, savedNotice) => {
+            //     if (err) {
+            //         console.log('error @sendNotice: ', err)
+            //         return handleError(res, err);
+            //     }
+            //     return res.status(200).json(savedService);
+            // });
+        });
+    } else {
+        return res.status(401).send({ error: 'You are not authorized.' })
+    }
+};
+
 
 function checkAuthority(requiredRole, userRole) {
     const rolesArray = ['student', 'advisor', 'supervisor', 'admin', 'superadmin'];
