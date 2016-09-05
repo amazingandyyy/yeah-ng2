@@ -10,7 +10,7 @@ import { AuthService } from '../../shared/services/auth.service';
     selector: 'yeah-explore',
     templateUrl: 'explore.component.html',
     styleUrls: ['explore.style.css'],
-    providers: [AuthService],
+    // providers: [AuthService],
     directives: [ROUTER_DIRECTIVES]
 })
 export class ExploreComponent implements OnInit {

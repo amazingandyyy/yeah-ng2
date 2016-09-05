@@ -15,7 +15,7 @@
 //     }
 // });
 
-// router.post('/:userId', upload.single('newFile'), User.authMiddleware, (req, res) => {
+// router.post('/:userId', upload.single('newFile'), User.authMiddleware(), (req, res) => {
 //     console.log('fff');
 //     console.log('req.file: ', req.file);
 //     var data = {

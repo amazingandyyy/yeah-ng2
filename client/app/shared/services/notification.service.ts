@@ -12,6 +12,8 @@ export class NoticeService {
 	) {}
 
 	getThree(): Observable<Array<Notification>> {
+        console.log('yooo');
+        
         return this.authHttp.get('/api/notification/getThreeNew')
             .map(this.handelResponse)
             .catch(this.handelError)
@@ -19,6 +21,12 @@ export class NoticeService {
 
     getAll(): Observable<Array<Notification>> {
         return this.authHttp.get('/api/notification/getAll')
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
+
+    sendMessage(notification: Notification): void {
+        return this.authHttp.post('/api/notification/send', notification)
             .map(this.handelResponse)
             .catch(this.handelError)
     }
@@ -37,6 +45,7 @@ export class NoticeService {
     }
 
     handelResponse(res: Response) {
+        console.log('response')
         return res.json() || {};
     }
     

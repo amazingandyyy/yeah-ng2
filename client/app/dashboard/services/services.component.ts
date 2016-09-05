@@ -18,7 +18,7 @@ import { SocketService } from '../../shared/services/socket.service';
         '../dashboard.style.css',
         'services.style.css'
     ],
-    providers: [AuthService, SocketService, ServiceService]
+    providers: [SocketService, ServiceService]
 })
 export class ServicesComponent implements OnInit, OnDestroy {
     currentUser = User;
@@ -39,6 +39,19 @@ export class ServicesComponent implements OnInit, OnDestroy {
     editPk: boolean = false;
     tempararyService = {};
 
+    //Default value for a package
+    newService = {
+        package: 'app_regular1',
+        price: 500,
+        priceUnit: 'USD'
+    };
+    //Price limit changes based on currency
+    priceLimit = 500;
+
+    //For email checking
+    checking: boolean;
+    invalidEmail = true;
+
     constructor(
         private router: Router,
         private authService: AuthService,
@@ -49,8 +62,26 @@ export class ServicesComponent implements OnInit, OnDestroy {
     getCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         // get data from currentUser data
-        console.log('currentUser from localStorage: ', this.currentUser);
         this.getServices()
+    }
+
+    currencyChange(newCurrency: string) {
+        switch(newCurrency){
+            case 'USD':
+                this.priceLimit = 500;
+                if(this.newService.price < 500) {
+                    this.newService.price = 500;
+                }
+            break;
+            case 'RMB':
+                this.priceLimit = 3000;
+                if(this.newService.price < 3000) {
+                    this.newService.price = 3000;
+                }
+            break;
+            default:
+            console.log('Unidentified Currency');
+        }
     }
 
     checkRole(role: string, user: User) {
@@ -76,49 +107,136 @@ export class ServicesComponent implements OnInit, OnDestroy {
         return moment(unix).format('LLL');
     }
 
-    createService(newServiceData: any) {
-        let self = this;
-        let password = window.prompt(`Hi ${this.currentUser.name}(${this.currentUser.role}). Enter your password`);
-        if (password) {
-            this.authService.checkData('checkUserPassword', password)
+    //Checking email on input blur
+    checkEmail(email: string) {
+        if(!this.checking && email) {
+            this.checking = true;
+            this.authService.getUserByEmail(email)
                 .subscribe(
-                good => {
-                    newServiceData.createrData = this.currentUser;
-                    if (newServiceData.student && newServiceData.student !== this.currentUser.email) {
-                        // Find student by email
-                        this.authService.getUserByEmail(newServiceData.student)
-                            .subscribe(
-                            user => {
-                                if (user.role == 'student') {
-                                    // Add student to this student's service
-                                    newServiceData.studentData = user;
-                                    this.service.createService(newServiceData)
-                                        .subscribe(
-                                        createdService => {
-                                            // need time out...
-                                            setTimeout(() => this.getCurrentUser(), 300);
-                                            self.toggleModal('', '', '', '')
-                                        },
-                                        error => {
-                                            console.log('createService failed: ', error);
-                                        });
-                                } else {
-                                    console.log('Email is not student.');
-                                }
-                            },
-                            error => {
-                                console.log('Student is not found.');
-                            });
+                user => {
+                    this.checking = false;
+                    if (user.role == 'student') {
+                        this.invalidEmail = false;
+                        // Add student to this student's service
+                        this.newService.studentData = user;
                     } else {
-                        console.log('Please type in a student email.');
+                        console.log('Email is not student.');
+                        this.invalidEmail = true;
                     }
                 },
                 error => {
-                    console.log('Wrong password!');
+                    this.checking = false;
+                    this.invalidEmail = true;
+                    console.log('Student is not found.');
                 });
-        } else {
-            console.log('password needed');
         }
+    }
+
+    createService(newServiceData: any) {
+        let self = this;
+        console.log('create service');
+
+        //Password Checking
+        if(newServiceData.password) {
+            let pw = newServiceData.password;
+            this.authService.checkData('checkUserPassword', pw)
+                .subscribe(
+                    good => {
+                        this.newService.createrData = this.currentUser;
+                        console.log('pw good', this.newService);
+                        this.service.createService(this.newService)
+                            .subscribe(
+                            createdService => {
+                                console.log('createdService', createdService);
+                                // need time out...
+                                // setTimeout(() => this.getCurrentUser(), 500);
+                                self.toggleModal('', '', '', '')
+                            },
+                            error => {
+                                console.log('createService failed: ', error);
+                            });
+                    },
+                    error => {
+                        console.log('Wrong password!');
+                    });
+        }//Checking if password exist end
+
+        // newServiceData.createrData = this.currentUser;
+        // if (newServiceData.student && newServiceData.student !== this.currentUser.email) {
+        //     // Find student by email
+        //     this.authService.getUserByEmail(newServiceData.student)
+        //         .subscribe(
+        //         user => {
+        //             if (user.role == 'student') {
+        //                 // Add student to this student's service
+        //                 newServiceData.studentData = user;
+        //                 console.log('success service', newServiceData);
+        //                 this.service.createService(newServiceData)
+        //                     .subscribe(
+        //                     createdService => {
+        //                         console.log('createdService');
+        //                         // need time out...
+        //                         setTimeout(() => this.getCurrentUser(), 500);
+        //                         self.toggleModal('', '', '', '')
+        //                     },
+        //                     error => {
+        //                         console.log('createService failed: ', error);
+        //                     });
+        //             } else {
+        //                 console.log('Email is not student.');
+        //             }
+        //         },
+        //         error => {
+        //             console.log('Student is not found.');
+        //         });
+        // } else {
+        //     console.log('Please type in a student email.');
+        // }
+        // let password = window.prompt(`Hi ${this.currentUser.name}(${this.currentUser.role}). Enter your password`);
+        // if (password) {
+        //     console.log('after prompt');
+        //     this.authService.checkData('checkUserPassword', password)
+        //         .subscribe(
+        //         good => {
+        //             // newServiceData.createrData = this.currentUser;
+        //             // console.log('pw good. now check user email', newServiceData);
+        //             // if (newServiceData.student && newServiceData.student !== this.currentUser.email) {
+        //             //     // Find student by email
+        //             //     this.authService.getUserByEmail(newServiceData.student)
+        //             //         .subscribe(
+        //             //         user => {
+        //             //             if (user.role == 'student') {
+        //             //                 // Add student to this student's service
+        //             //                 newServiceData.studentData = user;
+        //             //                 console.log('success service', newServiceData);
+        //             //                 // this.service.createService(newServiceData)
+        //             //                 //     .subscribe(
+        //             //                 //     createdService => {
+        //             //                 //         console.log('createdService');
+        //             //                 //         // need time out...
+        //             //                 //         setTimeout(() => this.getCurrentUser(), 500);
+        //             //                 //         self.toggleModal('', '', '', '')
+        //             //                 //     },
+        //             //                 //     error => {
+        //             //                 //         console.log('createService failed: ', error);
+        //             //                 //     });
+        //             //             } else {
+        //             //                 console.log('Email is not student.');
+        //             //             }
+        //             //         },
+        //             //         error => {
+        //             //             console.log('Student is not found.');
+        //             //         });
+        //             // } else {
+        //             //     console.log('Please type in a student email.');
+        //             // }
+        //         },
+        //         error => {
+        //             console.log('Wrong password!');
+        //         });
+        // } else {
+        //     console.log('password needed');
+        // }
     }
 
     toggleModal(title: string, state: string, behavior: string, attach: string) {

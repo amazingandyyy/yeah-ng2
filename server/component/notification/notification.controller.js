@@ -19,6 +19,7 @@ exports.createNotification = function (req, res) {
 };
 
 exports.getThreeNew = function (req, res) {
+	console.log('get three new: ', req.user._id);
 	Notification.getThreeNew(req.user._id, function (err, notices) {
 		if (err) { return handleError(res, err); }
 		return res.status(201).json(notices);
@@ -26,10 +27,10 @@ exports.getThreeNew = function (req, res) {
 };
 
 exports.getAll = function(req, res) {
-	// Notification.getAll(req.user._id, function(err, notices) {
-	// 	if(err) { return handleError(res, err); }
-	// });
-	return res.status(201).json(mockData);
+	Notification.getAll(req.user._id, function(err, notices) {
+		if(err) { return handleError(res, err); }
+		return res.status(201).json(notices);
+	});
 };
 
 exports.getCounts = function (req, res) {
@@ -71,6 +72,20 @@ exports.confirmInvitation = function (req, res) {
 				} else {
 					dbService.participants[newNotice.from.role].confirmed = false;
 					dbService.participants[newNotice.to.role].confirmed = false;
+					dbService.save((err, updatedService) => {
+						if (err) return handleError(res, err);
+						newNotice.read.state = true;
+						newNotice.read.timeStamp = Date.now();
+						newNotice.save(function (err, updatedNotice) {
+							if (err) return handleError(res, err);
+							//Update User Relationship
+							console.log('notification saved', updatedNotice);
+							return res.status(200).send({
+								updatedService: updatedService,
+								updatedNotice: updatedNotice
+							});
+						})
+					});
 				}
 			}else{
 				return handleError(res, { err: 'Not read successfully!' });

@@ -90,8 +90,10 @@ let serviceSchema = new mongoose.Schema({
 const User = require('../user/models/user.model');
 
 serviceSchema.plugin(autopopulate);
+
 serviceSchema.plugin(relationship, { relationshipPathName: ['participants.student.userData', 'participants.advisor.userData', 'participants.supervisor.userData', 'participants.admin.userData'] });
 let deepPopulateOption;
+
 serviceSchema.plugin(deepPopulate, deepPopulateOption);
 
 serviceSchema.statics = {
@@ -107,19 +109,19 @@ serviceSchema.statics = {
         Service.findById(service._id, (err, dbService) => {
             if (err, !dbService) return cb(err || { message: 'service not found.' });
             let advisorChanged = service.participants.advisor.newAdvisorEmail;
-            let advisorAlreadyExists = service.participants.advisor.userData._id;
+            let advisorAlreadyExists = service.participants.advisor.userData && service.participants.advisor.userData._id;
             // let adminChanged = service.participants.admin.email;
             console.log('advisorChanged: ', advisorChanged);
             if (advisorChanged) {
-                if(advisorAlreadyExists){
+                if (advisorAlreadyExists) {
                     console.log('advisorAlreadyExists: ', advisorAlreadyExists)
                     // delete the service in the advisor
                     mongoose.model('User').findById(advisorAlreadyExists, (err, dbAdvisor) => {
-                        if(err || !dbAdvisor) return cb(err || { message: 'dbAdvisor is not found.' })
+                        if (err || !dbAdvisor) return cb(err || { message: 'dbAdvisor is not found.' })
                         let index = dbAdvisor.services.indexOf(dbService._id);
                         dbAdvisor.services.splice(index, 1)
-                        dbAdvisor.save((err, savedAdvisor)=>{
-                            if(err) return cb(err)
+                        dbAdvisor.save((err, savedAdvisor) => {
+                            if (err) return cb(err)
                         })
                     });
                 }
@@ -138,7 +140,6 @@ serviceSchema.statics = {
                                 cb(null, savedService)
                             })
                         })
-
                     } else {
                         cb({ message: 'Please enter an advisor\'s email' })
                     }

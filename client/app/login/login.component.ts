@@ -13,13 +13,13 @@ import { AuthService } from '../shared/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 	constructor(
-        private authService: AuthService,
+        public authService: AuthService,
         private router: Router
         ){}
         
 	onSubmit(auth: Auth) {
         let self = this;
-        this.authService.logUserIn(auth)
+        this.authService.logIn(auth)
             .subscribe(
                 res => handleResponse(res),
                 err => console.log('err when logUserIn: ', err)

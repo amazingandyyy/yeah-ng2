@@ -70,13 +70,24 @@
                 <div class="form-group row">
                     <label class="col-xs-4 col-form-label">Student <small>(client)</small></label>
                     <div class="col-xs-8">
-                        <input class="form-control" placeholder="Student Email" type="email" (ngModel)="newService.student" name="student" required>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="Student Email" type="email" (ngModel)="newService.student" name="student" autofocus (blur)="checkEmail($event.target.value)" required>
+                            <span class="input-group-addon" *ngIf="!invalidEmail">
+                                <i class="fa fa-check"></i>
+                            </span>
+                            <span class="input-group-addon" *ngIf="checking">
+                                <i class="fa fa-spinner faa-spin animated"></i>
+                            </span>
+                            <span class="input-group-addon" *ngIf="invalidEmail">
+                                <i class="fa fa-exclamation"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-xs-4 col-form-label">Package</label>
                     <div class="col-xs-8">
-                        <select name="package" placeholder="choose a package" class="form-control" (ngModel)="newService.package" name="package" required>
+                        <select name="package" placeholder="choose a package" class="form-control" [(ngModel)]="newService.package" name="package" required>
                             <option value disabled>&#9662; Application package &#9662;</option>
                             <option value="app_regular1">Application Regular Private/Hass package</option>
                             <option value="app_regular2">Application Regular UCB/UCLA package</option>
@@ -96,20 +107,26 @@
                 <div class="form-group row">
                     <label class="col-xs-4 col-form-label">Price</label>
                     <div class="col-xs-4">
-                        <input class="form-control" placeholder="Price" type="number" (ngModel)="newService.price" name="price" required>
+                        <input class="form-control" placeholder="Price" type="number" [(ngModel)]="newService.price" min="{{priceLimit}}" name="price" required>
                     </div>
                     <div class="col-xs-4">
-                        <select name="priceUnit" placeholder="choose a price unit" class="form-control" (ngModel)="newService.priceUnit" name="priceUnit" required>
+                        <select name="priceUnit" placeholder="choose a price unit" class="form-control" [(ngModel)]="newService.priceUnit" name="priceUnit" required (change)="currencyChange($event.target.value)">
                             <option value disabled selected>choose a price unit</option>
                             <option value="USD">USD</option>
                             <option value="RMB">RMB</option>
                         </select>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label class="col-xs-4 col-form-label"> Password<small>(yours)</small></label>
+                    <div class="col-xs-8">
+                        <input class="form-control" placeholder="Your Password" type="password" (ngModel)="password" name="password" required>
+                    </div>
+                </div>
                 </div>
                 <div style="text-align: right;">
-                    <button class="btn btn-secondary-o" (click)="toggleModal()">Delete</button>
-                    <button class="btn btn-primary" type="submit" (click)="createService(newServiceForm.value)" [disabled]="!newServiceForm.form.valid">{{activatedModal.behavior}}</button>
+                    <button class="btn btn-secondary-o" (click)="toggleModal()">Cancel</button>
+                    <button class="btn btn-primary" type="submit" (click)="createService(newServiceForm.value)" [disabled]="!newServiceForm.form.valid || invalidEmail">{{activatedModal.behavior}}</button>
                 </div>
             </form>
         </body>

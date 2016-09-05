@@ -33,6 +33,8 @@ const SESserver = ses.createClient({
 const SESservice = require('../SES.service');
 const JWT_SECRET = process.env.JWT_SECRET;
 
+const compose = require('composable-middleware');
+
 let User;
 
 let userSchema = new mongoose.Schema({
@@ -97,22 +99,31 @@ let userSchema = new mongoose.Schema({
         type: Number,
         default: Date.now
     },
-    services: [
-        {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Service'
-        }
-    ],
+    services: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Service'
+    }],
     notifications: [{
         type: mongoose.Schema.ObjectId,
-        ref: 'Notification',
+        ref: 'Notification'
     }]
 })
 
 userSchema.plugin(autopopulate);
 userSchema.plugin(relationship, { relationshipPathName: ['studentData', 'advisorData', 'supervisorData', 'adminData', 'superadminData'], triggerMiddleware: true });
 
-let deepPopulateOption;
+let deepPopulateOption = {
+    populate: {
+        'notifications': {
+            options: {
+                limit: 10
+            }
+        },
+        'notifications.from': {},
+        'notifications.to': {}
+    }
+};
+
 userSchema.plugin(deepPopulate, deepPopulateOption);
 // promised-based mongoose tutorial
 // http://www.summa.com/blog/avoiding-callback-hell-while-using-mongoose
@@ -256,33 +267,61 @@ userSchema.statics = {
                 })
             })
     },
-    authMiddleware: function (req, res, next) {
-        if (!req.header('Authorization')) {
-            return res.status(401).send({
-                message: 'Please make sure your request has an Authorization header.'
-            })
-        }
-        let token = req.header('Authorization').split(' ')[1].split('"')[1];
-        jwt.verify(token, JWT_SECRET, (err, payload) => {
-            if (err) return res.status(401).send({
-                error: 'Must be authenticated.'
-            })
-            User
-                .findById(payload._id)
-                .exec((err, user) => {
-                    if (err || !user) {
-                        return res.status(404).send(err || {
-                            error: 'User not found.'
-                        });
-                    }
-                    user.password = null;
-                    console.log(`User - ${user._id}, pass authMiddleware with role of ${user.role} at ${moment(Date.now()).format('LLLL')}`);
-                    req.user = user;
-                    req.role = user.role;
-                    next()
+    authMiddleware: function () {
+        //Using compose to allow middleware chaining
+        return compose()
+            .use(function(req, res, next) {
+                if (!req.header('Authorization')) {
+                    return res.status(401).send({
+                        message: 'Please make sure your request has an Authorization header.'
+                    })
+                }   
+                // Validate jwt
+                let token = req.header('Authorization').split(' ')[1].split('"')[1];
+                jwt.verify(token, JWT_SECRET, (err, payload) => {
+                    if (err) return res.status(401).send({
+                        error: 'Must be authenticated.'
+                    })
+                    
+                    User
+                        .findById(payload._id)
+                        .exec((err, user) => {
+                            
+                            if (err || !user) {
+                                return res.status(404).send(err || {
+                                    error: 'middleware User not found!!!'
+                                });
+                            }
+                            user.password = null;
+                            req.user = user;
+                            
+                            next()
+                        })
                 })
-        })
+            })
     },
+
+    hasRole: function (requiredRole) {
+        //Using compose chaining authMiddleware then check role
+        const rolesArray = ['student', 'advisor', 'supervisor', 'admin', 'superadmin'];
+        let self = this;
+
+        if (!requiredRole) throw new Error('Required role needs to be set');
+
+        return compose()
+            .use(self.authMiddleware())
+            .use(function meetsRequirements(req, res, next) {
+              if (rolesArray.indexOf(req.user.role) >= rolesArray.indexOf(requiredRole)) {
+                console.log(`User - ${req.user._id}, pass .hasRole('${requiredRole}') with role of ${req.user.role} at ${moment(Date.now()).format('LLLL')}`);
+                next();
+              }
+              else {
+                console.log(`Users role: ${req.user.role}, not authrized for ${requiredRole}`);
+                res.status(403).send('Forbidden');
+              }
+            });
+    },
+
     verifyEmail: function (token, cb) {
         jwt.verify(token, JWT_SECRET, (err, payload) => {
             if (err) return cb(err)

@@ -14,8 +14,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
+var env = process.env.ENV || 'dev';
+
 const PORT = process.env.PORT
-const MONGOURL = process.env.MONGOLAB_URI
+const MONGOURL = process.env.MONGOLAB_URI || 'mongodb://localhost/yeah'
 
 // Set up mongoDB connection if the JWT_SECRET is available
 if (!process.env.JWT_SECRET) {
@@ -48,6 +50,9 @@ app.use('/', require('./server/routing'))
 app.use(function (req, res, next) {
     res.status(404).render('404', {title: "Sorry, page is currently not available."});
 });
+
+//If the environment is dev, populate dummy data.
+// if(env === 'dev') { require('./seed'); }
 
 // Create server
 var server = http.createServer(app);

@@ -9,7 +9,7 @@ import { AuthService } from '../../shared/services/auth.service';
     selector: 'yeah-company',
     templateUrl: 'company.component.html',
     styleUrls: ['../dashboard.style.css', 'company.style.css'],
-    providers: [AuthService],
+    // providers: [AuthService],
     directives: [ROUTER_DIRECTIVES]
 })
 export class CompanyComponent implements OnInit {

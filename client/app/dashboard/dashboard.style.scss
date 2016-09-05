@@ -87,6 +87,47 @@
     }
 }
 
+.single-main-thread {
+    cursor: pointer;
+    list-style: none;
+    padding: 10px;
+    border-bottom: 1px solid $silent-grey;
+    user-select: none;
+    
+    .image-container {
+        float: left;
+        width: 55px;
+        img {
+            width: 50px;
+            height: 50px;
+        }
+    }
+    .text-container {
+        float: left;
+        width: 120px;
+        div {
+            overflow: hidden;
+            height: 25px;
+            text-overflow: ellipsis;
+            width: 100%;
+            white-space: nowrap;
+        }
+    }
+
+    .time {
+        float: right;
+        color: $silent-grey;
+        font-weight: thin;
+    }
+
+    &:hover {
+        background: darken($light-gray, 1%);
+    }
+    &:active {
+        background: darken($light-gray, 3%);
+    }
+}
+
 @media (min-width: 767px) {
     .dashboard-page {
         .menu {
