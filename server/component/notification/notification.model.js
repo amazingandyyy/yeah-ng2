@@ -70,29 +70,29 @@ notificationSchema.plugin(deepPopulate, {
 });
 
 notificationSchema.statics = {
-    sendNotice: function (message, cb) {
-        let notice = new Notification({
-            from: message.from,
-            to: message.to,
-            title: message.title,
-            description: message.desc,
-            response: message.res,
-            state: message.state,
-            attachment: {
-                service: message.serviceId
-            }
-        });
-        console.log('notice: ', notice)
-        notice.save((err, savedNotice) => {
-            if (err) return cb(err)
-            console.log('savedNotice: ', savedNotice)
-            Notification.findById(savedNotice._id,(err, dbNotice)=>{
-                if (err) return cb(err)
-                console.log('dbNotice: ', dbNotice)
-                cb(null, dbNotice);
-            })
-        });
-    },
+    // sendNotice: function (message, cb) {
+    //     let notice = new Notification({
+    //         from: message.from,
+    //         to: message.to,
+    //         title: message.title,
+    //         description: message.desc,
+    //         response: message.res,
+    //         state: message.state,
+    //         attachment: {
+    //             service: message.serviceId
+    //         }
+    //     });
+    //     console.log('notice: ', notice)
+    //     notice.save((err, savedNotice) => {
+    //         if (err) return cb(err)
+    //         console.log('savedNotice: ', savedNotice)
+    //         Notification.findById(savedNotice._id,(err, dbNotice)=>{
+    //             if (err) return cb(err)
+    //             console.log('dbNotice: ', dbNotice)
+    //             cb(null, dbNotice);
+    //         })
+    //     });
+    // },
     getThreeNew: function (userId, cb) {
         Notification.find({ to: userId, 'read.state': false })
             .sort({ 'createAt': -1 })

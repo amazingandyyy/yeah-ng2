@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
     inboxToggled: boolean = false;
     currentSession: string;
     currentUserRole: string;
-    notifications: Array<Notification>;
+    notifications: Array<Notification> = [];
     noticeCount: number;
 
     constructor(
@@ -80,10 +80,12 @@ export class DashboardComponent implements OnInit, OnDestroy{
     }
 
     getNotification() {
+        console.log('get notification');
         let self = this;
         this.noticeService.getThree()
             .subscribe(
             notices => {
+                console.log('notifications', notices);
                 this.notifications = notices;
             },
             error => {
@@ -125,6 +127,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
     }
 
     ngOnInit() {
+        console.log('dashboard init')
         this.getCurrentUser()
         // this.socket.syncById('user', this.currentUser._id, (user) => {
         //     console.log(`Trigger ${this.currentUser._id}'s socket.`);
@@ -133,7 +136,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
         //     this.requestUserDataFromDataBase(this.currentUser._id)
         // })
         // console.log(this.authService.isLoggedIn);
-
 
         this.getNotification()
         this.getNotificationCount()

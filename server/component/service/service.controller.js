@@ -1,6 +1,7 @@
 'use strict';
 
 const Service = require('./service.model');
+const Notification = require('../notification/notification.model');
 const _ = require('lodash');
 
 exports.index = function(req, res) {
@@ -41,12 +42,25 @@ exports.createService = function (req, res) {
 
     service.participants[from.role].userData = from._id;
 
-    console.log('saving service: ', service);
 
     Service.create(service, (err, savedService) => {
-        if (err) return handleError(res, err);
+        if (err) return handleError(res, err + '@ServiceCtrl Service.create');
+        let notice = {
+            from: from._id,
+            to: to._id,
+            title: 'New service created by ' + from.name,
+            description: 'Your ' + from.role + ' just created a yeah service for you.',
+            response: false,
+            state: 'invitation',
+            attachment: {
+                service: savedService._id
+            }
+        };
+        Notification.create(notice, (err, savedNotice) => {
+            if (err) return handleError(res, err + '@ServiceCtrl Notification.create');
+            return res.status(200).json(savedService);
 
-        return res.status(200).json(savedService);
+        });
     });
         // // Create and send out notification here
         // //Attach service package id to notification for easier query
