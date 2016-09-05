@@ -15,6 +15,52 @@ exports.getAll = function(req, res) {
 };
 
 exports.createService = function (req, res) {
+    console.log(req.body);
+
+    let body = req.body;
+    let from = body.createrData;
+    let to = body.studentData;
+
+    let service = {
+        package: body.package,
+        price: {
+            tag: body.price,
+            unit: body.priceUnit
+        }
+    };
+
+    //Add participants to the service object
+    service.participants = {
+        student: {
+            userData: to._id
+        },
+        advisor: {},
+        supervisor: {},
+        admin: {}
+    };
+
+    service.participants[from.role].userData = from._id;
+
+    console.log('saving service: ', service);
+
+    Service.create(service, (err, savedService) => {
+        if (err) return handleError(res, err);
+
+        return res.status(200).json(savedService);
+    });
+        // // Create and send out notification here
+        // //Attach service package id to notification for easier query
+        // notice.serviceId = savedService._id;
+        
+        // Notification.sendNotice(notice, (err, savedNotice) => {
+        //     if (err) {
+        //         console.log('error @sendNotice: ', err)
+        //         return handleError(res, err);
+        //     }
+        //     return res.status(200).json(savedService);
+        // });
+
+
     // let newServiceData = req.body;
     // let isAuthorized = checkAuthority('admin', req.role) && (req.role!=='superadmin');
     // let priceLimit;
