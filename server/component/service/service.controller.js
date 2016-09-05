@@ -15,8 +15,6 @@ exports.getAll = function(req, res) {
 };
 
 exports.createService = function (req, res) {
-	console.log('create service fired');
-	return res.status(201);
     // let newServiceData = req.body;
     // let isAuthorized = checkAuthority('admin', req.role) && (req.role!=='superadmin');
     // let priceLimit;

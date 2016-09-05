@@ -41,9 +41,11 @@ export class ServicesComponent implements OnInit, OnDestroy {
     //Default value for a package
     newService = {
         package: 'app_regular1',
-        price: 0,
+        price: 500,
         priceUnit: 'USD'
     };
+    //Price limit changes based on currency
+    priceLimit = 500;
 
     constructor(
         private router: Router,
@@ -56,6 +58,25 @@ export class ServicesComponent implements OnInit, OnDestroy {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         // get data from currentUser data
         this.getServices()
+    }
+
+    currencyChange(newCurrency: string) {
+        switch(newCurrency){
+            case 'USD':
+                this.priceLimit = 500;
+                if(this.newService.price < 500) {
+                    this.newService.price = 500;
+                }
+            break;
+            case 'RMB':
+                this.priceLimit = 3000;
+                if(this.newService.price < 3000) {
+                    this.newService.price = 3000;
+                }
+            break;
+            default:
+            console.log('Unidentified Currency');
+        }
     }
 
     checkRole(role: string, user: User) {

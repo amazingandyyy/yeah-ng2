@@ -96,10 +96,10 @@
                 <div class="form-group row">
                     <label class="col-xs-4 col-form-label">Price</label>
                     <div class="col-xs-4">
-                        <input class="form-control" placeholder="Price" type="number" [(ngModel)]="newService.price" min="0" name="price" required>
+                        <input class="form-control" placeholder="Price" type="number" [(ngModel)]="newService.price" min="{{priceLimit}}" name="price" required>
                     </div>
                     <div class="col-xs-4">
-                        <select name="priceUnit" placeholder="choose a price unit" class="form-control" [(ngModel)]="newService.priceUnit" name="priceUnit" required>
+                        <select name="priceUnit" placeholder="choose a price unit" class="form-control" [(ngModel)]="newService.priceUnit" name="priceUnit" required (change)="currencyChange($event.target.value)">
                             <option value disabled selected>choose a price unit</option>
                             <option value="USD">USD</option>
                             <option value="RMB">RMB</option>
