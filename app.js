@@ -52,7 +52,7 @@ app.use(function (req, res, next) {
 });
 
 //If the environment is dev, populate dummy data.
-// if(env === 'dev') { require('./seed'); }
+if(env === 'dev') { require('./seed'); }
 
 // Create server
 var server = http.createServer(app);
