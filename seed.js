@@ -197,10 +197,12 @@ async.waterfall([
             },
             participants: {
                 student: {
-                    userData: students[0]._id
+                    userData: students[0]._id,
+                    confirmed: true
                 },
                 advisor: {
-                    userData: advisors[0]._id
+                    userData: advisors[0]._id,
+                    confirmed: true
                 },
                 supervisor: {
                     userData: supervisor._id

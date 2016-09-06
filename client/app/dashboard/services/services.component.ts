@@ -52,6 +52,9 @@ export class ServicesComponent implements OnInit, OnDestroy {
     checking: boolean;
     invalidEmail = true;
 
+    //Services got for the user
+    services: <Array> = [];
+
     constructor(
         private router: Router,
         private authService: AuthService,
@@ -62,7 +65,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     getCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         // get data from currentUser data
-        this.getServices()
+        // this.getServices()
     }
 
     currencyChange(newCurrency: string) {
@@ -160,83 +163,6 @@ export class ServicesComponent implements OnInit, OnDestroy {
                         console.log('Wrong password!');
                     });
         }//Checking if password exist end
-
-        // newServiceData.createrData = this.currentUser;
-        // if (newServiceData.student && newServiceData.student !== this.currentUser.email) {
-        //     // Find student by email
-        //     this.authService.getUserByEmail(newServiceData.student)
-        //         .subscribe(
-        //         user => {
-        //             if (user.role == 'student') {
-        //                 // Add student to this student's service
-        //                 newServiceData.studentData = user;
-        //                 console.log('success service', newServiceData);
-        //                 this.service.createService(newServiceData)
-        //                     .subscribe(
-        //                     createdService => {
-        //                         console.log('createdService');
-        //                         // need time out...
-        //                         setTimeout(() => this.getCurrentUser(), 500);
-        //                         self.toggleModal('', '', '', '')
-        //                     },
-        //                     error => {
-        //                         console.log('createService failed: ', error);
-        //                     });
-        //             } else {
-        //                 console.log('Email is not student.');
-        //             }
-        //         },
-        //         error => {
-        //             console.log('Student is not found.');
-        //         });
-        // } else {
-        //     console.log('Please type in a student email.');
-        // }
-        // let password = window.prompt(`Hi ${this.currentUser.name}(${this.currentUser.role}). Enter your password`);
-        // if (password) {
-        //     console.log('after prompt');
-        //     this.authService.checkData('checkUserPassword', password)
-        //         .subscribe(
-        //         good => {
-        //             // newServiceData.createrData = this.currentUser;
-        //             // console.log('pw good. now check user email', newServiceData);
-        //             // if (newServiceData.student && newServiceData.student !== this.currentUser.email) {
-        //             //     // Find student by email
-        //             //     this.authService.getUserByEmail(newServiceData.student)
-        //             //         .subscribe(
-        //             //         user => {
-        //             //             if (user.role == 'student') {
-        //             //                 // Add student to this student's service
-        //             //                 newServiceData.studentData = user;
-        //             //                 console.log('success service', newServiceData);
-        //             //                 // this.service.createService(newServiceData)
-        //             //                 //     .subscribe(
-        //             //                 //     createdService => {
-        //             //                 //         console.log('createdService');
-        //             //                 //         // need time out...
-        //             //                 //         setTimeout(() => this.getCurrentUser(), 500);
-        //             //                 //         self.toggleModal('', '', '', '')
-        //             //                 //     },
-        //             //                 //     error => {
-        //             //                 //         console.log('createService failed: ', error);
-        //             //                 //     });
-        //             //             } else {
-        //             //                 console.log('Email is not student.');
-        //             //             }
-        //             //         },
-        //             //         error => {
-        //             //             console.log('Student is not found.');
-        //             //         });
-        //             // } else {
-        //             //     console.log('Please type in a student email.');
-        //             // }
-        //         },
-        //         error => {
-        //             console.log('Wrong password!');
-        //         });
-        // } else {
-        //     console.log('password needed');
-        // }
     }
 
     toggleModal(title: string, state: string, behavior: string, attach: string) {
@@ -270,10 +196,22 @@ export class ServicesComponent implements OnInit, OnDestroy {
     }
 
     getServices() {
-        this.serviceDataList = this.currentUser.services;
-        this.arrayOfServiceKey = Object.keys(this.serviceDataList);
-        this.arrayOfServiceKey.reverse();
+        this.service.getServices()
+        .subscribe(
+            data => {
+                console.log('Services: ', data);
+                this.services = data;
+            },
+            error => {
+                console.log(error);
+            });
     }
+
+    // getServices() {
+    //     this.serviceDataList = this.currentUser.services;
+    //     this.arrayOfServiceKey = Object.keys(this.serviceDataList);
+    //     this.arrayOfServiceKey.reverse();
+    // }
 
     edit(formName: string) {
         this[formName] = !(this[formName]);
@@ -314,7 +252,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.getCurrentUser();
-        this.getServices()
+        this.getServices();
     }
 
     ngOnDestroy() {

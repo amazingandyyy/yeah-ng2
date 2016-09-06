@@ -215,7 +215,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
                     this.inviteMain.push(firstInvite);
                 }  
             }
-            console.log('message index', this.messageIndex)
 
             if(this.messageIndex && this.tabSelected === 'message') {
                 //Default to selecting the first message in the message category

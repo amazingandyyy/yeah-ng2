@@ -11,9 +11,7 @@ export class NoticeService {
 		private authHttp: AuthHttp
 	) {}
 
-	getThree(): Observable<Array<Notification>> {
-        console.log('yooo');
-        
+	getThree(): Observable<Array<Notification>> {        
         return this.authHttp.get('/api/notification/getThreeNew')
             .map(this.handelResponse)
             .catch(this.handelError)
@@ -45,7 +43,6 @@ export class NoticeService {
     }
 
     handelResponse(res: Response) {
-        console.log('response')
         return res.json() || {};
     }
     
