@@ -28,6 +28,12 @@ export class ServiceService {
             .map(this.handelResponse)
             .catch(this.handelError)
     }
+    //Get service specific to the user, getting user's id in the backend
+    getServices(): Observable<any> {
+        return this.authHttp.get('/api/service/getServices')
+            .map(this.handelResponse)
+            .catch(this.handelError)
+    }
 
     updateService(service: any): Observable<any> {
         return this.authHttp.post('/api/service/updateService', service)

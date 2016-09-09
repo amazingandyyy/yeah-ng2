@@ -17,7 +17,7 @@ const relationship = require('mongoose-relationship');
 
 let serviceSchema = new mongoose.Schema({
     createAt: {
-        type: Number,
+        type: Date,
         default: Date.now
     },
     package: {

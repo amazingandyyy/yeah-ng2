@@ -197,10 +197,12 @@ async.waterfall([
             },
             participants: {
                 student: {
-                    userData: students[0]._id
+                    userData: students[0]._id,
+                    confirmed: true
                 },
                 advisor: {
-                    userData: advisors[0]._id
+                    userData: advisors[0]._id,
+                    confirmed: true
                 },
                 supervisor: {
                     userData: supervisor._id
@@ -211,31 +213,44 @@ async.waterfall([
             }
         }, function(err, service) {
             console.log(service);
-            let notice1 = new Notification({
+            // let notice1 = new Notification({
+            //     from: advisors[0]._id,
+            //     to: students[0]._id,
+            //     title: 'Assignment1',
+            //     description: 'Work work',
+            //     response: false,
+            //     state: 'message'
+            // });
+            
+            // notice1.save(function() {
+            //     let notice2 = new Notification({
+            //         from: advisors[0]._id,
+            //         to: students[0]._id,
+            //         title: 'Invite',
+            //         description: advisors[0].name + ' invites you to join ' + service.package,
+            //         response: false,
+            //         state: 'invitation',
+            //         attachment: {
+            //             service: service._id
+            //         }
+            //     });
+
+            //     notice2.save();
+                
+            // });
+            let notice2 = new Notification({
                 from: advisors[0]._id,
                 to: students[0]._id,
-                title: 'Assignment1',
-                description: 'Work work',
+                title: 'Invite',
+                description: advisors[0].name + ' invites you to join ' + service.package,
                 response: false,
-                state: 'message'
+                state: 'invitation',
+                attachment: {
+                    service: service._id
+                }
             });
-            
-            notice1.save(function() {
-                let notice2 = new Notification({
-                    from: advisors[0]._id,
-                    to: students[0]._id,
-                    title: 'Invite',
-                    description: advisors[0].name + ' invites you to join ' + service.package,
-                    response: false,
-                    state: 'invitation',
-                    attachment: {
-                        service: service._id
-                    }
-                });
 
-                notice2.save();
-                
-            });
+            notice2.save();
 
 
             

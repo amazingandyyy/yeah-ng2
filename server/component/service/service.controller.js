@@ -7,9 +7,16 @@ const _ = require('lodash');
 exports.index = function(req, res) {
 	res.render('index');
 };
-
-exports.getAll = function(req, res) {
-	Service.find({}, function(err, notices) {
+//Here's the method to get Services
+exports.getServices = function(req, res) {
+    //Using $or to make this method reusable for any role
+    //This should get any service that the user has part in
+	Service.find({$or:[
+        {'participants.student.userData': req.user._id},
+        {'participants.advisor.userData': req.user._id}, 
+        {'participants.supervisor.userData': req.user._id},
+        {'participants.admin.userData': req.user._id}
+    ]}, function(err, notices) {
 		if(err) { return handleError(res, err); }
 		return res.status(201).json(notices);
 	});

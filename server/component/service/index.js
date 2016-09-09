@@ -8,9 +8,9 @@ var Controller = require('./service.controller');
 
 router.get('/', Controller.index);
 
-router.get('/getAll', Controller.getAll);
-
 router.post('/createService', User.hasRole('advisor'), Controller.createService);
+
+router.get('/getServices', User.authMiddleware(), Controller.getServices);
 
 router.post('/updateService', User.hasRole('admin'), Controller.updateService);
 

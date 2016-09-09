@@ -59,19 +59,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.authService.logOut()
     }
 
-    requestUserDataFromDataBase(userId) {
-        this.authService.getCurrentUser(userId)
-            .subscribe(
-            user => {
-                this.currentUserRole = user.role;
-                this.currentUser = user;
-                localStorage.setItem('current_user', JSON.stringify(user));
-            },
-            error => {
-                this.authService.logUserOut();
-                console.log(<any>error)
-            });
-    }
+    // requestUserDataFromDataBase(userId) {
+    //     this.authService.getCurrentUser(userId)
+    //         .subscribe(
+    //         user => {
+    //             this.currentUserRole = user.role;
+    //             this.currentUser = user;
+    //             localStorage.setItem('current_user', JSON.stringify(user));
+    //         },
+    //         error => {
+    //             this.authService.logUserOut();
+    //             console.log(<any>error)
+    //         });
+    // }
 
     getCurrentUser() {
 
@@ -84,9 +84,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.noticeService.getThree()
             .subscribe(
             notices => {
-                console.log('notifications', notices);
-
                 this.notifications = notices;
+
             },
             error => {
                 console.log(<any>error)
@@ -109,18 +108,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
             });
     }
 
-    checkNotications(notice: Notification, cb: any) {
-        let exist = false;
-        this.notifications.forEach(function (eachNoticeNow) {
-            if (notice._id === eachNoticeNow._id) {
-                exist = true;
-                cb(exist);
-                return;
-            }
-        });
-        cb(exist);
-    }
-
+    // checkNotications(notice: Notification, cb: any) {
+    //     let exist = false;
+    //     this.notifications.forEach(function (eachNoticeNow) {
+    //         if (notice._id === eachNoticeNow._id) {
+    //             exist = true;
+    //             cb(exist);
+    //             return;
+    //         }
+    //     });
+    //     cb(exist);
+    // }
+    /*If user clicks on specific message, 
+    it should take that param to the message component to display that specific message*/
     goToMessagePage() {
         this.inboxToggled = !this.inboxToggled;
         this.router.navigate(['dashboard/messages']);
@@ -129,6 +129,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         console.log('dashboard init')
         this.getCurrentUser()
+
+        this.getNotification()
+        this.getNotificationCount()
+
         // this.socket.syncById('user', this.currentUser._id, (user) => {
         //     console.log(`Trigger ${this.currentUser._id}'s socket.`);
         //     console.log('user from socket: ', user);
@@ -136,10 +140,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         //     this.requestUserDataFromDataBase(this.currentUser._id)
         // })
         // console.log(this.authService.isLoggedIn);
-
-        this.getNotification()
-        // this.getNotificationCount()
-
 
         // this.socket.syncById('notification', this.currentUser._id, (notice) => {
         //     this.getNotification()
@@ -175,8 +175,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.socket.unsyncById('notification', this.currentUser._id)
-        this.socket.unsyncById('user', this.currentUser._id)
-        this.socket.unsyncById('service', this.currentUser._id)
+        // this.socket.unsyncById('notification', this.currentUser._id)
+        // this.socket.unsyncById('user', this.currentUser._id)
+        // this.socket.unsyncById('service', this.currentUser._id)
     }
 }

@@ -55,9 +55,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
     checkTabStyle(item: string) {
         this.tabSelected = item;
-
+        //When tab changes, switch to the first message
         if(item === 'message') {
             if(this.messageIndex) {
+                this.selectedUserId = this.messageMain[0].from._id;
                 this.messageDetail = this.messageIndex[this.selectedUserId];
             } else {
                 this.messageDetail = [];
@@ -65,6 +66,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
         }    
         if(item === 'invitation') {
             if(this.inviteIndex) {
+                this.selectedUserId = this.inviteMain[0].from._id;
                 this.messageDetail = this.inviteIndex[this.selectedUserId]; 
             } else {
                 this.messageDetail = [];
@@ -92,7 +94,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
             notifications => {
                 this.notifications = notifications;
                 cb(notifications);
-                console.log(notifications);
+                
                 self.arrangeNotification(notifications);                
             },
             error => {
@@ -115,7 +117,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
         let categorize = function(arrayOfState: any, arrayOfNotification: Array<Notification>, currentUserId: string) {
             let finalObj = {};
-            // console.log(arrayOfState, arrayOfNotification, currentUserId);
+            
             arrayOfNotification.forEach(function(n) {
                 arrayOfState.forEach(function(state) {
                     if(n.state === state) {
@@ -207,9 +209,11 @@ export class MessagesComponent implements OnInit, OnDestroy {
                             }
                         }
                     }
+                  
                     this.inviteMain.push(firstInvite);
                 }  
             }
+
             if(this.messageIndex && this.tabSelected === 'message') {
                 //Default to selecting the first message in the message category
                 let firstNotice = this.messageMain[0];
@@ -218,8 +222,9 @@ export class MessagesComponent implements OnInit, OnDestroy {
                 this.selectedUserId = firstNotice.from._id;
                 this.messageDetail = this.messageIndex[firstNotice.from._id];
             } else {
+                //When there's no message, default to display invites
                 let firstNotice = this.inviteMain[0];
-                
+                this.tabSelected = 'invitation';
                 this.selectedUser = firstNotice.from;
                 this.selectedUserId = firstNotice.from._id;
                 this.messageDetail = this.inviteIndex[firstNotice.from._id];
@@ -268,7 +273,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
         this.getMessages((notifications) => {
             self.socket.syncArray('notification', self.currentUser._id, self.notifications, (event, item, array) => {
                 self.notifications = array;
-                console.log('@message component notification socket', array);
+                
                 self.arrangeNotification(self.notifications);
             });     
         });

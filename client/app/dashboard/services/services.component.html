@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="row" *ngIf="(currentUser.role == 'student')">
-        <div class="col-sm-12" *ngIf="!(currentUser.services[0])">
+        <div class="col-sm-12" *ngIf="!(services[0])">
             <div class="icon-poster">
                 <h5 class="title">
                     <i class="icon fa fa-hourglass-o" aria-hidden="true"></i>
@@ -40,8 +40,72 @@
                 <button class="btn btn-primary">Explore service</button>
             </div>
         </div>
-        <div class="col-sm-12" *ngIf="(currentUser.services[0])">
-            <h5 class="title">This is your package</h5>
+        <div class="col-sm-12" *ngIf="(services[0])">
+            <div class="col-sm-4 paper white-bg package-container">
+                <h3>
+                    {{services[0].package}}
+                </h3>
+                <small class="text-muted">{{services[0].createAt | date}}</small>
+                <p>
+                    Package Description: 
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu arcu at erat imperdiet condimentum. Mauris sit amet velit nec dolor vulputate volutpat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In molestie nulla nibh, maximus consequat urna euismod nec. Vivamus venenatis ligula dignissim augue convallis, at maximus mi faucibus. Duis pellentesque ex eget massa commodo congue. Suspendisse sit amet est dolor. In hac habitasse platea dictumst. Cras luctus, eros ut tincidunt vehicula, risus erat consequat ligula, eget sagittis tortor massa quis lacus. Integer arcu ex, finibus sit amet dolor sit amet, gravida semper enim. Vivamus enim lectus, hendrerit commodo varius id, tincidunt id ligula. Suspendisse nec ultricies nibh. Aliquam erat volutpat. Nunc semper velit nec sagittis volutpat. Praesent hendrerit posuere sagittis.
+                </p>
+            </div>
+            <div class="col-sm-8 paper">
+                <div class="white-bg participants" *ngIf="services[0].participants.student.userData">
+                    <span class="confirmed-btn" *ngIf="services[0].participants.student.confirmed">
+                        confirmed
+                    </span>
+                    <span class="waiting-btn" [hidden]="services[0].participants.student.confirmed">
+                        not yet confirmed
+                    </span>
+                    <h3>
+                        {{services[0].participants.student.userData.name}}
+                        <small> - student</small>
+                    </h3>
+                    <p>{{services[0].participants.student.userData.email.data}}</p>
+                    
+                </div>
+                <div class="white-bg participants" *ngIf="services[0].participants.advisor.userData">
+                    <span class="confirmed-btn" *ngIf="services[0].participants.advisor.confirmed">
+                        confirmed
+                    </span>
+                    <span class="waiting-btn" [hidden]="services[0].participants.advisor.confirmed">
+                        not yet confirmed
+                    </span>
+                    <h3>
+                        {{services[0].participants.advisor.userData.name}}
+                        <small> - advisor</small>
+                    </h3>
+                    <p>{{services[0].participants.advisor.userData.email.data}}</p>
+                </div>
+                <div class="white-bg participants" *ngIf="services[0].participants.supervisor.userData">
+                    <span class="confirmed-btn" *ngIf="services[0].participants.supervisor.confirmed">
+                        confirmed
+                    </span>
+                    <span class="waiting-btn" [hidden]="services[0].participants.supervisor.confirmed">
+                        not yet confirmed
+                    </span>
+                    <h3>
+                        {{services[0].participants.supervisor.userData.name}}
+                        <small> - supervisor</small>
+                    </h3>
+                    <p>{{services[0].participants.supervisor.userData.email.data}}</p>
+                </div>
+                <div class="white-bg participants" *ngIf="services[0].participants.admin.userData">
+                    <span class="confirmed-btn" *ngIf="services[0].participants.admin.confirmed">
+                        confirmed
+                    </span>
+                    <span class="waiting-btn" [hidden]="services[0].participants.admin.confirmed">
+                        not yet confirmed
+                    </span>
+                    <h3>
+                        {{services[0].participants.admin.userData.name}}
+                        <small> - admin</small>
+                    </h3>
+                    <p>{{services[0].participants.admin.userData.email.data}}</p>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row" *ngIf="(currentUser.role == 'superadmin')">
