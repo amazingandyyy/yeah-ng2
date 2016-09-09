@@ -1,6 +1,9 @@
 @import "../../../style/variables";
 // @import "../../style/global";
 
+.card {
+  border-radius: 0px !important;
+}
 .card-block {
     &.service {
         span {

@@ -15,7 +15,7 @@
             <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
                 <div class="card-block service hoverable">
                     <div>
-                        Student: <span *ngIf="serviceDataList[serviceKey].participants.student.userData">{{serviceDataList[serviceKey].participants.student.userData.name}} <small>({{serviceDataList[serviceKey].participants.student.confirmed}})</small></span>
+                        Student: <span *ngIf="serviceDataList[serviceKey].participants.student.userData">{{serviceDataList[serviceKey].participants.student.userData.name}}&nbsp;&nbsp;<span *ngIf="serviceDataList[serviceKey].participants.student.confirmed"><i class="fa fa-check-square"></i></span></span>
                     </div>
                     <div>
                         Advisor: <span *ngIf="serviceDataList[serviceKey].participants.advisor.userData">{{serviceDataList[serviceKey].participants.advisor.userData.name}}</span>
@@ -147,7 +147,11 @@
                     Advisor: <span *ngIf="selectedService.participants.advisor.userData">{{selectedService.participants.advisor.userData.name}}<small> ({{selectedService.participants.advisor.userData.email.data}})</small></span>
                 </div>
                 <div>
-                    Student: <span *ngIf="selectedService.participants.student.userData">{{selectedService.participants.student.userData.name}}<small> ({{selectedService.participants.student.userData.email.data}})</small></span>
+                    Student:
+                    &nbsp;&nbsp;
+                    <span *ngIf="selectedService.participants.student.confirmed"><i class="fa fa-check-square"></i></span>
+                    <span *ngIf="!selectedService.participants.student.confirmed"><i class="fa fa-minus-square"></i></span> 
+                    <span *ngIf="selectedService.participants.student.userData">{{selectedService.participants.student.userData.name}}<small> ({{selectedService.participants.student.userData.email.data}})</small></span>
                 </div>
                 <div>
                     Supervisor: <span *ngIf="selectedService.participants.supervisor.userData">{{selectedService.participants.supervisor.userData.name}}<small> ({{selectedService.participants.supervisor.userData.email.data}})</small></span>

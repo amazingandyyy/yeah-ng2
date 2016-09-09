@@ -85,8 +85,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
     }
 
-
-
     getMessages(cb)  {
         let self = this;
         this.noticeService.getAll()

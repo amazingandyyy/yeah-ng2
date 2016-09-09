@@ -28,7 +28,7 @@ var tsProject = typescript.createProject('tsconfig.json');
 
 // gulp.task('default', ['watch', 'build-ts', 'build-copy']);
 gulp.task('init', ['build', 'transfer']);
-gulp.task('default', ['build', 'serve', 'watch', 'open']);
+gulp.task('default', ['build', 'serve', 'watch']);
 gulp.task('build', ['js', 'css', 'app:css', 'html', 'assets']);
 gulp.task('serve', function () {
     nodemon({

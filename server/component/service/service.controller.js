@@ -59,7 +59,6 @@ exports.createService = function (req, res) {
         Notification.create(notice, (err, savedNotice) => {
             if (err) return handleError(res, err + '@ServiceCtrl Notification.create');
             return res.status(200).json(savedService);
-
         });
     });
         // // Create and send out notification here

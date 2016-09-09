@@ -62,6 +62,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
     getCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem('current_user'));
         // get data from currentUser data
+        console.log('currentUser: ', this.currentUser);
+        
         this.getServices()
     }
 
@@ -243,6 +245,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
         // Reset data
         this.activatedModal = {};
         this.selectedService = {};
+        this.editPk = false
 
         // Set modal data
         this.activatedModal.title = title;
