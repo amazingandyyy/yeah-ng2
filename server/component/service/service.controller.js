@@ -7,7 +7,7 @@ const _ = require('lodash');
 exports.index = function(req, res) {
 	res.render('index');
 };
-
+//Here's the method to get Services
 exports.getServices = function(req, res) {
     //Using $or to make this method reusable for any role
     //This should get any service that the user has part in
