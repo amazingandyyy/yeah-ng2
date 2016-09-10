@@ -127,7 +127,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        console.log('dashboard init')
         this.getCurrentUser()
 
         this.getNotification()
