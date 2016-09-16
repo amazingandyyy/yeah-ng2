@@ -53,7 +53,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     invalidEmail = true;
 
     //Services got for the user
-    services: <Array> = [];
+    services = [];
 
     constructor(
         private router: Router,
