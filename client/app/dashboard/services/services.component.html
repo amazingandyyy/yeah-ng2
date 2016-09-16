@@ -1,8 +1,16 @@
 <div class="container">
     <h3 class="title">Service <button *ngIf="(currentUser.role == 'admin')" class="btn btn-primary btn-narrow btn-small btn-inline" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)"><i class="fa fa-plus"></i></button></h3>
     <hr>
+    <!-- Template for superadmin -->
+    <div class="row" *ngIf="(currentUser.role == 'superadmin')">
+        <div class="col-sm-12">
+            <h5 class="title">Superadmin can see all services!!!</h5>
+        </div>
+    </div>
+    <!-- Template for superadmin ends -->
+    <!-- Template for admin and supervisor -->
     <div class="row" *ngIf="(currentUser.role == 'admin') || (currentUser.role == 'supervisor')">
-        <div class="col-sm-12" *ngIf="!(currentUser.services[0])">
+        <div class="col-sm-12" *ngIf="!(services[0])">
             <div class="icon-poster">
                 <h5 class="title">
                     <i class="icon fa fa-hourglass-o" aria-hidden="true"></i>
@@ -11,25 +19,93 @@
                 <button class="btn btn-primary" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)">Create new service</button>
             </div>
         </div>
-        <div class="col-sm-6 col-md-4 col-small" *ngFor="let serviceKey of arrayOfServiceKey">
-            <div class="card" (click)="getOneServce(serviceDataList[serviceKey]._id)">
+        <div class="col-sm-6 col-md-4 col-small" *ngFor="let service of services">
+            <div class="card" (click)="getOneServce(service._id)">
                 <div class="card-block service hoverable">
                     <div>
-                        Student: <span *ngIf="serviceDataList[serviceKey].participants.student.userData">{{serviceDataList[serviceKey].participants.student.userData.name}}&nbsp;&nbsp;<span *ngIf="serviceDataList[serviceKey].participants.student.confirmed"><i class="fa fa-check-square"></i></span></span>
+                        Student: 
+                        <span *ngIf="service.participants.student.userData">{{service.participants.student.userData.name}}
+                            <span class="check-container" *ngIf="service.participants.student.confirmed">
+                                <i class="fa fa-check-square"></i>
+                            </span>
+                        </span>
                     </div>
                     <div>
-                        Advisor: <span *ngIf="serviceDataList[serviceKey].participants.advisor.userData">{{serviceDataList[serviceKey].participants.advisor.userData.name}}</span>
+                        Advisor: 
+                        <span *ngIf="service.participants.advisor.userData">{{service.participants.advisor.userData.name}}
+                            <span class="check-container" *ngIf="service.participants.advisor.confirmed">
+                                <i class="fa fa-check-square"></i>
+                            </span>
+                        </span>
                     </div>
                     <div>
-                        CreateAt: <span>{{generateDate(serviceDataList[serviceKey].createAt)}}</span>
+                        Supervisor: 
+                        <span *ngIf="service.participants.supervisor.userData">{{service.participants.supervisor.userData.name}}
+                            <span class="check-container" *ngIf="service.participants.supervisor.confirmed">
+                                <i class="fa fa-check-square"></i>
+                            </span>
+                        </span>
                     </div>
                     <div>
-                        Packages: <span>{{serviceDataList[serviceKey].package}}</span>
+                        Admin: 
+                        <span *ngIf="service.participants.admin.userData">{{service.participants.admin.userData.name}}
+                            <span class="check-container" *ngIf="service.participants.admin.confirmed">
+                                <i class="fa fa-check-square"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div>
+                        CreateAt: <span>{{generateDate(service.createAt)}}</span>
+                    </div>
+                    <div>
+                        Packages: <span>{{service.package}}</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Template for admin and supervisor ends -->
+    <!-- Template for advisor -->
+    <div class="row" *ngIf="(currentUser.role == 'advisor')">
+        <div class="col-sm-12" *ngIf="!(services[0])">
+            <div class="icon-poster">
+                <h5 class="title">
+                    <i class="icon fa fa-hourglass-o" aria-hidden="true"></i>
+                </h5>
+                <h5 class="title">You don't have any clients yet.</h5>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-small" *ngFor="let service of services">
+            <div class="card">
+                <div class="card-block service hoverable">
+                    <div>
+                        Student: 
+                        <span *ngIf="service.participants.student.userData">{{service.participants.student.userData.name}}
+                            <span class="check-container" *ngIf="service.participants.student.confirmed">
+                                <i class="fa fa-check-square"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div>
+                        Advisor: 
+                        <span *ngIf="service.participants.advisor.userData">{{service.participants.advisor.userData.name}}
+                            <span class="check-container" *ngIf="service.participants.advisor.confirmed">
+                                <i class="fa fa-check-square"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <div>
+                        CreateAt: <span>{{generateDate(service.createAt)}}</span>
+                    </div>
+                    <div>
+                        Packages: <span>{{service.package}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Template for advisor ends -->
+    <!-- Template for student -->
     <div class="row" *ngIf="(currentUser.role == 'student')">
         <div class="col-sm-12" *ngIf="!(services[0])">
             <div class="icon-poster">
@@ -108,16 +184,7 @@
             </div>
         </div>
     </div>
-    <div class="row" *ngIf="(currentUser.role == 'superadmin')">
-        <div class="col-sm-12">
-            <h5 class="title">Superadmin can see all services!!!</h5>
-        </div>
-    </div>
-    <div class="row" *ngIf="(currentUser.role == 'advisor')">
-        <div class="col-sm-12">
-            <h5 class="title">Advisor can see your {{currentUser.services.length}} services!!!</h5>
-        </div>
-    </div>
+    <!-- Template for student ends -->
 </div>
 
 <!-- Modal below -->

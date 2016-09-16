@@ -30,8 +30,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
     modalActivated: boolean = false;
     activatedModal = {};
     activatedService = {};
-    serviceDataList = {};
-    arrayOfServiceKey = [];
+    // serviceDataList = {};
+    // arrayOfServiceKey = [];
 
     selectedService = {};
     subscription: Subscription;
