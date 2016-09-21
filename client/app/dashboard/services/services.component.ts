@@ -10,6 +10,8 @@ import { AuthService } from '../../shared/services/auth.service';
 import { ServiceService } from '../../shared/services/service.service';
 import { SocketService } from '../../shared/services/socket.service';
 
+import { ServicesDetailsComponent } from './details/details.component'
+
 @Component({
     moduleId: module.id,
     selector: 'yeah-services',
@@ -18,6 +20,7 @@ import { SocketService } from '../../shared/services/socket.service';
         '../dashboard.style.css',
         'services.style.css'
     ],
+    directives: [ ServicesDetailsComponent ],
     providers: [SocketService, ServiceService]
 })
 export class ServicesComponent implements OnInit, OnDestroy {

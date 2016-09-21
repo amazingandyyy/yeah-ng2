@@ -1,5 +1,5 @@
 <div class="container">
-    <h3 class="title">Service <button *ngIf="(currentUser.role == 'admin')" class="btn btn-primary btn-narrow btn-small btn-inline" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)"><i class="fa fa-plus"></i></button></h3>
+    <h3 class="title">Service<button *ngIf="(currentUser.role == 'admin')" class="btn btn-primary btn-narrow btn-small btn-inline" (click)="toggleModal('Create Service', 'new', 'create', currentUser._id)"><i class="fa fa-plus"></i></button></h3>
     <hr>
     <!-- Template for superadmin -->
     <div class="row" *ngIf="(currentUser.role == 'superadmin')">
@@ -65,6 +65,7 @@
         </div>
     </div>
     <!-- Template for admin and supervisor ends -->
+
     <!-- Template for advisor -->
     <div class="row" *ngIf="(currentUser.role == 'advisor')">
         <div class="col-sm-12" *ngIf="!(services[0])">
@@ -107,7 +108,8 @@
     <!-- Template for advisor ends -->
     <!-- Template for student -->
     <div class="row" *ngIf="(currentUser.role == 'student')">
-        <div class="col-sm-12" *ngIf="!(services[0])">
+        <yeah-services-details packageId=></yeah-services-details>
+        <!--<div class="col-sm-12" *ngIf="!(services[0])">
             <div class="icon-poster">
                 <h5 class="title">
                     <i class="icon fa fa-hourglass-o" aria-hidden="true"></i>
@@ -121,7 +123,8 @@
                 <h3>
                     {{services[0].package}}
                 </h3>
-                <small class="text-muted">{{services[0].createAt | date}}</small>
+                <small class="text-muted">created at {{services[0].createAt | date}}</small>
+                
                 <p>
                     Package Description: 
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu arcu at erat imperdiet condimentum. Mauris sit amet velit nec dolor vulputate volutpat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In molestie nulla nibh, maximus consequat urna euismod nec. Vivamus venenatis ligula dignissim augue convallis, at maximus mi faucibus. Duis pellentesque ex eget massa commodo congue. Suspendisse sit amet est dolor. In hac habitasse platea dictumst. Cras luctus, eros ut tincidunt vehicula, risus erat consequat ligula, eget sagittis tortor massa quis lacus. Integer arcu ex, finibus sit amet dolor sit amet, gravida semper enim. Vivamus enim lectus, hendrerit commodo varius id, tincidunt id ligula. Suspendisse nec ultricies nibh. Aliquam erat volutpat. Nunc semper velit nec sagittis volutpat. Praesent hendrerit posuere sagittis.
@@ -130,10 +133,10 @@
             <div class="col-sm-8 paper">
                 <div class="white-bg participants" *ngIf="services[0].participants.student.userData">
                     <span class="confirmed-btn" *ngIf="services[0].participants.student.confirmed">
-                        confirmed
+                        <i class="fa fa-check" aria-hidden="true"></i> confirmed
                     </span>
                     <span class="waiting-btn" [hidden]="services[0].participants.student.confirmed">
-                        not yet confirmed
+                        confirmation pending
                     </span>
                     <h3>
                         {{services[0].participants.student.userData.name}}
@@ -144,10 +147,10 @@
                 </div>
                 <div class="white-bg participants" *ngIf="services[0].participants.advisor.userData">
                     <span class="confirmed-btn" *ngIf="services[0].participants.advisor.confirmed">
-                        confirmed
+                        <i class="fa fa-check" aria-hidden="true"></i> confirmed
                     </span>
                     <span class="waiting-btn" [hidden]="services[0].participants.advisor.confirmed">
-                        not yet confirmed
+                        confirmation pending
                     </span>
                     <h3>
                         {{services[0].participants.advisor.userData.name}}
@@ -157,10 +160,10 @@
                 </div>
                 <div class="white-bg participants" *ngIf="services[0].participants.supervisor.userData">
                     <span class="confirmed-btn" *ngIf="services[0].participants.supervisor.confirmed">
-                        confirmed
+                        <i class="fa fa-check" aria-hidden="true"></i> confirmed
                     </span>
                     <span class="waiting-btn" [hidden]="services[0].participants.supervisor.confirmed">
-                        not yet confirmed
+                        confirmation pending
                     </span>
                     <h3>
                         {{services[0].participants.supervisor.userData.name}}
@@ -170,10 +173,10 @@
                 </div>
                 <div class="white-bg participants" *ngIf="services[0].participants.admin.userData">
                     <span class="confirmed-btn" *ngIf="services[0].participants.admin.confirmed">
-                        confirmed
+                        <i class="fa fa-check" aria-hidden="true"></i> confirmed
                     </span>
                     <span class="waiting-btn" [hidden]="services[0].participants.admin.confirmed">
-                        not yet confirmed
+                        confirmation pending
                     </span>
                     <h3>
                         {{services[0].participants.admin.userData.name}}
@@ -182,7 +185,7 @@
                     <p>{{services[0].participants.admin.userData.email.data}}</p>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
     <!-- Template for student ends -->
 </div>
